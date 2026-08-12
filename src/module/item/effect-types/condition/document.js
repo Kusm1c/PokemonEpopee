@@ -3,6 +3,7 @@ import { PTUModifier } from "../../../actor/modifiers.js";
 import { applyDamageFromMessage } from "../../../message/damage.js";
 import { DamageRoll } from "../../../system/damage/roll.js";
 import { Statistic } from "../../../system/statistic/index.js";
+import { runStatusResistance } from "../../../statuses/engine.js";
 import { BaseEffectPTU } from "../base.js";
 
 class PTUCondition extends BaseEffectPTU {
@@ -65,6 +66,11 @@ class PTUCondition extends BaseEffectPTU {
     /** @override */
     async decrease() {
         await this.actor?.decreaseCondition?.(this);
+    }
+
+    async onTurnStart(actorUpdates = {}) {
+        if (!this.active || !this.actor) return;
+        await runStatusResistance(this, actorUpdates);
     }
 
     async onTurnEnd(options = {}) {

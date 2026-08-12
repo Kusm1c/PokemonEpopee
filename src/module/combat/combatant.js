@@ -105,6 +105,9 @@ class PTUCombatant extends Combatant {
         for (const rule of actor.rules) {
             await rule.onTurnStart?.(actorUpdates);
         }
+        for (const condition of actor.conditions.active) {
+            await condition.onTurnStart?.(actorUpdates);
+        }
         const paralyzed = actor.conditions.active.find(c => c.slug == "paralysis");
         if (paralyzed) await PTUCondition.HandleParalyzed(actor, paralyzed);
         const hyperMode = actor.conditions.active.find(c => c.slug == "hyper-mode");

@@ -1,12 +1,12 @@
 {
-  "id": "ptu",
-  "title": "Pokemon Tabletop Reunited",
-  "description": "A re-imagining of the Pokemon Tabletop United TTRPG System now made with FoundryVTT as a central pilar.",
+  "id": "pokemonepopee",
+  "title": "PokemonEpopee",
+  "description": "Fork homebrew du système Pokémon Tabletop Reunited (PTR) pour FoundryVTT, avec règles maison (voyage/exploration, moteur de statuts, modificateurs environnementaux).",
   "compatibility": {
     "minimum": "13.345",
     "verified": "13.350"
   },
-  "version": "4.4.3",
+  "version": "0.1.0",
   "templateVersion": 2,
   "authors": [
     {
@@ -65,103 +65,108 @@
       "type": "Item",
       "name": "abilities",
       "path": "packs/abilities.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Moves",
       "type": "Item",
       "name": "moves",
       "path": "packs/moves.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Feats",
       "type": "Item",
       "name": "feats",
       "path": "packs/feats.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Edges",
       "type": "Item",
       "name": "edges",
       "path": "packs/edges.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Items",
       "type": "Item",
       "name": "items",
       "path": "packs/items.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Capabilities",
       "type": "Item",
       "name": "capabilities",
       "path": "packs/capabilities.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Poke Edges",
       "type": "Item",
       "name": "poke-edges",
       "path": "packs/poke-edges.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Habitats",
       "type": "RollTable",
       "name": "habitats",
       "path": "packs/habitats.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Rolltables",
       "type": "RollTable",
       "name": "rolltables",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Effects",
       "type": "Item",
       "name": "effects",
       "path": "packs/effects.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Species",
       "type": "Item",
       "name": "species",
       "path": "packs/species.db",
-      "system": "ptu"
+      "system": "pokemonepopee"
     }, 
     {
       "label": "PTR Macros",
       "type": "Macro",
       "name": "macros",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR References",
       "type": "Item",
       "name": "references",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Spirit Actions",
       "type": "Item",
       "name": "spirit-actions",
-      "system": "ptu"
+      "system": "pokemonepopee"
     },
     {
       "label": "PTR Journals",
       "type": "JournalEntry",
       "name": "journals",
-      "system": "ptu"
+      "system": "pokemonepopee"
     }
   ],
   "languages": [
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "static/lang/fr.json"
+    },
     {
       "lang": "en",
       "name": "English",
@@ -207,9 +212,6 @@
       "packs": ["journals", "references", "macros", "effects"]
     }
   ],
-  "background": "systems/ptu/static/images/banner.webp",
-  "url": "https://github.com/pokemon-tabletop-reunited/ptr1e",  
-  "manifest": "https://github.com/pokemon-tabletop-reunited/ptr1e/releases/latest/download/system.json",
-  "changelog": "https://github.com/pokemon-tabletop-reunited/ptr1e/raw/master/changelog.md",
-  "download": "https://github.com/pokemon-tabletop-reunited/ptr1e/releases/latest/download/system.zip"
+  "background": "systems/pokemonepopee/static/images/banner.webp",
+  "url": "https://github.com/pokemon-tabletop-reunited/ptr1e"
 }

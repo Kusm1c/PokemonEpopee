@@ -1,4 +1,4 @@
-# Pokémon Épopée
+# PokemonEpopee
 
 JDR Pokémon custom, forké depuis le système [PTR (Pokémon Tabletop Reunited)](https://github.com/pokemon-tabletop-reunited/ptr1e) pour FoundryVTT.
 
