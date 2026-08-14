@@ -1,8 +1,8 @@
 # PokemonEpopee
 
-JDR Pokémon custom, forké depuis le système [PTR (Pokémon Tabletop Reunited)](https://github.com/pokemon-tabletop-reunited/ptr1e) pour FoundryVTT.
+Custom Pokemon TTRPG, forked from the [PTR (Pokemon Tabletop Reunited)](https://github.com/pokemon-tabletop-reunited/ptr1e) system for FoundryVTT.
 
-Ce dépôt part du système PTR et y ajoute des règles maison (voyage/exploration hexagonale, moteur de statuts personnalisé, modificateurs environnementaux, fiche de personnage retravaillée). Le remote `upstream` pointe vers `pokemon-tabletop-reunited/ptr1e` pour pouvoir récupérer les mises à jour du système d'origine.
+This repo starts from the PTR system and adds homebrew rules on top (hex travel/exploration, custom status engine, environmental modifiers, reworked character sheet). The `upstream` remote points to `pokemon-tabletop-reunited/ptr1e` so updates from the original system can be pulled in.
 
 ---
 

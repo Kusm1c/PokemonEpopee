@@ -1,4 +1,5 @@
 import { PTUCondition } from "../item/index.js";
+import { ALL_STATUS_DEFINITIONS } from "../statuses/definitions.js";
 
 class PTUCombatant extends Combatant {
     get encounter() {
@@ -109,7 +110,7 @@ class PTUCombatant extends Combatant {
             await condition.onTurnStart?.(actorUpdates);
         }
         const paralyzed = actor.conditions.active.find(c => c.slug == "paralysis");
-        if (paralyzed) await PTUCondition.HandleParalyzed(actor, paralyzed);
+        if (paralyzed && !ALL_STATUS_DEFINITIONS[paralyzed.slug]) await PTUCondition.HandleParalyzed(actor, paralyzed);
         const hyperMode = actor.conditions.active.find(c => c.slug == "hyper-mode");
         if (hyperMode) await PTUCondition.HandleHyperMode(actor, hyperMode);
 

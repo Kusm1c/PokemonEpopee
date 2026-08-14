@@ -1,6 +1,7 @@
-import { STATUS_DEFINITIONS } from "./definitions.js";
+import { ALL_STATUS_DEFINITIONS } from "./definitions.js";
 import { computeBonus, resolveTier } from "./roll.js";
 import { buildActorUpdate, buildConditionUpdate, getModerateSelfDamage } from "./apply-effect.js";
+import { resolveDuration } from "./duration.js";
 import { STATUS_RESISTANCE_ASSIST_BONUS } from "./config.js";
 
 async function promptAssist(condition, statusLabel) {
@@ -13,8 +14,27 @@ async function promptAssist(condition, statusLabel) {
     });
 }
 
+function describeEffect(condition, tier, effect) {
+    const bespokeKey = `PTU.Epopee.Status.Effect.${condition.slug}.${tier.id}`;
+    if (game.i18n.has(bespokeKey)) return game.i18n.localize(bespokeKey);
+
+    const parts = [];
+    if (effect.hpDamageFraction) parts.push(game.i18n.format("PTU.Epopee.Status.Generic.Damage", { fraction: effect.hpDamageFraction }));
+    if (effect.managesToMove) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.ManagesToMove"));
+    if (typeof effect.durationDelta === "number") parts.push(game.i18n.format("PTU.Epopee.Status.Generic.DurationReduced", { turns: Math.abs(effect.durationDelta) }));
+    if (effect.renewed && effect.empowered) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.RenewedEmpowered"));
+    else if (effect.renewed) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.Renewed"));
+    if (effect.decayIfNotRenewed) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.Decaying"));
+    if (effect.cloneDamage) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.CloneDamage"));
+    if (effect.cloneHeal) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.CloneHeal"));
+    if (effect.cured) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.Expired"));
+    if (!parts.length) parts.push(game.i18n.localize("PTU.Epopee.Status.Generic.NoEffect"));
+
+    return parts.join(" ");
+}
+
 async function runStatusResistance(condition, actorUpdates) {
-    const definition = STATUS_DEFINITIONS[condition.slug];
+    const definition = ALL_STATUS_DEFINITIONS[condition.slug];
     if (!definition) return;
 
     const actor = condition.actor;
@@ -37,6 +57,17 @@ async function runStatusResistance(condition, actorUpdates) {
 
     const effect = definition.resolveTier(tier.id, { intensity });
 
+    if (definition.hasDuration) {
+        const { value, cured } = resolveDuration({
+            currentDuration: condition.system.duration.value,
+            startDuration: definition.startDuration,
+            durationTicks: definition.durationTicks,
+            effect
+        });
+        if (value !== condition.system.duration.value) await condition.update({ "system.duration.value": value });
+        if (cured) effect.cured = true;
+    }
+
     const actorUpdate = buildActorUpdate(effect, {
         currentHp: actorUpdates["system.health.value"] ?? actor.system.health.value,
         maxHp: actor.system.health.max
@@ -49,7 +80,7 @@ async function runStatusResistance(condition, actorUpdates) {
     }
 
     if (effect.skipTurn || effect.noMoveAction || effect.moveActionOnly || effect.targetLockout) {
-        actorUpdates["flags.pokemonepopee.statusRestriction"] = game.i18n.localize(`PTU.Epopee.Status.Effect.${condition.slug}.${tier.id}`);
+        actorUpdates["flags.ptu.statusRestriction"] = describeEffect(condition, tier, effect);
     }
 
     const conditionUpdate = buildConditionUpdate(effect, { intensity });
@@ -58,23 +89,27 @@ async function runStatusResistance(condition, actorUpdates) {
     await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor }),
         flavor: `<div class="header-bar"><p class="action">${game.i18n.format("PTU.Epopee.Status.Chat.Flavor", { name: actor.name, status: statusLabel })}</p></div>`,
-        content: `<p>${game.i18n.localize(`PTU.Epopee.Status.Tier.${tier.id}`)} : ${game.i18n.localize(`PTU.Epopee.Status.Effect.${condition.slug}.${tier.id}`)}</p>`
+        content: `<p>${game.i18n.localize(`PTU.Epopee.Status.Tier.${tier.id}`)} : ${describeEffect(condition, tier, effect)}</p>`
     });
 
     if (effect.cured) await condition.delete();
 }
 
 async function purgeOnRecall(actor) {
-    const conditions = actor.conditions.active.filter(c => STATUS_DEFINITIONS[c.slug]?.onRecall && STATUS_DEFINITIONS[c.slug].onRecall !== "none");
+    const conditions = actor.conditions.active.filter(c => ALL_STATUS_DEFINITIONS[c.slug]?.onRecall && ALL_STATUS_DEFINITIONS[c.slug].onRecall !== "none");
 
+    const purged = [];
     for (const condition of conditions) {
-        const definition = STATUS_DEFINITIONS[condition.slug];
+        const definition = ALL_STATUS_DEFINITIONS[condition.slug];
         if (definition.onRecall === "cure") {
+            purged.push(condition.name);
             await condition.delete();
         } else if (definition.onRecall === "resetIntensity") {
+            purged.push(condition.name);
             await condition.update({ "system.value.value": definition.recallIntensity });
         }
     }
+    return purged;
 }
 
 export { runStatusResistance, purgeOnRecall }

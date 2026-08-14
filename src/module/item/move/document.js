@@ -1,5 +1,6 @@
 import { sluggify } from '../../../util/misc.js';
 import { PTUCondition, PTUItem } from '../index.js';
+import { ALL_STATUS_DEFINITIONS } from '../../statuses/definitions.js';
 class PTUMove extends PTUItem {
     get rollable() {
         return !(isNaN(Number(this.system.ac ?? undefined)) && isNaN(Number(this.system.damageBase ?? undefined)));
@@ -97,7 +98,7 @@ class PTUMove extends PTUItem {
 
         let didSomething = false;
         const conditions = new Set(this.actor.getFilteredRollOptions("condition"))
-        if (conditions.has("condition:confused")) {
+        if (conditions.has("condition:confused") && !ALL_STATUS_DEFINITIONS.confused) {
             await PTUCondition.HandleConfusion(this, this.actor);
             didSomething = true;
         }

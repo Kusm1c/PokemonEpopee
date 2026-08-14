@@ -155,6 +155,178 @@
     "ApplyEffect": "Apply Effect"
   },
   "PTU": {
+    "Epopee": {
+      "Item": {
+        "Condition": {
+          "SectionTitle": "Status Engine",
+          "Slug": "Identifier (slug)",
+          "Valued": "Intensity enabled",
+          "Value": "Intensity value",
+          "AutoIncrement": "Auto-increment at end of turn"
+        }
+      },
+      "Environment": {
+        "Weather": {
+          "sunny": "Sunny",
+          "rainy": "Rainy",
+          "sandstorm": "Sandstorm",
+          "snowstorm": "Snowstorm",
+          "mist": "Mist"
+        },
+        "Field": {
+          "electric": "Electric Terrain",
+          "misty": "Misty Terrain",
+          "grassy": "Grassy Terrain",
+          "psychic": "Psychic Terrain"
+        },
+        "Zone": {
+          "plasma-flood": "Plasma Flood",
+          "distortion": "Distortion",
+          "gravity": "Gravity",
+          "magic-room": "Magic Room",
+          "wonder-room": "Wonder Room",
+          "tailwind": "Tailwind"
+        },
+        "Chat": {
+          "WeatherStart": "The weather turns {name}.",
+          "WeatherEnd": "The {name} weather clears up.",
+          "FieldStart": "{name} spreads across the field.",
+          "FieldEnd": "{name} fades away.",
+          "ZoneStart": "{name} is now active.",
+          "ZoneEnd": "{name} is no longer active."
+        }
+      },
+      "Status": {
+        "Label": {
+          "infatuation": "Infatuation",
+          "burned": "Burned",
+          "confused": "Confused",
+          "poisoned": "Poisoned",
+          "engelure": "Frostbite",
+          "paralysis": "Paralysis",
+          "peur": "Fear",
+          "sleep": "Sleep",
+          "secretion": "Secretion",
+          "time-howl": "Time Howl",
+          "flame-dance": "Flame Dance",
+          "magma-vortex": "Magma Vortex",
+          "free-fall": "Free Fall",
+          "sand-tomb": "Sand Tomb",
+          "ice-age": "Ice Age",
+          "embrace": "Embrace",
+          "block": "Block",
+          "binding": "Binding",
+          "clamp": "Clamp",
+          "siphon": "Siphon",
+          "spirit-lock": "Spirit Lock",
+          "harassment": "Harassment",
+          "fire-whirl": "Fire Whirl",
+          "mud-throw": "Mud Throw",
+          "powder-cloud": "Powder Cloud",
+          "roots": "Roots",
+          "aurora-veil": "Aurora Veil",
+          "mist-coat": "Mist Coat",
+          "power-coat": "Power Coat",
+          "substitute": "Substitute",
+          "aqua-ring": "Aqua Ring"
+        },
+        "Tier": {
+          "aucune": "None",
+          "faible": "Weak",
+          "moyenne": "Medium",
+          "forte": "Strong",
+          "tresForte": "Very Strong",
+          "complete": "Complete"
+        },
+        "Prompt": {
+          "Title": "Status Resistance",
+          "Description": "{name} must resist the effects of {status}. Spend a Trainer Action or Ability to add +25 to the roll?",
+          "Yes": "Yes, spend (+25)",
+          "No": "No"
+        },
+        "Chat": {
+          "Flavor": "{name} resists {status}"
+        },
+        "Generic": {
+          "Damage": "Takes {fraction}/20th of its max HP.",
+          "NoEffect": "Nothing happens.",
+          "ManagesToMove": "The target manages to move despite the trap.",
+          "DurationReduced": "The effect's duration is reduced by {turns} turns.",
+          "Renewed": "The effect continues.",
+          "RenewedEmpowered": "The effect continues, with a doubled impact this turn.",
+          "Decaying": "The effect will end in a couple of status rolls if not renewed by a strong result.",
+          "CloneDamage": "The clone takes damage equal to 1/20th of the holder's max HP.",
+          "CloneHeal": "The clone heals for 1/20th of the holder's max HP.",
+          "Expired": "The effect has run its course."
+        },
+        "Effect": {
+          "infatuation": {
+            "aucune": "Cannot target the one it's infatuated with using a Capability.",
+            "faible": "Cannot target the one it's infatuated with using a Capability.",
+            "moyenne": "Can use a Capability or Move normally.",
+            "forte": "The status is cured.",
+            "tresForte": "The status is cured.",
+            "complete": "The status is cured."
+          },
+          "burned": {
+            "aucune": "Takes 1/20th of its max HP.",
+            "faible": "Takes 1/20th of its max HP.",
+            "moyenne": "Takes 1/20th of its max HP.",
+            "forte": "Nothing happens.",
+            "tresForte": "The status is cured.",
+            "complete": "The status is cured."
+          },
+          "confused": {
+            "aucune": "Only has access to its Move Action and takes damage.",
+            "faible": "Only has access to its Move Action and takes damage.",
+            "moyenne": "Takes damage.",
+            "forte": "The status is cured.",
+            "tresForte": "The status is cured.",
+            "complete": "The status is cured."
+          },
+          "poisoned": {
+            "aucune": "Takes Poison damage and intensity increases.",
+            "faible": "Takes Poison damage and intensity increases.",
+            "moyenne": "Takes Poison damage and intensity increases.",
+            "forte": "Takes Poison damage.",
+            "tresForte": "Poison intensity decreases.",
+            "complete": "Poison intensity decreases."
+          },
+          "engelure": {
+            "aucune": "Takes 1/20th of its max HP.",
+            "faible": "Takes 1/20th of its max HP.",
+            "moyenne": "Takes 1/20th of its max HP.",
+            "forte": "Nothing happens.",
+            "tresForte": "The status is cured.",
+            "complete": "The status is cured."
+          },
+          "paralysis": {
+            "aucune": "Has no access to its Move Action and takes -4 on all d20 rolls.",
+            "faible": "Has no access to its Move Action and takes -4 on all d20 rolls.",
+            "moyenne": "Has no access to its Move Action and takes -4 on all d20 rolls.",
+            "forte": "Has no access to its Move Action.",
+            "tresForte": "The status is cured.",
+            "complete": "The status is cured."
+          },
+          "peur": {
+            "aucune": "Loses its turn and the status is cured.",
+            "faible": "Loses its turn and the status is cured.",
+            "moyenne": "Loses its turn and the status is cured.",
+            "forte": "Loses its turn and the status is cured.",
+            "tresForte": "Loses its turn and the status is cured.",
+            "complete": "The status is cured."
+          },
+          "sleep": {
+            "aucune": "Loses its turn and intensity increases.",
+            "faible": "Loses its turn and intensity increases.",
+            "moyenne": "Loses its turn and intensity increases.",
+            "forte": "Loses its turn and intensity increases.",
+            "tresForte": "The status is cured.",
+            "complete": "The status is cured."
+          }
+        }
+      }
+    },
     "Skills": {
       "acrobatics": "Acrobatics",
       "athletics": "Athletics",

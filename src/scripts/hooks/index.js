@@ -12,6 +12,7 @@ import { TagifySheets } from "./tagify-sheets.js";
 import { PokeDollarEnricher } from "./pokedollar-enricher.js";
 import { RenderChatMessage } from "./render-chat-message.js";
 import { TrainerPokemonSync } from "./trainer-pokemon-sync.js";
+import { Environment } from "./environment.js";
 
 export const PtuHooks = {
     listen() {
@@ -30,7 +31,8 @@ export const PtuHooks = {
             TagifySheets,
             PokeDollarEnricher,
             RenderChatMessage,
-            TrainerPokemonSync
+            TrainerPokemonSync,
+            Environment
         ]
         for(const listener of listeners) listener.listen();
     }

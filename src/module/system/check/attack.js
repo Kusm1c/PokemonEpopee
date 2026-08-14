@@ -1,6 +1,7 @@
 import { sluggify } from "../../../util/misc.js";
 import { CheckModifier, PTUModifier, StatisticModifier } from "../../actor/modifiers.js";
 import { PTUCondition } from "../../item/index.js";
+import { ALL_STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { PTUDiceCheck } from "./check.js";
 import { AttackRoll } from "./rolls/attack-roll.js";
 
@@ -251,7 +252,7 @@ class PTUAttackCheck extends PTUDiceCheck {
 
     /** @override */
     async afterRoll() {
-        if (this.conditionOptions.has("condition:confused")) await PTUCondition.HandleConfusion(this.item, this.actor);
+        if (this.conditionOptions.has("condition:confused") && !ALL_STATUS_DEFINITIONS.confused) await PTUCondition.HandleConfusion(this.item, this.actor);
         await super.afterRoll();
     }
 

@@ -12,6 +12,12 @@ function _registerPTUHelpers() {
     Handlebars.registerHelper("getGameSetting", function (key) { return game.settings.get("ptu", key) });
     Handlebars.registerHelper("getProperty", foundry.utils.getProperty); // native foundry function
 
+    Handlebars.registerHelper("range", function (start, end) {
+        const arr = [];
+        for (let i = start; i < end; i++) arr.push(i);
+        return arr;
+    });
+
     Handlebars.registerHelper("json", function (context) { return JSON.stringify(context); });
 
     Handlebars.registerHelper("shortFrequency", function (frequency) {

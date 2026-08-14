@@ -1,10 +1,10 @@
 {
-  "id": "pokemonepopee",
+  "id": "ptu",
   "title": "PokemonEpopee",
-  "description": "Fork homebrew du système Pokémon Tabletop Reunited (PTR) pour FoundryVTT, avec règles maison (voyage/exploration, moteur de statuts, modificateurs environnementaux).",
+  "description": "Homebrew fork of the Pokemon Tabletop Reunited (PTR) system for FoundryVTT, with custom rules (travel/exploration, status engine, environmental modifiers).",
   "compatibility": {
     "minimum": "13.345",
-    "verified": "13.350"
+    "verified": "14.365"
   },
   "version": "0.1.0",
   "templateVersion": 2,
@@ -65,108 +65,103 @@
       "type": "Item",
       "name": "abilities",
       "path": "packs/abilities.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Moves",
       "type": "Item",
       "name": "moves",
       "path": "packs/moves.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Feats",
       "type": "Item",
       "name": "feats",
       "path": "packs/feats.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Edges",
       "type": "Item",
       "name": "edges",
       "path": "packs/edges.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Items",
       "type": "Item",
       "name": "items",
       "path": "packs/items.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Capabilities",
       "type": "Item",
       "name": "capabilities",
       "path": "packs/capabilities.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Poke Edges",
       "type": "Item",
       "name": "poke-edges",
       "path": "packs/poke-edges.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Habitats",
       "type": "RollTable",
       "name": "habitats",
       "path": "packs/habitats.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Rolltables",
       "type": "RollTable",
       "name": "rolltables",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Effects",
       "type": "Item",
       "name": "effects",
       "path": "packs/effects.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Species",
       "type": "Item",
       "name": "species",
       "path": "packs/species.db",
-      "system": "pokemonepopee"
+      "system": "ptu"
     }, 
     {
       "label": "PTR Macros",
       "type": "Macro",
       "name": "macros",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR References",
       "type": "Item",
       "name": "references",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Spirit Actions",
       "type": "Item",
       "name": "spirit-actions",
-      "system": "pokemonepopee"
+      "system": "ptu"
     },
     {
       "label": "PTR Journals",
       "type": "JournalEntry",
       "name": "journals",
-      "system": "pokemonepopee"
+      "system": "ptu"
     }
   ],
   "languages": [
-    {
-      "lang": "fr",
-      "name": "Français",
-      "path": "static/lang/fr.json"
-    },
     {
       "lang": "en",
       "name": "English",
@@ -212,6 +207,6 @@
       "packs": ["journals", "references", "macros", "effects"]
     }
   ],
-  "background": "systems/pokemonepopee/static/images/banner.webp",
+  "background": "systems/ptu/static/images/banner.webp",
   "url": "https://github.com/pokemon-tabletop-reunited/ptr1e"
 }

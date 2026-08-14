@@ -29,7 +29,7 @@ function buildConditionUpdate(effect, { intensity } = {}) {
 }
 
 function getModerateSelfDamage(actor) {
-    // Valeur "Modérée" ATK/SPATK : placeholder en attendant la table officielle Faible/Modérée/Forte de PTR pour les dégâts basés sur une stat.
+    // "Moderate" ATK/SPATK value: placeholder pending PTR's official Weak/Moderate/Strong stat-based damage table.
     const atk = actor.system.stats.atk?.total ?? actor.system.stats.atk?.value ?? 0;
     const spatk = actor.system.stats.spatk?.total ?? actor.system.stats.spatk?.value ?? 0;
     return Math.max(atk, spatk);

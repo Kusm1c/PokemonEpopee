@@ -86,6 +86,17 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		if (this.actor.isOwner) {
 			buttons.unshift({
+				label: "Rest",
+				class: "rest-until-next-day",
+				icon: "fas fa-bed",
+				onclick: () => {
+					const max = this.actor.system.health.max ?? 0;
+					const current = this.actor.system.health.value ?? 0;
+					const heal = Math.ceil(max / 20) * 4;
+					this.actor.update({ "system.health.value": Math.min(max, current + heal) });
+				}
+			});
+			buttons.unshift({
 				label: "Training",
 				class: "training-screen",
 				icon: "fas fa-dumbbell",
@@ -189,6 +200,33 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		this._itemSummaryRenderer = new ItemSummaryRenderer(this);
 		this._itemSummaryRenderer.activateListeners(html);
+
+		html.find('.loyalty-cell').click((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const { checked, unlocked } = this.actor.system.loyalty;
+			if (index >= unlocked) return;
+			const newChecked = (index + 1 === checked) ? index : index + 1;
+			this.actor.update({ "system.loyalty.checked": newChecked });
+		});
+
+		html.find('.moment-create').click(() => {
+			const moments = [...this.actor.system.narrative.momentsOfBrilliance, ""];
+			const unlocked = Math.min(20, this.actor.system.loyalty.unlocked + 1);
+			this.actor.update({ "system.narrative.momentsOfBrilliance": moments, "system.loyalty.unlocked": unlocked });
+		});
+
+		html.find('.moment-delete').click((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const moments = this.actor.system.narrative.momentsOfBrilliance.filter((_, i) => i !== index);
+			this.actor.update({ "system.narrative.momentsOfBrilliance": moments });
+		});
+
+		html.find('.moment-text').change((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const moments = [...this.actor.system.narrative.momentsOfBrilliance];
+			moments[index] = ev.currentTarget.value;
+			this.actor.update({ "system.narrative.momentsOfBrilliance": moments });
+		});
 
 		$(html).find('nav .tooltip').tooltipster({
 			theme: `tooltipster-shadow ball-themes ${this.ballStyle}`,

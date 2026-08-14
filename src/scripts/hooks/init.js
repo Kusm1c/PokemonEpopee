@@ -10,7 +10,7 @@ import { measureDistances } from "../../module/canvas/helpers.js"
 
 export const Init = {
     listen() {
-        Hooks.on("init", () => {
+        Hooks.on("init", async () => {
             // Add your init hooks here
             console.log("PTU System | Initializing Pokemon Tabletop Reunited System")
 
@@ -74,7 +74,7 @@ export const Init = {
             registerHandlebarsHelpers();
             // registerKeybindings();
             registerSettings();
-            registerTemplates();
+            await registerTemplates();
 
             if(game.settings.get("ptu", "devMode")) CONFIG.ui.items.prototype._onDragStart = _onDragStart;
 

@@ -89,6 +89,23 @@
                 <label for="system.snippet">{{localize "ITEM.Snippet"}}</label>
                 <textarea class="ml-1 mr-1" name="system.snippet">{{item.system.snippet}}</textarea>
             </div>
+            <h3>{{localize "PTU.Epopee.Item.Condition.SectionTitle"}}</h3>
+            <div class="item-row">
+                <label for="system.slug">{{localize "PTU.Epopee.Item.Condition.Slug"}}</label>
+                <input class="ml-1 mr-1" type="text" name="system.slug" value="{{item.system.slug}}" placeholder="{{item.slug}}"/>
+            </div>
+            <div class="item-row">
+                <label for="system.value.isValued">{{localize "PTU.Epopee.Item.Condition.Valued"}}</label>
+                <input class="ml-1 mr-1" name="system.value.isValued" type="checkbox" {{checked item.system.value.isValued}}/>
+            </div>
+            <div class="item-row">
+                <label for="system.value.value">{{localize "PTU.Epopee.Item.Condition.Value"}}</label>
+                <input class="ml-1 mr-1" type="number" name="system.value.value" value="{{item.system.value.value}}"/>
+            </div>
+            <div class="item-row">
+                <label for="system.value.autoIncrement">{{localize "PTU.Epopee.Item.Condition.AutoIncrement"}}</label>
+                <input class="ml-1 mr-1" name="system.value.autoIncrement" type="checkbox" {{checked item.system.value.autoIncrement}}/>
+            </div>
         </div>
         <div class="tab rules h-100" data-group="primary" data-tab="rules">
             {{~> systems/ptu/static/templates/partials/rules/rule-partial.hbs item=item}}

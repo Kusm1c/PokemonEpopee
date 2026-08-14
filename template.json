@@ -548,7 +548,18 @@
 
       "owner": "0",
       "shiny": false,
-      "loyalty": 3,
+      "loyalty": {
+        "checked": 4,
+        "unlocked": 10
+      },
+      "narrative": {
+        "momentsOfBrilliance": [],
+        "physicalTraits": "",
+        "personality": "",
+        "motivations": "",
+        "captureContext": "",
+        "preCampaignLore": ""
+      },
       "friendship": 2,
       "pokeball": "",
       "boss": {

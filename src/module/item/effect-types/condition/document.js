@@ -4,6 +4,7 @@ import { applyDamageFromMessage } from "../../../message/damage.js";
 import { DamageRoll } from "../../../system/damage/roll.js";
 import { Statistic } from "../../../system/statistic/index.js";
 import { runStatusResistance } from "../../../statuses/engine.js";
+import { ALL_STATUS_DEFINITIONS } from "../../../statuses/definitions.js";
 import { BaseEffectPTU } from "../base.js";
 
 class PTUCondition extends BaseEffectPTU {
@@ -74,6 +75,8 @@ class PTUCondition extends BaseEffectPTU {
     }
 
     async onTurnEnd(options = {}) {
+        if (ALL_STATUS_DEFINITIONS[this.slug]) return;
+
         const actor = this.actor;
         const token = options?.token ?? actor?.token;
         if (!this.active || !actor) return;
