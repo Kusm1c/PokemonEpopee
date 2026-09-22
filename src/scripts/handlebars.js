@@ -1,3 +1,4 @@
+import { usageState } from "../module/usage/frequency.js";
 import { pokeballStyles, pokeballShapes } from "./config/data/pokeball-themes.js";
 import { capitalize, formatSlug } from "../util/misc.js";
 
@@ -365,6 +366,22 @@ function _registerBasicHelpers() {
 
     Handlebars.registerHelper("isdefined", function (value) {
         return value !== undefined;
+    });
+
+    // Epopee: usage counters on action rows.
+    // "Pour chaque Action, bien indiquer ses usages restants (s'il y en a) et son moment
+    // de rechargement (s'il y en a). Si infini ou a volonte, mettre une couleur
+    // differente moins visible que la couleur standard."
+    Handlebars.registerHelper("usageLabel", function (item) {
+        const state = usageState(item?.system?.frequency ?? "", item?.system?.uses?.spent ?? 0);
+        if (state.unlimited) return item?.system?.frequency || "At-Will";
+        return `${state.remaining} / ${state.max}`;
+    });
+    Handlebars.registerHelper("usageUnlimited", function (item) {
+        return usageState(item?.system?.frequency ?? "", item?.system?.uses?.spent ?? 0).unlimited;
+    });
+    Handlebars.registerHelper("usageExhausted", function (item) {
+        return usageState(item?.system?.frequency ?? "", item?.system?.uses?.spent ?? 0).exhausted;
     });
 
     Handlebars.registerHelper("is", function (a, b) { return a == b });

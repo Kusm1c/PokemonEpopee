@@ -1,4 +1,6 @@
 import { ALL_STATUS_DEFINITIONS } from "./definitions.js";
+import { combatStages, statForFormula } from "../combat-math/actor.js";
+import { mdsTerm } from "../combat-math/formula.js";
 import { computeBonus, resolveTier } from "./roll.js";
 import { buildActorUpdate, buildConditionUpdate, getModerateSelfDamage } from "./apply-effect.js";
 import { resolveDuration } from "./duration.js";
@@ -49,10 +51,20 @@ async function runStatusResistance(condition, actorUpdates) {
     const intensity = definition.hasIntensity ? (condition.value ?? definition.intensityStart ?? 0) : undefined;
     const intensityBonus = definition.bonusPerIntensity ? (intensity ?? 0) * definition.bonusPerIntensity : 0;
 
-    const speedValue = actor.system.stats.spd?.total ?? actor.system.stats.spd?.value ?? 0;
+    // "Un pokemon ayant eu une modification de Vitesse ajoutera des des lors de la
+    // liberation d'effet de statuts." (Chronicler -> Combat -> MdS)
+    //
+    // The flat 25%-of-Speed bonus reads the *pre-stage* figure, for the same reason the
+    // damage formula does: `stats.spd.total` still bakes in PTR's +-10%-per-stage
+    // multiplier, and counting that on top of the MdS dice would apply stages twice.
+    const speedValue = statForFormula(actor, "spd") || actor.system.stats.spd?.value || 0;
+    const speedTerm = mdsTerm(actor.system.level?.current ?? 1, combatStages(actor, "spd"));
+
     const bonus = computeBonus({ speedValue, assistBonus, intensityBonus });
 
-    const roll = await new Roll("1d100 + @bonus", { bonus }).evaluate();
+    // The MdS dice go straight into the formula so the player sees them rolled.
+    const rollFormula = speedTerm.formula ? `1d100 ${speedTerm.formula} + @bonus` : "1d100 + @bonus";
+    const roll = await new Roll(rollFormula, { bonus }).evaluate();
     const tier = resolveTier(roll.total);
 
     const effect = definition.resolveTier(tier.id, { intensity });

@@ -17,6 +17,7 @@
             <a class="item tooltip ball-themes {{ballStyle}}" title="Extra" data-tab="extra"><i class="fas fa-gear"></i></a>
             {{!-- <a class="item tooltip ball-themes {{ballStyle}}" title="Dex" data-tab="dex"><i class="fas fa-tablet-alt"></i></a> --}}
             <a class="item tooltip ball-themes {{ballStyle}}" title="Effects" data-tab="effects"><i class="fas fa-stars"></i></a>
+            <a class="item tooltip ball-themes {{ballStyle}}" title="Narrative" data-tab="narrative"><i class="fas fa-feather"></i></a>
         </nav>
     </header>
     <main class="sheet-body h-100">
@@ -35,43 +36,36 @@
                             <div class="fb-20 mt-2 mb-2"><b>{{localize "PTU.SkillDice"}}</b></div>
                         </div>
                         <div class="swsh-body p-0">
-                            {{#each actor.system.skills as |skill key|}}
-                            <div class="d-flex flex-row {{key}} align-items-center w-100">
-                                <div class="skill {{key}} fb-30 bgcolor key type--{{skill.type}} align-self-center">
-                                    <label for="system.skills.{{key}}.label" class="resource-label">{{localize (concat "PTU.Skills." skill.slug)}}</label>
+                            {{#each epopee.skillGroups as |group|}}
+                            <div class="d-flex flex-row align-items-center w-100 center-text"
+                                style="background:{{group.colour}};color:#fff;font-weight:bold;letter-spacing:1px;padding:2px 0;font-size:11px;">
+                                <div class="w-100">{{group.label}}</div>
+                            </div>
+                            {{#each group.skills as |s|}}
+                            <div class="d-flex flex-row {{s.key}} align-items-center w-100">
+                                <div class="skill {{s.key}} fb-30 bgcolor key type--{{s.type}} align-self-center">
+                                    <label class="resource-label">{{localize s.labelKey}}</label>
                                 </div>
-                                <div class="skill {{key}} fb-15 pl-1 pr-1 center-text center-self">
+                                <div class="skill {{s.key}} fb-15 pl-1 pr-1 center-text center-self">
                                     {{> "systems/ptu/static/templates/partials/mod-field.hbs"
-                                        path=(concat "system.skills." key ".value.value")
-                                        value=skill.value.value
-                                        dtype="Number"
-                                        mod=skill.value.mod
-                                        total=skill.value.total
-                                        modOrigins=(getProperty ../actor.origins (concat "system.skills." key ".value.mod"))
-                                        flipped=(gt 8 @index)}}
+                                        path=s.valuePath value=s.value dtype="Number"
+                                        mod=s.valueMod total=s.valueTotal modOrigins=s.valueOrigins}}
                                 </div>
-                                <div
-                                    class="skill {{key}} fb-20 align-self-center bgcolor skill--{{skill.rank}} center-text center-self">
-                                    <label for="system.skills.{{key}}.rank" class="resource-label">{{localize (concat "PTU.Skill" (capitalize skill.rank))}}</label>
+                                <div class="skill {{s.key}} fb-20 align-self-center bgcolor skill--{{s.rank}} center-text center-self">
+                                    <label class="resource-label">{{localize s.rankLabelKey}}</label>
                                 </div>
-                                <div class="skill {{key}} fb-15 pl-1 center-text center-self">
+                                <div class="skill {{s.key}} fb-15 pl-1 center-text center-self">
                                     {{> "systems/ptu/static/templates/partials/mod-field.hbs"
-                                        path=(concat "system.skills." key ".modifier.value")
-                                        value=skill.modifier.value
-                                        dtype="Number"
-                                        mod=skill.modifier.mod
-                                        total=skill.modifier.total
-                                        modOrigins=(getProperty ../actor.origins (concat "system.skills." key ".modifier.mod") )
-                                        flipped=(gt 8 @index)}}
+                                        path=s.modifierPath value=s.modifierValue dtype="Number"
+                                        mod=s.modifierMod total=s.modifierTotal modOrigins=s.modifierOrigins}}
                                 </div>
-                                <div class="skill {{key}} fb-20 align-self-center bgcolor center-text rollable center-self"
-                                    data-roll="{{#if (bigger skill.value.total 6)}}6{{else}}{{skill.value.total}}{{/if}}d6{{#if skill.modifier.total}}+{{skill.modifier.total}}{{/if}}"
-                                    data-skill="{{key}}">
+                                <div class="skill {{s.key}} fb-20 align-self-center bgcolor center-text rollable center-self"
+                                    data-roll="{{s.rollFormula}}" data-skill="{{s.key}}">
                                     <i class="fas fa-dice-d20"></i>
-                                    <label for="system.skills.{{key}}.value"
-                                    class="resource-label">{{#if (bigger skill.value.total 6)}}6{{else}}{{skill.value.total}}{{/if}}d6{{#if skill.modifier.total}}+{{skill.modifier.total}}{{/if}}</label>
+                                    <label class="resource-label">{{s.rollFormula}}</label>
                                 </div>
                             </div>
+                            {{/each}}
                             {{/each}}
 
                         </div>
@@ -104,6 +98,9 @@
                                 <div class="fb-25">
                                     <b>Max HP</b>
                                 </div>
+                                <div class="fb-15" title="Fragment de Point de Vie : 1/20e des PV max">
+                                    <b>Frag</b>
+                                </div>
                             </div>
                             <div class="swsh-body d-flex flex-row center-text justify-content-between">
                                 <div class="fb-25">
@@ -115,6 +112,9 @@
                                 <div class="fb-25">
                                     <input name="system.health.max" type="number" value="{{actor.system.health.max}}" placeholder="Max HP" disabled/>
                                 </div>
+                                <div class="fb-15 center-text" style="align-self:center;" title="Fragment de Point de Vie">
+                                    <b>{{epopee.hpFragment}}</b>
+                                </div>
                                 <div class="options w-100 pb-1 pt-1 mt-1">
                                     <div class="progress-bar p{{actor.system.health.percent}}" id="progressBar"></div>
                                 </div>
@@ -122,6 +122,76 @@
                         </div>
                         <div class="mb-2">
                             <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                        </div>
+
+                        {{!-- Epopee: identite, origine, controle, progression, slots --}}
+                        <div class="swsh-box mb-2 w-100">
+                            <div class="swsh-header ball-themes {{ballStyle}} highlight pt-1 pb-1 center-text justify-content-center">
+                                <b>Identité</b>
+                            </div>
+                            <div class="swsh-body d-flex flex-row justify-content-between center-text pt-1 pb-1">
+                                <div class="fb-22"><label>Genre</label>
+                                    <input type="text" name="system.sex" value="{{actor.system.sex}}" /></div>
+                                <div class="fb-22"><label>Taille</label>
+                                    <input type="text" name="system.height" value="{{actor.system.height}}" /></div>
+                                <div class="fb-22"><label>Poids</label>
+                                    <input type="text" name="system.weight" value="{{actor.system.weight}}" /></div>
+                                <div class="fb-22"><label>Âge</label>
+                                    <input type="number" name="system.age" value="{{actor.system.age}}" data-dtype="Number" /></div>
+                            </div>
+                        </div>
+
+                        <div class="swsh-box mb-2 w-100">
+                            <div class="swsh-header ball-themes {{ballStyle}} highlight pt-1 pb-1 center-text justify-content-center">
+                                <b>Origine</b>
+                            </div>
+                            <div class="swsh-body center-text pt-1 pb-1">
+                                <button type="button" class="origin-wizard" style="width:100%;">
+                                    <i class="fas fa-scroll"></i>
+                                    {{#if epopee.origin.name}}{{epopee.origin.name}}{{#if epopee.origin.choice}} [{{epopee.origin.choice}}]{{/if}}
+                                    {{else}}Choisir une Origine{{/if}}
+                                </button>
+                                {{#if epopee.origin.description}}
+                                <div style="font-size:11px;opacity:.8;text-align:left;padding:4px;">{{epopee.origin.description}}</div>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="swsh-box mb-2 w-100">
+                            <div class="swsh-header ball-themes {{ballStyle}} highlight pt-1 pb-1 d-flex justify-content-between center-text">
+                                <div class="fb-30" title="STAB = 5 + (Niveau / 5)"><b>STAB</b></div>
+                                <div class="fb-40" title="Niveau maximum des Pokémon contrôlables"><b>Contrôle max</b></div>
+                                <div class="fb-30" title="Slots d'inventaire utilisés"><b>Slots</b></div>
+                            </div>
+                            <div class="swsh-body d-flex flex-row align-items-center justify-content-between pt-1 pb-1 center-text">
+                                <div class="fb-30"><b style="font-size:16px;">{{epopee.stab}}</b></div>
+                                <div class="fb-40 d-flex align-items-center justify-content-center" style="gap:4px;">
+                                    <b style="font-size:16px;">{{epopee.maxControlLevel}}</b>
+                                    <input type="number" name="system.epopee.maxControlLevelOverride"
+                                        value="{{actor.system.epopee.maxControlLevelOverride}}" data-dtype="Number"
+                                        placeholder="auto" style="width:52px;"
+                                        title="Laisser vide pour suivre le niveau du Dresseur" />
+                                </div>
+                                <div class="fb-30" style="{{#if epopee.slotsOver}}color:#c0392b;font-weight:bold;{{/if}}">
+                                    {{epopee.slotsUsed}} / <input type="number" name="system.epopee.itemSlots"
+                                        value="{{epopee.slotsMax}}" data-dtype="Number" style="width:46px;" />
+                                </div>
+                            </div>
+                            <div class="swsh-body center-text pt-1 pb-1" style="font-size:11px;">
+                                <label style="cursor:pointer;">
+                                    <input type="checkbox" name="system.epopee.hideExperience"
+                                        {{checked epopee.hideExperience}} /> Masquer l'Expérience
+                                </label>
+                            </div>
+                            {{#if epopee.pending.any}}
+                            <div class="swsh-body center-text pt-1 pb-1"
+                                style="background:#e8b923;color:#000;font-size:11px;font-weight:bold;">
+                                À faire :
+                                {{#if epopee.pending.stats}}{{epopee.pending.stats}} stat(s) à répartir. {{/if}}
+                                {{#if epopee.pending.featsLeft}}{{epopee.pending.featsLeft}} feature(s) à placer. {{/if}}
+                                {{#if epopee.pending.edgesLeft}}{{epopee.pending.edgesLeft}} edge(s) à choisir.{{/if}}
+                            </div>
+                            {{/if}}
                         </div>
 
                         <!-- Action Points -->
@@ -340,6 +410,8 @@
                                 <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsMod"}}</div>
                                 <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsStage"}}</div>
                                 <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsTotal"}}</div>
+                                <div class="fb-10 mt-2 mb-2" title="Fragment : 25% de la stat, arrondi au supérieur">Frag</div>
+                                <div class="fb-25 mt-2 mb-2" title="Modifications de Statistiques">MdS</div>
                             </div>
                             <div class="swsh-body p-0">
                                 {{#each actor.system.stats as |stat key|}}
@@ -389,6 +461,28 @@
                                         <div class="stats {{key}} total fb-15">
                                             <input type="number" name="system.stats.{{key}}.total" value="{{stat.total}}"
                                                 data-dtype="Number" disabled />
+                                        </div>
+                                        <div class="stats {{key}} fragment fb-10 center-text" title="Fragment de {{key}}">
+                                            {{#if (lookup ../epopee.fragments key)}}<b>{{lookup ../epopee.fragments key}}</b>
+                                            {{else}}<span style="opacity:.4;">-</span>{{/if}}
+                                        </div>
+                                        <div class="stats {{key}} mds fb-25">
+                                            {{#with (lookup ../epopee.gauges key) as |gauge|}}
+                                            <div class="d-flex flex-column" style="gap:1px;" title="MdS : {{gauge.current}} ({{gauge.dice}})">
+                                                <div class="d-flex" style="gap:1px;">
+                                                    {{#each gauge.positive as |cell|}}
+                                                    <span class="mds-cell" data-stat="{{key}}" data-index="{{cell.index}}"
+                                                        style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#4caf50{{else}}#fff{{/if}};"></span>
+                                                    {{/each}}
+                                                </div>
+                                                <div class="d-flex" style="gap:1px;">
+                                                    {{#each gauge.negative as |cell|}}
+                                                    <span class="mds-cell" data-stat="{{key}}" data-index="{{cell.index}}"
+                                                        style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#e05555{{else}}#fff{{/if}};"></span>
+                                                    {{/each}}
+                                                </div>
+                                            </div>
+                                            {{/with}}
                                         </div>
                                     </div>
                                 {{/each}}
@@ -1290,6 +1384,101 @@
                 </div>
             </div>
         </div> 
+
+        <!-- Epopee: Narration -->
+        <div class="tab details narrative h-100" data-group="primary" data-tab="narrative">
+            <div class="d-flex flex-row justify-content-between w-100">
+                <div class="fb-48">
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex justify-content-between center-text">
+                            <div class="fb-80"><b>Honneurs</b></div>
+                            <div class="fb-20"><a class="honour-create" title="Ajouter un Honneur"><i class="fas fa-plus-circle"></i></a></div>
+                        </div>
+                        <div class="swsh-body" style="display:block;">
+                            {{#each epopee.narrative.honours as |honour index|}}
+                            <div class="d-flex flex-row align-items-start w-100 mb-1" style="gap:4px;">
+                                <textarea class="honour-text w-100" data-index="{{index}}" rows="2">{{honour}}</textarea>
+                                <a class="honour-delete" data-index="{{index}}" title="Supprimer"><i class="fas fa-trash"></i></a>
+                            </div>
+                            {{/each}}
+                            {{#unless epopee.narrative.honours.length}}
+                            <div class="center-text" style="opacity:.5;font-size:11px;">Aucun Honneur.</div>
+                            {{/unless}}
+                        </div>
+                    </div>
+
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Description Physique</b>
+                        </div>
+                        <div class="swsh-body">
+                            <textarea class="w-100" name="system.epopee.narrative.physicalDescription" rows="3">{{actor.system.epopee.narrative.physicalDescription}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Traits de Caractère</b>
+                        </div>
+                        <div class="swsh-body">
+                            <textarea class="w-100" name="system.epopee.narrative.personality" rows="3">{{actor.system.epopee.narrative.personality}}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fb-48">
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Objectifs</b>
+                        </div>
+                        <div class="swsh-body">
+                            <textarea class="w-100" name="system.epopee.narrative.goals" rows="3">{{actor.system.epopee.narrative.goals}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Connexions aux autres PJ</b>
+                        </div>
+                        <div class="swsh-body">
+                            <textarea class="w-100" name="system.epopee.narrative.connections" rows="3">{{actor.system.epopee.narrative.connections}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Lore Pré-Campagne</b>
+                        </div>
+                        <div class="swsh-body">
+                            <textarea class="w-100" name="system.epopee.narrative.preCampaignLore" rows="3">{{actor.system.epopee.narrative.preCampaignLore}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex justify-content-between center-text">
+                            <div class="fb-80"><b>Blocs libres</b></div>
+                            <div class="fb-20"><a class="block-create" title="Ajouter un bloc"><i class="fas fa-plus-circle"></i></a></div>
+                        </div>
+                        <div class="swsh-body" style="display:block;">
+                            {{#each epopee.narrative.customBlocks as |block index|}}
+                            <div class="mb-2" style="border:1px solid #ccc;padding:4px;">
+                                <div class="d-flex flex-row align-items-center" style="gap:4px;">
+                                    <input type="text" class="block-title w-100" data-index="{{index}}" value="{{block.title}}" />
+                                    <a class="block-move" data-index="{{index}}" data-dir="-1" title="Monter"><i class="fas fa-arrow-up"></i></a>
+                                    <a class="block-move" data-index="{{index}}" data-dir="1" title="Descendre"><i class="fas fa-arrow-down"></i></a>
+                                    <a class="block-delete" data-index="{{index}}" title="Supprimer"><i class="fas fa-trash"></i></a>
+                                </div>
+                                <textarea class="block-body w-100" data-index="{{index}}" rows="3">{{block.body}}</textarea>
+                            </div>
+                            {{/each}}
+                            {{#unless epopee.narrative.customBlocks.length}}
+                            <div class="center-text" style="opacity:.5;font-size:11px;">Aucun bloc libre.</div>
+                            {{/unless}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </form>
 

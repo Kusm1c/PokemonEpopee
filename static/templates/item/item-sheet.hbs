@@ -115,6 +115,14 @@
                 <input class="ml-1 mr-1" name="system.category" type="text" value="{{item.system.category}}" placeholder="{{localize "ITEM.Category"}}"/>
             </div>
             <div class="item-row">
+                <label for="system.heldSlot" title="Sur un Pokemon : 1 Objet Tenu et 1 Objet Trouve maximum. Seuls les Objets Tenus passifs conferent leurs effets.">Emplacement</label>
+                <select class="ml-1 mr-1" name="system.heldSlot">
+                    <option value="" {{#if (is item.system.heldSlot "")}}selected{{/if}}>Porté (aucun effet)</option>
+                    <option value="held" {{#if (is item.system.heldSlot "held")}}selected{{/if}}>Objet Tenu</option>
+                    <option value="found" {{#if (is item.system.heldSlot "found")}}selected{{/if}}>Objet Trouvé</option>
+                </select>
+            </div>
+            <div class="item-row">
                 <label for="system.keywords">{{localize "ITEM.Keywords"}}</label>
                 <input type="text" class="ptu-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>
             </div>

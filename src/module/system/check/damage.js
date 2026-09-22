@@ -1,4 +1,6 @@
 import { sluggify } from "../../../util/misc.js";
+import { stageDiceModifier, statForFormula } from "../../combat-math/actor.js";
+import { attackTerm, isModerate, stabValue } from "../../combat-math/formula.js";
 import { PTUModifier, StatisticModifier } from "../../actor/modifiers.js";
 import { PTUMove } from "../../item/index.js";
 import { DamageRoll } from "../damage/roll.js";
@@ -67,18 +69,26 @@ class PTUDamageCheck extends PTUDiceCheck {
                 modifier: this.item.damageBase.preStab,
             })
         ]
-        if (this.item.damageBase.isStab) {
-            damageBaseModifiers.push(
-                new PTUModifier({
-                    slug: "stab",
-                    label: "STAB",
-                    modifier: this.item.damageBase.postStab - this.item.damageBase.preStab,
-                })
-            )
-        }
+        // Stock PTR's STAB bumped the *damage base* when the move's type matched the
+        // actor's. Epopee replaces it with a flat STAB stat (5 + level/5) added to
+        // Puissance unconditionally - see the epopee-stab modifier below. Keeping both
+        // would double-count, so the damage-base bump is intentionally not applied.
+        // CHECKLIST.md 11.1 tracks this as a decision to confirm.
+        void this.item.damageBase.isStab;
 
         const modifiers = []
         const diceModifiers = []
+
+        // --- Epopee damage formula, Step 1: PUISSANCE = [Jet] + STAB + Attaques + MdS offensifs
+        // See CHECKLIST.md 11.1 and src/module/combat-math/formula.js
+        const epopeeLevel = this.actor.system.level?.current ?? 1;
+        const epopeeModerate = isModerate(this.item.system.keywords ?? [], this.item.isDamaging);
+
+        modifiers.push(new PTUModifier({
+            slug: "epopee-stab",
+            label: "STAB",
+            modifier: stabValue(epopeeLevel),
+        }));
 
         const damageBonus = isNaN(Number(this.item.system.damageBonus)) ? 0 : Number(this.item.system.damageBonus);
         if (damageBonus != 0) {
@@ -99,13 +109,18 @@ class PTUDamageCheck extends PTUDiceCheck {
                 modifier: value,
             }));
         }
+        else if (this.item.system.isStruggle) {
+            // Struggle is STAB + 1d20 only: no attack stat, no MdS. It also "ignore les
+            // defenses du lanceur et de la cible" - that half is handled in applyDamage.
+        }
         else {
             if (this.selectors.includes("physical-damage")) {
                 modifiers.push(new PTUModifier({
                     slug: "physical-damage",
-                    label: "Attack Stat",
-                    modifier: this.actor.system.stats.atk.total,
+                    label: epopeeModerate ? "Attack Fragment (Moderate)" : "Attack Stat (Powerful)",
+                    modifier: attackTerm(statForFormula(this.actor, "atk"), epopeeModerate),
                 }));
+                diceModifiers.push(stageDiceModifier(this.actor, "atk", epopeeLevel));
                 if (this.actor.system.modifiers.damageBonus.physical?.total != 0) {
                     modifiers.push(new PTUModifier({
                         slug: "physical-damage-bonus",
@@ -117,9 +132,10 @@ class PTUDamageCheck extends PTUDiceCheck {
             if (this.selectors.includes("special-damage")) {
                 modifiers.push(new PTUModifier({
                     slug: "special-damage",
-                    label: "Attack Stat",
-                    modifier: this.actor.system.stats.spatk.total,
+                    label: epopeeModerate ? "Special Attack Fragment (Moderate)" : "Special Attack Stat (Powerful)",
+                    modifier: attackTerm(statForFormula(this.actor, "spatk"), epopeeModerate),
                 }));
+                diceModifiers.push(stageDiceModifier(this.actor, "spatk", epopeeLevel));
                 if (this.actor.system.modifiers.damageBonus.special?.total != 0) {
                     modifiers.push(new PTUModifier({
                         slug: "special-damage-bonus",
@@ -194,6 +210,11 @@ class PTUDamageCheck extends PTUDiceCheck {
     async execute(context = { isReroll: false, title, type: "damage" }, callback) {
         const { isReroll, title, type } = context;
         const dice = await (async () => {
+            // Epopee Lutte/Struggle: "Inflige STAB + 1d20 de degats" - a flat die, not a
+            // Damage Base. The STAB half is the epopee-stab modifier added in
+            // prepareModifiers; the attack stat and MdS dice are skipped there too.
+            if (this.item.system.isStruggle) return "1d20";
+
             if (this.isFiveStrike) {
                 const baseDamageBase = this.item.damageBase.preStab;
                 if (baseDamageBase == 0) return null;
@@ -336,10 +357,18 @@ class PTUDamageCheck extends PTUDiceCheck {
             return a;
         }, {});
 
-        // Build dice string with all dice modifiers properly concatenated
+        // Build dice string with all dice modifiers properly concatenated.
+        // Terms may already carry their own sign (a negative MdS yields "-2d6"), so
+        // only prepend "+" when they don't - "3d8+-2d6" is not a valid roll formula.
+        const appendDiceTerm = (formula, term) => {
+            const trimmed = String(term ?? "").trim();
+            if (!trimmed) return formula;
+            return formula + (trimmed.startsWith("+") || trimmed.startsWith("-") ? trimmed : `+${trimmed}`);
+        };
+
         let fullDiceString = diceString;
         for (const diceValue of Object.values(diceModifierParts)) {
-            fullDiceString += `+${diceValue}`;
+            fullDiceString = appendDiceTerm(fullDiceString, diceValue);
         }
 
         // Fix for +0 modifier concatenation issue
@@ -359,7 +388,7 @@ class PTUDamageCheck extends PTUDiceCheck {
         // Add dice modifiers once (not doubled) to crit formula
         let critFullDiceString = critDice;
         for (const diceValue of Object.values(diceModifierParts)) {
-            critFullDiceString += `+${diceValue}`;
+            critFullDiceString = appendDiceTerm(critFullDiceString, diceValue);
         }
         
         // Use the original damageBaseModifier value for critical hit calculation

@@ -223,6 +223,11 @@ function calculateStatTotal({ level, actorStats, nature, isTrainer, twistedPower
     for (const [key, value] of Object.entries(stats)) {
         const sub = value["total"] + value["mod"].value + value["mod"].mod;
 
+        // Epopee: the damage formula applies combat stages as MdS dice, so it needs the
+        // stat *before* PTR's +-10%-per-stage multiplier below. Reading `total` there
+        // would count the stages twice. See src/module/combat-math/.
+        value["preStage"] = sub;
+
         if (key != "hp") value["stage"].total = Math.clamp((value["stage"]?.value ?? 0) + (value["stage"]?.mod ?? 0), -6, 6);
         if (value["stage"]?.total > 0) {
             if (playtestStats) {
@@ -317,6 +322,9 @@ function calculatePTStatTotal(levelUpPoints, level, stats, { twistedPower, ignor
     //apply mods and stages last
     for (const [key, value] of Object.entries(stats)) {
         const sub = value["total"] + value["mod"].value + value["mod"].mod;
+        // Epopee: see the matching note in the Pokemon branch above - the damage formula
+        // needs the pre-stage figure so MdS dice aren't counted on top of PTR's multiplier.
+        value["preStage"] = sub;
         if (ignoreStages) {
             value["total"] = sub; continue;
         }

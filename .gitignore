@@ -18,16 +18,28 @@ foundry-0.8.3.js
 /packs/README.md
 
 # FoundryVTT Pack Database Files
-/packs/**/*.ldb
-/packs/**/*.log
+#
+# Upstream PTR ignores the whole LevelDB because it BUILDS its packs at release time.
+# This fork authors content directly in Foundry, so the database IS the source: ignoring
+# it meant 15 of 17 packs had no data in git at all. The consistent set (.ldb + .log +
+# CURRENT + MANIFEST) is now tracked so a clone gets working compendiums, and so the
+# GitHub remote doubles as the backup.
+#
+# Only the genuinely runtime-only files stay ignored - LevelDB regenerates these.
 /packs/**/LOG
 /packs/**/LOG.old
-/packs/**/CURRENT
 /packs/**/LOCK
-/packs/**/MANIFEST-*
 /packs/**/lost/
 /packs/**/*.old
 
 app/
 client
 common
+
+# OS / editor scratch
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak
+*.tmp
+*~

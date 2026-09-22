@@ -64,7 +64,25 @@ class ResistanceData extends IWRData {
 
 }
 
-export { IWRData, ImmunityData, WeaknessData, ResistanceData }
+/**
+ * Scale a raw type-chart multiplier into the value actually applied to damage.
+ *
+ * Pokemon Epopee applies the raw product: x0.25 double resistance, x0.5 resistance,
+ * x1 neutral, x2 weakness, x4 double weakness.
+ *
+ * Stock PTR compressed the upper half of that ladder (2 -> 1.5, 4 -> log2(4) = 2,
+ * 8 -> log2(8) = 3). This is intentionally a single seam rather than four copies of
+ * that ternary, so the ladder has one place to change - notably if a cap above x4
+ * is ever wanted.
+ *
+ * @param {number} value Raw multiplier from the type chart
+ * @returns {number}
+ */
+function scaleTypeEffectiveness(value) {
+    return value;
+}
+
+export { IWRData, ImmunityData, WeaknessData, ResistanceData, scaleTypeEffectiveness }
 
 globalThis.IWR = {
     ImmunityData,

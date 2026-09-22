@@ -233,6 +233,18 @@
             },
             "type": "mind"
           },
+          "dexterity": {
+            "value": {
+              "value": 2,
+              "mod": 0
+            },
+            "label": "Dexterity",
+            "modifier": {
+              "value": 0,
+              "mod": 0
+            },
+            "type": "body"
+          },
           "focus": {
             "value": {
               "value": 2,
@@ -255,7 +267,7 @@
               "value": 0,
               "mod": 0
             },
-            "type": "mind"
+            "type": "spirit"
           },
           "intimidate": {
             "value": {
@@ -471,6 +483,25 @@
         "milestones": 0,
         "miscexp": 0
       },
+      "epopee": {
+        "maxControlLevelOverride": null,
+        "hideExperience": false,
+        "itemSlots": 20,
+        "origin": {
+          "name": "",
+          "choice": "",
+          "description": ""
+        },
+        "narrative": {
+          "honours": [],
+          "physicalDescription": "",
+          "personality": "",
+          "goals": "",
+          "connections": "",
+          "preCampaignLore": "",
+          "customBlocks": []
+        }
+      },
       "health": {
         "value": 0,
         "injuries": 0,
@@ -552,6 +583,7 @@
         "checked": 4,
         "unlocked": 10
       },
+      "trainingDifficulty": 50,
       "narrative": {
         "momentsOfBrilliance": [],
         "physicalTraits": "",
@@ -621,7 +653,10 @@
           "value": "Homebrew"
         },
         "stackSlugs": false,
-        "keywords": []
+        "keywords": [],
+        "uses": {
+          "spent": 0
+        }
       },
       "interactions": {
         "sheerForce": false,
@@ -710,7 +745,10 @@
       "contestType": "",
       "stab": false,
       "damageBonus": 0,
-      "isStruggle": false
+      "isStruggle": false,
+      "acquisition": "natural",
+      "contestAppeal": 0,
+      "contestTags": []
     },
     "contestmove": {
       "templates": ["base"],
@@ -733,7 +771,9 @@
       "cost": 0,
       "consumable": 0,
       "subtype": "",
-      "container": false
+      "container": false,
+      "heldSlot": "",
+      "free": false
     },
     "species": {
       "schema": {

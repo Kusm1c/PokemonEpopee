@@ -4,6 +4,10 @@ import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { Statistic } from "../../system/statistic/index.js";
 import { PTUDexSheet } from "../../apps/dex/sheet.js";
 import { PTUActorSheet } from "../sheet.js";
+import { prepareEpopeeSheetData } from "../epopee-sheet.js";
+import { runOriginWizard } from "./origin-wizard.js";
+import { PERIODS, resetUses } from "../../usage/engine.js";
+import { clampStages } from "../../combat-math/formula.js";
 
 export class PTUCharacterSheet extends PTUActorSheet {
 
@@ -85,7 +89,72 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			}
 		}
 
+		data.epopee = this._prepareEpopeeData();
+
 		return data;
+	}
+
+	/**
+	 * Trainer-side Epopee sheet data. The stats half (Fragments, STAB, MdS gauges, the
+	 * three skill groups) is shared with the Pokemon sheet; everything below it is
+	 * specific to Trainers.
+	 */
+	_prepareEpopeeData() {
+		const level = this.actor.system.level?.current ?? 1;
+		const ep = this.actor.system.epopee ?? {};
+
+		// "Niveau maximum de controle des Pokemon, defini par le level." The override is
+		// a deliberate escape hatch, so null means "follow the level".
+		const override = ep.maxControlLevelOverride;
+		const maxControlLevel = Number.isFinite(Number(override)) && override !== null
+			? Number(override)
+			: level;
+
+		// "Systeme de limite de place ... Une instance d'un objet peut etre configuree
+		// Free Slot pour ne pas prendre de place."
+		const items = this.actor.itemTypes.item ?? [];
+		const slotsUsed = items.reduce(
+			(n, i) => n + (i.system.free ? 0 : (Number(i.system.quantity) || 1)),
+			0
+		);
+		const slotsMax = Number(ep.itemSlots ?? 20);
+
+		return {
+			...prepareEpopeeSheetData(this.actor, { includeFlavours: false }),
+			maxControlLevel,
+			maxControlOverridden: override !== null && override !== undefined && override !== "",
+			hideExperience: ep.hideExperience === true,
+			slotsUsed,
+			slotsMax,
+			slotsOver: slotsUsed > slotsMax,
+			origin: ep.origin ?? { name: "", choice: "", description: "" },
+			narrative: ep.narrative ?? {},
+			// "pastille pour notifier qu'il y a des trucs a faire : X Stat a repartir,
+			// Y feature a placer, Z edge a choisir."
+			//
+			// Stats come from PTR's own levelUpPoints, which already tracks unspent
+			// points. Feature and Edge caps follow the doc's defaults: +1 Feature per
+			// level, +1 Edge every 2 levels. "Free" ones don't count against the cap,
+			// matching how PTR already flags them.
+			pending: (() => {
+				const feats = (this.actor.itemTypes.feat ?? []).filter(f => !f.system.free).length;
+				const edges = (this.actor.itemTypes.edge ?? []).filter(e => !e.system.free).length;
+				const featsMax = level;
+				const edgesMax = Math.floor(level / 2);
+				const stats = Number(this.actor.system.levelUpPoints) || 0;
+
+				return {
+					stats,
+					featsUsed: feats,
+					featsMax,
+					featsLeft: Math.max(0, featsMax - feats),
+					edgesUsed: edges,
+					edgesMax,
+					edgesLeft: Math.max(0, edgesMax - edges),
+					any: stats > 0 || feats < featsMax || edges < edgesMax
+				};
+			})()
+		};
 	}
 
 	/** @override */
@@ -93,6 +162,32 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		let buttons = super._getHeaderButtons();
 
 		if (this.actor.isOwner) {
+			buttons.unshift({
+				label: "Rest",
+				class: "rest-until-next-day",
+				icon: "fas fa-bed",
+				onclick: async () => {
+					const max = this.actor.system.health.max ?? 0;
+					const current = this.actor.system.health.value ?? 0;
+					const heal = Math.ceil(max / 20) * 4;
+					await this.actor.update({ "system.health.value": Math.min(max, current + heal) });
+					const refilled = await resetUses(this.actor, PERIODS.DAILY);
+					ui.notifications.info(refilled.length
+						? `${this.actor.name}: healed ${heal} HP, refilled ${refilled.length} daily/scene use(s).`
+						: `${this.actor.name}: healed ${heal} HP. Nothing to refill.`);
+				}
+			});
+			buttons.unshift({
+				label: "End of Scene",
+				class: "end-of-scene",
+				icon: "fas fa-hourglass-end",
+				onclick: async () => {
+					const refilled = await resetUses(this.actor, PERIODS.SCENE);
+					ui.notifications.info(refilled.length
+						? `${this.actor.name}: refilled ${refilled.length} scene use(s) - ${refilled.join(", ")}.`
+						: `${this.actor.name}: no scene uses to refill.`);
+				}
+			});
 			buttons.unshift({
 				label: "Training",
 				class: "training-screen",
@@ -217,6 +312,69 @@ export class PTUCharacterSheet extends PTUActorSheet {
 
 		this._itemSummaryRenderer = new ItemSummaryRenderer(this);
 		this._itemSummaryRenderer.activateListeners(html);
+
+		// --- Epopee ---------------------------------------------------------------
+
+		// MdS gauges: cell N sets the stage to N, re-clicking the current value clears it.
+		html.find('.mds-cell').click((ev) => {
+			const { stat, index } = ev.currentTarget.dataset;
+			const target = Number(index);
+			const current = clampStages(
+				(this.actor.system.stats[stat]?.stage?.value ?? 0) + (this.actor.system.stats[stat]?.stage?.mod ?? 0)
+			);
+			this.actor.update({ [`system.stats.${stat}.stage.value`]: current === target ? 0 : target });
+		});
+
+		html.find('.origin-wizard').click(() => runOriginWizard(this.actor));
+
+		html.find('.contest-mode-toggle').click(async () => {
+			const current = this.actor.getFlag("ptu", "contestMode") === true;
+			await this.actor.setFlag("ptu", "contestMode", !current);
+		});
+
+		// "Liste des Honneurs, chacun contenant un paragraphe libre a ecrire."
+		html.find('.honour-create').click(() => {
+			const honours = [...(this.actor.system.epopee?.narrative?.honours ?? []), ""];
+			this.actor.update({ "system.epopee.narrative.honours": honours });
+		});
+		html.find('.honour-delete').click((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const honours = (this.actor.system.epopee?.narrative?.honours ?? []).filter((_, i) => i !== index);
+			this.actor.update({ "system.epopee.narrative.honours": honours });
+		});
+		html.find('.honour-text').change((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const honours = [...(this.actor.system.epopee?.narrative?.honours ?? [])];
+			honours[index] = ev.currentTarget.value;
+			this.actor.update({ "system.epopee.narrative.honours": honours });
+		});
+
+		// "Pouvoir rajouter librement des blocs de texte. Pouvoir deplacer librement ces blocs."
+		const blocks = () => [...(this.actor.system.epopee?.narrative?.customBlocks ?? [])];
+		html.find('.block-create').click(() => {
+			this.actor.update({ "system.epopee.narrative.customBlocks": [...blocks(), { title: "Nouveau bloc", body: "" }] });
+		});
+		html.find('.block-delete').click((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			this.actor.update({ "system.epopee.narrative.customBlocks": blocks().filter((_, i) => i !== index) });
+		});
+		html.find('.block-move').click((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const dir = Number(ev.currentTarget.dataset.dir);
+			const list = blocks();
+			const target = index + dir;
+			if (target < 0 || target >= list.length) return;
+			[list[index], list[target]] = [list[target], list[index]];
+			this.actor.update({ "system.epopee.narrative.customBlocks": list });
+		});
+		html.find('.block-title, .block-body').change((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			const field = ev.currentTarget.classList.contains("block-title") ? "title" : "body";
+			const list = blocks();
+			if (!list[index]) return;
+			list[index] = { ...list[index], [field]: ev.currentTarget.value };
+			this.actor.update({ "system.epopee.narrative.customBlocks": list });
+		});
 
 		$(html).find('nav .tooltip').tooltipster({
 			theme: `tooltipster-shadow ball-themes ${this.ballStyle}`,

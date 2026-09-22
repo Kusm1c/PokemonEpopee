@@ -277,7 +277,7 @@ class PTUItem extends Item {
         }
 
         if (game.combat && outputSources.some(i => i.type === "condition" && sluggify(i.name) === "fainted")) {
-            const combatant = game.combat.getCombatantByActor(actor)
+            const combatant = game.combat.getCombatantsByActor(actor)?.[0]
             if (combatant && !combatant.defeated) await combatant.update({ defeated: true })
         }
 
@@ -299,7 +299,7 @@ class PTUItem extends Item {
                 await processGrantDeletions(item, items);
             }
             if (game.combat && items.some(i => i.type === "condition" && i.slug === "fainted")) {
-                const combatant = game.combat.getCombatantByActor(actor)
+                const combatant = game.combat.getCombatantsByActor(actor)?.[0]
                 if (combatant && combatant.defeated) await combatant.update({ defeated: false })
             }
 

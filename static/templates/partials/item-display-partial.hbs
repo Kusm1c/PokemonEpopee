@@ -65,6 +65,14 @@
                         {{/unless}}
                     </div>
                     <div class="move-tags">
+                        {{!-- Epopee: uses remaining + recharge moment. Unlimited renders dimmer. --}}
+                        {{#if item.system.frequency}}
+                            <div class="tag gradient{{#if (usageExhausted item)}} exhausted{{/if}}"
+                                style="{{#if (usageUnlimited item)}}opacity:.45;{{/if}}"
+                                title="{{item.system.frequency}}">
+                                <span>{{usageLabel item}}</span>
+                            </div>
+                        {{/if}}
                         {{#if item.system.type}}
                             <div class="tag gradient">
                                 <img src="{{loadTypeImageIcon item.system.type}}" title="{{item.system.type}}"/>

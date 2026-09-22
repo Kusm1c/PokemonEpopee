@@ -1,3 +1,4 @@
+import { SKILL_DIE_SIZE } from "../../skills/config.js";
 import { sluggify } from "../../../util/misc.js";
 import { PTUDiceModifier, PTUModifier, StatisticDiceModifier, StatisticModifier } from "../../actor/modifiers.js";
 import { PTUDiceCheck, eventToRollParams } from "./check.js";
@@ -36,7 +37,7 @@ class PTUSkillCheck extends PTUDiceCheck {
         const diceModifiers = [
             new PTUDiceModifier({
                 diceNumber: Math.clamp(this.actor.system.skills[this.skill]?.value?.total ?? 1, 1, 6),
-                dieSize: 6,
+                dieSize: SKILL_DIE_SIZE,
                 label: game.i18n.format("PTU.Check.SkillDice", { skill: this.skillLabel })
             })
         ]
@@ -70,7 +71,7 @@ class PTUSkillCheck extends PTUDiceCheck {
                         arr.push(new PTUDiceModifier({
                             ...mod.toObject(),
                             diceNumber: Number(mod.value),
-                            dieSize: 6
+                            dieSize: SKILL_DIE_SIZE
                         }));
                     }
                 }

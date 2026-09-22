@@ -208,6 +208,9 @@ class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
         if(Array.isArray(expanded.system.prerequisites)) {
             expanded.system.prerequisites = expanded.system.prerequisites.map(s => s.value).filter(s => !!s)
         }
+        if(Array.isArray(expanded.system.contestTags)) {
+            expanded.system.contestTags = expanded.system.contestTags.map(s => s.value ?? s).filter(s => !!s)
+        }
         if(Array.isArray(expanded.system.keywords)) {
             expanded.system.keywords = expanded.system.keywords.map(s => s.value).filter(s => !!s)
         }

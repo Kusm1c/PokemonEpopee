@@ -11,8 +11,10 @@ import { InitiativeRoll } from "../system/check/rolls/initiative-roll.js";
 import { PTUSkillCheck } from "../system/check/skill.js";
 import { PTUDamage } from "../system/damage/damage.js";
 import { PTUMoveDamage } from "../system/damage/move.js";
+import { combatStages, statForFormula } from "../combat-math/actor.js";
+import { defenseTerm, mdsTerm } from "../combat-math/formula.js";
 import { ActorConditions } from "./conditions.js";
-import { IWRData, ImmunityData, ResistanceData, WeaknessData } from "./iwr.js";
+import { IWRData, ImmunityData, ResistanceData, WeaknessData, scaleTypeEffectiveness } from "./iwr.js";
 import { PTUModifier, StatisticModifier } from "./modifiers.js";
 
 /** @typedef {import('../../module/rules/rule-element/base').RuleElementPTU} RuleElementPTU */
@@ -125,10 +127,7 @@ class PTUActor extends Actor {
             all,
             getRealValue(type) {
                 const realType = type.toLocaleLowerCase(game.i18n.locale);
-                const value = all[realType] ?? 1;
-
-                if (value > 1) return value > 2 ? Math.log2(value) : value == 2 ? 1.5 : value
-                return value;
+                return scaleTypeEffectiveness(all[realType] ?? 1);
             }
         }
 
@@ -522,9 +521,44 @@ class PTUActor extends Actor {
             : damage.total;
         const applications = [];
 
+        // Epopee damage formula, Step 2:
+        //   DEGATS INFLIGES = (Puissance - Defenses - MdS defensifs) * Faiblesse OU Resistance
+        // `Defenses` is the *Fragment* of DEF/SPDEF, not the full stat. The full stat is
+        // still used where a rule says so - the item:overwrite:defense path below covers
+        // the Action de Reaction case. See CHECKLIST.md 11.1.
+        // Epopee Lutte/Struggle "ignore les defenses du lanceur et de la cible", so it
+        // takes neither the Defense Fragment nor the defensive MdS dice.
+        const ignoresDefenses = item?.system?.isStruggle === true;
+
+        const defensiveStatKey = ignoresDefenses
+            ? null
+            : item?.system.category == "Physical"
+                ? "def"
+                : item?.system.category == "Special"
+                    ? "spdef"
+                    : null;
+
+        const defensiveStageDice = await (async () => {
+            if (flatDamage || !defensiveStatKey) return 0;
+            const term = mdsTerm(this.system.level?.current ?? 1, combatStages(this, defensiveStatKey));
+            if (term.sign === 0) return 0;
+            const roll = await new Roll(term.dice).evaluate();
+            return roll.total * term.sign;
+        })();
+
+        // Distinct category so this does not trip the "already has a defense entry"
+        // guard below, which would otherwise hide the normal Defense line in chat.
+        if (defensiveStageDice !== 0) {
+            applications.push({
+                category: "defense-mds",
+                type: `MdS ${defensiveStatKey.toUpperCase()}`,
+                adjustment: -1 * defensiveStageDice
+            })
+        }
+
         // Calculate defenses & damage reduction
         const defense = (() => {
-            if (flatDamage) return 0;
+            if (flatDamage || ignoresDefenses) return 0;
             const option = rollOptions.find(o => o.startsWith("item:overwrite:defense"));
             if (option) {
                 const stat = option.replace(/(item:overwrite:defense:)/, "");
@@ -538,11 +572,14 @@ class PTUActor extends Actor {
                 return value;
             }
 
-            if (item?.system.category == "Physical") return this.system.stats.def.total;
-            if (item?.system.category == "Special") return this.system.stats.spdef.total;
+            if (defensiveStatKey) return defenseTerm(statForFormula(this, defensiveStatKey));
             return 0;
         })();
-        const damageAbsorbedByDefense = currentDamage > 0 ? Math.min(currentDamage, defense) : 0;
+        // `defense` is the Fragment; the MdS dice are subtracted alongside it, so the
+        // pipeline below computes (Puissance - Defenses - MdS) before the type multiplier.
+        // A negative MdS total (lowered defensive stage) correctly increases damage taken.
+        const totalDefense = defense + defensiveStageDice;
+        const damageAbsorbedByDefense = currentDamage > 0 ? Math.min(currentDamage, totalDefense) : 0;
 
         if (damageAbsorbedByDefense > 0 && !applications.some(a => a.category == "defense")) {
             applications.push({
@@ -653,6 +690,21 @@ class PTUActor extends Actor {
             else await this.update(hpUpdate.updates);
 
             //TODO: Auto Fainting
+        }
+
+        // Epopee Lutte/Struggle: "Recoil des degats equivalents a ceux infliges."
+        // Applied as a direct HP write rather than a nested applyDamage call, so it
+        // cannot recurse or pick up the target's own weaknesses and defenses.
+        if (ignoresDefenses && hpDamage > 0) {
+            const attacker = item?.actor ?? item?.parent ?? null;
+            if (attacker && attacker.uuid !== this.uuid && attacker.system?.health) {
+                const attackerHp = attacker.system.health.value ?? 0;
+                await attacker.update({ "system.health.value": Math.max(0, attackerHp - hpDamage) });
+                await ChatMessage.create({
+                    speaker: ChatMessage.getSpeaker({ actor: attacker }),
+                    content: `<p>${attacker.name} takes <b>${hpDamage}</b> recoil damage from Struggle.</p>`
+                });
+            }
         }
 
         // Construct & send chat message
@@ -796,7 +848,7 @@ class PTUActor extends Actor {
             // Step 3: Weaknesses
             const mainWeaknesses = weaknesses.filter(w => w.test(formalDescription));
             const totalWeaknessMod = mainWeaknesses.reduce((sum, w) => sum * w.value, 1);
-            const weaknessModifier = totalWeaknessMod > 2 ? Math.log2(totalWeaknessMod) : totalWeaknessMod == 2 ? 1.5 : totalWeaknessMod;
+            const weaknessModifier = scaleTypeEffectiveness(totalWeaknessMod);
 
             const afterWeaknesses = afterImmunities * (weaknessModifier ?? 1);
 
@@ -805,7 +857,7 @@ class PTUActor extends Actor {
                     applications.push({
                         category: "weakness",
                         type: weakness.label,
-                        modifier: weakness.value > 2 ? Math.log2(weakness.value) : weakness.value == 2 ? 1.5 : weakness.value
+                        modifier: scaleTypeEffectiveness(weakness.value)
                     })
                 }
             }
@@ -837,7 +889,7 @@ class PTUActor extends Actor {
 
             // Step 6: Combine
             const combinedModifier = totalWeaknessMod * totalResistanceMod * effectiveness;
-            const realModifier = (combinedModifier > 2 ? Math.log2(combinedModifier) : combinedModifier == 2 ? 1.5 : combinedModifier) || 1;
+            const realModifier = scaleTypeEffectiveness(combinedModifier) || 1;
             const finalDamage = Math.floor(afterImmunities * realModifier);
 
             if (finalDamage != afterImmunities) {
@@ -977,7 +1029,7 @@ class PTUActor extends Actor {
     _onEmbeddedDocumentChange(embeddedName) {
         if (this.isToken) {
             return super._onEmbeddedDocumentChange(embeddedName);
-        } else if (game.combat?.getCombatantByActor(this.id)) {
+        } else if (game.combat?.getCombatantsByActor(this.id)?.length) {
             // Needs to be done since `super._onEmbeddedDocumentChange` isn't called
             ui.combat.render();
         }

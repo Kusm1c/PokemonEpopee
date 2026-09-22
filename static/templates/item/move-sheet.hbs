@@ -169,6 +169,21 @@
             </div>
             {{/unless}}
             <div class="item-row">
+                <label for="system.contestAppeal">Attrait Généré</label>
+                <input class="ml-1 mr-1" name="system.contestAppeal" type="number" value="{{item.system.contestAppeal}}" placeholder="0"/>
+            </div>
+            <div class="item-row">
+                <label for="system.contestTags">Tags de Concours</label>
+                <input type="text" class="ptu-tagify system-keywords" name="system.contestTags" value="{{json item.system.contestTags}}" data-dtype="JSON"/>
+            </div>
+            <div class="item-row">
+                <label for="system.acquisition" title="Naturelle = par niveau ou par oeuf. Technique = par CT ou move tutor. 4 max de chaque.">Acquisition</label>
+                <select class="ml-1 mr-1" name="system.acquisition">
+                    <option value="natural" {{#if (is item.system.acquisition "natural")}}selected{{/if}}>Naturelle (niveau / oeuf)</option>
+                    <option value="technical" {{#if (is item.system.acquisition "technical")}}selected{{/if}}>Technique (CT / tuteur)</option>
+                </select>
+            </div>
+            <div class="item-row">
                 <label for="system.keywords">{{localize "ITEM.Keywords"}}</label>
                 <input type="text" class="ptu-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>
             </div>

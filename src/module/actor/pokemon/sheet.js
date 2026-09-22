@@ -1,4 +1,8 @@
+import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND } from "./config.js";
+import { PERIODS, itemUsage, resetUses } from "../../usage/engine.js";
+import { prepareEpopeeSheetData } from "../epopee-sheet.js";
 import { PTUPartySheet } from "../../apps/party/sheet.js";
+import { clampStages } from "../../combat-math/formula.js";
 import { Statistic } from "../../system/statistic/index.js";
 import { PTUActorSheet } from "../sheet.js";
 import { ItemSummaryRenderer } from "../sheet/item-summary.js";
@@ -77,8 +81,104 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			}
 		}
 
+		data.epopee = this._prepareEpopeeData();
+
 		return data;
 	}
+
+	/**
+	 * Derived values the Epopee sheet displays: the Fragments, the STAB stat, and the
+	 * per-stat MdS gauge state.
+	 *
+	 * Fragments are pure display - the maths lives in combat-math/formula.js and is
+	 * reused here so the sheet can never disagree with the damage roll.
+	 */
+	_prepareEpopeeData() {
+		return {
+			...prepareEpopeeSheetData(this.actor, { includeFlavours: true }),
+			trainingDifficulty: this.actor.system.trainingDifficulty ?? 50,
+			moves: this._prepareMoveSplit(),
+			heldItems: this._prepareHeldItemSplit(),
+			loyaltyChecked: this.actor.system.loyalty?.checked ?? 0,
+			reactionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_REACTION,
+			protectionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_PROTECTION
+		};
+	}
+
+	/**
+	 * Split moves into Naturelles (level-up / egg) and Techniques (TM / move tutor),
+	 * capped at 4 each. Going over is allowed but flagged - the doc asks for a
+	 * notification, not a hard block, so a Pokemon mid-reorganisation isn't broken.
+	 */
+	_prepareMoveSplit() {
+		const moves = this.actor.itemTypes?.move ?? [];
+		const bucket = (kind) => {
+			const list = moves
+				.filter(m => !m.system.isStruggle && (m.system.acquisition ?? "natural") === kind)
+				.map(m => ({ move: m, usage: itemUsage(m) }));
+			return { list, count: list.length, over: list.length > MAX_MOVES_PER_KIND };
+		};
+
+		const natural = bucket("natural");
+		const technical = bucket("technical");
+
+		return {
+			natural,
+			technical,
+			max: MAX_MOVES_PER_KIND,
+			anyOver: natural.over || technical.over
+		};
+	}
+
+	/**
+	 * "En fin de scene, un objet Trouve va dans l'inventaire du dresseur du Pokemon
+	 * s'il en a un."
+	 *
+	 * Moves the item rather than copying it, and clears the slot on arrival so it
+	 * doesn't stay flagged as a Pokemon's found item in the trainer's bag. Does nothing
+	 * when the Pokemon has no trainer, which is why the return value is reported.
+	 *
+	 * @returns {Promise<string[]>} names of the items handed over
+	 */
+	async _handOverFoundItems() {
+		const trainer = this.actor.trainer;
+		if (!trainer) return [];
+
+		const found = this.actor.itemTypes.item.filter(i => (i.system.heldSlot ?? "") === "found");
+		if (!found.length) return [];
+
+		const payload = found.map(i => {
+			const data = i.toObject();
+			data.system.heldSlot = "";
+			return data;
+		});
+
+		await trainer.createEmbeddedDocuments("Item", payload);
+		await this.actor.deleteEmbeddedDocuments("Item", found.map(i => i.id));
+
+		return found.map(i => i.name);
+	}
+
+	/**
+	 * Split held items into Objet Tenu and Objet Trouvé, 1 of each. Anything not
+	 * assigned to a slot is simply carried and confers nothing.
+	 */
+	_prepareHeldItemSplit() {
+		const items = this.actor.itemTypes?.item ?? [];
+		const inSlot = (slot) => items.filter(i => (i.system.heldSlot ?? "") === slot);
+
+		const held = inSlot("held");
+		const found = inSlot("found");
+
+		return {
+			held,
+			found,
+			carried: inSlot(""),
+			heldOver: held.length > 1,
+			foundOver: found.length > 1
+		};
+	}
+
 
 	/** @override */
 	_getHeaderButtons() {
@@ -89,11 +189,34 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				label: "Rest",
 				class: "rest-until-next-day",
 				icon: "fas fa-bed",
-				onclick: () => {
+				onclick: async () => {
 					const max = this.actor.system.health.max ?? 0;
 					const current = this.actor.system.health.value ?? 0;
 					const heal = Math.ceil(max / 20) * 4;
-					this.actor.update({ "system.health.value": Math.min(max, current + heal) });
+					await this.actor.update({ "system.health.value": Math.min(max, current + heal) });
+
+					// "Reinitialise les usages maximums par jour." Cascades into Scene and
+					// EOT pools as well - see resetUses().
+					const refilled = await resetUses(this.actor, PERIODS.DAILY);
+					ui.notifications.info(refilled.length
+						? `${this.actor.name}: healed ${heal} HP, refilled ${refilled.length} daily/scene use(s).`
+						: `${this.actor.name}: healed ${heal} HP. Nothing to refill.`);
+				}
+			});
+			buttons.unshift({
+				label: "End of Scene",
+				class: "end-of-scene",
+				icon: "fas fa-hourglass-end",
+				onclick: async () => {
+					const refilled = await resetUses(this.actor, PERIODS.SCENE);
+					const moved = await this._handOverFoundItems();
+
+					const parts = [];
+					if (refilled.length) parts.push(`refilled ${refilled.length} scene use(s)`);
+					if (moved.length) parts.push(`handed ${moved.join(", ")} to the trainer`);
+					ui.notifications.info(parts.length
+						? `${this.actor.name}: ${parts.join("; ")}.`
+						: `${this.actor.name}: nothing to do at end of scene.`);
 				}
 			});
 			buttons.unshift({
@@ -186,8 +309,24 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				//effects[statistic.item.id] = await TextEditor.enrichHTML(effect, {async: true});
 			}
 
+			const sorted = moves.sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+
+			// Epopee: "Split entre Capacites Naturelles (par LvL ou Oeuf) et Capacites
+			// Techniques (par CT ou move tutor) -- 4 max chacun (notif quand y'en a trop)".
+			// Over the cap is allowed but flagged, so reorganising a moveset isn't blocked.
+			const byKind = (kind) => sorted.filter(m => (m.system.acquisition ?? "natural") === kind);
+			const natural = byKind("natural");
+			const technical = byKind("technical");
+
 			return {
-				moves: moves.sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0)), struggles, effects
+				moves: sorted,
+				natural,
+				technical,
+				naturalOver: natural.length > MAX_MOVES_PER_KIND,
+				technicalOver: technical.length > MAX_MOVES_PER_KIND,
+				maxPerKind: MAX_MOVES_PER_KIND,
+				struggles,
+				effects
 			}
 		})();
 
@@ -207,6 +346,50 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			if (index >= unlocked) return;
 			const newChecked = (index + 1 === checked) ? index : index + 1;
 			this.actor.update({ "system.loyalty.checked": newChecked });
+		});
+
+		// MdS gauges: clicking cell N sets the stage to N, clicking the current value
+		// clears it back to 0, so one control both sets and unsets.
+		html.find('.mds-cell').click((ev) => {
+			const { stat, index } = ev.currentTarget.dataset;
+			const target = Number(index);
+			const current = clampStages(
+				(this.actor.system.stats[stat]?.stage?.value ?? 0) + (this.actor.system.stats[stat]?.stage?.mod ?? 0)
+			);
+			this.actor.update({ [`system.stats.${stat}.stage.value`]: current === target ? 0 : target });
+		});
+
+		// "Lors d'un Entrainement, chaque joueur lance 1d100, dont le but est de depasser
+		// la Difficulte d'Entrainement." One roll per active player, resolved together.
+		html.find('.contest-mode-toggle').click(async () => {
+			const current = this.actor.getFlag("ptu", "contestMode") === true;
+			await this.actor.setFlag("ptu", "contestMode", !current);
+		});
+
+		html.find('.training-roll').click(async () => {
+			const difficulty = this.actor.system.trainingDifficulty ?? 50;
+			const players = game.users.filter(u => u.active && !u.isGM);
+			const rollers = players.length ? players : [game.user];
+
+			const rows = [];
+			let anySuccess = false;
+
+			for (const user of rollers) {
+				const roll = await new Roll("1d100").evaluate();
+				const success = roll.total >= difficulty;
+				if (success) anySuccess = true;
+				rows.push(`<tr><td>${user.name}</td><td style="text-align:center;">${roll.total}</td>`
+					+ `<td style="text-align:center;">${success ? "<b>Réussite</b>" : "Échec"}</td></tr>`);
+			}
+
+			await ChatMessage.create({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: `<div class="header-bar"><p class="action">Entraînement : ${this.actor.name}</p></div>`,
+				content: `<p>Difficulté d'Entraînement <b>${difficulty}</b></p>`
+					+ `<table style="width:100%;"><tr><th>Joueur</th><th>1d100</th><th></th></tr>${rows.join("")}</table>`
+					+ `<p>${anySuccess ? "<b>Entraînement réussi.</b>" : "Aucun joueur n'a dépassé la difficulté."}</p>`
+					+ `<p style="font-size:11px;opacity:.7;">Les modificateurs wildcard (Traits, Objets) sont à appliquer à la main.</p>`
+			});
 		});
 
 		html.find('.moment-create').click(() => {

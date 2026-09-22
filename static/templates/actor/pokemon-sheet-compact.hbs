@@ -33,6 +33,8 @@
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsMod"}}</div>
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsStage"}}</div>
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsTotal"}}</div>
+                            <div class="fb-10 mt-2 mb-2" title="Fragment: 25% of the stat, rounded up">Frag</div>
+                            <div class="fb-25 mt-2 mb-2" title="Modifications de Statistiques">MdS</div>
                         </div>
                         <div class="swsh-body p-0">
                             {{#each actor.system.stats as |stat key|}}
@@ -82,6 +84,30 @@
                                 <div class="stats {{key}} total fb-15">
                                     <input type="number" name="system.stats.{{key}}.total" value="{{stat.total}}"
                                         data-dtype="Number" disabled />
+                                </div>
+                                {{!-- Epopee: Fragment de {Stat} = 25% rounded up --}}
+                                <div class="stats {{key}} fragment fb-10 center-text" title="Fragment de {{key}} (25%)">
+                                    {{#if (lookup ../epopee.fragments key)}}<b>{{lookup ../epopee.fragments key}}</b>
+                                    {{else}}<span style="opacity:.4;">-</span>{{/if}}
+                                </div>
+                                {{!-- Epopee: MdS gauges, 2 rows of 6 --}}
+                                <div class="stats {{key}} mds fb-25">
+                                    {{#with (lookup ../epopee.gauges key) as |gauge|}}
+                                    <div class="d-flex flex-column" style="gap:1px;" title="MdS: {{gauge.current}} ({{gauge.dice}})">
+                                        <div class="d-flex" style="gap:1px;">
+                                            {{#each gauge.positive as |cell|}}
+                                            <span class="mds-cell" data-stat="{{key}}" data-index="{{cell.index}}"
+                                                style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#4caf50{{else}}#fff{{/if}};"></span>
+                                            {{/each}}
+                                        </div>
+                                        <div class="d-flex" style="gap:1px;">
+                                            {{#each gauge.negative as |cell|}}
+                                            <span class="mds-cell" data-stat="{{key}}" data-index="{{cell.index}}"
+                                                style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#e05555{{else}}#fff{{/if}};"></span>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                    {{/with}}
                                 </div>
                             </div>
                             {{/each}}
@@ -136,6 +162,9 @@
                                 <div class="fb-25">
                                     <b>Max HP</b>
                                 </div>
+                                <div class="fb-15" title="Fragment de Point de Vie: 1/20th of max HP, rounded up">
+                                    <b>Frag</b>
+                                </div>
                             </div>
                             <div class="swsh-body d-flex flex-row center-text justify-content-between">
                                 <div class="fb-25">
@@ -149,6 +178,9 @@
                                 <div class="fb-25">
                                     <input name="system.health.max" type="number" value="{{actor.system.health.max}}"
                                         placeholder="Max HP" disabled />
+                                </div>
+                                <div class="fb-15 center-text" style="align-self:center;" title="Fragment de Point de Vie">
+                                    <b>{{epopee.hpFragment}}</b>
                                 </div>
                                 <div class="options w-100 pb-1 pt-1 mt-1">
                                     <div class="progress-bar p{{actor.system.health.percent}}" id="progressBar"></div>
@@ -226,6 +258,28 @@
                         </div>
                     </div>
 
+                    <!-- Epopee: STAB + Training Difficulty -->
+                    <div class="w-100 mt-2 mb-1">
+                        <div class="swsh-box" style="text-align: center;">
+                            <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 d-flex justify-content-between center-text">
+                                <div class="fb-45" title="STAB = 5 + (Level / 5)"><b>STAB</b></div>
+                                <div class="fb-55" title="Difficulte d'Entrainement"><b>Training DC</b></div>
+                            </div>
+                            <div class="swsh-body d-flex flex-row align-items-center justify-content-between pt-1 pb-1">
+                                <div class="fb-45 center-text"><b style="font-size:16px;">{{epopee.stab}}</b></div>
+                                <div class="fb-30">
+                                    <input type="number" name="system.trainingDifficulty"
+                                        value="{{epopee.trainingDifficulty}}" data-dtype="Number" />
+                                </div>
+                                <div class="fb-25">
+                                    <button type="button" class="training-roll" title="Roll 1d100 against the Training Difficulty">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Loyalty -->
                     <div class="w-100 loyalty-box mt-2 mb-1">
                         <div class="swsh-box" style="text-align: center;">
@@ -252,16 +306,96 @@
             <!-- Moves -->
             <div class="d-flex flex-row justify-content-between h-100 w-100">
                 <div class="fb-75">
-                    <!-- Moves -->
+                    <!-- Epopee: Contest Mode toggle -->
+                    <div class="d-flex justify-content-end w-100 mb-1">
+                        <button type="button" class="contest-mode-toggle" style="width:auto;padding:2px 10px;font-size:11px;"
+                            title="Bascule la liste des Capacités en Mode Concours">
+                            <i class="fas fa-award"></i>
+                            {{#if epopee.contestMode}}Quitter le Mode Concours{{else}}Mode Concours{{/if}}
+                        </button>
+                    </div>
+
+                    {{#if epopee.contestMode}}
+                    <!-- Epopee: Contest Mode view - Nom / Type de Concours / Attrait / Tags -->
+                    <div class="swsh-box w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight d-flex flex-row center-text" style="padding:unset;">
+                            <div class="fb-35 mt-2 mb-2"><b>Nom</b></div>
+                            <div class="fb-20 mt-2 mb-2"><b>Type de Concours</b></div>
+                            <div class="fb-15 mt-2 mb-2"><b>Attrait</b></div>
+                            <div class="fb-30 mt-2 mb-2"><b>Tags de Concours</b></div>
+                        </div>
+                        <div class="swsh-body p-0">
+                            {{#each actions.moves as |move|}}
+                            <div class="d-flex flex-row align-items-center w-100 center-text" style="padding:2px 0;">
+                                <div class="fb-35">{{move.name}}</div>
+                                <div class="fb-20">{{#if move.system.contestType}}{{move.system.contestType}}{{else}}<span style="opacity:.4;">-</span>{{/if}}</div>
+                                <div class="fb-15">{{move.system.contestAppeal}}</div>
+                                <div class="fb-30" style="font-size:11px;">
+                                    {{#if move.system.contestTags.length}}{{#each move.system.contestTags}}{{this}} {{/each}}
+                                    {{else}}<span style="opacity:.4;">-</span>{{/if}}
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{else}}
+                    <!-- Epopee: Capacites Naturelles (level-up / egg), 4 max -->
                     <div class="swsh-box w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
-                            "ITEM.TypeMovePlural") type="move" items=actions.moves ballStyle=ballStyle}}
+                            {{#if actions.naturalOver}}
+                            <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
+                                {{actions.natural.length}} / {{actions.maxPerKind}} Capacités Naturelles &mdash; au-dessus de la limite
+                            </div>
+                            {{/if}}
+                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                            title=(concat "Capacités Naturelles (" actions.natural.length "/" actions.maxPerKind ")")
+                            type="move" items=actions.natural ballStyle=ballStyle}}
                         </div>
                     </div>
 
+                    <!-- Epopee: Capacites Techniques (TM / tutor), 4 max -->
                     <div class="swsh-box w-100 mt-2">
                         <div class="swsh-body w-100" style="display: block;">
+                            {{#if actions.technicalOver}}
+                            <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
+                                {{actions.technical.length}} / {{actions.maxPerKind}} Capacités Techniques &mdash; au-dessus de la limite
+                            </div>
+                            {{/if}}
+                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                            title=(concat "Capacités Techniques (" actions.technical.length "/" actions.maxPerKind ")")
+                            type="move" items=actions.technical ballStyle=ballStyle}}
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    <!-- Epopee: Capacites Communes -->
+                    <div class="swsh-box w-100 mt-2">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Capacités Communes</b>
+                        </div>
+                        <div class="swsh-body w-100" style="display: block;">
+                            <div class="d-flex flex-row align-items-center w-100 p-1"
+                                style="{{#unless epopee.reactionUnlocked}}opacity:.45;{{/unless}}"
+                                title="{{#if epopee.reactionUnlocked}}Débloquée{{else}}Verrouillée : nécessite 5 de Loyauté (actuellement {{epopee.loyaltyChecked}}){{/if}}">
+                                <div class="fb-10 center-text">
+                                    <i class="fas {{#if epopee.reactionUnlocked}}fa-shield-halved{{else}}fa-lock{{/if}}"></i>
+                                </div>
+                                <div class="fb-60"><b>Action de Réaction</b></div>
+                                <div class="fb-30 center-text" style="font-size:11px;">
+                                    {{#if epopee.reactionUnlocked}}Loyauté 5 ✓{{else}}Loyauté {{epopee.loyaltyChecked}} / 5{{/if}}
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center w-100 p-1"
+                                style="{{#unless epopee.protectionUnlocked}}opacity:.45;{{/unless}}"
+                                title="{{#if epopee.protectionUnlocked}}Débloquée{{else}}Verrouillée : nécessite 10 de Loyauté (actuellement {{epopee.loyaltyChecked}}){{/if}}">
+                                <div class="fb-10 center-text">
+                                    <i class="fas {{#if epopee.protectionUnlocked}}fa-shield{{else}}fa-lock{{/if}}"></i>
+                                </div>
+                                <div class="fb-60"><b>Action de Protection</b></div>
+                                <div class="fb-30 center-text" style="font-size:11px;">
+                                    {{#if epopee.protectionUnlocked}}Loyauté 10 ✓{{else}}Loyauté {{epopee.loyaltyChecked}} / 10{{/if}}
+                                </div>
+                            </div>
                             {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeStrugglePlural") type="move" items=actions.struggles ballStyle=ballStyle
                             no-add=true}}
@@ -625,47 +759,47 @@
                             <div class="fb-20 mt-2 mb-2"><b>{{localize "PTU.SkillDice"}}</b></div>
                         </div>
                         <div class="swsh-body p-0">
-                            {{#each actor.system.skills as |skill key|}}
-                            <div class="d-flex flex-row {{key}} align-items-center w-100">
-                                <div class="skill {{key}} fb-30 bgcolor key type--{{skill.type}} align-self-center">
-                                    <label for="system.skills.{{key}}.label"
-                                        class="resource-label">{{localize (concat "PTU.Skills." skill.slug)}}</label>
+                            {{#each epopee.skillGroups as |group|}}
+                            <div class="d-flex flex-row align-items-center w-100 center-text"
+                                style="background:{{group.colour}};color:#fff;font-weight:bold;letter-spacing:1px;padding:2px 0;font-size:11px;">
+                                <div class="w-100">{{group.label}}</div>
+                            </div>
+                            {{#each group.skills as |s|}}
+                            <div class="d-flex flex-row {{s.key}} align-items-center w-100">
+                                <div class="skill {{s.key}} fb-30 bgcolor key type--{{s.type}} align-self-center">
+                                    <label class="resource-label">{{localize s.labelKey}}</label>
                                 </div>
-                                <div class="skill {{key}} fb-15 pl-1 pr-1 center-text center-self">
+                                <div class="skill {{s.key}} fb-15 pl-1 pr-1 center-text center-self">
                                     {{> "systems/ptu/static/templates/partials/mod-field.hbs"
-                                    path=(concat "system.skills." key ".value.value")
-                                    value=skill.value.value
+                                    path=s.valuePath
+                                    value=s.value
                                     dtype="Number"
-                                    mod=skill.value.mod
-                                    total=skill.value.total
-                                    modOrigins=(getProperty ../actor.origins (concat "system.skills." key ".value.mod"))
-                                    flipped=(gt 8 @index)
+                                    mod=s.valueMod
+                                    total=s.valueTotal
+                                    modOrigins=s.valueOrigins
                                     disabled=true}}
                                 </div>
-                                <div class="skill {{key}} fb-20 align-self-center bgcolor skill--{{skill.rank}} center-text center-self">
-                                    <label for="system.skills.{{key}}.rank" class="resource-label">{{localize (concat "PTU.Skill" (capitalize skill.rank))}}</label>
+                                <div class="skill {{s.key}} fb-20 align-self-center bgcolor skill--{{s.rank}} center-text center-self">
+                                    <label class="resource-label">{{localize s.rankLabelKey}}</label>
                                 </div>
-                                <div class="skill {{key}} fb-15 pl-1 center-text center-self">
+                                <div class="skill {{s.key}} fb-15 pl-1 center-text center-self">
                                     {{> "systems/ptu/static/templates/partials/mod-field.hbs"
-                                    path=(concat "system.skills." key ".modifier.value")
-                                    value=skill.modifier.value
+                                    path=s.modifierPath
+                                    value=s.modifierValue
                                     dtype="Number"
-                                    mod=skill.modifier.mod
-                                    total=skill.modifier.total
-                                    modOrigins=(getProperty ../actor.origins (concat "system.skills." key
-                                    ".modifier.mod") )
-                                    flipped=(gt 8 @index)
+                                    mod=s.modifierMod
+                                    total=s.modifierTotal
+                                    modOrigins=s.modifierOrigins
                                     disabled=true}}
                                 </div>
-                                <div class="skill {{key}} fb-20 align-self-center bgcolor center-text rollable center-self"
-                                    data-roll="{{#if (bigger skill.value.total 6)}}6{{else}}{{skill.value.total}}{{/if}}d6{{#if skill.modifier.total}}+{{skill.modifier.total}}{{/if}}"
-                                    data-skill="{{key}}">
+                                <div class="skill {{s.key}} fb-20 align-self-center bgcolor center-text rollable center-self"
+                                    data-roll="{{s.rollFormula}}"
+                                    data-skill="{{s.key}}">
                                     <i class="fas fa-dice-d20"></i>
-                                    <label for="system.skills.{{key}}.value" class="resource-label">{{#if (bigger
-                                        skill.value.total 6)}}6{{else}}{{skill.value.total}}{{/if}}d6{{#if
-                                        skill.modifier.total}}+{{skill.modifier.total}}{{/if}}</label>
+                                    <label class="resource-label">{{s.rollFormula}}</label>
                                 </div>
                             </div>
+                            {{/each}}
                             {{/each}}
 
                         </div>
@@ -770,15 +904,32 @@
                             {{/if}}
                         </div>
 
-                        <!-- Items -->
+                        <!-- Epopee: Objet Tenu / Objet Trouve, 1 max de chaque -->
                         <div class="swsh-box mb-2 w-100">
                             <div
                                 class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
                                 <b>{{localize "PTU.HeldItems"}}</b>
                             </div>
                             <div class="swsh-body w-100" style="display: block;">
-                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
-                                "ITEM.TypeItemPlural") type="item" items=items ballStyle=ballStyle}}
+                                {{#if epopee.heldItems.heldOver}}
+                                <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
+                                    {{epopee.heldItems.held.length}} Objets Tenus &mdash; 1 maximum
+                                </div>
+                                {{/if}}
+                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                                title="Objet Tenu" type="item" items=epopee.heldItems.held ballStyle=ballStyle}}
+
+                                {{#if epopee.heldItems.foundOver}}
+                                <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
+                                    {{epopee.heldItems.found.length}} Objets Trouvés &mdash; 1 maximum
+                                </div>
+                                {{/if}}
+                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                                title="Objet Trouvé (part au dresseur en fin de scène)" type="item"
+                                items=epopee.heldItems.found ballStyle=ballStyle}}
+
+                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                                title="Porté (aucun effet)" type="item" items=epopee.heldItems.carried ballStyle=ballStyle}}
                             </div>
                         </div>
                     </div>
@@ -1521,6 +1672,30 @@
                         </div>
                         <div class="swsh-body center-text">
                             <input type="text" value="{{actor.system.pokeball}}" data-dtype="String" disabled title="Edit this on the Stats tab" />
+                        </div>
+                    </div>
+                    {{!-- Epopee: liked/disliked flavours, derived from the Nature --}}
+                    <div class="swsh-box mb-2 w-100">
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>Goûts</b>
+                        </div>
+                        <div class="swsh-body center-text pt-1 pb-1">
+                            {{#if epopee.flavours.neutral}}
+                            <span style="opacity:.6;">Aucune préférence (nature neutre)</span>
+                            {{else}}
+                            <div class="d-flex justify-content-between w-100">
+                                <div class="fb-45">
+                                    <b>Préféré</b><br />
+                                    {{#if epopee.flavours.likedLabel}}{{epopee.flavours.likedLabel}}
+                                    {{else}}<span style="opacity:.5;">-</span>{{/if}}
+                                </div>
+                                <div class="fb-45">
+                                    <b>Détesté</b><br />
+                                    {{#if epopee.flavours.dislikedLabel}}{{epopee.flavours.dislikedLabel}}
+                                    {{else}}<span style="opacity:.5;">-</span>{{/if}}
+                                </div>
+                            </div>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
