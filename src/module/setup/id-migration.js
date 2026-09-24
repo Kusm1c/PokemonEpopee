@@ -16,17 +16,58 @@
  * a world that has already been migrated.
  */
 
-const OLD_PREFIX = "Compendium.ptu.";
-const NEW_PREFIX = "Compendium.pe.";
+/**
+ * Every stored form of the old system id, as literal string swaps.
+ *
+ * `Compendium.ptu.` covers UUIDs in rule elements, grants and evolution links.
+ * `systems/ptu/` covers asset paths baked into document `img` fields - condition icons,
+ * sprites, item art - which the first pass missed entirely and which surface as
+ * "Invalid Asset systems/ptu/..." the moment a token tries to draw one.
+ *
+ * Both are specific enough that a false positive is not a realistic worry. The flag
+ * namespace is handled separately, structurally, in `migrateFlags`.
+ */
+const STRING_SWAPS = [
+    ["Compendium.ptu.", "Compendium.pe."],
+    ["systems/ptu/", "systems/pe/"]
+];
 
 /**
  * @param {object} doc
  * @returns {object|null} the rewritten source, or null when nothing referenced the old id
  */
 function rewriteSource(doc) {
-    const json = JSON.stringify(doc.toObject());
-    if (!json.includes(OLD_PREFIX)) return null;
-    return JSON.parse(json.split(OLD_PREFIX).join(NEW_PREFIX));
+    const source = doc.toObject();
+    let json = JSON.stringify(source);
+
+    const needsSwap = STRING_SWAPS.some(([from]) => json.includes(from));
+    const needsFlags = source.flags?.ptu !== undefined;
+    if (!needsSwap && !needsFlags) return null;
+
+    for (const [from, to] of STRING_SWAPS) {
+        if (json.includes(from)) json = json.split(from).join(to);
+    }
+
+    const rewritten = JSON.parse(json);
+    migrateFlags(rewritten);
+    return rewritten;
+}
+
+/**
+ * Move `flags.ptu` to `flags.pe`.
+ *
+ * Done structurally rather than by string surgery: a blanket `"ptu":` replacement would
+ * also hit legitimate data. Existing `flags.pe` keys win, so re-running cannot clobber
+ * anything the new code has already written.
+ *
+ * @param {object} source a document source object, mutated in place
+ */
+function migrateFlags(source) {
+    const old = source?.flags?.ptu;
+    if (old === undefined) return;
+
+    source.flags.pe = { ...old, ...(source.flags.pe ?? {}) };
+    delete source.flags.ptu;
 }
 
 /**
@@ -123,4 +164,4 @@ async function migrateSystemId(log) {
     if (log.length === before) log.push("Références de compendium : déjà à jour.");
 }
 
-export { migrateSystemId, OLD_PREFIX, NEW_PREFIX };
+export { migrateSystemId, STRING_SWAPS };

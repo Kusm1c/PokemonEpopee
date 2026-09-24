@@ -157,6 +157,13 @@ class PTUPokemonActor extends PTUActor {
         const system = this.system;
 
         if (!this.species) {
+            // Bailing here leaves the actor half-prepared, and the first interaction then
+            // throws somewhere unrelated - an attack roll destructures `system.evasion`
+            // and dies on "Cannot destructure property 'special' of undefined", which
+            // says nothing about the real cause. Seed the shapes the rest of the system
+            // assumes exist so a species-less Pokemon degrades to zeroes instead.
+            system.evasion ??= { physical: 0, special: 0, speed: 0 };
+            system.capabilities ??= {};
             return console.warn(`Unable to prepare derived data for ${this.name} as it has no species item.`);
         }
 

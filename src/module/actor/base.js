@@ -770,7 +770,7 @@ class PTUActor extends Actor {
             },
             flavor,
             content,
-            type: CONST.CHAT_MESSAGE_STYLES.EMOTE,
+            style: CONST.CHAT_MESSAGE_STYLES.EMOTE,
             whisper: this.hasPlayerOwner ? [game.user.id] : game.users.filter(u => u.isGM).map(u => u.id),
         });
 
