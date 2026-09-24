@@ -67,7 +67,11 @@ const GamePTU = {
                     new PTUPokemonTrainingSheet({actor}).render(true);
                 }
             },
-            epopee: EpopeeDialogs,
+            // Spread into a plain object on purpose. `import * as` yields a Module
+            // Namespace Object, whose Symbol.toStringTag is "Module" - so Foundry's
+            // getType() reports "Module", not "Object", and mergeObject throws
+            // "One of original or other are not Objects!" the moment it recurses in.
+            epopee: { ...EpopeeDialogs },
             tokenPanel: new TokenPanel()
         }
 
