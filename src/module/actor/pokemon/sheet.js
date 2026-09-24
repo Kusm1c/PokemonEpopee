@@ -368,8 +368,12 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		html.find('.training-roll').click(async () => {
 			const difficulty = this.actor.system.trainingDifficulty ?? 50;
+			// One roll per active player. With nobody connected - solo prep, or the GM
+			// testing - that collapses to a single roll, and the wording below follows
+			// suit instead of talking about "les joueurs" for one line.
 			const players = game.users.filter(u => u.active && !u.isGM);
 			const rollers = players.length ? players : [game.user];
+			const solo = rollers.length === 1;
 
 			const rows = [];
 			let anySuccess = false;
@@ -386,8 +390,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
 				flavor: `<div class="header-bar"><p class="action">Entraînement : ${this.actor.name}</p></div>`,
 				content: `<p>Difficulté d'Entraînement <b>${difficulty}</b></p>`
-					+ `<table style="width:100%;"><tr><th>Joueur</th><th>1d100</th><th></th></tr>${rows.join("")}</table>`
-					+ `<p>${anySuccess ? "<b>Entraînement réussi.</b>" : "Aucun joueur n'a dépassé la difficulté."}</p>`
+					+ `<table style="width:100%;"><tr><th>${solo ? "Jet" : "Joueur"}</th><th>1d100</th><th></th></tr>${rows.join("")}</table>`
+					+ `<p>${anySuccess ? "<b>Entraînement réussi.</b>" : "<b>Entraînement raté.</b>"}</p>`
 					+ `<p style="font-size:11px;opacity:.7;">Les modificateurs wildcard (Traits, Objets) sont à appliquer à la main.</p>`
 			});
 		});

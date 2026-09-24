@@ -71,9 +71,20 @@ const GamePTU = {
             tokenPanel: new TokenPanel()
         }
 
-        Weather._initializeGlobalEffects();
-
+        // Assign the namespace BEFORE anything with side effects runs.
+        //
+        // `_initializeGlobalEffects` loads documents, and a single malformed one throws
+        // out of onInit - which used to leave `game.pe` unassigned for the whole session.
+        // Everything downstream (macros, sheets, user prepareData) then failed with
+        // "Cannot read properties of undefined", hiding the real error behind a dozen
+        // unrelated ones. One bad document should degrade one feature, not the namespace.
         game.pe = foundry.utils.mergeObject(game.pe ?? {}, initData)
+
+        try {
+            Weather._initializeGlobalEffects();
+        } catch (error) {
+            console.error("PokemonEpopee | Weather global effects failed to initialize:", error);
+        }
 
         CONFIG.PTU.data.typeEffectiveness = game.settings.get("pe", "type.typeEffectiveness") ?? CONFIG.PTU.data.typeEffectiveness;
     },

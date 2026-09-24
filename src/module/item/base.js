@@ -14,7 +14,17 @@ class PTUItem extends Item {
     }
 
     get slug() {
-        return this.system.slug || sluggify(this.name);
+        // A stored slug is only usable if it is actually a string. A malformed one - an
+        // array or object, which a bad import or a hand-edit can leave behind - used to
+        // be returned as-is and then blow up in the first `slug.replace(...)` downstream,
+        // aborting data preparation for the whole document and cascading from there.
+        // Falling back to the name keeps one bad record from taking the session down.
+        const stored = this.system?.slug;
+        if (typeof stored === "string" && stored.length) return stored;
+        if (stored != null && typeof stored !== "string") {
+            console.warn(`PokemonEpopee | ${this.uuid}: system.slug is ${typeof stored}, falling back to the name.`);
+        }
+        return sluggify(this.name);
     }
 
     get grantedBy() {

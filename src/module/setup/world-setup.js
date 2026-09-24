@@ -93,8 +93,14 @@ async function setupMacros(log) {
         const existing = game.macros.find(m => m.name === spec.name);
 
         if (existing) {
-            if (existing.command === command) continue;
-            await existing.update({ command });
+            // Compare the icon too: editing `img` in macros.js is the intended way to
+            // restyle these, and only syncing `command` would silently ignore that.
+            const changes = {};
+            if (existing.command !== command) changes.command = command;
+            if (existing.img !== spec.img) changes.img = spec.img;
+
+            if (!Object.keys(changes).length) continue;
+            await existing.update(changes);
             updated++;
             continue;
         }
