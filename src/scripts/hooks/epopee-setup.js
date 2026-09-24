@@ -1,4 +1,4 @@
-import { runWorldSetup, SETUP_VERSION } from "../../module/setup/world-setup.js";
+import { runWorldSetup, syncMacros, SETUP_VERSION } from "../../module/setup/world-setup.js";
 
 /**
  * Runs the Epopee world setup once per world, so a GM never has to paste a console
@@ -15,6 +15,16 @@ export const EpopeeSetup = {
             // are excluded on purpose - `isGM` would include them and the writes would
             // fail halfway through.
             if (!game.user.hasRole(CONST.USER_ROLES.GAMEMASTER)) return;
+
+            // Macros resync on every load, outside the version gate: editing an icon or
+            // a command in macros.js should take effect on the next F5, not require a
+            // version bump. It only writes where a definition actually changed.
+            try {
+                const macroLog = await syncMacros();
+                for (const line of macroLog) console.log("PokemonEpopee | " + line);
+            } catch (error) {
+                console.error("PokemonEpopee | Macro sync failed:", error);
+            }
 
             let applied;
             try {

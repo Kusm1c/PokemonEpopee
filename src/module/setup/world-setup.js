@@ -62,6 +62,11 @@ const RENAMES = [
 ];
 
 /**
+ * The heavy, once-per-version steps: rewriting compendiums and creating content.
+ *
+ * Gated behind SETUP_VERSION because it walks all 17 packs — far too expensive to repeat
+ * on every load. Macro syncing is deliberately NOT in here; see syncMacros().
+ *
  * @returns {Promise<string[]>} human-readable lines describing what changed
  */
 async function runWorldSetup() {
@@ -73,8 +78,23 @@ async function runWorldSetup() {
 
     await setupConditions(log);
     await setupSharedInventory(log);
-    await setupMacros(log);
 
+    return log;
+}
+
+/**
+ * Keep the macros in step with `macros.js`, on every load.
+ *
+ * Split out of the versioned setup on purpose: editing a macro's `img` or `command` is
+ * an ordinary thing to do, and having to bump SETUP_VERSION or reset a world setting to
+ * see the change was friction with no upside. This pass reads 7 definitions and writes
+ * only where something actually differs, so running it every time costs nothing.
+ *
+ * @returns {Promise<string[]>}
+ */
+async function syncMacros() {
+    const log = [];
+    await setupMacros(log);
     return log;
 }
 
@@ -208,4 +228,4 @@ async function setupSharedInventory(log) {
     }
 }
 
-export { runWorldSetup, SETUP_VERSION };
+export { runWorldSetup, syncMacros, SETUP_VERSION };
