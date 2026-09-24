@@ -465,14 +465,12 @@ class PTUActor extends Actor {
     _onCreate(data, options, user) {
         super._onCreate(data, options, user);
         if(user !== game.user.id) return;
-        if(data.type === 'character') {
-            if(!data.items.some(i => i.name.endsWith("Training"))) {
-                // Grant lvl 1 training
-                fromUuid('Compendium.pe.effects.Item.fm0TZUuQK0uRhkJA').then((effect) => {
-                    this.createEmbeddedDocuments('Item', [effect.toObject()]);
-                });
-            }
-        }
+
+        // Stock PTR granted every new Trainer a level-1 "Training" effect whose ChoiceSet
+        // rule opened a "Grant: Training Feature" prompt on creation. Epopee replaces that
+        // with its own Training system - the Difficulte d'Entrainement stat and its roll
+        // on the Pokemon sheet (CHECKLIST.md section 16) - so the auto-grant is gone.
+        // Removing it also removes the empty prompt that grant produced.
     }
 
     /** @override */

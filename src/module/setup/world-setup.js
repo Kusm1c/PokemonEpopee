@@ -19,9 +19,10 @@
 
 import { SHARED_FLAG, POKEMON_FLAG } from "../apps/shared-inventory/index.js";
 import { EPOPEE_MACROS } from "./macros.js";
+import { migrateSystemId } from "./id-migration.js";
 
 /** Bump when new setup steps are added, so existing worlds pick them up. */
-const SETUP_VERSION = 1;
+const SETUP_VERSION = 2;
 
 /** Traps carry a starting duration in rounds; Coats do not expire on a timer. */
 const TRAPS = [
@@ -65,6 +66,10 @@ const RENAMES = [
  */
 async function runWorldSetup() {
     const log = [];
+
+    // Runs first: the steps below look items up by name in the compendiums, and a pack
+    // full of dead Compendium.ptu.* links is exactly what this repairs.
+    await migrateSystemId(log);
 
     await setupConditions(log);
     await setupSharedInventory(log);

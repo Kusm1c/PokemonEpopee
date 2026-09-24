@@ -579,7 +579,11 @@ Table supplied 2026-09-21. **This supersedes the guessed "±1d4 per 5 STAB" word
 - [ ] `src/module/system/damage/move.js` (158 lines) is dead — `base.js` returns at the `PTUDamageCheck` branch, so `PTUMoveDamage.calculate` below it is unreachable. Delete it.
 - [ ] `pokemon-sheet.hbs` is dead — the sheet hardcodes the compact variant. Delete it.
 - [ ] Every custom icon points at `mystery-man.svg` because the guessed Foundry core paths (`cloud.svg`, `wall.svg`...) 404. Needs real custom icons.
-- [ ] System id stays `pe` internally (renaming broke 184 hardcoded `Compendium.pe.xxx` refs); only the display title is `PokemonEpopee`. Revisit only with a real migration plan.
+- [x] **System id renamed `ptu` → `pe`** (2026-09-24), so this fork can sit beside an existing PTR install instead of overwriting it. The folder, the 79 `/systems/…` paths, the pack ids, the flag namespace and `game.pe` all follow.
+  - The rename orphaned ~1900 `Compendium.ptu.*` UUIDs stored *inside document data* — ChoiceSet rules, grants, evolution links. `src/module/setup/id-migration.js` rewrites them in both the compendiums and the world, run automatically at `SETUP_VERSION` 2.
+  - Symptom that revealed it: a new Trainer opened an empty "Grant: Training Feature" prompt, because the granted item's ChoiceSet resolved to nothing.
+  - [ ] Worlds carrying `flags.ptu.*` data (Pokeball themes, trainer links, travel state) are **not** migrated — the flag namespace moved to `pe`. Only matters if an old world is reopened.
+- [x] **PTR's level-1 Training auto-grant removed** from `PTUActor._onCreate`. Epopee has its own Training system (Difficulté d'Entraînement, section 16), so the stock grant was redundant — and it was what produced the empty prompt.
 
 ---
 Legend: `[x]` verified working in Foundry, `[ ]` not started or not yet verified.

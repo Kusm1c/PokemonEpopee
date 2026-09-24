@@ -264,13 +264,23 @@ class PTUPokemonActor extends PTUActor {
         system.egggroup = (speciesSystem?.breeding?.eggGroups || []).join?.(' & ') ?? [];
 
         // Calculate Skill Ranks
-        for (const [key, skill] of Object.entries(speciesSystem?.skills ?? {})) {
-            system.skills[key].slug = key;
-            system.skills[key]["value"]["value"] = skill["value"]
-            system.skills[key]["value"]["total"] = skill["value"] + system.skills[key]["value"]["mod"];
-            system.skills[key]["modifier"]["value"] = skill["modifier"]
-            system.skills[key]["modifier"]["total"] = skill["modifier"] + system.skills[key]["modifier"]["mod"] + (system.modifiers.skillBonus?.total ?? 0);
-            system.skills[key]["rank"] = PTUSkills.getRankSlug(system.skills[key]["value"]["total"]);
+        //
+        // Iterates the actor's own skill list rather than the species', which is what it
+        // used to do. Two cases that produced `PTU.Skills.undefined` rows on the sheet:
+        // a Pokemon with no species assigned got no slug/rank/total at all, and a skill
+        // the species data predates - Epopee's Dexterity - was skipped even on a fully
+        // set-up Pokemon. Species values still win where the species defines them.
+        for (const [key, entry] of Object.entries(system.skills)) {
+            const fromSpecies = speciesSystem?.skills?.[key];
+
+            entry.slug = key;
+            if (fromSpecies) {
+                entry["value"]["value"] = fromSpecies["value"];
+                entry["modifier"]["value"] = fromSpecies["modifier"];
+            }
+            entry["value"]["total"] = (entry["value"]["value"] ?? 0) + (entry["value"]["mod"] ?? 0);
+            entry["modifier"]["total"] = (entry["modifier"]["value"] ?? 0) + (entry["modifier"]["mod"] ?? 0) + (system.modifiers.skillBonus?.total ?? 0);
+            entry["rank"] = PTUSkills.getRankSlug(entry["value"]["total"]);
             this.attributes.skills[key] = this.prepareSkill(key);// PTUSkills.calculate({actor: this, context: {skill: key, options: []}})
         }
 

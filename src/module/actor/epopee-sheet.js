@@ -60,12 +60,18 @@ function prepareSkillGroups(actor) {
         const diceCount = Math.min(6, Math.max(1, skill.value?.total ?? 1));
         const modifier = skill.modifier?.total ?? 0;
 
+        // Belt and braces: derived fields are set during data prep, but a skill the
+        // species data doesn't know about used to arrive here bare and render as
+        // "PTU.Skills.undefined". Falling back to the key keeps the row readable.
+        const slug = skill.slug ?? key;
+        const rank = skill.rank ?? "invalid";
+
         const entry = {
             key,
             type: skill.type,
-            rank: skill.rank,
-            labelKey: `PTU.Skills.${skill.slug}`,
-            rankLabelKey: `PTU.Skill${(skill.rank ?? "").toString().capitalize()}`,
+            rank,
+            labelKey: `PTU.Skills.${slug}`,
+            rankLabelKey: `PTU.Skill${rank.toString().capitalize()}`,
             rollFormula: `${diceCount}d${SKILL_DIE_SIZE}${modifier ? (modifier > 0 ? `+${modifier}` : `${modifier}`) : ""}`,
             valuePath: `system.skills.${key}.value.value`,
             value: skill.value?.value,
