@@ -1,3 +1,4 @@
+import * as EpopeeDialogs from "../module/setup/dialogs.js";
 import { PokemonGenerator } from "../module/actor/pokemon/generator.js"
 import { CompendiumBrowser } from "../module/apps/compendium-browser/index.js"
 import { MigrationSummary } from "../module/apps/migration-summary.js"
@@ -66,6 +67,7 @@ const GamePTU = {
                     new PTUPokemonTrainingSheet({actor}).render(true);
                 }
             },
+            epopee: EpopeeDialogs,
             tokenPanel: new TokenPanel()
         }
 
