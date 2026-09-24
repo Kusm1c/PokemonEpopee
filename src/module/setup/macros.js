@@ -36,7 +36,7 @@ const EPOPEE_MACROS = [
     {
         key: "travel",
         name: "Advance Travel Quarter",
-        img: "systems/pe/static/images/macros/test.webp",
+        img: "systems/pe/static/images/macros/test.jpg",
         gmOnly: true,
         command: "game.pe.epopee.travel();"
     },
