@@ -22,7 +22,7 @@ import { EPOPEE_MACROS } from "./macros.js";
 import { migrateSystemId } from "./id-migration.js";
 
 /** Bump when new setup steps are added, so existing worlds pick them up. */
-const SETUP_VERSION = 3;
+const SETUP_VERSION = 4;
 
 /** Traps carry a starting duration in rounds; Coats do not expire on a timer. */
 const TRAPS = [

@@ -29,7 +29,15 @@
  */
 const STRING_SWAPS = [
     ["Compendium.ptu.", "Compendium.pe."],
-    ["systems/ptu/", "systems/pe/"]
+    ["systems/ptu/", "systems/pe/"],
+    // Dotted paths written inside rule-element values, e.g. an injected property like
+    // "{item|flags.ptu.rulesSelections.basicSkills}". Moving the flags object is not
+    // enough - these references are plain strings and stay pointed at the old
+    // namespace, so the rule fails to resolve and its ChoiceSet ends up empty.
+    //
+    // Safe alongside migrateFlags: JSON.stringify writes the flags *object* as
+    // "flags":{"ptu":... , which this pattern cannot match.
+    ["flags.ptu.", "flags.pe."]
 ];
 
 /**
