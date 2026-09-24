@@ -55,6 +55,7 @@ const data = {
       "charm",
       "combat",
       "command",
+      "dexterity",
       "generalEd",
       "medicineEd",
       "occultEd",

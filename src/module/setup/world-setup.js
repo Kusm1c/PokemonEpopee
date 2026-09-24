@@ -20,9 +20,10 @@
 import { SHARED_FLAG, POKEMON_FLAG } from "../apps/shared-inventory/index.js";
 import { EPOPEE_MACROS } from "./macros.js";
 import { migrateSystemId } from "./id-migration.js";
+import { injectSkillChoices } from "./skill-choices.js";
 
 /** Bump when new setup steps are added, so existing worlds pick them up. */
-const SETUP_VERSION = 4;
+const SETUP_VERSION = 5;
 
 /** Traps carry a starting duration in rounds; Coats do not expire on a timer. */
 const TRAPS = [
@@ -75,6 +76,10 @@ async function runWorldSetup() {
     // Runs first: the steps below look items up by name in the compendiums, and a pack
     // full of dead Compendium.ptu.* links is exactly what this repairs.
     await migrateSystemId(log);
+
+    // After the id migration, before anything that reads the packs back: the skill
+    // ChoiceSet lists are baked into item data and don't know about Epopee's new skill.
+    await injectSkillChoices(log);
 
     await setupConditions(log);
     await setupSharedInventory(log);

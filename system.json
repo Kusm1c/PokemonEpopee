@@ -1,12 +1,12 @@
 {
   "id": "pe",
-  "title": "PokemonEpopee",
+  "title": "Pokemon Epopee",
   "description": "Homebrew fork of the Pokemon Tabletop Reunited (PTR) system for FoundryVTT, with custom rules (travel/exploration, status engine, environmental modifiers).",
   "compatibility": {
     "minimum": "13.345",
     "verified": "14.365"
   },
-  "version": "0.1.3",
+  "version": "0.1.4",
   "templateVersion": 2,
   "authors": [
     {
