@@ -218,6 +218,18 @@ export function registerSettings() {
         requiresReload: true
     });
 
+    // Epopee: records how far automatic world setup has been applied, so the conditions,
+    // Trap/Coat items and shared inventory install themselves instead of being pasted
+    // into the console. See src/module/setup/world-setup.js.
+    game.settings.register("ptu", "epopeeSetupVersion", {
+        name: "Epopee Setup Version",
+        hint: "Tracks which automatic setup steps have run in this world. Set to 0 to force the setup to run again.",
+        scope: "world",
+        config: true,
+        default: 0,
+        type: Number
+    });
+
     game.settings.register("ptu", "weatherEffects", {
         name: "Weather & Global Effects",
         scope: "world",

@@ -26,11 +26,11 @@ Tracks every feature from the original design doc. Check items off as they're ve
 - [x] Trap statuses (14): Secretion, Time Howl, Flame Dance, Magma Vortex, Free Fall, Sand Tomb, Ice Age, Embrace, Block, Binding, Clamp, Siphon, Spirit Lock, Harassment
   - Shared resistance table (damage tiers / manages-to-move at Very Strong / -4 duration at Complete), duration counts down automatically each turn
   - Not automated (chat text only): Time Howl's position-reset + HP/status lock, Spirit Lock's "can't move away from caster", Block's "until end of scene" is approximated as a long countdown instead of a real scene-end trigger
-  - Run `scripts/foundry-console/create-trap-coat-conditions.js` once to generate all 14 items with correct starting duration
+  - Installed automatically on first GM load (`src/module/setup/world-setup.js`) - no console script to paste
 - [x] Coat statuses (9): Fire Whirl, Mud Throw, Powder Cloud, Roots, Aurora Veil, Mist Coat, Power Coat, Substitute, Aqua Ring
   - Shared renewal table (decays in ~2 rolls unless renewed by a Strong+ result) for 7 of them; Powder Cloud and Substitute have their own bespoke tier logic
   - Not automated (chat text only): the actual aura/burst-radius damage modification each Coat grants, and Substitute's second HP bar (no real clone HP pool tracked)
-  - Same creation script as Traps covers these too
+  - Installed automatically alongside the Traps
 
 ## 2. Environmental Modifiers
 
@@ -45,7 +45,7 @@ Tracks every feature from the original design doc. Check items off as they're ve
   - [x] Misty Terrain (tracked; "purges Status alterations" NOT yet cross-wired into the status engine)
   - [x] Grassy Terrain (per-round heal tick, fully automated)
   - [x] Psychic Terrain (tracked; "blocks Interrupt/Reaction" not enforced, no such action exists yet - see section 5)
-  - Run `scripts/foundry-console/create-environment-macro.js` once to get a "Set Weather / Field" macro on your hotbar
+  - The "Set Weather / Field / Zones" macro is created automatically on first GM load
 - **Important gap** (*now answered, see below*): the "+2/-2 Combat Stage" damage-type bonuses (Fire/Water/Electric/Grass/Psychic/Dragon) are recorded in `src/module/environment/definitions.js` and readable via `getActiveTypeModifiers()`, but I did not wire them into the actual damage roll (`src/module/system/damage/move.js`) because I could not confirm how stock PTR converts a "Combat Stage" into a damage number (no reference to `stage.mod` anywhere in the damage code - it's likely baked into `stats.X.total` upstream). Wiring this without being sure of the formula risked silently producing wrong damage numbers, so it's left undone rather than guessed.
   - **Resolved by §11.1 / §11.2**: a Combat Stage is now explicitly `Nd{level bracket}` - added to `Puissance` on offense, subtracted during application on defense. Do not wire these bonuses into the *stock* damage code, though: §11.1 replaces that pipeline entirely. Wire them into the new formula instead, and revisit this item plus the Walls AC/Defense gap below once §11.1 lands.
 - [x] Zones (stackable, tracked with per-zone duration on the Combat, toggled via the same macro)
@@ -57,11 +57,11 @@ Tracks every feature from the original design doc. Check items off as they're ve
   - [x] Toxic Spikes (stacking x2, adds Poison intensity - only auto-applies if the target already has the Poisoned condition on them; otherwise posts a reminder to apply it manually, since creating a brand new condition instance from a hazard trigger felt too surprising to do silently)
   - [x] Rock Trap (3m trigger radius, 2/20th HP damage, self-destructs)
   - [x] Sharp Trap / Carapiege (7d10+28 damage roll, self-destructs; does not add the summoner's Special Attack since there's no summoner-tracking yet)
-  - Run `scripts/foundry-console/create-hazard-macro.js` once, then use the "Place Hazard" macro (targets/selects a token to mark where to drop it)
+  - The "Place Hazard" macro is created automatically (targets/selects a token to mark where to drop it)
 - [x] Walls (placed as flagged Tiles, duration tracked and decremented per round, deleted on expiry)
   - [x] Protect, Light Wall, Rune Protect, Fog Wall, Telekinesis Wall - all 5 have placement/duration/expiry with chat announcements
   - **Not mechanically enforced** (same reasoning as Zones): the actual AC/Defense bonus they grant to attacks passing through them requires hooking the attack-roll pipeline, which needs the same core-combat-math confidence I didn't have for the weather damage bonus. Tracked as placed objects with a reminder note only.
-  - Run `scripts/foundry-console/create-wall-macro.js` once, then use "Place Wall"
+  - The "Place Wall" macro is created automatically
 
 ## 3. Hex Travel / Exploration Rules (GM tooling)
 
@@ -73,7 +73,7 @@ Tracks every feature from the original design doc. Check items off as they're ve
 - [x] Progression-based hex movement - the macro now tracks cumulative km (stored on `game.user.flags.ptu.travelState`, persists across sessions/reloads), accumulates `speed x 4h x multiplier` each Quarter, and announces when the party exits the hex (with overflow km carried into the next one). You still pick the threshold yourself each time you enter a new hex (6km start/near/return vs 12km far side) since there's no hex-map canvas to read that from automatically.
 - [x] Rhythm + Travel Mode parameters - exposed as a free-form speed multiplier (default 1.0) rather than a fixed table, since the doc doesn't specify exact values for each Rhythm/Mode combination. Set it yourself per your own house values instead of me guessing numbers that aren't in the source doc.
 - [ ] Landmark discovery rules (on-route/familiar/visible auto-spot) - still blocked on the Pokedex/landmark-tracking system in section 4, not built yet.
-- Run `scripts/foundry-console/create-travel-macro.js` once for the "Advance Travel Quarter" macro (re-run it to pick up this update if you already created it); `node scripts/test-travel-engine.mjs` to verify the pure logic
+- The "Advance Travel Quarter" macro is created automatically and refreshed when its command changes; `node scripts/test-travel-engine.mjs` to verify the pure logic
 
 ## 4. Pokedex
 
@@ -331,7 +331,7 @@ Four pages: **Overview / Stats**, **Actions**, **Pokémons**, **Narration**.
 - [x] Fixed free-text blocks: Description Physique, Traits de Caractère, Objectifs, Connexions aux autres PJ, Lore Pré-Campagne
 - [x] Player can add arbitrary extra text blocks
 - [x] Player can reorder blocks (up/down arrows)
-- [x] GM tool to push a block onto every Trainer — `scripts/foundry-console/create-narrative-block-macro.js`
+- [x] GM tool to push a block onto every Trainer — the "Add Narrative Block (all Trainers)" macro, installed automatically
 - Closely mirrors the Pokemon sheet's Narrative tab (section 6, already built) — reuse that component rather than writing a second one.
 
 ### 7.6 Carried over
@@ -340,12 +340,12 @@ Four pages: **Overview / Stats**, **Actions**, **Pokémons**, **Narration**.
 
 ## 8. Shared Inventory (Inventaire Partagé)
 
-- [ ] A shared container every player can open, independent of any single Trainer sheet
-- [ ] Drag'n'drop **both ways**: player sheet → shared inventory, and shared inventory → player sheet
-- [ ] Holds **Items** (consumables, equipment, held items, fossils, balls...)
-- [ ] Holds **Pokemon** (party/box transfer through the same container)
-- [ ] Permissions model: all players read/write by default, GM-configurable
-- [ ] Concurrency: two players grabbing the same stack at once must not duplicate it
+- [x] A shared container every player can open — a normal Actor flagged `flags.ptu.sharedInventory`, every player set to OWNER. Chosen over a world setting because those are GM-only: an owned Actor lets a player drop into the bag with no socket round-trip.
+- [x] Drag'n'drop **both ways**, using Foundry's own drag payloads so the receiving sheet needs no special handling. A click-to-take button does the same thing for anyone who dislikes dragging.
+- [x] Holds **Items** as real embedded Items on the container, so transfer is the engine's own document move — no custom serialisation to drift.
+- [x] Holds **Pokemon** as UUID references in `flags.ptu.sharedPokemon`. Foundry cannot embed an Actor inside an Actor, so taking one reassigns `flags.ptu.party.trainer` rather than copying the Actor — which is what you want for a shared pool. Dangling references (Pokemon deleted from the world) are surfaced with a Clean button instead of vanishing silently.
+- [x] Permissions: the automatic setup grants OWNER to every player plus `default: OWNER`; the GM can tighten it per-user on the Actor afterwards.
+- [ ] Concurrency: two players grabbing the same stack at once. Item moves are create-then-delete, so a simultaneous grab could duplicate. Needs a guard before real play with several players.
 
 ## 9. Equipment & Weapons
 

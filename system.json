@@ -208,5 +208,7 @@
     }
   ],
   "background": "systems/ptu/static/images/banner.webp",
-  "url": "https://github.com/pokemon-tabletop-reunited/ptr1e"
+  "url": "https://github.com/Kusm1c/PokemonEpopee",
+  "manifest": "https://raw.githubusercontent.com/Kusm1c/PokemonEpopee/main/system.json",
+  "download": "https://github.com/Kusm1c/PokemonEpopee/archive/refs/heads/main.zip"
 }

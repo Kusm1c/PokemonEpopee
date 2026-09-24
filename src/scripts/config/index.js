@@ -13,6 +13,7 @@ import { Enricher } from '../../util/enricher.js';
 import { sluggify } from '../../util/misc.js';
 import tmData from './data/tms.js';
 import { PTUPartySheet } from '../../module/apps/party/index.js';
+import { PTUSharedInventory } from '../../module/apps/shared-inventory/index.js';
 import { PTUPokemonTrainingSheet } from '../../module/apps/pokemon-training/index.js';
 import { ActiveEffectPTU } from '../../module/active-effect.js';
 import { statusEffects } from './effects.js';
@@ -178,6 +179,9 @@ const ui = {
 //   }
   party: {
     sheetClass: PTUPartySheet
+  },
+  sharedInventory: {
+    sheetClass: PTUSharedInventory
   },
   pokemonTraining: {
     sheetClass: PTUPokemonTrainingSheet

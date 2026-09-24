@@ -13,6 +13,7 @@ import { PokeDollarEnricher } from "./pokedollar-enricher.js";
 import { RenderChatMessage } from "./render-chat-message.js";
 import { TrainerPokemonSync } from "./trainer-pokemon-sync.js";
 import { Environment } from "./environment.js";
+import { EpopeeSetup } from "./epopee-setup.js";
 
 export const PtuHooks = {
     listen() {
@@ -32,7 +33,8 @@ export const PtuHooks = {
             PokeDollarEnricher,
             RenderChatMessage,
             TrainerPokemonSync,
-            Environment
+            Environment,
+            EpopeeSetup
         ]
         for(const listener of listeners) listener.listen();
     }
