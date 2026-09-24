@@ -23,7 +23,7 @@ class ItemSummaryRenderer {
         const item = this.sheet.actor.items.get(element.dataset.itemId);
         if(!item) return;
         
-        const sheetState = game.user.getFlag("ptu", "sheetStates")?.[this.sheet.actor.id];
+        const sheetState = game.user.getFlag("pe", "sheetStates")?.[this.sheet.actor.id];
         if(!sheetState) return;
 
         const state = sheetState[item.type]?.[item.id];
@@ -67,7 +67,7 @@ class ItemSummaryRenderer {
             summary.hidden = false;
             await new Promise(resolve => setTimeout(resolve, 1));
             summary.classList.add('show');
-            await game.user.setFlag("ptu", "sheetStates", foundry.utils.mergeObject(game.user.getFlag("ptu", "sheetStates") || {}, {
+            await game.user.setFlag("pe", "sheetStates", foundry.utils.mergeObject(game.user.getFlag("pe", "sheetStates") || {}, {
                 [actor.id]: {
                     [item.type]: {
                         [item.id]: true
@@ -82,7 +82,7 @@ class ItemSummaryRenderer {
             await new Promise(resolve => setTimeout(resolve, duration * 1000));
             summary.classList.remove('transitioning')
             summary.hidden = true;
-            await game.user.setFlag("ptu", "sheetStates", foundry.utils.mergeObject(game.user.getFlag("ptu", "sheetStates") || {}, {
+            await game.user.setFlag("pe", "sheetStates", foundry.utils.mergeObject(game.user.getFlag("pe", "sheetStates") || {}, {
                 [actor.id]: {
                     [item.type]: {
                         [item.id]: false

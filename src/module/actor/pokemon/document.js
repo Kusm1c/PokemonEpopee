@@ -39,7 +39,7 @@ class PTUPokemonActor extends PTUActor {
     }
 
     get trainer() {
-        return game.actors.get(this.flags.ptu.party?.trainer) ?? null;
+        return game.actors.get(this.flags.pe.party?.trainer) ?? null;
     }
 
     /**
@@ -86,7 +86,7 @@ class PTUPokemonActor extends PTUActor {
             system.skills[skill]["value"]["mod"] -= 1;
         }
 
-        if (game.settings.get("ptu", "variant.spiritPlaytest")) {
+        if (game.settings.get("pe", "variant.spiritPlaytest")) {
             switch (system.spirit.value) {
                 case 5:
                 case 4:
@@ -233,9 +233,9 @@ class PTUPokemonActor extends PTUActor {
         if (this.synthetics.typeOverride.typing) system.typing = this.synthetics.typeOverride.typing;
 
         // for (const type of system.typing) {
-        //     this.flags.ptu.rollOptions.all["self:types:" + type.toLowerCase()] = true;
+        //     this.flags.pe.rollOptions.all["self:types:" + type.toLowerCase()] = true;
         // }
-        if (system.shiny) this.flags.ptu.rollOptions.all["self:pokemon:shiny"] = true;
+        if (system.shiny) this.flags.pe.rollOptions.all["self:pokemon:shiny"] = true;
 
         system.health.total = 10 + system.level.current + (system.stats.hp.total * 3);
         system.health.max = system.health.injuries > 0 ? Math.trunc(system.health.total * (1 - ((system.modifiers.hardened ? Math.min(system.health.injuries, 5) : system.health.injuries) / 10))) : system.health.total;
@@ -247,7 +247,7 @@ class PTUPokemonActor extends PTUActor {
         system.health.tick = Math.floor(system.health.total / 10);
 
         system.initiative = { value: system.stats.spd.total + system.modifiers.initiative.total };
-        if (this.flags?.ptu?.is_paralyzed) system.initiative.value = Math.floor(system.initiative.value * 0.5);
+        if (this.flags?.pe?.is_paralyzed) system.initiative.value = Math.floor(system.initiative.value * 0.5);
         if (system.modifiers.flinch_count?.value > 0) {
             system.initiative.value -= (system.modifiers.flinch_count.value * 5);
         }
@@ -396,7 +396,7 @@ class PTUPokemonActor extends PTUActor {
             };
         }
 
-        const evasionLimit = game.settings.get("ptu", "automation.maxEvasion") ?? 20;
+        const evasionLimit = game.settings.get("pe", "automation.maxEvasion") ?? 20;
 
         const evasion = {
             "physical": Math.clamp(Math.min(Math.floor(this.system.stats.def.total / 5), 6) + this.system.modifiers.evasion.physical.total, 0, evasionLimit),
@@ -484,7 +484,7 @@ class PTUPokemonActor extends PTUActor {
                 changes["system"]["skills"][value]['value']['mod'][foundry.utils.randomID()] = { mode: 'add', value: -1, source: "Skill Background" };
             }
         }
-        if (game.settings.get("ptu", "variant.spiritPlaytest")) {
+        if (game.settings.get("pe", "variant.spiritPlaytest")) {
             if (!changes["system"]["modifiers"]) changes["system"]["modifiers"] = {}
             if (!changes["system"]["modifiers"]["acBonus"]) changes["system"]["modifiers"]["acBonus"] = {}
             if (!changes["system"]["modifiers"]["acBonus"]["mod"]) changes["system"]["modifiers"]["acBonus"]["mod"] = {}
@@ -552,7 +552,7 @@ class PTUPokemonActor extends PTUActor {
 
     /** @override */
     async _preUpdate(changed, options, userId) {
-        if (!game.settings.get("ptu", "automation.levelUpScreen") || (changed.system?.level?.exp ?? null) === null || changed.system.level.exp === this.system.level.exp)
+        if (!game.settings.get("pe", "automation.levelUpScreen") || (changed.system?.level?.exp ?? null) === null || changed.system.level.exp === this.system.level.exp)
             return super._preUpdate(changed, options, userId);
 
         const newLevel = calculateLevel(changed.system.level.exp, this.system.level.current);
@@ -585,16 +585,16 @@ class PTUPokemonActor extends PTUActor {
 
             const curImg = await PokemonGenerator.getImage(this.species, { gender: this.system.gender, shiny: this.system.shiny });
             const curTokenImg = (() => {
-                const tokenImageExtension = game.settings.get("ptu", "generation.defaultTokenImageExtension");
+                const tokenImageExtension = game.settings.get("pe", "generation.defaultTokenImageExtension");
                 if(curImg.endsWith(tokenImageExtension)) return curImg;
-                const actorImageExtension = game.settings.get("ptu", "generation.defaultImageExtension");
+                const actorImageExtension = game.settings.get("pe", "generation.defaultImageExtension");
                 return curImg.replace(actorImageExtension, tokenImageExtension);
             })();
             const newImg = await PokemonGenerator.getImage(result.evolution, { gender: this.system.gender, shiny: this.system.shiny });
             const newTokenImg = (() => {
-                const tokenImageExtension = game.settings.get("ptu", "generation.defaultTokenImageExtension");
+                const tokenImageExtension = game.settings.get("pe", "generation.defaultTokenImageExtension");
                 if(newImg.endsWith(tokenImageExtension)) return newImg;
-                const actorImageExtension = game.settings.get("ptu", "generation.defaultImageExtension");
+                const actorImageExtension = game.settings.get("pe", "generation.defaultImageExtension");
                 return newImg.replace(actorImageExtension, tokenImageExtension);
             })();
 
@@ -648,14 +648,14 @@ class PTUPokemonActor extends PTUActor {
         if (result?.abilities?.add?.length > 0) {
             for (const ability of result.abilities.add) {
                 const currentAbility = this.itemTypes.ability.find(a => a.slug === ability.slug);
-                if (currentAbility && !currentAbility.flags?.ptu?.abilityChosen) {
+                if (currentAbility && !currentAbility.flags?.pe?.abilityChosen) {
                     await currentAbility.update({
-                        "flags.ptu.abilityChosen": ability.tier
+                        "flags.pe.abilityChosen": ability.tier
                     });
                 }
                 else if (!currentAbility) {
                     const newAbility = (await fromUuid(ability.uuid)).toObject();
-                    newAbility.flags.ptu = foundry.utils.mergeObject(newAbility.flags?.ptu ?? {}, {
+                    newAbility.flags.pe = foundry.utils.mergeObject(newAbility.flags?.pe ?? {}, {
                         abilityChosen: ability.tier
                     });
                     toAdd.push(newAbility);

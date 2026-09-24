@@ -4,8 +4,8 @@ class InventoryConfigSheet extends FormApplication {
 	static get defaultOptions() {
 		return foundry.utils.mergeObject(super.defaultOptions, {
             title: "Inventory Configuration",
-			classes: ['ptu', 'sheet', 'actor', 'gen8', "inventory", "config"],
-			template: 'systems/ptu/static/templates/config/inventory-config-sheet.hbs',
+			classes: ['pe', 'sheet', 'actor', 'gen8', "inventory", "config"],
+			template: 'systems/pe/static/templates/config/inventory-config-sheet.hbs',
 			width: 600,
 			height: 250,
             resizable: true,
@@ -19,7 +19,7 @@ class InventoryConfigSheet extends FormApplication {
 		// data.dtypes = ['String', 'Number', 'Boolean'];
 
 		// Setup Item Columns
-        data.columns = this.object.actor.getFlag("ptu", "itemColumns");
+        data.columns = this.object.actor.getFlag("pe", "itemColumns");
         const categories = new Set([...data.columns.available, ...data.columns.one, ...data.columns.two]);
         const extraCategories = new Set();
 
@@ -65,10 +65,10 @@ class InventoryConfigSheet extends FormApplication {
         const category = event.currentTarget.parentElement.parentElement.dataset.category;
         if(!destination || !column || !category) return;
 
-        const columns = foundry.utils.duplicate(this.object.actor.getFlag("ptu", "itemColumns"));
+        const columns = foundry.utils.duplicate(this.object.actor.getFlag("pe", "itemColumns"));
         columns[column] = columns[column].filter(c => c !== category);
         columns[destination].push(category);
-        this.object.actor.setFlag("ptu", "itemColumns", columns).then(() => this.render(true, {source: this.id}));
+        this.object.actor.setFlag("pe", "itemColumns", columns).then(() => this.render(true, {source: this.id}));
     }
 
     _dragStart(event) {
@@ -90,7 +90,7 @@ class InventoryConfigSheet extends FormApplication {
         if(data.type === "category" && !this._dropBlock) {
             const column = event.currentTarget.dataset.column;
             const category = event.currentTarget.dataset.category;
-            const columns = foundry.utils.duplicate(this.object.actor.getFlag("ptu", "itemColumns"));
+            const columns = foundry.utils.duplicate(this.object.actor.getFlag("pe", "itemColumns"));
 
             // Remove from old column
             columns[data.column] = columns[data.column].filter(c => c !== data.category);
@@ -105,7 +105,7 @@ class InventoryConfigSheet extends FormApplication {
             this._dropBlock = true;
 
             // Save changes
-            this.object.actor.setFlag("ptu", "itemColumns", columns).then(() => {
+            this.object.actor.setFlag("pe", "itemColumns", columns).then(() => {
                 this.render(true, {source: this.id})
                 this._dropBlock = false;
             });

@@ -24,7 +24,7 @@ class MigrationSummary extends Application {
 
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/apps/migration-summary.hbs";
+        return "systems/pe/static/templates/apps/migration-summary.hbs";
     }
 
     /** @override */

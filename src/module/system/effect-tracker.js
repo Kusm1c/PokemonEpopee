@@ -93,7 +93,7 @@ class EffectTracker {
             for (const actor of actors) {
                 actor.reset();
             }
-            game.ptu.tokenPanel.refresh();
+            game.pe.tokenPanel.refresh();
         }
 
         const actorsToUpdate = new Set(this.effects.filter(e => e.isExpired).map(e => e.actor));

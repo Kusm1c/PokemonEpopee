@@ -14,10 +14,10 @@ class PTUCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
     /** @override */
     static PARTS = {
         header: {
-            template: "systems/ptu/static/templates/sidebar/combat-tracker/header.hbs",
+            template: "systems/pe/static/templates/sidebar/combat-tracker/header.hbs",
         },
         tracker: {
-            template: "systems/ptu/static/templates/sidebar/combat-tracker/tracker.hbs",
+            template: "systems/pe/static/templates/sidebar/combat-tracker/tracker.hbs",
         },
         footer: super.PARTS.footer,
     }

@@ -42,7 +42,7 @@ export const RenderChatMessage = {
                         return attack.damage?.(rollArgs);
                     }
                     case "revert-damage": {
-                        const appliedDamageFlag = message.flags.ptu?.appliedDamage;
+                        const appliedDamageFlag = message.flags.pe?.appliedDamage;
                         if (!appliedDamageFlag) return;
 
                         const actorOrToken = await fromUuid(appliedDamageFlag.uuid);
@@ -52,19 +52,19 @@ export const RenderChatMessage = {
 
                         $html.find("span.statements").addClass("reverted");
                         $html.find(".buttons .button[data-action='revert-damage']").remove();
-                        return await message.update({ "flags.ptu.appliedDamage.isReverted": true });
+                        return await message.update({ "flags.pe.appliedDamage.isReverted": true });
                     }
                 }
             });
 
             // Handle reverted damage display
-            if (message.flags.ptu?.appliedDamage && message.flags.ptu.appliedDamage?.isReverted) {
+            if (message.flags.pe?.appliedDamage && message.flags.pe.appliedDamage?.isReverted) {
                 $html.find("span.statements").addClass("reverted");
                 $html.find(".buttons .button[data-action='revert-damage']").remove();
             }
 
             // Handle IWR tooltips
-            if (message.flags.ptu?.appliedDamage) {
+            if (message.flags.pe?.appliedDamage) {
                 const iwrInfo = $html.find(".iwr")[0];
                 if (iwrInfo) {
                     const iwrApplications = (() => {
@@ -101,7 +101,7 @@ export const RenderChatMessage = {
                         $(iwrInfo).tooltipster({
                             theme: "crb-hover",
                             maxWidth: 400,
-                            content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/iwr-breakdown.hbs", {
+                            content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/iwr-breakdown.hbs", {
                                 applications: iwrApplications,
                             }),
                             contentAsHTML: true,

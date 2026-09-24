@@ -23,7 +23,7 @@ export class CompendiumBrowserSpeciesTab extends CompendiumBrowserTab {
     }
 
     get templatePath() {
-        return "systems/ptu/static/templates/apps/compendium-browser/partials/species.hbs"
+        return "systems/pe/static/templates/apps/compendium-browser/partials/species.hbs"
     }
 
     async loadData() {
@@ -158,9 +158,9 @@ export class CompendiumBrowserSpeciesTab extends CompendiumBrowserTab {
     }
 
     #getImagePath(speciesName, speciesNumber) {
-        const path = game.settings.get("ptu", "generation.defaultImageDirectory");
-        const useName = game.settings.get("ptu", "generation.defaultPokemonImageNameType");
-        const extension = game.settings.get("ptu", "generation.defaultImageExtension")
+        const path = game.settings.get("pe", "generation.defaultImageDirectory");
+        const useName = game.settings.get("pe", "generation.defaultPokemonImageNameType");
+        const extension = game.settings.get("pe", "generation.defaultImageExtension")
 
         return `${path.startsWith('/') ? "" : "/"}${path}${path.endsWith('/') ? "" : "/"}${useName ? sluggify(speciesName) : Handlebars.helpers.lpad(speciesNumber, 3, 0)}${extension.startsWith('.') ? "" : "."}${extension}`;
     }

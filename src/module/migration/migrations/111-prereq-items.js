@@ -9,9 +9,9 @@ export class Migration111PrereqItems extends MigrationBase {
     async #getPackMap(type) {
         const packData = await (async () => {
             switch (type) {
-                case "feat": return this.feats ??= await game.packs.get("ptu.feats").getDocuments();
-                case "edge": return this.edges ??= await game.packs.get("ptu.edges").getDocuments();
-                case "pokeedge": return this.pokeedges ??= await game.packs.get("ptu.poke-edges").getDocuments();
+                case "feat": return this.feats ??= await game.packs.get("pe.feats").getDocuments();
+                case "edge": return this.edges ??= await game.packs.get("pe.edges").getDocuments();
+                case "pokeedge": return this.pokeedges ??= await game.packs.get("pe.poke-edges").getDocuments();
             }
         })();
         switch(type) {

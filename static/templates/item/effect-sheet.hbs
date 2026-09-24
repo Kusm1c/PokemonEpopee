@@ -43,7 +43,7 @@
                                     KEYWORDS 
                                     <input 
                                         type="text" 
-                                        class="ptu-tagify system-keywords" 
+                                        class="pe-tagify system-keywords" 
                                         name="" 
                                         value="{{json item.system.keywords}}" 
                                         data-dtype="JSON"
@@ -62,7 +62,7 @@
         <div class="tab details h-100" data-group="primary" data-tab="details">
             <div class="item-row">
                 <label for="system.keywords">{{localize "ITEM.Keywords"}}</label>
-                <input type="text" class="ptu-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>
+                <input type="text" class="pe-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>
             </div>
             <div class="item-row">
                 <label for="system.duration.value">{{localize "ITEM.Duration.Value"}}</label>
@@ -90,12 +90,12 @@
                 <textarea class="ml-1 mr-1" name="system.snippet">{{item.system.snippet}}</textarea>
             </div>
             <div class="item-row" style="justify-content: flex-start;">
-                <label for="flags.ptu.showInTokenPanel">{{localize "ITEM.ShowInTokenPanel"}}</label>
-                <input class="ml-1 mr-1" name="flags.ptu.showInTokenPanel" type="checkbox" {{checked item.flags.ptu.showInTokenPanel}}/>
+                <label for="flags.pe.showInTokenPanel">{{localize "ITEM.ShowInTokenPanel"}}</label>
+                <input class="ml-1 mr-1" name="flags.pe.showInTokenPanel" type="checkbox" {{checked item.flags.pe.showInTokenPanel}}/>
             </div>
         </div>
         <div class="tab rules h-100" data-group="primary" data-tab="rules">
-            {{~> systems/ptu/static/templates/partials/rules/rule-partial.hbs item=item}}
+            {{~> systems/pe/static/templates/partials/rules/rule-partial.hbs item=item}}
         </div>
     </div>
 </form>

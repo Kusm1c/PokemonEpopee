@@ -109,9 +109,9 @@ async function setupMacros(log) {
 }
 
 async function setupConditions(log) {
-    const pack = game.packs.get("ptu.effects");
+    const pack = game.packs.get("pe.effects");
     if (!pack) {
-        log.push("⚠ Compendium ptu.effects introuvable — conditions non installées.");
+        log.push("⚠ Compendium pe.effects introuvable — conditions non installées.");
         return;
     }
 
@@ -167,14 +167,14 @@ async function setupConditions(log) {
 }
 
 async function setupSharedInventory(log) {
-    let container = game.actors.find(a => a.getFlag("ptu", SHARED_FLAG) === true);
+    let container = game.actors.find(a => a.getFlag("pe", SHARED_FLAG) === true);
 
     if (!container) {
         container = await Actor.create({
             name: "Inventaire Partagé",
             type: "character",
             img: "icons/svg/mystery-man.svg",
-            flags: { ptu: { [SHARED_FLAG]: true, [POKEMON_FLAG]: [] } }
+            flags: { pe: { [SHARED_FLAG]: true, [POKEMON_FLAG]: [] } }
         });
         log.push("Conteneur d'inventaire partagé créé.");
     }

@@ -9,7 +9,7 @@ export class DamageModifiersDialog extends CheckModifiersDialog {
     static get defaultOptions() {
         return {
             ...super.defaultOptions,
-            template: "systems/ptu/static/templates/chat/damage/damage-modifiers-dialog.hbs",
+            template: "systems/pe/static/templates/chat/damage/damage-modifiers-dialog.hbs",
             classes: ["dice-checks", "dialog"]
         };
     }

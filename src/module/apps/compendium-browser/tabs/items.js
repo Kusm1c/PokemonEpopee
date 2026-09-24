@@ -18,7 +18,7 @@ export class CompendiumBrowserItemsTab extends CompendiumBrowserTab {
     }
 
     get templatePath() {
-        return "systems/ptu/static/templates/apps/compendium-browser/partials/items.hbs"
+        return "systems/pe/static/templates/apps/compendium-browser/partials/items.hbs"
     }
 
     async loadData() {

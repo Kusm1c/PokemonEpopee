@@ -5,7 +5,7 @@ import { RuleElementForm } from './base.js'
 class ApplyEffectForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/apply-effect.hbs";
+        return "systems/pe/static/templates/item/rules/apply-effect.hbs";
     }
 
     /** @override */

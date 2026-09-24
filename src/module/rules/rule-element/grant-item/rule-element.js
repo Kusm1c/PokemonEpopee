@@ -32,7 +32,7 @@ class GrantItemRuleElement extends RuleElementPTU {
     static ON_DELETE_ACTIONS = ["cascade", "detach", "restrict"];
 
     get grantedId() {
-        return this.item.flags.ptu?.itemGrants?.[this.flag]?.id ?? this.item.flags.ptu?.itemGrants?.[this.flag?.replace(/\d{1,2}$/, '')]?.id;
+        return this.item.flags.pe?.itemGrants?.[this.flag]?.id ?? this.item.flags.pe?.itemGrants?.[this.flag?.replace(/\d{1,2}$/, '')]?.id;
     }
 
     /** @override */
@@ -62,7 +62,7 @@ class GrantItemRuleElement extends RuleElementPTU {
                 : (() => {
                     const defaultFlag = grantedItem.slug ?? grantedItem.name;
                     const flagPattern = new RegExp(`^${defaultFlag}\\d*$`);
-                    const itemGrants = itemSource.flags?.ptu?.itemGrants ?? {};
+                    const itemGrants = itemSource.flags?.pe?.itemGrants ?? {};
                     const nthGrant = Object.keys(itemGrants).filter((g => flagPattern.test(g))).length;
                     return nthGrant > 0 ? `${defaultFlag}${nthGrant + 1}` : defaultFlag;
                 })();
@@ -170,8 +170,8 @@ class GrantItemRuleElement extends RuleElementPTU {
         }
 
         if (pendingItems.length > 0) {
-            const updatedGrants = itemSource.flags.ptu.itemGrants ?? {};
-            await this.item.update({ "flags.ptu.itemGrants": updatedGrants }, { render: false });
+            const updatedGrants = itemSource.flags.pe.itemGrants ?? {};
+            await this.item.update({ "flags.pe.itemGrants": updatedGrants }, { render: false });
             return { create: pendingItems, delete: [] };
         }
         return noAction;
@@ -187,16 +187,16 @@ class GrantItemRuleElement extends RuleElementPTU {
     }
 
     #setGrantFlags(granter, grantee) {
-        const flags = foundry.utils.mergeObject(granter.flags ?? {}, { ptu: { itemGrants: {} } });
+        const flags = foundry.utils.mergeObject(granter.flags ?? {}, { pe: { itemGrants: {} } });
         if (!this.flag) throw new Error("GrantItemRuleElement#flag must be set before calling #setGrantFlags");
-        flags.ptu.itemGrants[this.flag] = {
+        flags.pe.itemGrants[this.flag] = {
             id: grantee instanceof PTUItem ? grantee.id : grantee._id,
             // The on-delete action determines what will happen to the granter item when the granted item is deleted:
             // Default to "detach" (do nothing).
             onDelete: this.onDeleteActions?.grantee ?? "detach"
         }
 
-        // The granted item records its granting item's ID at `flags.ptu.grantedBy`
+        // The granted item records its granting item's ID at `flags.pe.grantedBy`
         const grantedBy = {
             id: granter._id,
             // The on-delete action determines what will happen to the granted item when the granter item is deleted:
@@ -206,10 +206,10 @@ class GrantItemRuleElement extends RuleElementPTU {
 
         if (grantee instanceof PTUItem) {
             // This is a previously granted item: update its grantedBy flag
-            grantee.update({ "flags.ptu.grantedBy": grantedBy }, { render: false });
+            grantee.update({ "flags.pe.grantedBy": grantedBy }, { render: false });
         }
         else {
-            grantee.flags = foundry.utils.mergeObject(grantee.flags ?? {}, { ptu: { grantedBy } });
+            grantee.flags = foundry.utils.mergeObject(grantee.flags ?? {}, { pe: { grantedBy } });
         }
     }
 

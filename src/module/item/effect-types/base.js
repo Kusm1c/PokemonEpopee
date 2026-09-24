@@ -121,7 +121,7 @@ class BaseEffectPTU extends PTUItem {
     /** @override */
     _onDelete(options, userId) {
         if(this.actor) {
-            game.ptu.effectTracker.unregister(this);
+            game.pe.effectTracker.unregister(this);
         }
         super._onDelete(options, userId);
         this.handleChange({delete: { name: this._source.name}});

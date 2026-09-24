@@ -13,14 +13,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with: 
-          path: ./Data/systems/ptu
+          path: ./Data/systems/pe
       - name: Install Foundry CLI
         run: npm install -g @foundryvtt/foundryvtt-cli 
       - name: Setup Foundry CLI
         run: |
           fvtt configure set dataPath ./
           fvtt configure set currentPackageType System
-          fvtt configure set currentPackageId ptu
+          fvtt configure set currentPackageId pe
       - name: Export Feats Compendium
         run: | 
           fvtt package unpack abilities
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ptr-data-jsons
-          path: /home/runner/work/Foundry-Pokemon-Tabletop-United-System/Foundry-Pokemon-Tabletop-United-System/Data/systems/ptu/packs/**/*.json
+          path: /home/runner/work/Foundry-Pokemon-Tabletop-United-System/Foundry-Pokemon-Tabletop-United-System/Data/systems/pe/packs/**/*.json
           retention-days: 1
   commit-to-ptr-data:
     name: Commit to PTR-Data

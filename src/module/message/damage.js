@@ -6,7 +6,7 @@ import { ChatMessagePTU } from "./base.js";
 class DamageMessagePTU extends ChatMessagePTU {
 
     get outcomes() {
-        return this.flags?.ptu?.context?.outcomes ?? null;
+        return this.flags?.pe?.context?.outcomes ?? null;
     }
 
     async renderDamageHTML($html) {
@@ -22,7 +22,7 @@ class DamageMessagePTU extends ChatMessagePTU {
     }
 
     async _renderNoneTargetDamage($html) {
-        if (this.flags?.ptu?.context?.damageApplied === true) return $html;
+        if (this.flags?.pe?.context?.damageApplied === true) return $html;
 
         const $last = $html.find(".dice-roll").last();
         const $parent = $last.parent();
@@ -70,7 +70,7 @@ class DamageMessagePTU extends ChatMessagePTU {
 
         this.targetsData ??= this.targets;
 
-        const damageHTML = await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/damage/damage-selector.hbs", { targets: this.targetsData });
+        const damageHTML = await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/damage/damage-selector.hbs", { targets: this.targetsData });
 
         const $headerSpan = $("<span></span>")
             .addClass("flavor-text")
@@ -100,7 +100,7 @@ class DamageMessagePTU extends ChatMessagePTU {
 
     async _updateSelectors() {
         const $damageContent = this.element.find(".damage-content");
-        const damageHTML = await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/damage/damage-selector.hbs", { targets: this.targetsData });
+        const damageHTML = await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/damage/damage-selector.hbs", { targets: this.targetsData });
         $damageContent.html(damageHTML);
 
         this._applyListeners($damageContent);
@@ -117,7 +117,7 @@ class DamageMessagePTU extends ChatMessagePTU {
                 if (!target) return;
                 target.outcome = "miss";
                 await this.update({
-                    [`flags.ptu.context.outcomes.${target.actor.id}`]: "miss",
+                    [`flags.pe.context.outcomes.${target.actor.id}`]: "miss",
                 })
             })
             $el.find(".crit .fa-crosshairs").click(async () => {
@@ -126,7 +126,7 @@ class DamageMessagePTU extends ChatMessagePTU {
                 if (!target) return;
                 target.outcome = "hit";
                 await this.update({
-                    [`flags.ptu.context.outcomes.${target.actor.id}`]: "hit",
+                    [`flags.pe.context.outcomes.${target.actor.id}`]: "hit",
                 })
             })
             $el.find(".hit .fa-times-circle").click(async () => {
@@ -135,7 +135,7 @@ class DamageMessagePTU extends ChatMessagePTU {
                 if (!target) return;
                 target.outcome = "hit";
                 await this.update({
-                    [`flags.ptu.context.outcomes.${target.actor.id}`]: "hit",
+                    [`flags.pe.context.outcomes.${target.actor.id}`]: "hit",
                 })
             })
             $el.find(".crit .fa-times-circle").click(async () => {
@@ -144,7 +144,7 @@ class DamageMessagePTU extends ChatMessagePTU {
                 if (!target) return;
                 target.outcome = "crit-hit";
                 await this.update({
-                    [`flags.ptu.context.outcomes.${target.actor.id}`]: "crit-hit",
+                    [`flags.pe.context.outcomes.${target.actor.id}`]: "crit-hit",
                 })
             })
 
@@ -185,7 +185,7 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
 
     const [effectiveness, multiplier] = getMAFromMode(mode);
 
-    const originAttackOptions = message.flags.ptu.attack ?? {};
+    const originAttackOptions = message.flags.pe.attack ?? {};
     const originItem = (await fromUuid(originAttackOptions.actor))?.items.get(originAttackOptions.id) ?? null;
     const itemDomains = [];
     if (originItem) {
@@ -202,7 +202,7 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
         }
     }
 
-    const messageRollOptions = message.flags.ptu.context?.options ?? [];
+    const messageRollOptions = message.flags.pe.context?.options ?? [];
     const originRollOptions = messageRollOptions
         .filter(o => o.startsWith("self:"))
         .map(o => o.replace(/^self/, "origin"));
@@ -251,7 +251,7 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
                 item: message.item,
                 domains,
                 options: messageRollOptions,
-                roll: Number(message.flags.ptu.context.accuracyRollResult ?? 0)
+                roll: Number(message.flags.pe.context.accuracyRollResult ?? 0)
             }),
         ].reduce((a, b) => {
             if (!a[b.slug]) a[b.slug] = b;
@@ -278,7 +278,7 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
             const newItems = await contextClone.createEmbeddedDocuments("Item", applyEffectsTarget);
             if (newItems.length > 0)
                 await ChatMessage.create({
-                    content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/damage/effects-applied.hbs", { target: contextClone, effects: newItems }),
+                    content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/damage/effects-applied.hbs", { target: contextClone, effects: newItems }),
                     speaker: ChatMessage.getSpeaker({ actor: contextClone }),
                     whisper: ChatMessage.getWhisperRecipients("GM")
                 })
@@ -293,7 +293,7 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
             item: message.item,
             domains: ["damage-dealt", ...itemDomains.map(d => d.replace(/-received$/, "-dealt"))],
             options: messageRollOptions,
-            roll: Number(message.flags.ptu.context.accuracyRollResult ?? 0)
+            roll: Number(message.flags.pe.context.accuracyRollResult ?? 0)
         }),
     ].reduce((a, b) => {
         if (!a[b.slug]) a[b.slug] = b;
@@ -304,7 +304,7 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
         const newItems = await message.actor.createEmbeddedDocuments("Item", applyEffectsOrigin);
         if (newItems.length > 0)
             await ChatMessage.create({
-                content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/damage/effects-applied.hbs", { target: message.actor, effects: newItems }),
+                content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/damage/effects-applied.hbs", { target: message.actor, effects: newItems }),
                 speaker: ChatMessage.getSpeaker({ actor: message.actor }),
                 whisper: ChatMessage.getWhisperRecipients("GM")
             })

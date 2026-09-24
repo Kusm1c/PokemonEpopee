@@ -4,7 +4,7 @@ export const TrainerPokemonSync = {
       Hooks.on("ready", () => {          
           const pokemonWithTrainers = game.actors.filter(actor => 
               actor.type === "pokemon" && 
-              actor.flags?.ptu?.party?.trainer
+              actor.flags?.pe?.party?.trainer
           );
           
           pokemonWithTrainers.forEach(pokemon => {
@@ -28,7 +28,7 @@ export const TrainerPokemonSync = {
                     
           const trainerPokemon = game.actors.filter(pokemon => 
               pokemon.type === "pokemon" && 
-              pokemon.flags?.ptu?.party?.trainer === actor.id
+              pokemon.flags?.pe?.party?.trainer === actor.id
           );
           
           trainerPokemon.forEach(pokemon => {
@@ -50,7 +50,7 @@ export const TrainerPokemonSync = {
       Hooks.on("updateActor", (actor, updateData, options, userId) => {
           if (actor.type !== "pokemon") return;
           
-          const partyUpdated = foundry.utils.hasProperty(updateData, "flags.ptu.party");
+          const partyUpdated = foundry.utils.hasProperty(updateData, "flags.pe.party");
           
           if (!partyUpdated) return;          
           actor.refreshPreparedData();

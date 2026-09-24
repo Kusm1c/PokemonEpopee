@@ -41,7 +41,7 @@
             <input class="fb-40" type="text" name="trainer.name" value="{{data.trainer.name}}"/>
 
             <label>{{localize "PTU.NpcQuickBuild.Sex"}}</label>
-            <input class="ptu-tagify trainer-sex one-entry" name="trainer.sex" data-filter-name="sex" value="{{json data.trainer.sex}}" data-dtype="JSON" />
+            <input class="pe-tagify trainer-sex one-entry" name="trainer.sex" data-filter-name="sex" value="{{json data.trainer.sex}}" data-dtype="JSON" />
 
             <label>{{localize "PTU.NpcQuickBuild.TrainerLevel"}}</label>
             <input class="fb-40" type="number" name="trainer.level" min="1" max="50" value="{{data.trainer.level}}"/>
@@ -50,7 +50,7 @@
             <input class="fb-40" type="number" name="trainer.partySize" min="1" value="{{data.trainer.partySize}}"/>
 
             <label>{{localize "PTU.NpcQuickBuild.Classes"}}</label>
-            <input class="ptu-tagify trainer-classes" name="trainer.classes.selected" data-filter-name="classes" value="{{json data.trainer.classes.selected}}" data-dtype="JSON" />
+            <input class="pe-tagify trainer-classes" name="trainer.classes.selected" data-filter-name="classes" value="{{json data.trainer.classes.selected}}" data-dtype="JSON" />
 
             {{#if data.didSelectClassesManually}}
             <label>{{localize "PTU.NpcQuickBuild.ClassesRestricted"}}</label>
@@ -63,7 +63,7 @@
         {{#if (eq data.page 2)}}
             <div class="selected-features">
                 <h4>{{localize "PTU.NpcQuickBuild.Features"}}</h4>
-                <input class="ptu-tagify trainer-features" name="trainer.features.selected" data-filter-name="features" value="{{json data.trainer.features.selected}}" data-dtype="JSON" />
+                <input class="pe-tagify trainer-features" name="trainer.features.selected" data-filter-name="features" value="{{json data.trainer.features.selected}}" data-dtype="JSON" />
             </div>
 
             <div class="computed-links computed-features">
@@ -74,7 +74,7 @@
 
             <div class="selected-edges">
                 <h4>{{localize "PTU.NpcQuickBuild.Edges"}}</h4>
-                <input class="ptu-tagify trainer-edges" name="trainer.edges.selected" data-filter-name="edges" value="{{json data.trainer.edges.selected}}" data-dtype="JSON" />
+                <input class="pe-tagify trainer-edges" name="trainer.edges.selected" data-filter-name="edges" value="{{json data.trainer.edges.selected}}" data-dtype="JSON" />
             </div>
 
             <div class="computed-links computed-edges">
@@ -225,7 +225,7 @@
                     <div class="party-pokemon {{key}} species-unset" data-slot="{{key}}">
                         <div class="pokemon-species">
                             <label>{{localize "PTU.NpcQuickBuild.SpeciesName"}}</label>
-                            <input class="ptu-tagify one-entry" name="party.{{key}}.species.selected" data-filter-name="species" value="{{json pkmn.species.selected}}" data-dtype="JSON" />
+                            <input class="pe-tagify one-entry" name="party.{{key}}.species.selected" data-filter-name="species" value="{{json pkmn.species.selected}}" data-dtype="JSON" />
                         </div>
 
                         <a class="pokemon-randomize" data-tooltip="PTU.NpcQuickBuild.RandomizePokemon"><i class="fa-solid fa-dice"></i></a>

@@ -8,7 +8,7 @@
 
 class RuleElementForm {
     get template() {
-        return "systems/ptu/static/templates/item/rules/default.hbs";
+        return "systems/pe/static/templates/item/rules/default.hbs";
     }
 
     /** @param {RuleElementFormOptions} options */

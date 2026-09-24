@@ -5,7 +5,7 @@
  *
  * Storage design
  * --------------
- * The container is a normal Actor flagged `flags.ptu.sharedInventory`, with every player
+ * The container is a normal Actor flagged `flags.pe.sharedInventory`, with every player
  * set to OWNER. That choice buys two things Foundry will not give a world-setting or a
  * Journal:
  *
@@ -15,7 +15,7 @@
  *     a player can drop into the bag without a socket round-trip to the GM.
  *
  * Pokemon are Actors, and Foundry cannot embed an Actor inside an Actor. They are held
- * as a list of UUIDs in `flags.ptu.sharedPokemon` and resolved at render time. Dragging
+ * as a list of UUIDs in `flags.pe.sharedPokemon` and resolved at render time. Dragging
  * a Pokemon out therefore hands over a reference, not a copy — the Actor itself never
  * moves, which is what you want for a shared party pool.
  */
@@ -32,10 +32,10 @@ class PTUSharedInventory extends Application {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            id: "ptu-shared-inventory",
-            classes: ["ptu", "sheet", "shared-inventory"],
+            id: "pe-shared-inventory",
+            classes: ["pe", "sheet", "shared-inventory"],
             title: "Inventaire Partagé",
-            template: "systems/ptu/static/templates/apps/shared-inventory.hbs",
+            template: "systems/pe/static/templates/apps/shared-inventory.hbs",
             width: 640,
             height: 560,
             resizable: true,
@@ -48,7 +48,7 @@ class PTUSharedInventory extends Application {
      * Looked up by flag rather than by name so renaming it doesn't break anything.
      */
     static getContainer() {
-        return game.actors.find(a => a.getFlag("ptu", SHARED_FLAG) === true) ?? null;
+        return game.actors.find(a => a.getFlag("pe", SHARED_FLAG) === true) ?? null;
     }
 
     get actor() {
@@ -60,7 +60,7 @@ class PTUSharedInventory extends Application {
         const actor = this.actor;
         if (!actor) return { missing: true, isGM: game.user.isGM };
 
-        const uuids = actor.getFlag("ptu", POKEMON_FLAG) ?? [];
+        const uuids = actor.getFlag("pe", POKEMON_FLAG) ?? [];
         const pokemon = [];
         const stale = [];
 
@@ -159,10 +159,10 @@ class PTUSharedInventory extends Application {
         if (!doc) return;
         if (doc.type !== "pokemon") return ui.notifications.warn("Seuls les Pokémon peuvent aller dans l'inventaire partagé.");
 
-        const current = this.actor.getFlag("ptu", POKEMON_FLAG) ?? [];
+        const current = this.actor.getFlag("pe", POKEMON_FLAG) ?? [];
         if (current.includes(doc.uuid)) return ui.notifications.info(`${doc.name} y est déjà.`);
 
-        await this.actor.setFlag("ptu", POKEMON_FLAG, [...current, doc.uuid]);
+        await this.actor.setFlag("pe", POKEMON_FLAG, [...current, doc.uuid]);
         ui.notifications.info(`${doc.name} → inventaire partagé.`);
         this.render(false);
     }
@@ -183,9 +183,9 @@ class PTUSharedInventory extends Application {
         const options = owned.map(a => `<option value="${a.id}">${a.name}</option>`).join("");
         const id = await Dialog.prompt({
             title: "Destinataire",
-            content: `<div class="form-group"><label>Envoyer vers</label><select id="ptu-recipient">${options}</select></div>`,
+            content: `<div class="form-group"><label>Envoyer vers</label><select id="pe-recipient">${options}</select></div>`,
             label: "Confirmer",
-            callback: html => html.find("#ptu-recipient").val()
+            callback: html => html.find("#pe-recipient").val()
         }).catch(() => null);
 
         return id ? game.actors.get(id) : null;
@@ -214,8 +214,8 @@ class PTUSharedInventory extends Application {
         if (!target) return;
 
         // The Pokemon Actor stays where it is; ownership is what moves. This mirrors how
-        // `pokemon/document.js` already resolves a trainer, via flags.ptu.party.trainer.
-        await doc.update({ "flags.ptu.party.trainer": target.id });
+        // `pokemon/document.js` already resolves a trainer, via flags.pe.party.trainer.
+        await doc.update({ "flags.pe.party.trainer": target.id });
         await this._removeUuid(uuid);
         ui.notifications.info(`${doc.name} → ${target.name}.`);
         this.render(false);
@@ -228,17 +228,17 @@ class PTUSharedInventory extends Application {
     }
 
     async _removeUuid(uuid) {
-        const current = this.actor.getFlag("ptu", POKEMON_FLAG) ?? [];
-        await this.actor.setFlag("ptu", POKEMON_FLAG, current.filter(u => u !== uuid));
+        const current = this.actor.getFlag("pe", POKEMON_FLAG) ?? [];
+        await this.actor.setFlag("pe", POKEMON_FLAG, current.filter(u => u !== uuid));
     }
 
     async _pruneStale() {
-        const current = this.actor.getFlag("ptu", POKEMON_FLAG) ?? [];
+        const current = this.actor.getFlag("pe", POKEMON_FLAG) ?? [];
         const alive = [];
         for (const uuid of current) {
             if (await fromUuid(uuid).catch(() => null)) alive.push(uuid);
         }
-        await this.actor.setFlag("ptu", POKEMON_FLAG, alive);
+        await this.actor.setFlag("pe", POKEMON_FLAG, alive);
         ui.notifications.info(`${current.length - alive.length} référence(s) morte(s) retirée(s).`);
         this.render(false);
     }

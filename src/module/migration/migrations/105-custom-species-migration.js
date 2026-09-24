@@ -10,7 +10,7 @@ export class Migration105CustomSpeciesMigration extends MigrationBase {
      */
     async migrate() {
 
-        const oldCS = game.settings.get("ptu", "customSpeciesData");
+        const oldCS = game.settings.get("pe", "customSpeciesData");
         if (oldCS?.flags?.schemaVersion !== this.version && oldCS?.data?.length > 0) {
 
             const folder = game.folders.getName("Old-CSE-Migration") ?? await Folder.create({ name: "Old-CSE-Migration", type: "Item", parent: null });
@@ -27,7 +27,7 @@ export class Migration105CustomSpeciesMigration extends MigrationBase {
 
             const customSpecies = await Item.createDocuments(species, { keepId: true});
             if (customSpecies.length > 0) {
-                await game.settings.set("ptu", "customSpeciesData", { flags: { schemaVersion: this.version } });
+                await game.settings.set("pe", "customSpeciesData", { flags: { schemaVersion: this.version } });
             }
         }
     }

@@ -1,6 +1,6 @@
 class CheckRoll extends foundry.dice.Roll {
     get template() {
-        return "systems/ptu/static/templates/chat/check/check-roll.hbs";
+        return "systems/pe/static/templates/chat/check/check-roll.hbs";
     }
 
     get total() {

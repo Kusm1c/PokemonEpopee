@@ -49,9 +49,9 @@ class LevelUpData {
             advanced: [],
             high: [],
             current: {
-                basic: currentAbilities.find(a => a.flags.ptu?.abilityChosen === "basic"),
-                advanced: currentAbilities.find(a => a.flags.ptu?.abilityChosen === "advanced"),
-                high: currentAbilities.find(a => a.flags.ptu?.abilityChosen === "high")
+                basic: currentAbilities.find(a => a.flags.pe?.abilityChosen === "basic"),
+                advanced: currentAbilities.find(a => a.flags.pe?.abilityChosen === "advanced"),
+                high: currentAbilities.find(a => a.flags.pe?.abilityChosen === "high")
             },
             index: {
                 basic: this.abilities?.index?.basic ?? -1,

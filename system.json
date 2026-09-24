@@ -1,5 +1,5 @@
 {
-  "id": "ptu",
+  "id": "pe",
   "title": "PokemonEpopee",
   "description": "Homebrew fork of the Pokemon Tabletop Reunited (PTR) system for FoundryVTT, with custom rules (travel/exploration, status engine, environmental modifiers).",
   "compatibility": {
@@ -11,7 +11,7 @@
   "authors": [
     {
       "name": "Ashe Eon",
-      "email": "ptu@soaringnetwork.com",
+      "email": "pe@soaringnetwork.com",
       "url": "https://github.com/dylanpiera/Foundry-Pokemon-Tabletop-United-System"
     },
     {
@@ -65,100 +65,100 @@
       "type": "Item",
       "name": "abilities",
       "path": "packs/abilities.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Moves",
       "type": "Item",
       "name": "moves",
       "path": "packs/moves.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Feats",
       "type": "Item",
       "name": "feats",
       "path": "packs/feats.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Edges",
       "type": "Item",
       "name": "edges",
       "path": "packs/edges.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Items",
       "type": "Item",
       "name": "items",
       "path": "packs/items.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Capabilities",
       "type": "Item",
       "name": "capabilities",
       "path": "packs/capabilities.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Poke Edges",
       "type": "Item",
       "name": "poke-edges",
       "path": "packs/poke-edges.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Habitats",
       "type": "RollTable",
       "name": "habitats",
       "path": "packs/habitats.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Rolltables",
       "type": "RollTable",
       "name": "rolltables",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Effects",
       "type": "Item",
       "name": "effects",
       "path": "packs/effects.db",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Species",
       "type": "Item",
       "name": "species",
       "path": "packs/species.db",
-      "system": "ptu"
+      "system": "pe"
     }, 
     {
       "label": "PTR Macros",
       "type": "Macro",
       "name": "macros",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR References",
       "type": "Item",
       "name": "references",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Spirit Actions",
       "type": "Item",
       "name": "spirit-actions",
-      "system": "ptu"
+      "system": "pe"
     },
     {
       "label": "PTR Journals",
       "type": "JournalEntry",
       "name": "journals",
-      "system": "ptu"
+      "system": "pe"
     }
   ],
   "languages": [
@@ -207,7 +207,7 @@
       "packs": ["journals", "references", "macros", "effects"]
     }
   ],
-  "background": "systems/ptu/static/images/banner.webp",
+  "background": "systems/pe/static/images/banner.webp",
   "url": "https://github.com/Kusm1c/PokemonEpopee",
   "manifest": "https://raw.githubusercontent.com/Kusm1c/PokemonEpopee/main/system.json",
   "download": "https://github.com/Kusm1c/PokemonEpopee/archive/refs/heads/main.zip"

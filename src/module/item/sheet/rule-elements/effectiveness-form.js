@@ -3,7 +3,7 @@ import { RuleElementForm } from './base.js'
 class EffectivenessForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/effectiveness.hbs";
+        return "systems/pe/static/templates/item/rules/effectiveness.hbs";
     }
 
     /** @override */

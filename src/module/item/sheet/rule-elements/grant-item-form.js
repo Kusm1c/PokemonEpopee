@@ -3,7 +3,7 @@ import { RuleElementForm } from './index.js';
 class GrantItemForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/grant-item.hbs";
+        return "systems/pe/static/templates/item/rules/grant-item.hbs";
     }
 
     /** @override */

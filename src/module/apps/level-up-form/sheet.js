@@ -4,8 +4,8 @@ class LevelUpForm extends FormApplication {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["ptu", "pokemon", "level-up"],
-            template: "systems/ptu/static/templates/apps/level-up-form.hbs",
+            classes: ["pe", "pokemon", "level-up"],
+            template: "systems/pe/static/templates/apps/level-up-form.hbs",
             width: 560,
             height: "auto",
             title: "Level-Up Menu!",

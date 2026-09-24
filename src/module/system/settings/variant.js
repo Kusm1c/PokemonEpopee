@@ -67,8 +67,8 @@ export class VariantSettings extends PTUSettingsMenu {
     async _updateObject(event, data) {
         await super._updateObject(event, data);
 
-        if(game.settings.get("ptu", "variant.trainerAdvancement") === "data-revamp" && game.settings.get("ptu", "variant.useDexExp")) {
-            return game.settings.set("ptu", "variant.useDexExp", false);
+        if(game.settings.get("pe", "variant.trainerAdvancement") === "data-revamp" && game.settings.get("pe", "variant.useDexExp")) {
+            return game.settings.set("pe", "variant.useDexExp", false);
         }
     }
 }

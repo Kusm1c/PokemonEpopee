@@ -1,7 +1,7 @@
 import { MigrationSummary } from "../../module/apps/migration-summary.js";
 import { MigrationList } from "../../module/migration/index.js";
 import { MigrationRunner } from "../../module/migration/runner/index.js";
-import { GamePTU } from "../game-ptu.js"
+import { GamePTU } from "../game-pe.js"
 
 export const Ready = {
     listen() {
@@ -10,7 +10,7 @@ export const Ready = {
             console.log("PTU System | Starting Pokemon Tabletop Reunited System")
 
             // Determine if system migration is required and feasible
-            const currentVersion = game.settings.get("ptu", "worldSchemaVersion");
+            const currentVersion = game.settings.get("pe", "worldSchemaVersion");
 
             // Save the current world schema version if hasn't before.
             storeInitialWorldVersions().then(async () => {
@@ -31,10 +31,10 @@ export const Ready = {
                 }
 
                 // Update the world system version
-                const previous = game.settings.get("ptu", "worldSystemVersion");
+                const previous = game.settings.get("pe", "worldSystemVersion");
                 const current = game.system.version;
                 if (foundry.utils.isNewerVersion(current, previous)) {
-                    await game.settings.set("ptu", "worldSystemVersion", current);
+                    await game.settings.set("pe", "worldSystemVersion", current);
                 }
             });
 
@@ -499,21 +499,21 @@ function testWorldSettings() {
 async function storeInitialWorldVersions() {
     if (!game.user.hasRole(CONST.USER_ROLES.GAMEMASTER)) return;
 
-    const storedSystemVersion = game.settings.storage.get("world").getItem("ptu.worldSystemVersion");
+    const storedSystemVersion = game.settings.storage.get("world").getItem("pe.worldSystemVersion");
     if (!storedSystemVersion) {
-        await game.settings.set("ptu", "worldSystemVersion", game.system.version);
+        await game.settings.set("pe", "worldSystemVersion", game.system.version);
     }
 
-    const storedSchemaVersion = game.settings.storage.get("world").getItem("ptu.worldSchemaVersion");
+    const storedSchemaVersion = game.settings.storage.get("world").getItem("pe.worldSchemaVersion");
     if (!storedSchemaVersion) {
         const minimumVersion = MigrationRunner.MINIMUM_SAFE_VERSION;
         const currentVersion =
             game.actors.size === 0
-                ? game.settings.get("ptu", "worldSchemaVersion")
+                ? game.settings.get("pe", "worldSchemaVersion")
                 : Math.max(
                     Math.min(...new Set(game.actors.map((actor) => actor.schemaVersion ?? minimumVersion))),
                     minimumVersion
                 );
-        await game.settings.set("ptu", "worldSchemaVersion", currentVersion);
+        await game.settings.set("pe", "worldSchemaVersion", currentVersion);
     }
 }

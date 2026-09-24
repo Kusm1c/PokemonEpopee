@@ -79,7 +79,7 @@ async function processPreUpdateActorHooks(changed, { pack }) {
     const rules = actor.rules.filter((r) => !!r.preUpdateActor);
     if (rules.length === 0) return;
 
-    actor.flags.ptu.rollOptions = actor.clone(changed, { keepId: true }).flags.ptu.rollOptions;
+    actor.flags.pe.rollOptions = actor.clone(changed, { keepId: true }).flags.pe.rollOptions;
     const createDeletes = (
         await Promise.all(
             rules.map(

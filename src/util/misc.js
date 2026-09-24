@@ -86,14 +86,14 @@ export async function findItemInCompendium({ type, name, compendium }) {
     const pack = (() => {
         if (game.packs.get(compendium)) return game.packs.get(compendium);
         switch (type) {
-            case "move": return game.packs.get("ptu.moves");
-            case "ability": return game.packs.get("ptu.abilities");
-            case "capability": return game.packs.get("ptu.capabilities");
-            case "species": return game.packs.get("ptu.species");
-            case "item": return game.packs.get("ptu.items");
-            case "edge": return game.packs.get("ptu.edges");
-            case "feat": return game.packs.get("ptu.feats");
-            case "effect": return game.packs.get("ptu.effects");
+            case "move": return game.packs.get("pe.moves");
+            case "ability": return game.packs.get("pe.abilities");
+            case "capability": return game.packs.get("pe.capabilities");
+            case "species": return game.packs.get("pe.species");
+            case "item": return game.packs.get("pe.items");
+            case "edge": return game.packs.get("pe.edges");
+            case "feat": return game.packs.get("pe.feats");
+            case "effect": return game.packs.get("pe.effects");
             default: throw new Error(`Unknown type: ${type}`);
         }
     })();
@@ -109,7 +109,7 @@ export async function findItemInCompendium({ type, name, compendium }) {
 }
 
 export async function querySpeciesCompendium(filterQuery) {
-    const pack = game.packs.get("ptu.species");
+    const pack = game.packs.get("pe.species");
     const species = await pack.getDocuments();
     return species.filter(filterQuery);
 }

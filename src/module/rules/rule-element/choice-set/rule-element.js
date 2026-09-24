@@ -28,7 +28,7 @@ class ChoiceSetRuleElement extends RuleElementPTU {
         // Assign the selection to a flag on the parent item
         if (this.selection !== null) {
             const resolvedFlag = this.resolveInjectedProperties(this.flag);
-            item.flags.ptu.rulesSelections[resolvedFlag] = this.selection;
+            item.flags.pe.rulesSelections[resolvedFlag] = this.selection;
             this.#setRollOption(this.selection);
         }
         else if (!this.allowNoSelection && this.test()) {
@@ -109,7 +109,7 @@ class ChoiceSetRuleElement extends RuleElementPTU {
 
             // Assign the selection to a flag on the parent item
             const resolvedFlag = this.resolveInjectedProperties(this.flag);
-            this.item.flags.ptu.rulesSelections[resolvedFlag] = selection.value;
+            this.item.flags.pe.rulesSelections[resolvedFlag] = selection.value;
 
             if(typeof ruleSource.rollOption === "string" && isItemUUID(selection.value)) {
                 const item = await fromUuid(selection.value);

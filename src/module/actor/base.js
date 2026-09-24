@@ -30,7 +30,7 @@ class PTUActor extends Actor {
     }
 
     get rollOptions() {
-        return this.flags.ptu?.rollOptions;
+        return this.flags.pe?.rollOptions;
     }
 
     get combatant() {
@@ -54,7 +54,7 @@ class PTUActor extends Actor {
     }
 
     get identified() {
-        return this.flags.ptu?.identified !== false;
+        return this.flags.pe?.identified !== false;
     }
 
     get sizeClass() {
@@ -151,10 +151,10 @@ class PTUActor extends Actor {
                 effectiveness[key] = (effectiveness[key] ?? 1) * value;
             }
         }
-        if (!game.settings.get("ptu", "homebrew.nuclearType")) {
+        if (!game.settings.get("pe", "homebrew.nuclearType")) {
             delete effectiveness["Nuclear"];
         }
-        if (!game.settings.get("ptu", "homebrew.shadowType")) {
+        if (!game.settings.get("pe", "homebrew.shadowType")) {
             delete effectiveness["Shadow"];
         }
         else {
@@ -252,9 +252,9 @@ class PTUActor extends Actor {
         this.constructed = true;
 
         // Extra Rolloptions before 'After Derived' hooks get called
-        if (!this.types.includes("Untyped")) delete this.flags.ptu.rollOptions.all["self:types:untyped"]
+        if (!this.types.includes("Untyped")) delete this.flags.pe.rollOptions.all["self:types:untyped"]
         for (const type of this.types) {
-            this.flags.ptu.rollOptions.all["self:types:" + type.toLowerCase()] = true;
+            this.flags.pe.rollOptions.all["self:types:" + type.toLowerCase()] = true;
         }
 
         // Call post-derived-preparation `RuleElement` hooks
@@ -270,12 +270,12 @@ class PTUActor extends Actor {
         this._setDefaultChanges();
 
         // Refresh sidebar if needed
-        if (this.constructed && canvas.ready && game.ptu) {
+        if (this.constructed && canvas.ready && game.pe) {
             const thisTokenIsControlled = canvas.tokens.controlled.some(
                 t => t.document === this.parent || (t.document.actorLink && t.actor === this)
             )
             if (game.user.character === this || thisTokenIsControlled) {
-                game.ptu.tokenPanel.refresh();
+                game.pe.tokenPanel.refresh();
             }
         }
     }
@@ -285,7 +285,7 @@ class PTUActor extends Actor {
         const { flags } = this;
 
         // Setup the basic structure of PTU flags with roll options
-        this.flags.ptu = foundry.utils.mergeObject(flags.ptu ?? {}, {
+        this.flags.pe = foundry.utils.mergeObject(flags.pe ?? {}, {
             rollOptions: {
                 all: {
                     [`self:type:${this.type}`]: true,
@@ -319,7 +319,7 @@ class PTUActor extends Actor {
         super.prepareEmbeddedDocuments();
 
         for (const effect of [this.itemTypes.effect, this.itemTypes.condition].flat()) {
-            game.ptu.effectTracker.register(effect);
+            game.pe.effectTracker.register(effect);
         }
 
         this.prepareDataFromItems();
@@ -468,7 +468,7 @@ class PTUActor extends Actor {
         if(data.type === 'character') {
             if(!data.items.some(i => i.name.endsWith("Training"))) {
                 // Grant lvl 1 training
-                fromUuid('Compendium.ptu.effects.Item.fm0TZUuQK0uRhkJA').then((effect) => {
+                fromUuid('Compendium.pe.effects.Item.fm0TZUuQK0uRhkJA').then((effect) => {
                     this.createEmbeddedDocuments('Item', [effect.toObject()]);
                 });
             }
@@ -494,7 +494,7 @@ class PTUActor extends Actor {
         return this.clone(
             {
                 items: [foundry.utils.deepClone(this._source.items), ephemeralEffects].flat(),
-                flags: { ptu: { rollOptions: { all: rollOptionsAll } } },
+                flags: { pe: { rollOptions: { all: rollOptionsAll } } },
             },
             { keepId: true }
         )
@@ -626,8 +626,8 @@ class PTUActor extends Actor {
 
             const { health, tempHp } = this.system;
 
-            const massiveDamageGatePercentage = game.settings.get("ptu", "automation.massiveDamageThresholdPercent")
-            const maxHpInjuryIntervalPercentage = game.settings.get("ptu", "automation.hpInjuryGateIntervalPercent")
+            const massiveDamageGatePercentage = game.settings.get("pe", "automation.massiveDamageThresholdPercent")
+            const maxHpInjuryIntervalPercentage = game.settings.get("pe", "automation.hpInjuryGateIntervalPercent")
 
             if (hpDamage >= Math.ceil(health.total * massiveDamageGatePercentage / 100)) {
                 injuries++;
@@ -724,7 +724,7 @@ class PTUActor extends Actor {
         const enrichedHtml = await foundry.applications.ux.TextEditor.implementation.enrichHTML(statements, { async: true })
         const canUndoDamage = !!hpDamage
 
-        const content = await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/damage/damage-taken.hbs", {
+        const content = await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/damage/damage-taken.hbs", {
             statements: enrichedHtml,
             iwr: {
                 applications,
@@ -735,7 +735,7 @@ class PTUActor extends Actor {
 
         const flavor = await (async () => {
             if (breakdown.length || notes.length) {
-                return foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/damage/damage-taken-flavor.hbs", { breakdown, notes });
+                return foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/damage/damage-taken-flavor.hbs", { breakdown, notes });
             }
             return;
         })();
@@ -766,7 +766,7 @@ class PTUActor extends Actor {
         await ChatMessagePTU.create({
             speaker: ChatMessagePTU.getSpeaker({ token }),
             flags: {
-                ptu: {
+                pe: {
                     appliedDamage
                 }
             },
@@ -952,12 +952,12 @@ class PTUActor extends Actor {
         super._onUpdate(data, options, userId);
 
         if (data.system?.health?.value !== undefined) {
-            if (data.system.health.value <= 0 && game.settings.get("ptu", "automation.autoFaint")) {
+            if (data.system.health.value <= 0 && game.settings.get("pe", "automation.autoFaint")) {
                 if (this.primaryUpdater?.id !== game.user.id) return;
                 const fainted = this.conditions.bySlug("fainted");
                 if (fainted.length === 0) PTUCondition.FromEffects([{ id: "fainted" }]).then(items => this.createEmbeddedDocuments("Item", items));
             }
-            else if (data.system.health.value > 0 && game.settings.get("ptu", "automation.autoFaintRecovery")) {
+            else if (data.system.health.value > 0 && game.settings.get("pe", "automation.autoFaintRecovery")) {
                 if (this.primaryUpdater?.id !== game.user.id) return;
                 const fainted = this.conditions.bySlug("fainted");
                 if (fainted.length > 0) fainted.forEach(f => f.delete());
@@ -1020,7 +1020,7 @@ class PTUActor extends Actor {
     /** @override */
     _onDelete(options, userId) {
         for (const effect of [this.itemTypes.effect, this.itemTypes.condition].flat()) {
-            game.ptu.effectTracker.unregister(effect);
+            game.pe.effectTracker.unregister(effect);
         }
         super._onDelete(options, userId);
     }
@@ -1075,7 +1075,7 @@ class PTUActor extends Actor {
                         type: type
                     },
                     flags: {
-                        ptu: ptuFlags || {}
+                        pe: ptuFlags || {}
                     }
                 },
                     {
@@ -1119,11 +1119,11 @@ class PTUActor extends Actor {
         })() : [];
 
         const moves = [];
-        this.flags.ptu.disabledOptions = [];
+        this.flags.pe.disabledOptions = [];
         for (const move of this.itemTypes.move) {
             if (move.system.isStruggle) continue;
 
-            this.flags.ptu.disabledOptions.push({
+            this.flags.pe.disabledOptions.push({
                 "label": move.name,
                 "value": move.slug,
                 "sort": move.sort,
@@ -1142,7 +1142,7 @@ class PTUActor extends Actor {
 
             moves.push(clone);
         }
-        this.flags.ptu.disabledOptions.sort((a, b) => b.sort - a.sort);
+        this.flags.pe.disabledOptions.sort((a, b) => b.sort - a.sort);
 
         return new Collection(
             [...moves, ...struggles]
@@ -1881,7 +1881,7 @@ class PTUActor extends Actor {
                             source: "Level",
                             mode: "add",
                             value: (
-                                this.type === "character" && ["data-revamp", "short-track"].includes(game.settings.get("ptu", "variant.trainerAdvancement"))
+                                this.type === "character" && ["data-revamp", "short-track"].includes(game.settings.get("pe", "variant.trainerAdvancement"))
                                     ? (this.system.level.current + this.system.level.current)
                                     : this.system.level.current),
                         },

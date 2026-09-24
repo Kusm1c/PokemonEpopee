@@ -75,7 +75,7 @@ class PokeballItem extends PTUItemItem {
                 category: "Status"
             });
 
-            if (game.settings.get("ptu", "automation.failAttackIfOutOfRange") && typeof context.target?.distance === "number") {
+            if (game.settings.get("pe", "automation.failAttackIfOutOfRange") && typeof context.target?.distance === "number") {
                 if (context.target.distance > this.range) {
                     ui.notifications.warn("PTU.Action.AttackOutOfRange", { localize: true });
                     return null;
@@ -303,7 +303,7 @@ class PokeballItem extends PTUItemItem {
                 rollModifiers.push(new PTUModifier({
                     slug: "level-modifier",
                     label: "Level Modifier",
-                    modifier: (["data-revamp", "short-track"].includes(game.settings.get("ptu", "variant.trainerAdvancement")) ? 2 : ["long-track"].includes(game.settings.get("ptu", "variant.trainerAdvancement")) ? 0.5 : 1) * -this.actor.system.level.current
+                    modifier: (["data-revamp", "short-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? 2 : ["long-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? 0.5 : 1) * -this.actor.system.level.current
                 }));
 
                 // Item mods
@@ -393,10 +393,10 @@ class PokeballItem extends PTUItemItem {
 
         const dialog = new Dialog({
             title: game.i18n.localize("PTU.Dialog.CaptureSuccess.Title"),
-                            content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/apps/capture-success.hbs", {
+                            content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/apps/capture-success.hbs", {
                 trainers,
                 locationOptions: CONFIG.PTU.data.capture.locationOptions,
-                location: game.settings.get("ptu", "captureDefaultPartyState") || "party"
+                location: game.settings.get("pe", "captureDefaultPartyState") || "party"
             }),
             buttons: {
                 submit: {
@@ -425,13 +425,13 @@ class PokeballItem extends PTUItemItem {
                         const pokemonUpdateData = {
                             "_id": pokemon.id,
                             "ownership": {
-                                default: game.settings.get("ptu", "transferOwnershipDefaultValue") || CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
+                                default: game.settings.get("pe", "transferOwnershipDefaultValue") || CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
                                 [user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER
                             },
                             "system.pokeball": this.name
                         }
                         if (location !== "available") {
-                            pokemonUpdateData["flags.ptu.party"] = {
+                            pokemonUpdateData["flags.pe.party"] = {
                                 trainer: trainer.id,
                                 boxed: location === "box",
                             }

@@ -1,7 +1,7 @@
 import { CheckRoll } from "./roll.js";
 
 export class AttackRoll extends CheckRoll {
-    static CHAT_TEMPLATE = "systems/ptu/static/templates/chat/attack/attack-roll.hbs";
+    static CHAT_TEMPLATE = "systems/pe/static/templates/chat/attack/attack-roll.hbs";
 
     /** @override */
     async render(options = {}) {

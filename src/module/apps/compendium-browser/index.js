@@ -19,7 +19,7 @@ class PackLoader {
     loadedSources = [];
 
     constructor() {
-        this.sourcesSettings = game.settings.get("ptu", "compendiumBrowserSources");
+        this.sourcesSettings = game.settings.get("pe", "compendiumBrowserSources");
     }
 
     /**
@@ -189,7 +189,7 @@ class CompendiumBrowser extends Application {
 
         this.packLoader = new PackLoader();
 
-        this.settings = game.settings.get("ptu", "compendiumBrowserPacks");
+        this.settings = game.settings.get("pe", "compendiumBrowserPacks");
         this.navigationTab = this.hookTab();
         this.tabs = {
             abilities: new browserTabs.Abilities(this),
@@ -215,7 +215,7 @@ class CompendiumBrowser extends Application {
             ...super.defaultOptions,
             id: "compendium-browser",
             classes: [],
-            template: "systems/ptu/static/templates/apps/compendium-browser/compendium-browser.hbs",
+            template: "systems/pe/static/templates/apps/compendium-browser/compendium-browser.hbs",
             width: 800,
             height: 700,
             resizable: true,
@@ -263,15 +263,15 @@ class CompendiumBrowser extends Application {
         }
 
         const loadDefault = {
-            "ptu.abilities": true,
-            "ptu.capabilities": false,
-            "ptu.edges": true,
-            "ptu.effects": true,
-            "ptu.feats": true,
-            "ptu.items": true,
-            "ptu.moves": true,
-            "ptu.poke-edges": true,
-            "ptu.species": true
+            "pe.abilities": true,
+            "pe.capabilities": false,
+            "pe.edges": true,
+            "pe.effects": true,
+            "pe.feats": true,
+            "pe.items": true,
+            "pe.moves": true,
+            "pe.poke-edges": true,
+            "pe.species": true
         }
 
         for (const pack of game.packs) {
@@ -403,7 +403,7 @@ class CompendiumBrowser extends Application {
                             pack.load = formData[key] ?? pack.load;
                         }
                     }
-                    await game.settings.set("ptu", "compendiumBrowserPacks", this.settings);
+                    await game.settings.set("pe", "compendiumBrowserPacks", this.settings);
 
                     // for (const [key, source] of Object.entries(this.packLoader.sourcesSettings.sources)) {
                     //     if (!source || source.name === null || source.name === undefined || source.name.trim() === "") {
@@ -416,7 +416,7 @@ class CompendiumBrowser extends Application {
                     // this.packLoader.sourcesSettings.showEmptySources = formData.has("show-empty-sources");
                     // this.packLoader.sourcesSettings.showUnknownSources = formData.has("show-unknown-sources");
                     // this.packLoader.sourcesSettings.ignoreAsGM = formData.has("ignore-as-gm");
-                    // await game.settings.set("ptu", "compendiumBrowserSources", this.packLoader.sourcesSettings);
+                    // await game.settings.set("pe", "compendiumBrowserSources", this.packLoader.sourcesSettings);
 
                     await this.#resetInitializedTabs();
                     this.render(true);

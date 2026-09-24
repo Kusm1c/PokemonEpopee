@@ -10,12 +10,12 @@ class PTUSettingsMenu extends FormApplication {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        options.classes.push("ptu-settings-menu");
+        options.classes.push("pe-settings-menu");
 
         return foundry.utils.mergeObject(options, {
             title: `PTU.Settings.${this.namespace.titleCase()}.Name`,
             id: `${this.namespace}-settings`,
-            template: `systems/ptu/static/templates/config/settings/menu.hbs`,
+            template: `systems/pe/static/templates/config/settings/menu.hbs`,
             width: 550,
             height: "auto",
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: "form" }],
@@ -47,7 +47,7 @@ class PTUSettingsMenu extends FormApplication {
     static registerSettings() {
         const settings = this.settings;
         for (const setting of this.SETTINGS) {
-            game.settings.register("ptu", `${this.prefix}${setting}`, {
+            game.settings.register("pe", `${this.prefix}${setting}`, {
                 ...settings[setting],
                 scope: "world",
                 config: false
@@ -87,12 +87,12 @@ class PTUSettingsMenu extends FormApplication {
             const value = data[key];
             this.cache[key] = value;
             if (event.type === "submit") {
-                const current = game.settings.get("ptu", settingKey);
+                const current = game.settings.get("pe", settingKey);
                 if(current === value) continue;
 
                 requiresClientReload ||= settings[key].scope === "client" && !!settings[key].requiresReload;
                 requiresWorldReload ||= settings[key].scope !== "client" && !!settings[key].requiresReload;
-                await game.settings.set("ptu", settingKey, value);
+                await game.settings.set("pe", settingKey, value);
             }
         }
         if(requiresClientReload || requiresWorldReload) SettingsConfig.reloadConfirm({world: requiresWorldReload});
@@ -110,14 +110,14 @@ class PTUSettingsMenu extends FormApplication {
         // Initialize cache
         for (const key of this.constructor.SETTINGS) {
             const settingKey = `${this.prefix}${key}`;
-            this.cache[key] = game.settings.get("ptu", settingKey);
+            this.cache[key] = game.settings.get("pe", settingKey);
         }
     }
 }
 function settingsToSheetData(settings, cache, prefix = "") {
     return Object.entries(settings).reduce((result, [key, setting]) => {
         const lookupKey = `${prefix}${key}`;
-        const value = key in cache ? cache[key] : game.settings.get("ptu", lookupKey);
+        const value = key in cache ? cache[key] : game.settings.get("pe", lookupKey);
         cache[key] = value;
         result[key] = {
             ...setting,

@@ -3,7 +3,7 @@ import { PTUItemSheet } from "../index.js";
 class PTUMoveSheet extends PTUItemSheet {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            template: "systems/ptu/static/templates/item/move-sheet.hbs"
+            template: "systems/pe/static/templates/item/move-sheet.hbs"
         });
     }
 
@@ -12,8 +12,8 @@ class PTUMoveSheet extends PTUItemSheet {
         const data = await super.getData();
         
         data.types = Object.keys(CONFIG.PTU.data.typeEffectiveness)
-        if(!game.settings.get("ptu", "homebrew.nuclearType")) data.types = data.types.filter(type => type != "Nuclear");
-        if(!game.settings.get("ptu", "homebrew.shadowType")) data.types = data.types.filter(type => type != "Shadow");
+        if(!game.settings.get("pe", "homebrew.nuclearType")) data.types = data.types.filter(type => type != "Nuclear");
+        if(!game.settings.get("pe", "homebrew.shadowType")) data.types = data.types.filter(type => type != "Shadow");
 
         return data;
     }

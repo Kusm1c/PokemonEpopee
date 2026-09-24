@@ -6,12 +6,12 @@ class PTUTokenDocument extends TokenDocument {
     /** @override */
     _initialize() {
         this.auras = new Map();
-        this._source.flags.ptu ??= {};
-        this._source.flags.ptu.linkToActorSize ??= true;
-        this._source.flags.ptu.autoscale ??= this._source.flags.ptu.linkToActorSize
-            ? this._source.flags.ptu.autoscale ?? game.settings.get("ptu", "tokens.autoscale")
+        this._source.flags.pe ??= {};
+        this._source.flags.pe.linkToActorSize ??= true;
+        this._source.flags.pe.autoscale ??= this._source.flags.pe.linkToActorSize
+            ? this._source.flags.pe.autoscale ?? game.settings.get("pe", "tokens.autoscale")
             : false;
-        this._source.flags.ptu.manuallyResized ??= false;
+        this._source.flags.pe.manuallyResized ??= false;
 
         super._initialize();
     }
@@ -25,12 +25,12 @@ class PTUTokenDocument extends TokenDocument {
         if (!this.actor || !this.isEmbedded) return;
 
         // Dimensions and scale
-        const linkToActorSize = this.flags.ptu?.linkToActorSize ?? true;
+        const linkToActorSize = this.flags.pe?.linkToActorSize ?? true;
 
-        const autoscaleDefault = game.settings.get("ptu", "tokens.autoscale");
+        const autoscaleDefault = game.settings.get("pe", "tokens.autoscale");
         // Autoscaling is a secondary feature of linking to actor size
-        const autoscale = linkToActorSize ? this.flags.ptu.autoscale ?? autoscaleDefault : false;
-        this.flags.ptu = foundry.utils.mergeObject(this.flags.ptu ?? {}, { linkToActorSize, autoscale });
+        const autoscale = linkToActorSize ? this.flags.pe.autoscale ?? autoscaleDefault : false;
+        this.flags.pe = foundry.utils.mergeObject(this.flags.pe ?? {}, { linkToActorSize, autoscale });
 
         this.disposition = this.actor.alliance
             ? {
@@ -70,10 +70,10 @@ class PTUTokenDocument extends TokenDocument {
      * @private
      */
     _checkAndFixTokenSize() {
-        if (!this.actor || !this.flags.ptu?.linkToActorSize) return;
+        if (!this.actor || !this.flags.pe?.linkToActorSize) return;
 
         // Don't override manual resizing
-        if (this.flags.ptu.manuallyResized) return;
+        if (this.flags.pe.manuallyResized) return;
 
         const expectedSize = PTUTokenDocument.prepareSize(this, this.actor, false);
         if (!expectedSize) return;
@@ -115,7 +115,7 @@ class PTUTokenDocument extends TokenDocument {
      * Set a TokenData instance's dimensions from actor data. Static so actors can use for their prototypes
      */
     static prepareSize(tokenDocument, actor, overriden = false) {
-        if(!(actor && tokenDocument.flags.ptu?.linkToActorSize)) return null;
+        if(!(actor && tokenDocument.flags.pe?.linkToActorSize)) return null;
         
         const {width, height} = ((sizeClass) => {
             switch (sizeClass) {
@@ -142,7 +142,7 @@ class PTUTokenDocument extends TokenDocument {
         }
 
         // Handle texture scaling
-        if(game.settings.get("ptu", "tokens.autoscale") && !overriden && tokenDocument.flags?.ptu?.autoscale !== false) {
+        if(game.settings.get("pe", "tokens.autoscale") && !overriden && tokenDocument.flags?.pe?.autoscale !== false) {
             const absoluteScale = actor.sizeClass === "Small" ? 0.6 : 1;
             const mirrorX = tokenDocument.texture.scaleX < 0 ? -1 : 1;
             const mirrorY = tokenDocument.texture.scaleY < 0 ? -1 : 1;
@@ -165,21 +165,21 @@ class PTUTokenDocument extends TokenDocument {
         if (result === false) return false;
 
         const flags = {
-            autoscale: !!this.flags.ptu.autoscale,
-            linkToActorSize: !!this.flags.ptu.linkToActorSize,
+            autoscale: !!this.flags.pe.autoscale,
+            linkToActorSize: !!this.flags.pe.linkToActorSize,
         };
         
-        if ('flags' in data && typeof data.flags === "object" && data.flags && 'ptu' in data.flags && typeof data.flags.ptu === "object" && data.flags.ptu) {
-            if ('autoscale' in data.flags.ptu) {
-                flags.autoscale = !!data.flags.ptu.autoscale;
+        if ('flags' in data && typeof data.flags === "object" && data.flags && 'pe' in data.flags && typeof data.flags.pe === "object" && data.flags.pe) {
+            if ('autoscale' in data.flags.pe) {
+                flags.autoscale = !!data.flags.pe.autoscale;
             }
-            if ('linkToActorSize' in data.flags.ptu) {
-                flags.linkToActorSize = !!data.flags.ptu.linkToActorSize;
+            if ('linkToActorSize' in data.flags.pe) {
+                flags.linkToActorSize = !!data.flags.pe.linkToActorSize;
             }
         }
 
         // Only apply automatic sizing if not manually resized
-        if (!this.flags.ptu.manuallyResized) {
+        if (!this.flags.pe.manuallyResized) {
             const size = PTUTokenDocument.prepareSize(this, this.actor, false);
             if (size) {
                 const { width, height, scaleX, scaleY } = size;
@@ -199,21 +199,21 @@ class PTUTokenDocument extends TokenDocument {
         if (allowed === false) return false;
 
         const flags = {
-            autoscale: !!this.flags.ptu.autoscale,
-            linkToActorSize: !!this.flags.ptu.linkToActorSize,
+            autoscale: !!this.flags.pe.autoscale,
+            linkToActorSize: !!this.flags.pe.linkToActorSize,
         };
         
-        if ('flags' in changed && typeof changed.flags === "object" && changed.flags && 'ptu' in changed.flags && typeof changed.flags.ptu === "object" && changed.flags.ptu) {
-            if ('autoscale' in changed.flags.ptu) {
-                flags.autoscale = !!changed.flags.ptu.autoscale;
+        if ('flags' in changed && typeof changed.flags === "object" && changed.flags && 'pe' in changed.flags && typeof changed.flags.pe === "object" && changed.flags.pe) {
+            if ('autoscale' in changed.flags.pe) {
+                flags.autoscale = !!changed.flags.pe.autoscale;
             }
-            if ('linkToActorSize' in changed.flags.ptu) {
-                flags.linkToActorSize = !!changed.flags.ptu.linkToActorSize;
+            if ('linkToActorSize' in changed.flags.pe) {
+                flags.linkToActorSize = !!changed.flags.pe.linkToActorSize;
             }
         }
 
         // Only apply automatic scaling if not manually resized
-        if (!this.flags.ptu.manuallyResized) {
+        if (!this.flags.pe.manuallyResized) {
             const size = PTUTokenDocument.prepareSize(this, this.actor, false);
             if (size) {
                 const { scaleX, scaleY } = size;
@@ -258,10 +258,10 @@ class PTUTokenDocument extends TokenDocument {
             !options.autoResize && 
             !options.fromActorSize && 
             userId === game.user.id &&
-            !this.flags.ptu.manuallyResized) {
+            !this.flags.pe.manuallyResized) {
             
             // Set the flag directly without triggering another update
-            this.flags.ptu.manuallyResized = true;
+            this.flags.pe.manuallyResized = true;
         }
     }
 }

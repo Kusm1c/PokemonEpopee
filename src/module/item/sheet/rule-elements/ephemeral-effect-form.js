@@ -3,7 +3,7 @@ import { RuleElementForm } from './index.js';
 class EphemeralEffectForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/ephemeral-effect.hbs";
+        return "systems/pe/static/templates/item/rules/ephemeral-effect.hbs";
     }
 
     /** @override */

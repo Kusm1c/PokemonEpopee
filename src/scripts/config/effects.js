@@ -2,16 +2,16 @@ export const statusEffects = [
     {
         "id": "fainted",
         "name": "PTU.ConditionFainted",
-        "img": "systems/ptu/static/images/conditions/Fainted.svg",
+        "img": "systems/pe/static/images/conditions/Fainted.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_fainted",
+                "key": "flags.pe.is_fainted",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -21,10 +21,10 @@ export const statusEffects = [
     {
         "id": "burned",
         "name": "PTU.ConditionBurned",
-        "img": "systems/ptu/static/images/conditions/Burned.svg",
+        "img": "systems/pe/static/images/conditions/Burned.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_burned",
+                "key": "flags.pe.is_burned",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -40,16 +40,16 @@ export const statusEffects = [
     {
         "id": "frozen",
         "name": "PTU.ConditionFrozen",
-        "img": "systems/ptu/static/images/conditions/Frozen.svg",
+        "img": "systems/pe/static/images/conditions/Frozen.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_frozen",
+                "key": "flags.pe.is_frozen",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -59,10 +59,10 @@ export const statusEffects = [
     {
         "id": "paralysis",
         "name": "PTU.ConditionParalysis",
-        "img": "systems/ptu/static/images/conditions/Paralysis.svg",
+        "img": "systems/pe/static/images/conditions/Paralysis.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_paralyzed",
+                "key": "flags.pe.is_paralyzed",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -72,10 +72,10 @@ export const statusEffects = [
     {
         "id": "poisoned",
         "name": "PTU.ConditionPoisoned",
-        "img": "systems/ptu/static/images/conditions/Poisoned.svg",
+        "img": "systems/pe/static/images/conditions/Poisoned.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_poisoned",
+                "key": "flags.pe.is_poisoned",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -85,16 +85,16 @@ export const statusEffects = [
     {
         "id": "badly-poisoned",
         "name": "PTU.ConditionBadlyPoisoned",
-        "img": "systems/ptu/static/images/conditions/Badly-Poisoned.svg",
+        "img": "systems/pe/static/images/conditions/Badly-Poisoned.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_poisoned",
+                "key": "flags.pe.is_poisoned",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_badly_poisoned",
+                "key": "flags.pe.is_badly_poisoned",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -104,10 +104,10 @@ export const statusEffects = [
     {
         "id": "confused",
         "name": "PTU.ConditionConfused",
-        "img": "systems/ptu/static/images/conditions/Confused.svg",
+        "img": "systems/pe/static/images/conditions/Confused.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_confused",
+                "key": "flags.pe.is_confused",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -117,10 +117,10 @@ export const statusEffects = [
     {
         "id": "cursed",
         "name": "PTU.ConditionCursed",
-        "img": "systems/ptu/static/images/conditions/Cursed.svg",
+        "img": "systems/pe/static/images/conditions/Cursed.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_cursed",
+                "key": "flags.pe.is_cursed",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -130,10 +130,10 @@ export const statusEffects = [
     {
         "id": "disabled",
         "name": "PTU.ConditionDisabled",
-        "img": "systems/ptu/static/images/conditions/Disabled.svg",
+        "img": "systems/pe/static/images/conditions/Disabled.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_disabled",
+                "key": "flags.pe.is_disabled",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -143,16 +143,16 @@ export const statusEffects = [
     {
         "id": "flinch",
         "name": "PTU.ConditionFlinch",
-        "img": "systems/ptu/static/images/conditions/Flinched.svg",
+        "img": "systems/pe/static/images/conditions/Flinched.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_flinched",
+                "key": "flags.pe.is_flinched",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -162,10 +162,10 @@ export const statusEffects = [
     {
         "id": "infatuation",
         "name": "PTU.ConditionInfatuation",
-        "img": "systems/ptu/static/images/conditions/Infatuated.svg",
+        "img": "systems/pe/static/images/conditions/Infatuated.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_infatuated",
+                "key": "flags.pe.is_infatuated",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -175,10 +175,10 @@ export const statusEffects = [
     {
         "id": "rage",
         "name": "PTU.ConditionRage",
-        "img": "systems/ptu/static/images/conditions/Rage.svg",
+        "img": "systems/pe/static/images/conditions/Rage.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_raging",
+                "key": "flags.pe.is_raging",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -188,16 +188,16 @@ export const statusEffects = [
     {
         "id": "sleep",
         "name": "PTU.ConditionSleep",
-        "img": "systems/ptu/static/images/conditions/Sleep.svg",
+        "img": "systems/pe/static/images/conditions/Sleep.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_sleeping",
+                "key": "flags.pe.is_sleeping",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -207,10 +207,10 @@ export const statusEffects = [
     {
         "id": "bad-sleep",
         "name": "PTU.ConditionBadSleep",
-        "img": "systems/ptu/static/images/conditions/Bad-Sleep.svg",
+        "img": "systems/pe/static/images/conditions/Bad-Sleep.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_badly_sleeping",
+                "key": "flags.pe.is_badly_sleeping",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -220,10 +220,10 @@ export const statusEffects = [
     {
         "id": "suppressed",
         "name": "PTU.ConditionSuppressed",
-        "img": "systems/ptu/static/images/conditions/Suppressed.svg",
+        "img": "systems/pe/static/images/conditions/Suppressed.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_suppressed",
+                "key": "flags.pe.is_suppressed",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -233,16 +233,16 @@ export const statusEffects = [
     {
         "id": "blindness",
         "name": "PTU.ConditionBlindness",
-        "img": "systems/ptu/static/images/conditions/Blindness.svg",
+        "img": "systems/pe/static/images/conditions/Blindness.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_blind",
+                "key": "flags.pe.is_blind",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -258,22 +258,22 @@ export const statusEffects = [
     {
         "id": "total-blindness",
         "name": "PTU.ConditionTotalBlindness",
-        "img": "systems/ptu/static/images/conditions/Total-Blindness.svg",
+        "img": "systems/pe/static/images/conditions/Total-Blindness.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_blind",
+                "key": "flags.pe.is_blind",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_totally_blind",
+                "key": "flags.pe.is_totally_blind",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -289,10 +289,10 @@ export const statusEffects = [
     {
         "id": "slowed",
         "name": "PTU.ConditionSlowed",
-        "img": "systems/ptu/static/images/conditions/Slowed.svg",
+        "img": "systems/pe/static/images/conditions/Slowed.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_slowed",
+                "key": "flags.pe.is_slowed",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -302,10 +302,10 @@ export const statusEffects = [
     {
         "id": "stuck",
         "name": "PTU.ConditionStuck",
-        "img": "systems/ptu/static/images/conditions/Stuck.svg",
+        "img": "systems/pe/static/images/conditions/Stuck.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_stuck",
+                "key": "flags.pe.is_stuck",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -315,10 +315,10 @@ export const statusEffects = [
     {
         "id": "trapped",
         "name": "PTU.ConditionTrapped",
-        "img": "systems/ptu/static/images/conditions/Trapped.svg",
+        "img": "systems/pe/static/images/conditions/Trapped.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_trapped",
+                "key": "flags.pe.is_trapped",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -328,16 +328,16 @@ export const statusEffects = [
     {
         "id": "tripped",
         "name": "PTU.ConditionTripped",
-        "img": "systems/ptu/static/images/conditions/Tripped.svg",
+        "img": "systems/pe/static/images/conditions/Tripped.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_tripped",
+                "key": "flags.pe.is_tripped",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -347,10 +347,10 @@ export const statusEffects = [
     {
         "id": "vulnerable",
         "name": "PTU.ConditionVulnerable",
-        "img": "systems/ptu/static/images/conditions/Vulnerable.svg",
+        "img": "systems/pe/static/images/conditions/Vulnerable.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_vulnerable",
+                "key": "flags.pe.is_vulnerable",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -360,10 +360,10 @@ export const statusEffects = [
     {
         "id": "tagged",
         "name": "PTU.ConditionTagged",
-        "img": "systems/ptu/static/images/conditions/Tagged.svg",
+        "img": "systems/pe/static/images/conditions/Tagged.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_tagged",
+                "key": "flags.pe.is_tagged",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -373,10 +373,10 @@ export const statusEffects = [
     {
         "id": "cheered",
         "name": "PTU.ConditionCheered",
-        "img": "systems/ptu/static/images/conditions/Cheered.svg",
+        "img": "systems/pe/static/images/conditions/Cheered.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_cheered",
+                "key": "flags.pe.is_cheered",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -386,22 +386,22 @@ export const statusEffects = [
     {
         "id": "vortex",
         "name": "PTU.ConditionVortex",
-        "img": "systems/ptu/static/images/conditions/Vortex.svg",
+        "img": "systems/pe/static/images/conditions/Vortex.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_stuck_in_vortex",
+                "key": "flags.pe.is_stuck_in_vortex",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_slowed",
+                "key": "flags.pe.is_slowed",
                 "value": true,
                 "mode": 5,
                 "priority": 50
             },
             {
-                "key": "flags.ptu.is_trapped",
+                "key": "flags.pe.is_trapped",
                 "value": true,
                 "mode": 5,
                 "priority": 50
@@ -411,10 +411,10 @@ export const statusEffects = [
     {
         "id": "seeded",
         "name": "PTU.ConditionSeeded",
-        "img": "systems/ptu/static/images/conditions/Seeded.svg",
+        "img": "systems/pe/static/images/conditions/Seeded.svg",
         "changes": [
             {
-                "key": "flags.ptu.is_seeded",
+                "key": "flags.pe.is_seeded",
                 "value": true,
                 "mode": 5,
                 "priority": 50

@@ -9,7 +9,7 @@ class CaptureRoll extends CheckRoll {
 
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/chat/check/capture-roll.hbs";
+        return "systems/pe/static/templates/chat/check/capture-roll.hbs";
     }
 
     /** @override */

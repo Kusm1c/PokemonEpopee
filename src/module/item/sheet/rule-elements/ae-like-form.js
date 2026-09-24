@@ -5,7 +5,7 @@ import { RuleElementForm } from './base.js'
 class AELikeForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/ae-like.hbs";
+        return "systems/pe/static/templates/item/rules/ae-like.hbs";
     }
 
     /** @override */

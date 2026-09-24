@@ -5,8 +5,8 @@ export class PTUNpcQuickBuild extends FormApplication {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["ptu", "pokemon", "npc-quick-build"],
-            template: "systems/ptu/static/templates/apps/npc-quick-build-sheet.hbs",
+            classes: ["pe", "pokemon", "npc-quick-build"],
+            template: "systems/pe/static/templates/apps/npc-quick-build-sheet.hbs",
             width: 660,
             height: "auto",
             title: "NPC Quick Build",
@@ -90,7 +90,7 @@ export class PTUNpcQuickBuild extends FormApplication {
 
         });
 
-        for (const multiselect of $html.find('.ptu-tagify[data-filter-name]')) {
+        for (const multiselect of $html.find('.pe-tagify[data-filter-name]')) {
             // await tagify(element);
             const data = this.data.multiselects[multiselect.dataset.filterName];
             const savePath = multiselect.name;

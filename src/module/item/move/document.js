@@ -18,11 +18,11 @@ class PTUMove extends PTUItem {
             options.item['move:is-stab'] = true;
         }
         if (this.isDamaging && this.damageBase.isStab && !!options.all[`move:damage-base:${this.damageBase.preStab}`]) {
-            delete this.flags.ptu.rollOptions.all[`move:damage-base:${this.damageBase.preStab}`];
-            delete this.flags.ptu.rollOptions.item[`move:damage-base:${this.damageBase.preStab}`];
+            delete this.flags.pe.rollOptions.all[`move:damage-base:${this.damageBase.preStab}`];
+            delete this.flags.pe.rollOptions.item[`move:damage-base:${this.damageBase.preStab}`];
 
-            this.flags.ptu.rollOptions.all[`move:damage-base:${this.damageBase.postStab}`] = true;
-            this.flags.ptu.rollOptions.item[`move:damage-base:${this.damageBase.postStab}`] = true;
+            this.flags.pe.rollOptions.all[`move:damage-base:${this.damageBase.postStab}`] = true;
+            this.flags.pe.rollOptions.item[`move:damage-base:${this.damageBase.postStab}`] = true;
 
             options.all[`move:damage-base:${this.damageBase.postStab}`] = true;
             options.item[`move:damage-base:${this.damageBase.postStab}`] = true;
@@ -85,8 +85,8 @@ class PTUMove extends PTUItem {
         if (!isNaN(Number(this.system.ac))) rollOptions.all[`move:ac:${this.system.ac}`] = true;
         rollOptions.item = rollOptions.all;
 
-        this.flags.ptu = foundry.utils.mergeObject(this.flags.ptu, {rollOptions});
-        this.flags.ptu.rollOptions.attack = Object.keys(this.flags.ptu.rollOptions.all).reduce((obj, key) => {
+        this.flags.pe = foundry.utils.mergeObject(this.flags.pe, {rollOptions});
+        this.flags.pe.rollOptions.attack = Object.keys(this.flags.pe.rollOptions.all).reduce((obj, key) => {
             obj[key.replace("move:", "attack:").replace("item:", "attack:")] = true;
             return obj;
         }, {});
@@ -124,7 +124,7 @@ class PTUMove extends PTUItem {
                 const chatData = {
                     user: game.user.id,
                     speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-                    content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/effect-applied.hbs", { statements: enrichedHtml }),
+                    content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/effect-applied.hbs", { statements: enrichedHtml }),
                     type: CONST.CHAT_MESSAGE_STYLES.OTHER,
                     whisper: this.actor.hasPlayerOwner ? [game.user.id] : game.users.filter(u => u.isGM).map(u => u.id),
                 };

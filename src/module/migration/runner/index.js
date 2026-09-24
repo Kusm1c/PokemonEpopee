@@ -5,7 +5,7 @@ import { MigrationRunnerBase } from "./base.js"
 class MigrationRunner extends MigrationRunnerBase {
     /** @override */
     needsMigration() {
-        return super.needsMigration(game.settings.get("ptu", "worldSchemaVersion"));
+        return super.needsMigration(game.settings.get("pe", "worldSchemaVersion"));
     }
 
     static get LATEST_SCHEMA_VERSION() {
@@ -357,7 +357,7 @@ class MigrationRunner extends MigrationRunnerBase {
                 // Only migrate if the synthetic actor has replaced migratable data
                 const hasMigratableData =
                     token._source.delta && (
-                        !!token._source.delta.flags?.ptu ||
+                        !!token._source.delta.flags?.pe ||
                         Object.keys(token._source.delta).some((k) => ["items", "system"].includes(k))
                     );
 
@@ -378,7 +378,7 @@ class MigrationRunner extends MigrationRunnerBase {
     async runMigration(force = false) {
         const schemaVersion = {
             latest: MigrationRunner.LATEST_SCHEMA_VERSION,
-            current: game.settings.get("ptu", "worldSchemaVersion"),
+            current: game.settings.get("pe", "worldSchemaVersion"),
         };
         const systemVersion = game.system.version;
 
@@ -415,7 +415,7 @@ class MigrationRunner extends MigrationRunnerBase {
         }
         progress.close(game.i18n.localize("PTU.Migrations.Progress.Completed"));
 
-        await game.settings.set("ptu", "worldSchemaVersion", schemaVersion.latest);
+        await game.settings.set("pe", "worldSchemaVersion", schemaVersion.latest);
     }
 }
 

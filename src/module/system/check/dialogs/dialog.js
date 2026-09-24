@@ -49,7 +49,7 @@ export class CheckDialog extends Application {
     static get defaultOptions() {
         return {
             ...super.defaultOptions,
-            template: "systems/ptu/static/templates/chat/check/check-modifiers-dialog.hbs",
+            template: "systems/pe/static/templates/chat/check/check-modifiers-dialog.hbs",
             classes: ["dice-checks", "dialog"],
             popOut: true,
             width: 380,
@@ -190,7 +190,7 @@ export class CheckModifiersDialog extends Application {
     static get defaultOptions() {
         return {
             ...super.defaultOptions,
-            template: "systems/ptu/static/templates/chat/check/check-modifiers-dialog.hbs",
+            template: "systems/pe/static/templates/chat/check/check-modifiers-dialog.hbs",
             classes: ["dice-checks", "dialog"],
             popOut: true,
             width: 380,

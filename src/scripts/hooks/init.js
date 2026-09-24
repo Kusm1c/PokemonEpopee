@@ -1,5 +1,5 @@
 import { PTUCONFIG } from "../config/index.js"
-import { GamePTU } from "../game-ptu.js"
+import { GamePTU } from "../game-pe.js"
 import { registerSettings } from "../../module/system/index.js"
 import { registerHandlebarsHelpers } from "../handlebars.js"
 import { registerSheets } from "../sheets.js"
@@ -64,7 +64,7 @@ export const Init = {
                 // Template element for effects-panel
                 const uiRight = document.querySelector("#ui-right");
                 const template = document.createElement("template");
-                template.setAttribute("id", "ptu-token-panel");
+                template.setAttribute("id", "pe-token-panel");
                 uiRight?.insertAdjacentElement("afterbegin", template);
             }
 
@@ -76,7 +76,7 @@ export const Init = {
             registerSettings();
             await registerTemplates();
 
-            if(game.settings.get("ptu", "devMode")) CONFIG.ui.items.prototype._onDragStart = _onDragStart;
+            if(game.settings.get("pe", "devMode")) CONFIG.ui.items.prototype._onDragStart = _onDragStart;
 
             // Register Constants
             CONST = {
@@ -86,7 +86,7 @@ export const Init = {
             }
             Object.seal(CONST);
 
-            // Create and populate initial game.ptu interface
+            // Create and populate initial game.pe interface
             GamePTU.onInit();
         })
         Hooks.on("canvasInit", function () {

@@ -7,11 +7,11 @@ class PTUCombatant extends Combatant {
     }
 
     get roundOfLastTurn() {
-        return this.flags.ptu.roundOfLastTurn;
+        return this.flags.pe.roundOfLastTurn;
     }
 
     get roundOfLastTurnEnd() {
-        return this.flags.ptu.roundOfLastTurnEnd;
+        return this.flags.pe.roundOfLastTurnEnd;
     }
 
     get hasActed() {
@@ -27,13 +27,13 @@ class PTUCombatant extends Combatant {
     }
 
     get isDefeated() {
-        return this.defeated || this.actor?.conditions.active.some(c => c.slug === "fainted") || this.token?.document?.overlayEffect === "systems/ptu/static/images/conditions/Fainted.svg";
+        return this.defeated || this.actor?.conditions.active.some(c => c.slug === "fainted") || this.token?.document?.overlayEffect === "systems/pe/static/images/conditions/Fainted.svg";
     }
 
     get isPrimaryBossCombatant() {
         if (!this.isBoss) return false;
 
-        return this.flags.ptu.isPrimaryBossCombatant;
+        return this.flags.pe.isPrimaryBossCombatant;
     }
 
     get bossTurns() {
@@ -92,7 +92,7 @@ class PTUCombatant extends Combatant {
                     hidden,
                     sceneId,
                     tokenId,
-                    ...(index === 0 ? { flags: { ptu: { isPrimaryBossCombatant: true } } } : {})
+                    ...(index === 0 ? { flags: { pe: { isPrimaryBossCombatant: true } } } : {})
                 }));
         });
         return super.createDocuments(realData, context);
@@ -115,17 +115,17 @@ class PTUCombatant extends Combatant {
         if (hyperMode) await PTUCondition.HandleHyperMode(actor, hyperMode);
 
         if (this.isBoss) {
-            await this.bossTurns.mainTurn.update({ "flags.ptu.roundOfLastTurn": encounter.round });
+            await this.bossTurns.mainTurn.update({ "flags.pe.roundOfLastTurn": encounter.round });
         }
         else {
-            await this.update({ "flags.ptu.roundOfLastTurn": encounter.round });
+            await this.update({ "flags.pe.roundOfLastTurn": encounter.round });
         }
 
         if (Object.keys(actorUpdates).length) {
             await actor.update(actorUpdates);
         }
 
-        Hooks.callAll("ptu.startTurn", this, encounter, game.user.id);
+        Hooks.callAll("pe.startTurn", this, encounter, game.user.id);
     }
 
     async endTurn(options) {
@@ -140,19 +140,19 @@ class PTUCombatant extends Combatant {
             }
         }
 
-        await this.update({ "flags.ptu.roundOfLastTurnEnd": round });
+        await this.update({ "flags.pe.roundOfLastTurnEnd": round });
 
-        Hooks.callAll("ptu.endTurn", this, encounter, game.user.id);
+        Hooks.callAll("pe.endTurn", this, encounter, game.user.id);
     }
 
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
 
-        this.flags.ptu ??= {};
-        this.flags.ptu.roundOfLastTurn ??= null;
-        this.flags.ptu.roundOfLastTurnEnd ??= null;
-        this.flags.ptu.isPrimaryBossTurn ??= false;
+        this.flags.pe ??= {};
+        this.flags.pe.roundOfLastTurn ??= null;
+        this.flags.pe.roundOfLastTurnEnd ??= null;
+        this.flags.pe.isPrimaryBossTurn ??= false;
     }
 
     async toggleDefeated({ to = !this.isDefeated } = {}) {
@@ -179,7 +179,7 @@ class PTUCombatant extends Combatant {
             if(faintedCondition) await faintedCondition.delete();
         }
         
-        //await this.token?.object?.toggleEffect("systems/ptu/static/images/conditions/Fainted.svg", { overlay: true, active: to });
+        //await this.token?.object?.toggleEffect("systems/pe/static/images/conditions/Fainted.svg", { overlay: true, active: to });
 
         if (this.isDefeated && this.token?.object?.isTargeted) this.token.object.setTarget(false, { releaseOthers: false });
     }
@@ -210,11 +210,11 @@ class PTUCombatant extends Combatant {
         if (multi && this.isBoss) {
             const { mainTurn, otherTurns } = this.bossTurns;
             for (const turn of [...otherTurns, mainTurn]) {
-                updates.push({ _id: turn.id, flags: { ptu: { roundOfLastTurnEnd: this.hasActed ? previousRound : currentRound } } });
+                updates.push({ _id: turn.id, flags: { pe: { roundOfLastTurnEnd: this.hasActed ? previousRound : currentRound } } });
             }
         }
         else {
-            updates.push({ _id: this.id, flags: { ptu: { roundOfLastTurnEnd: this.hasActed ? previousRound : currentRound } } });
+            updates.push({ _id: this.id, flags: { pe: { roundOfLastTurnEnd: this.hasActed ? previousRound : currentRound } } });
         }
 
         await this.combat.updateEmbeddedDocuments("Combatant", updates);

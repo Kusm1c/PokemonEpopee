@@ -27,7 +27,7 @@ export class Migration107ActiveEffectsToEffectItem extends MigrationBase {
             const itemData = {
                 type: 'effect',
                 name: effect.name ?? "New Effect",
-                img: "/systems/ptu/static/css/images/icons/effect_icon.png",
+                img: "/systems/pe/static/css/images/icons/effect_icon.png",
                 system: {
                     rules: effect.changes.map((change) => {
                         if(change.mode === 0 || change.mode < 0 || change.mode > 5) return null;

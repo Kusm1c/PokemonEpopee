@@ -18,8 +18,8 @@ class PTUItem extends Item {
     }
 
     get grantedBy() {
-      // return this.flags.ptu.grantedBy ? this.actor?.items.get(this.flags.ptu.grantedBy.id) : null;
-      const id = this.flags.ptu.grantedBy?.id ?? "";
+      // return this.flags.pe.grantedBy ? this.actor?.items.get(this.flags.pe.grantedBy.id) : null;
+      const id = this.flags.pe.grantedBy?.id ?? "";
       return ((id === this.id) ? null : (this.actor?.items.get(id) ?? null));
     }
 
@@ -28,7 +28,7 @@ class PTUItem extends Item {
     }
 
     get isGranted() {
-        return this.flags.ptu.grantedBy ? this.flags.ptu.grantedBy.onDelete != "detach" : false;
+        return this.flags.pe.grantedBy ? this.flags.pe.grantedBy.onDelete != "detach" : false;
     }
 
     get hasAutomation() {
@@ -40,7 +40,7 @@ class PTUItem extends Item {
     }
 
     get rollOptions() {
-        return this.flags.ptu?.rollOptions;
+        return this.flags.pe?.rollOptions;
     }
 
     get rollable() {
@@ -86,9 +86,9 @@ class PTUItem extends Item {
 
     /** @override */
     prepareBaseData() {
-        this.flags.ptu = foundry.utils.mergeObject({ rulesSelections: {} }, this.flags.ptu ?? {});
+        this.flags.pe = foundry.utils.mergeObject({ rulesSelections: {} }, this.flags.pe ?? {});
 
-        this.flags.ptu = foundry.utils.mergeObject(this.flags.ptu ?? {}, {
+        this.flags.pe = foundry.utils.mergeObject(this.flags.pe ?? {}, {
             rollOptions: {
                 all: {
                     [`item:id:${this._id}`]: true,
@@ -106,8 +106,8 @@ class PTUItem extends Item {
         });
 
         if (this.enabled) {
-            this.flags.ptu.rollOptions.all[`item:enabled`] = true;
-            this.flags.ptu.rollOptions.item[`item:enabled`] = true;
+            this.flags.pe.rollOptions.all[`item:enabled`] = true;
+            this.flags.pe.rollOptions.item[`item:enabled`] = true;
         }
     }
 
@@ -172,16 +172,16 @@ class PTUItem extends Item {
         source ??= foundry.utils.duplicate(this);
 
         let required = false;
-        source.img ||= `/systems/ptu/static/css/images/icons/${source.type}_icon.png`
+        source.img ||= `/systems/pe/static/css/images/icons/${source.type}_icon.png`
         if (source.img == "icons/svg/item-bag.svg" || source.img == "icons/svg/mystery-man.svg") {
             if (source.type == "move") {
                 source.img = CONFIG.PTU.data.typeEffectiveness[source.system.type.titleCase()].images.icon;
             }
             else if (source.type == "contestmove") {
-                source.img = `/systems/ptu/static/css/images/types2/${source.system.type}IC_Icon.png`;
+                source.img = `/systems/pe/static/css/images/types2/${source.system.type}IC_Icon.png`;
             }
             else {
-                source.img = `/systems/ptu/static/css/images/icons/${source.type}_icon.png`;
+                source.img = `/systems/pe/static/css/images/icons/${source.type}_icon.png`;
             }
             required = true;
         }
@@ -420,7 +420,7 @@ class PTUItem extends Item {
                 category.classList.add("type-img");
 
                 const categoryImg = document.createElement("img");
-                categoryImg.src = `/systems/ptu/static/css/images/categories/${this.system.category}.png`;
+                categoryImg.src = `/systems/pe/static/css/images/categories/${this.system.category}.png`;
                 category.append(categoryImg);
 
                 header.append(category, type);
@@ -458,7 +458,7 @@ class PTUItem extends Item {
             referenceEffect
         }
 
-        ChatMessage.create({ content: await foundry.applications.handlebars.renderTemplate(`/systems/ptu/static/templates/chat/chat-items.hbs`, chatData), flavor, flags: { ptu: { origin: { item: this.uuid } } } })
+        ChatMessage.create({ content: await foundry.applications.handlebars.renderTemplate(`/systems/pe/static/templates/chat/chat-items.hbs`, chatData), flavor, flags: { pe: { origin: { item: this.uuid } } } })
     }
 }
 

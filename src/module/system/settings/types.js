@@ -25,7 +25,7 @@ export class TypeSettings extends PTUSettingsMenu {
         return foundry.utils.mergeObject(super.defaultOptions, {
             width: 820,
             height: 920,
-            template: "systems/ptu/static/templates/config/settings/types.hbs",
+            template: "systems/pe/static/templates/config/settings/types.hbs",
             resizable: true
         })
     }
@@ -34,7 +34,7 @@ export class TypeSettings extends PTUSettingsMenu {
         const data = await super.getData();
 
         if (this.cache["types"] === undefined) {
-            const types = game.settings.get("ptu", "type.typeEffectiveness") || this.constructor.settings.typeEffectiveness.default;
+            const types = game.settings.get("pe", "type.typeEffectiveness") || this.constructor.settings.typeEffectiveness.default;
             this.cache["types"] = types;
         }
 
@@ -42,8 +42,8 @@ export class TypeSettings extends PTUSettingsMenu {
         delete typeEffectiveness.Untyped;
 
         let typeLength = Object.keys(typeEffectiveness).length + 1;
-        if(!game.settings.get("ptu", "homebrew.nuclearType") && typeEffectiveness["Nuclear"]) typeLength--;
-        if(!game.settings.get("ptu", "homebrew.shadowType") && typeEffectiveness["Shadow"]) typeLength--;
+        if(!game.settings.get("pe", "homebrew.nuclearType") && typeEffectiveness["Nuclear"]) typeLength--;
+        if(!game.settings.get("pe", "homebrew.shadowType") && typeEffectiveness["Shadow"]) typeLength--;
 
         return {
             ...data,
@@ -157,9 +157,9 @@ export class TypeSettings extends PTUSettingsMenu {
 
     async _updateObject(event, data) {
         if (event.type === "submit") {
-            const current = game.settings.get("ptu", "type.typeEffectiveness");
+            const current = game.settings.get("pe", "type.typeEffectiveness");
             if(!objectsEqual(current, this.cache["types"])) {
-                await game.settings.set("ptu", "type.typeEffectiveness", this.cache["types"]);
+                await game.settings.set("pe", "type.typeEffectiveness", this.cache["types"]);
                 SettingsConfig.reloadConfirm({world: true});
             }
         }
@@ -241,7 +241,7 @@ export class TypeSettings extends PTUSettingsMenu {
         }
         return new Dialog({
             title: exists ? game.i18n.localize("PTU.Settings.AddType.ExistsLabel") : game.i18n.localize("PTU.Settings.AddType.Label"),
-            content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/config/settings/add-type.hbs", { ...typeData, exists }),
+            content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/config/settings/add-type.hbs", { ...typeData, exists }),
             buttons,
             render: html => {
                 const buttons = $(html).find("button.file-picker");

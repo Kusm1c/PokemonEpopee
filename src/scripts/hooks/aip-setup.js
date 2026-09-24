@@ -6,7 +6,7 @@ export const AutocompleteInlinePropertiesSetup = {
         
             // Define the config for our package
             const config = {
-                packageName: "ptu",
+                packageName: "pe",
                 sheetClasses: [
                     {
                         name: "PTUItemSheet", // this _must_ be the class name of the `Application` you want it to apply to

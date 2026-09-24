@@ -18,7 +18,7 @@ export class CompendiumBrowserAbilitiesTab extends CompendiumBrowserTab {
     }
 
     get templatePath() {
-        return "systems/ptu/static/templates/apps/compendium-browser/partials/abilities.hbs"
+        return "systems/pe/static/templates/apps/compendium-browser/partials/abilities.hbs"
     }
 
     async loadData() {

@@ -16,7 +16,7 @@ class PTUSpeciesSheet extends PTUItemSheet {
     }
 
     get isEditable() {
-        if(!game.settings.get("ptu", "metagame.allowPlayersToEditSpecies")) {
+        if(!game.settings.get("pe", "metagame.allowPlayersToEditSpecies")) {
             return game.user.isGM ? super.isEditable : false;
         }
         return super.isEditable;
@@ -28,15 +28,15 @@ class PTUSpeciesSheet extends PTUItemSheet {
         
         data.types = [...Object.keys(CONFIG.PTU.data.typeEffectiveness).filter(type => type != "Untyped")];
         data.types.unshift("");
-        if(!game.settings.get("ptu", "homebrew.nuclearType")) data.types = data.types.filter(type => type != "Nuclear");
-        if(!game.settings.get("ptu", "homebrew.shadowType")) data.types = data.types.filter(type => type != "Shadow");
+        if(!game.settings.get("pe", "homebrew.nuclearType")) data.types = data.types.filter(type => type != "Nuclear");
+        if(!game.settings.get("pe", "homebrew.shadowType")) data.types = data.types.filter(type => type != "Shadow");
 
 
         data.view = (() => {
             // "full" : "entry";
             if(game.user.isGM) return "full";
 
-            const permission = game.settings.get("ptu", "metagame.dexPermissions");
+            const permission = game.settings.get("pe", "metagame.dexPermissions");
             switch(permission) {
                 case 1: throw new Error("Players may not open species sheets");
                 case 2: return "entry";

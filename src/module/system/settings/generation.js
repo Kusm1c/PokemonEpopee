@@ -6,7 +6,7 @@ const GenerationSettingsConfig = {
         hint: "PTU.Settings.Generation.DefaultImageDirectory.Hint",
         type: String,
         filePicker: true,
-        default: "systems/ptu/static/images/sprites/"
+        default: "systems/pe/static/images/sprites/"
     },
     "defaultImageExtension": {
         name: "PTU.Settings.Generation.DefaultImageExtension.Name",

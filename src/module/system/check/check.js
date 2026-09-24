@@ -276,7 +276,7 @@ class PTUDiceCheck {
             core: {
                 canPopout: true
             },
-            ptu: {
+            pe: {
                 context: {
                     actor: this.actor?.id ?? null,
                     token: this.token?.id ?? null,
@@ -294,10 +294,10 @@ class PTUDiceCheck {
                 modifierName: this.statistic.slug,
                 modifiers: this.statistic.modifiers.map(m => m.toObject()),
                 origin: options.origin,
-                resolved: targets.length > 0 ? game.settings.get("ptu", "autoRollDamage") : false,
+                resolved: targets.length > 0 ? game.settings.get("pe", "autoRollDamage") : false,
             }
         }
-        if (attack) flags.ptu.attack = attack;
+        if (attack) flags.pe.attack = attack;
         if (type === "initiative") flags.core.initiativeRoll = true;
 
         const message = await this.createMessage({roll, rollMode, flags, type});
@@ -334,12 +334,12 @@ class PTUDiceCheck {
      * @returns {ChatMessage}
      */
     async createMessage({roll, rollMode, flags, extraTags = [], inverse = false, critRoll = null, type}) {
-        const flavor = this.createFlavor({title: flags.ptu.title ?? flags.ptu.context.title, extraTags, inverse, type})
+        const flavor = this.createFlavor({title: flags.pe.title ?? flags.pe.context.title, extraTags, inverse, type})
             .flat()
             .map(e => (typeof e === "string" ? e : e.outerHTML))
             .join("");
 
-        flags.ptu.unsafe = flavor;
+        flags.pe.unsafe = flavor;
 
         const speaker = ChatMessage.getSpeaker({ actor: this.actor, token: this.token });
         return roll.toMessage({
@@ -424,7 +424,7 @@ class PTUCheck {
     static async roll(check, context, event, callback, diceStatistic = null) {
         if (event) foundry.utils.mergeObject(context, eventToRollParams(event));
 
-        context.skipDialog ??= game.settings.get("ptu", "skipRollDialog");
+        context.skipDialog ??= game.settings.get("pe", "skipRollDialog");
         context.createMessage ??= true;
 
         if (Array.isArray(context.options)) context.options = new Set(context.options);
@@ -666,7 +666,7 @@ class PTUCheck {
                 category.classList.add("type-img");
 
                 const categoryImg = document.createElement("img");
-                categoryImg.src = `/systems/ptu/static/css/images/categories/${item.system.category}.png`;
+                categoryImg.src = `/systems/pe/static/css/images/categories/${item.system.category}.png`;
                 category.append(categoryImg);
 
                 header.append(category, type);
@@ -706,7 +706,7 @@ class PTUCheck {
         delete contextFlag.item;
 
         const resolved = context.targets?.length > 0
-            ? game.settings.get("ptu", "autoRollDamage")
+            ? game.settings.get("pe", "autoRollDamage")
             : false;
 
         const message = await (() => {
@@ -717,7 +717,7 @@ class PTUCheck {
             if (context.type === "initiative") coreFlags.initiativeRoll = true;
             const flags = {
                 core: coreFlags,
-                ptu: {
+                pe: {
                     context: contextFlag,
                     unsafe: flavor,
                     modifierName: check.slug,
@@ -793,7 +793,7 @@ class PTUCheck {
             markup: `<result>${success}</result>`
         }
 
-        return await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/chat/check/target-dc-result.hbs", {
+        return await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/chat/check/target-dc-result.hbs", {
             target: targetData,
             dc: dcData,
             result: resultData
@@ -836,7 +836,7 @@ class PTUCheck {
 }
 
 function eventToRollParams(event) {
-    const skipDefault = game.settings.get("ptu", "skipRollDialog");
+    const skipDefault = game.settings.get("pe", "skipRollDialog");
     if (!isRelevantEvent(event)) return { skipDialog: skipDefault };
 
     const params = { skipDialog: event.shiftKey ? !skipDefault : skipDefault };

@@ -2,7 +2,7 @@ import { ChatMessagePTU } from "./base.js";
 
 class AttackMessagePTU extends ChatMessagePTU {
     async renderAttackHTML($html) {
-        const resolved = this.flags?.ptu?.resolved ?? null;
+        const resolved = this.flags?.pe?.resolved ?? null;
         if(!resolved) return await this._renderButton($html);
 
         return $html;
@@ -80,11 +80,11 @@ class AttackMessagePTU extends ChatMessagePTU {
             targets: this.targets,
             callback: () => {
                 const resolved = this.targets.length > 0
-                ? game.settings.get("ptu", "autoRollDamage")
+                ? game.settings.get("pe", "autoRollDamage")
                 : false;
-                if(resolved != this.flags.ptu.resolved) {
+                if(resolved != this.flags.pe.resolved) {
                     return this.update({
-                        "flags.ptu.resolved": resolved,
+                        "flags.pe.resolved": resolved,
                     })
                 }
             }

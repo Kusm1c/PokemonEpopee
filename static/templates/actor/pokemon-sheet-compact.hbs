@@ -47,7 +47,7 @@
                                         data-dtype="Number" disabled />
                                 </div>
                                 <div class="stats {{key}} levelUp fb-20">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     path=(concat "system.stats." key ".levelUp")
                                     value=stat.levelUp
                                     dtype="Number"
@@ -58,7 +58,7 @@
                                     flipped=(gt 3 @index)}}
                                 </div>
                                 <div class="stats {{key}} mod fb-15">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     mod=stat.mod.mod
                                     path=(concat "system.stats." key ".mod.value")
                                     value=stat.mod.value
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="stats stage stage fb-15">
                                     {{#if (isdefined stat.stage)}}
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     mod=stat.stage.mod
                                     path=(concat "system.stats." key ".stage.value")
                                     value=stat.stage.value
@@ -119,7 +119,7 @@
                                     "PTU.StatsRemainingLevelupPoints"}}:</label>
                             </div>
                             <div class="fb-30">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 path="system.levelUpPoints"
                                 value=actor.system.levelUpPoints
                                 dtype="Number"
@@ -135,7 +135,7 @@
                     <!-- Abilities -->
                     <div class="swsh-box abilities mt-auto mb-1">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeAbilityPlural") type="ability" items=abilities}}
                         </div>
                     </div>
@@ -347,7 +347,7 @@
                                 {{actions.natural.length}} / {{actions.maxPerKind}} Capacités Naturelles &mdash; au-dessus de la limite
                             </div>
                             {{/if}}
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                             title=(concat "Capacités Naturelles (" actions.natural.length "/" actions.maxPerKind ")")
                             type="move" items=actions.natural ballStyle=ballStyle}}
                         </div>
@@ -361,7 +361,7 @@
                                 {{actions.technical.length}} / {{actions.maxPerKind}} Capacités Techniques &mdash; au-dessus de la limite
                             </div>
                             {{/if}}
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                             title=(concat "Capacités Techniques (" actions.technical.length "/" actions.maxPerKind ")")
                             type="move" items=actions.technical ballStyle=ballStyle}}
                         </div>
@@ -396,7 +396,7 @@
                                     {{#if epopee.protectionUnlocked}}Loyauté 10 ✓{{else}}Loyauté {{epopee.loyaltyChecked}} / 10{{/if}}
                                 </div>
                             </div>
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeStrugglePlural") type="move" items=actions.struggles ballStyle=ballStyle
                             no-add=true}}
                         </div>
@@ -510,7 +510,7 @@
                     <!-- Moves -->
                     <div class="swsh-box w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeContestMovesPlural") type="contestmove" items=contestmoves ballStyle=ballStyle}}
                         </div>
                     </div>
@@ -531,7 +531,7 @@
                             {{#each actor.system.contests.stats as |stat key|}}
                                 <div class="header-item item ball-themes {{../ballStyle}} highlight">{{capitalize key}}</div>
                                 <div class="item">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     path=(concat "system.contests.stats." key ".stats.value")
                                     value=stat.stats.value
                                     dtype="Number"
@@ -541,7 +541,7 @@
                                     disabled=true}}
                                 </div>
                                 <div class="item">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     path=(concat "system.contests.stats." key ".poffins.value")
                                     value=stat.poffins.value
                                     dtype="Number"
@@ -606,7 +606,7 @@
                     <!-- Moves -->
                     <div class="swsh-box w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeSpiritActionPlural") type="spiritaction" items=spiritactions ballStyle=ballStyle}}
                         </div>
                     </div>
@@ -742,7 +742,7 @@
                         </div>
                         <!-- Other Capabilities -->
                         <div class="swsh-body w-100 mt-2" style="display: block;">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "PTU.CapabilityOther") type="capability" items=capabilities}}
                         </div>
                     </div>
@@ -770,7 +770,7 @@
                                     <label class="resource-label">{{localize s.labelKey}}</label>
                                 </div>
                                 <div class="skill {{s.key}} fb-15 pl-1 pr-1 center-text center-self">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     path=s.valuePath
                                     value=s.value
                                     dtype="Number"
@@ -783,7 +783,7 @@
                                     <label class="resource-label">{{localize s.rankLabelKey}}</label>
                                 </div>
                                 <div class="skill {{s.key}} fb-15 pl-1 center-text center-self">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     path=s.modifierPath
                                     value=s.modifierValue
                                     dtype="Number"
@@ -810,7 +810,7 @@
                     <!-- Edges-->
                     <div class="swsh-box w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypePokeedgePlural") type="pokeedge" items=edges}}
                         </div>
                     </div>
@@ -916,7 +916,7 @@
                                     {{epopee.heldItems.held.length}} Objets Tenus &mdash; 1 maximum
                                 </div>
                                 {{/if}}
-                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                                {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                                 title="Objet Tenu" type="item" items=epopee.heldItems.held ballStyle=ballStyle}}
 
                                 {{#if epopee.heldItems.foundOver}}
@@ -924,11 +924,11 @@
                                     {{epopee.heldItems.found.length}} Objets Trouvés &mdash; 1 maximum
                                 </div>
                                 {{/if}}
-                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                                {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                                 title="Objet Trouvé (part au dresseur en fin de scène)" type="item"
                                 items=epopee.heldItems.found ballStyle=ballStyle}}
 
-                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs"
+                                {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                                 title="Porté (aucun effet)" type="item" items=epopee.heldItems.carried ballStyle=ballStyle}}
                             </div>
                         </div>
@@ -1082,7 +1082,7 @@
                             <div class="swsh-body" style="display: block; overflow: unset;">
                                 <div class="d-flex w-100 mt-1 mb-1 justify-content-between">
                                     <div class="fb-33">
-                                        {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                        {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                         path="system.evasion.physical"
                                         value=actor.system.evasion.physical
                                         dtype="Number"
@@ -1093,7 +1093,7 @@
                                         flipped=true}}
                                     </div>
                                     <div class="fb-33">
-                                        {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                        {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                         path="system.evasion.special"
                                         value=actor.system.evasion.special
                                         dtype="Number"
@@ -1104,7 +1104,7 @@
                                         flipped=true}}
                                     </div>
                                     <div class="fb-33">
-                                        {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                        {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                         path="system.evasion.speed"
                                         value=actor.system.evasion.speed
                                         dtype="Number"
@@ -1126,7 +1126,7 @@
                             </div>
                             <div class="swsh-body justify-content-between align-items-center">
                                 <div class="fb-48 center-text">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     mod=actor.system.modifiers.saveChecks.mod
                                     path="system.modifiers.saveChecks.value"
                                     value=actor.system.modifiers.saveChecks.value
@@ -1174,7 +1174,7 @@
                             </div>
                             {{/if}}
                             <div class="swsh-body w-100" style="display: block;">
-                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                                {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                                 "ITEM.TypePokeedgePlural") type="pokeedge" items=edges}}
                             </div>
                         </div>
@@ -1182,7 +1182,7 @@
                         <!-- Abilities -->
                         {{!-- <div class="swsh-box abilities mb-2 w-100">
                             <div class="swsh-body" style="display: block;">
-                                {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                                {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                                 "ITEM.TypeAbilityPlural") type="ability" items=abilities}}
                             </div>
                         </div> --}}
@@ -1216,7 +1216,7 @@
                         </div>
                         <div class="swsh-body mt-1 mb-1 justify-content-between">
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.initiative.mod
                                 path="system.modifiers.initiative.value"
                                 value=actor.system.modifiers.initiative.value
@@ -1225,7 +1225,7 @@
                                 modOrigins=(getProperty actor.origins "system.modifiers.initiative.mod")}}
                             </div>
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.statPoints.mod
                                 path="system.modifiers.statPoints.value"
                                 value=actor.system.modifiers.statPoints.value
@@ -1247,7 +1247,7 @@
                         </div>
                         <div class="swsh-body mt-1 mb-1 justify-content-between">
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.acBonus.mod
                                 path="system.modifiers.acBonus.value"
                                 value=actor.system.modifiers.acBonus.value
@@ -1256,7 +1256,7 @@
                                 modOrigins=(getProperty actor.origins "system.modifiers.acBonus.mod")}}
                             </div>
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.critRange.mod
                                 path="system.modifiers.critRange.value"
                                 value=actor.system.modifiers.critRange.value
@@ -1278,7 +1278,7 @@
                         </div>
                         <div class="swsh-body mt-1 mb-1 justify-content-between">
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.effectRange.mod
                                 path="system.modifiers.effectRange.value"
                                 value=actor.system.modifiers.effectRange.value
@@ -1287,7 +1287,7 @@
                                 modOrigins=(getProperty actor.origins "system.modifiers.effectRange.mod")}}
                             </div>
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.skillBonus.mod
                                 path="system.modifiers.skillBonus.value"
                                 value=actor.system.modifiers.skillBonus.value
@@ -1314,7 +1314,7 @@
                         </div>
                         <div class="swsh-body mt-1 mb-1 justify-content-between">
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.damageReduction.physical.mod
                                 path="system.modifiers.damageReduction.physical.value"
                                 value=actor.system.modifiers.damageReduction.physical.value
@@ -1323,7 +1323,7 @@
                                 modOrigins=(getProperty actor.origins "system.modifiers.damageReduction.physical.mod")}}
                             </div>
                             <div class="fb-48 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.damageReduction.special.mod
                                 path="system.modifiers.damageReduction.special.value"
                                 value=actor.system.modifiers.damageReduction.special.value
@@ -1355,7 +1355,7 @@
                         </div>
                         <div class="swsh-body mt-1 mb-1 justify-content-between">
                             <div class="fb-33 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.evasion.physical.mod
                                 path="system.modifiers.evasion.physical.value"
                                 value=actor.system.modifiers.evasion.physical.value
@@ -1364,7 +1364,7 @@
                                 modOrigins=(getProperty actor.origins "system.modifiers.evasion.physical.mod")}}
                             </div>
                             <div class="fb-33 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.evasion.special.mod
                                 path="system.modifiers.evasion.special.value"
                                 value=actor.system.modifiers.evasion.special.value
@@ -1373,7 +1373,7 @@
                                 modOrigins=(getProperty actor.origins "system.modifiers.evasion.special.mod")}}
                             </div>
                             <div class="fb-33 center-text pl-2 pr-2">
-                                {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                 mod=actor.system.modifiers.evasion.speed.mod
                                 path="system.modifiers.evasion.speed.value"
                                 value=actor.system.modifiers.evasion.speed.value
@@ -1406,7 +1406,7 @@
                                 </div>
                                 {{#with (lookup ../actor.system.modifiers.baseStats key) as |baseStatMod|}}
                                 <div class="stats {{key}} levelUp fb-20 ml-2 mr-2">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
                                     mod=baseStatMod.mod
                                     path=(concat "system.modifiers.baseStats." key ".value")
                                     value=baseStatMod.value
@@ -1613,7 +1613,7 @@
                 <div class="col">
                     <div class="swsh-box mt-2 w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.DexEntrySeen") type="dexentry" data=actor.dex.seen}}
                         </div>
                     </div>
@@ -1622,7 +1622,7 @@
                 <div class="col">
                     <div class="swsh-box mt-2 w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.DexEntryOwned") type="dexentry" data=actor.dex.owned}}
                         </div>
                     </div>
@@ -1636,11 +1636,11 @@
                 <div class="fb-75">
                     <div class="swsh-box">
                         <div class="swsh-body pt-3 p-2">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "TYPES.Item.conditionPlural") type="condition" items=conditions}}
                         </div>
                         <div class="swsh-body pt-3 p-2">
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "TYPES.Item.effectPlural") type="effect" items=effects}}
                         </div>
                     </div>

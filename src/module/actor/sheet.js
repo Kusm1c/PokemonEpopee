@@ -88,15 +88,15 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     async openNotes() {
         const folder = await (async () => {
-            const folderId = game.settings.get("ptu", "worldNotesFolder");
+            const folderId = game.settings.get("pe", "worldNotesFolder");
             if (!folderId) {
-                if (game.user.isGM) return game.ptu.macros.initializeWorldNotes();
+                if (game.user.isGM) return game.pe.macros.initializeWorldNotes();
                 else return null;
             }
 
             const folder = game.folders.get(folderId);
             if (!folder) {
-                if (game.user.isGM) return game.ptu.macros.initializeWorldNotes();
+                if (game.user.isGM) return game.pe.macros.initializeWorldNotes();
                 else return null;
             }
 
@@ -105,7 +105,7 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
         if (!folder) return ui.notifications.error("No folder found for world notes; Please ask your GM to login and not to delete the folder \"Actor Notes\"");
 
         const journalEntry = await (async () => {
-            const journalId = this.actor.getFlag("ptu", "notesId");
+            const journalId = this.actor.getFlag("pe", "notesId");
             if (!journalId) {
                 const journal = await JournalEntry.create({
                     name: this.actor.name,
@@ -123,13 +123,13 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
                         }
                     ]
                 });
-                await this.actor.setFlag("ptu", "notesId", journal.id);
+                await this.actor.setFlag("pe", "notesId", journal.id);
                 return journal;
             }
 
             const journal = await fromUuid(`JournalEntry.${journalId}`);
             if (!journal) {
-                await this.actor.unsetFlag("ptu", "notesId");
+                await this.actor.unsetFlag("pe", "notesId");
                 return this.openNotes();
             }
 

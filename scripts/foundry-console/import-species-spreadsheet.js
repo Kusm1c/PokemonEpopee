@@ -40,7 +40,7 @@ input.onchange = async () => {
     const header = rows.shift();
     const idx = Object.fromEntries(header.map((h, i) => [h.trim(), i]));
 
-    const pack = game.packs.get("ptu.species");
+    const pack = game.packs.get("pe.species");
     await pack.configure({ locked: false });
     const index = await pack.getIndex();
 

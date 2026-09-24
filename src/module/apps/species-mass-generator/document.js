@@ -25,8 +25,8 @@ export class SpeciesGeneratorData {
             updated: false,
         }
         this.level = {
-            min: game.settings.get("ptu", "generation.defaultDexDragInLevelMin") ?? 0,
-            max: game.settings.get("ptu", "generation.defaultDexDragInLevelMax") ?? 0
+            min: game.settings.get("pe", "generation.defaultDexDragInLevelMin") ?? 0,
+            max: game.settings.get("pe", "generation.defaultDexDragInLevelMax") ?? 0
         }
         this.helpText = {
             species: undefined,
@@ -45,7 +45,7 @@ export class SpeciesGeneratorData {
             }
             else {
                 this.species = await (async () => {
-                    const compendiums = Object.entries(game.settings.get("ptu", "compendiumBrowserPacks")?.species ?? { "ptu.species": { load: true } }).filter(([k, v]) => v.load).map(([k, v]) => k);
+                    const compendiums = Object.entries(game.settings.get("pe", "compendiumBrowserPacks")?.species ?? { "pe.species": { load: true } }).filter(([k, v]) => v.load).map(([k, v]) => k);
                     for (const compendium of compendiums) {
                         const result = await findItemInCompendium({ type: "species", name: this.speciesField.value, compendium });
                         if (result) return result;
@@ -79,7 +79,7 @@ export class SpeciesGeneratorData {
         }
 
         if (this.tableSelect.options?.length == 0) {
-            await game.packs.get("ptu.habitats").importAll()
+            await game.packs.get("pe.habitats").importAll()
             this.tableSelect.options = game.tables.map(t => ({ label: t.name, uuid: t.uuid }))
             if (this.tableSelect.options?.length > 0) {
                 this.tableSelect.value = this.tableSelect.options[0].uuid;

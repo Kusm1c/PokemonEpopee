@@ -44,7 +44,7 @@
                                     <div class="type-select" style="background: url('{{loadTypeImageBar item.system.type}}');"></div>
                                 </div>
                                 <div class="move-category">
-                                    <div class="type-select" style="background: url('/systems/ptu/static/css/images/types2/{{item.system.category}}IC.png');"></div>
+                                    <div class="type-select" style="background: url('/systems/pe/static/css/images/types2/{{item.system.category}}IC.png');"></div>
                                 </div>
                             </div>
                             <div class="move-other-info mt-2">
@@ -113,7 +113,7 @@
                                     KEYWORDS 
                                     <input 
                                         type="text" 
-                                        class="ptu-tagify system-keywords" 
+                                        class="pe-tagify system-keywords" 
                                         name="" 
                                         value="{{json item.system.keywords}}" 
                                         data-dtype="JSON"
@@ -141,7 +141,7 @@
             <div class="item-row">
                 <label for="system.category">{{localize "ITEM.Category"}}</label>
                 <div class="arrow-box">
-                    <select data-target="system.category" class="type-select" style="background: url('/systems/ptu/static/css/images/types2/{{item.system.category}}IC.png');" {{#if editLocked}}disabled{{/if}}>
+                    <select data-target="system.category" class="type-select" style="background: url('/systems/pe/static/css/images/types2/{{item.system.category}}IC.png');" {{#if editLocked}}disabled{{/if}}>
                         {{selectOptions config.moves.categories selected=item.system.category localize=true}}
                     </select>
                 </div>
@@ -174,7 +174,7 @@
             </div>
             <div class="item-row">
                 <label for="system.contestTags">Tags de Concours</label>
-                <input type="text" class="ptu-tagify system-keywords" name="system.contestTags" value="{{json item.system.contestTags}}" data-dtype="JSON"/>
+                <input type="text" class="pe-tagify system-keywords" name="system.contestTags" value="{{json item.system.contestTags}}" data-dtype="JSON"/>
             </div>
             <div class="item-row">
                 <label for="system.acquisition" title="Naturelle = par niveau ou par oeuf. Technique = par CT ou move tutor. 4 max de chaque.">Acquisition</label>
@@ -185,7 +185,7 @@
             </div>
             <div class="item-row">
                 <label for="system.keywords">{{localize "ITEM.Keywords"}}</label>
-                <input type="text" class="ptu-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>
+                <input type="text" class="pe-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>
             </div>
             <div class="item-row">
                 <label for="system.contestType">{{localize "ITEM.ContestType"}}</label>
@@ -204,12 +204,12 @@
                 <textarea class="ml-1 mr-1" name="system.snippet">{{item.system.snippet}}</textarea>
             </div>
             <div class="item-row" style="justify-content: flex-start;">
-                <label for="flags.ptu.showInTokenPanel">{{localize "ITEM.ShowInTokenPanel"}}</label>
-                <input class="ml-1 mr-1" name="flags.ptu.showInTokenPanel" type="checkbox" {{checked item.flags.ptu.showInTokenPanel}}/>
+                <label for="flags.pe.showInTokenPanel">{{localize "ITEM.ShowInTokenPanel"}}</label>
+                <input class="ml-1 mr-1" name="flags.pe.showInTokenPanel" type="checkbox" {{checked item.flags.pe.showInTokenPanel}}/>
             </div>
         </div>
         <div class="tab rules h-100" data-group="primary" data-tab="rules">
-            {{~> systems/ptu/static/templates/partials/rules/rule-partial.hbs item=item}}
+            {{~> systems/pe/static/templates/partials/rules/rule-partial.hbs item=item}}
         </div>
     </div>
 </form>

@@ -8,21 +8,21 @@ function gridDistanceBetween(a, b) {
 }
 
 function hazardTilesOnScene() {
-    return canvas.scene?.tiles?.filter(t => t.flags.ptu?.hazardSlug) ?? [];
+    return canvas.scene?.tiles?.filter(t => t.flags.pe?.hazardSlug) ?? [];
 }
 
 async function placeHazard(x, y, slug) {
     const definition = HAZARD_DEFINITIONS[slug];
     if (!definition) return;
 
-    const existing = hazardTilesOnScene().find(t => t.flags.ptu?.hazardSlug === slug && gridDistanceBetween(t, { x, y }) === 0);
+    const existing = hazardTilesOnScene().find(t => t.flags.pe?.hazardSlug === slug && gridDistanceBetween(t, { x, y }) === 0);
     if (existing) {
-        const stacks = (existing.flags.ptu?.hazardStacks ?? 1) + 1;
+        const stacks = (existing.flags.pe?.hazardStacks ?? 1) + 1;
         if (stacks > definition.maxStacks) {
             ui.notifications.warn(`${definition.label} is already at max stacks on this tile.`);
             return;
         }
-        await existing.update({ "flags.ptu.hazardStacks": stacks });
+        await existing.update({ "flags.pe.hazardStacks": stacks });
         return;
     }
 
@@ -31,16 +31,16 @@ async function placeHazard(x, y, slug) {
         width: canvas.grid.size,
         height: canvas.grid.size,
         texture: { src: "icons/svg/mystery-man.svg" },
-        flags: { ptu: { hazardSlug: slug, hazardStacks: 1 } }
+        flags: { pe: { hazardSlug: slug, hazardStacks: 1 } }
     }]);
 }
 
 async function applyHazardEffect(token, tile) {
-    const definition = HAZARD_DEFINITIONS[tile.flags.ptu.hazardSlug];
+    const definition = HAZARD_DEFINITIONS[tile.flags.pe.hazardSlug];
     const actor = token.actor;
     if (!definition || !actor) return;
 
-    const stacks = tile.flags.ptu?.hazardStacks ?? 1;
+    const stacks = tile.flags.pe?.hazardStacks ?? 1;
     const updates = {};
 
     if (definition.hpDamageFractionPerStack || definition.hpDamageFraction) {
@@ -84,7 +84,7 @@ async function applyHazardEffect(token, tile) {
 
 async function checkHazardTrigger(token) {
     for (const tile of hazardTilesOnScene()) {
-        const definition = HAZARD_DEFINITIONS[tile.flags.ptu.hazardSlug];
+        const definition = HAZARD_DEFINITIONS[tile.flags.pe.hazardSlug];
         if (!definition) continue;
         const distance = gridDistanceBetween(tile, token);
         if (distance > definition.triggerRadius) continue;

@@ -3,7 +3,7 @@ export class PTUUser extends User {
     prepareData() {
         super.prepareData();
         if (canvas.ready && canvas.tokens.controlled.length > 0) {
-            game.ptu.tokenPanel.refresh();
+            game.pe.tokenPanel.refresh();
         }
     }
 
@@ -12,7 +12,7 @@ export class PTUUser extends User {
         super.prepareBaseData();
         this.flags = foundry.utils.mergeObject(
             {
-                ptu: {
+                pe: {
                     settings: {
                         showTokenPanel: true
                     }
@@ -23,7 +23,7 @@ export class PTUUser extends User {
     }
 
     get settings() {
-        return this.flags.ptu.settings;
+        return this.flags.pe.settings;
     }
 
     clearTargets() {

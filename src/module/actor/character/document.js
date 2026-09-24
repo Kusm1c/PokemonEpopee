@@ -17,7 +17,7 @@ class PTUTrainerActor extends PTUActor {
      */
     getExpTrainingData() {
         // Calculate trainer level using the same logic as prepareBaseData
-        const levelUpRequirement = game.settings.get("ptu", "variant.trainerAdvancement") === "short-track" ? 20 : 10;
+        const levelUpRequirement = game.settings.get("pe", "variant.trainerAdvancement") === "short-track" ? 20 : 10;
         const maxLevel = {
             "original": 50,
             "data-revamp": 25,
@@ -26,7 +26,7 @@ class PTUTrainerActor extends PTUActor {
             "long-track": 100,
         };
         
-        const dexexp = game.settings.get("ptu", "variant.useDexExp") == true
+        const dexexp = game.settings.get("pe", "variant.useDexExp") == true
             ? (this.system.dex?.owned?.length || 0)
             : 0;
         
@@ -35,7 +35,7 @@ class PTUTrainerActor extends PTUActor {
             + Number(this.system.level.milestones)
             + Math.trunc((Number(this.system.level.miscexp) / levelUpRequirement) + (Number(dexexp) / levelUpRequirement)),
             1,
-            maxLevel[game.settings.get("ptu", "variant.trainerAdvancement")] ?? 50
+            maxLevel[game.settings.get("pe", "variant.trainerAdvancement")] ?? 50
         );
         
         // Training milestones are based on trainer level (every 5 levels = 1 milestone)
@@ -71,11 +71,11 @@ class PTUTrainerActor extends PTUActor {
             system.skills[novice].value.mod += 1;
         }
 
-        system.level.dexexp = game.settings.get("ptu", "variant.useDexExp") == true
+        system.level.dexexp = game.settings.get("pe", "variant.useDexExp") == true
             ? (this.system.dex?.owned?.length || 0)
             : 0
 
-        const levelUpRequirement = game.settings.get("ptu", "variant.trainerAdvancement") === "short-track" ? 20 : 10;
+        const levelUpRequirement = game.settings.get("pe", "variant.trainerAdvancement") === "short-track" ? 20 : 10;
 
         const maxLevel = {
             "original": 50,
@@ -91,7 +91,7 @@ class PTUTrainerActor extends PTUActor {
                 + Number(system.level.milestones)
                 + Math.trunc((Number(system.level.miscexp) / levelUpRequirement) + (Number(system.level.dexexp) / levelUpRequirement)),
                 1,
-                maxLevel[game.settings.get("ptu", "variant.trainerAdvancement")] ?? 50
+                maxLevel[game.settings.get("pe", "variant.trainerAdvancement")] ?? 50
             );
 
         // Set attributes which are underrived data
@@ -157,7 +157,7 @@ class PTUTrainerActor extends PTUActor {
 
         // Use Data
         system.levelUpPoints = (() => {
-            switch (game.settings.get("ptu", "variant.trainerAdvancement")) {
+            switch (game.settings.get("pe", "variant.trainerAdvancement")) {
                 case "original": return system.level.current;
                 case "data-revamp": return system.level.current * 2;
                 case "short-track": {
@@ -188,7 +188,7 @@ class PTUTrainerActor extends PTUActor {
         const actualLevel = Math.max(1, system.level.current - Math.max(0, Math.clamp(0, leftoverLevelUpPoints, leftoverLevelUpPoints - system.modifiers.statPoints.total ?? 0)));
 
         const result = calculateStatTotal({
-            level: ["data-revamp", "short-track"].includes(game.settings.get("ptu", "variant.trainerAdvancement")) ? actualLevel * 2 : (game.settings.get("ptu", "variant.trainerAdvancement") === "long-track" ? actualLevel * 0.5 : actualLevel),
+            level: ["data-revamp", "short-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? actualLevel * 2 : (game.settings.get("pe", "variant.trainerAdvancement") === "long-track" ? actualLevel * 0.5 : actualLevel),
             actorStats: system.stats,
             nature: null,
             isTrainer: true,
@@ -199,20 +199,20 @@ class PTUTrainerActor extends PTUActor {
         system.stats = result.stats;
         system.levelUpPoints = system.levelUpPoints - result.pointsSpend;
 
-        system.health.total = 10 + (system.level.current * (["data-revamp", "short-track"].includes(game.settings.get("ptu", "variant.trainerAdvancement")) ? 4 : (game.settings.get("ptu", "variant.trainerAdvancement") === "long-track" ? 1 : 2))) + (system.stats.hp.total * 3);
+        system.health.total = 10 + (system.level.current * (["data-revamp", "short-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? 4 : (game.settings.get("pe", "variant.trainerAdvancement") === "long-track" ? 1 : 2))) + (system.stats.hp.total * 3);
         system.health.max = system.health.injuries > 0 ? Math.trunc(system.health.total * (1 - ((system.modifiers.hardened ? Math.min(system.health.injuries, 5) : system.health.injuries) / 10))) : system.health.total;
 
         system.health.percent = Math.round((system.health.value / system.health.max) * 100);
         system.health.totalPercent = Math.round((system.health.value / system.health.total) * 100);
         system.health.tick = Math.floor(system.health.total / 10);
 
-        system.evasion = calculateEvasions(system, this.flags?.ptu, this.items);
+        system.evasion = calculateEvasions(system, this.flags?.pe, this.items);
         system.capabilities = calculateTrainerCapabilities(system.skills, this.items, (system.stats.spd.stage.value + system.stats.spd.stage.mod), system.modifiers.capabilities, this.rollOptions.conditions?.["slowed"]);
 
         system.feats = {
             total: this.items.filter(x => x.type == "feat" && !x.system.free).length,
             max: ((level) => {
-                switch (game.settings.get("ptu", "variant.trainerAdvancement")) {
+                switch (game.settings.get("pe", "variant.trainerAdvancement")) {
                     case "original": return 4 + Math.ceil(level / 2);
                     case "data-revamp": return 4 + level;
                     case "short-track": {
@@ -241,7 +241,7 @@ class PTUTrainerActor extends PTUActor {
         system.edges = {
             total: this.items.filter(x => x.type == "edge" && !x.system.free).length,
             max: ((level) => {
-                switch (game.settings.get("ptu", "variant.trainerAdvancement")) {
+                switch (game.settings.get("pe", "variant.trainerAdvancement")) {
                     case "original": {
                         let edges = 4 + Math.floor(level / 2);
                         if (level >= 2) edges += 1;

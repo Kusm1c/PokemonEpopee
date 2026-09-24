@@ -24,7 +24,7 @@ class DamageRoll extends foundry.dice.Roll {
         return this.options?.crit?.nonCritValue ?? this.total ?? null
     }
 
-    static CHAT_TEMPLATE = "systems/ptu/static/templates/chat/attack/damage-roll.hbs";
+    static CHAT_TEMPLATE = "systems/pe/static/templates/chat/attack/damage-roll.hbs";
 
     /** @override */
     async render(options = {}) {
@@ -89,7 +89,7 @@ class DamageRoll extends foundry.dice.Roll {
             fiveStrike: this.options.fiveStrikeAmount ?? options.fiveStrikeAmount ?? null,
         }
 
-        if (chatData.crit.show === false && game.settings.get("ptu", "metagame.alwaysShowCrits") === true) {
+        if (chatData.crit.show === false && game.settings.get("pe", "metagame.alwaysShowCrits") === true) {
             chatData.crit.show = true;
         }
 

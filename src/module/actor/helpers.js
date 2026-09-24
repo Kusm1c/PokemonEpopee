@@ -210,7 +210,7 @@ function calculateStatTotal({ level, actorStats, nature, isTrainer, twistedPower
         stats.spdef.total += Math.floor(defTotal / 3);
     }
 
-    const playtestStats = game.settings.get("ptu", "variant.improvedStatsRework");
+    const playtestStats = game.settings.get("pe", "variant.improvedStatsRework");
 
     if (playtestStats) {
         // The Fox Factor
@@ -360,7 +360,7 @@ function calculateEvasions(data, ptuFlags, actor_items) {
         "speed": 0
     };
 
-    const evasionLimit = game.settings.get("ptu", "automation.maxEvasion") ?? 20;
+    const evasionLimit = game.settings.get("pe", "automation.maxEvasion") ?? 20;
 
     let evasion = {
         "physical": Math.clamp(Math.min(Math.floor(data.stats.def.total / 5), 6) + data.modifiers.evasion.physical.total + tangled_feet_modifier, 0, evasionLimit),

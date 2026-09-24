@@ -14,7 +14,7 @@ class ActorConfig extends DocumentSheet {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-			template: 'systems/ptu/static/templates/config/actor-config-sheet.hbs',
+			template: 'systems/pe/static/templates/config/actor-config-sheet.hbs',
 			width: 450
 		});
     }
@@ -41,7 +41,7 @@ class ActorConfig extends DocumentSheet {
 
     /** @override */
     async _updateObject(event, formData) {
-        if(formData["flags.ptu.theme"]) formData["flags.ptu.theme"] = formData["flags.ptu.theme"].toLowerCase().replace('ball', '').trim();
+        if(formData["flags.pe.theme"]) formData["flags.pe.theme"] = formData["flags.pe.theme"].toLowerCase().replace('ball', '').trim();
 
         const alliance = formData["system.alliance"];
         if(alliance === "default") {

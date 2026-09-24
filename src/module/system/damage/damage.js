@@ -149,7 +149,7 @@ class PTUDamage {
             if (context.type === "initiative") coreFlags.initiativeRoll = true;
             const flags = {
                 core: coreFlags,
-                ptu: {
+                pe: {
                     context: contextFlag,
                     unsafe: flavor,
                     modifierName: check.slug,

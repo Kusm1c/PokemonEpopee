@@ -40,7 +40,7 @@
                                     <label for="system.skills.{{key}}.label" class="resource-label" {{#if (is key "techEd")}}style="font-size:10px;"{{/if}}>{{skill.label}}</label>
                                 </div>
                                 <div class="skill {{key}} fb-15 pl-1 pr-1 center-text center-self">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs" 
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs" 
                                         path=(concat "system.skills." key ".value.value") 
                                         value=skill.value.value
                                         dtype="Number" 
@@ -54,7 +54,7 @@
                                     <label for="system.skills.{{key}}.rank" class="resource-label">{{localize (concat "PTU.Skill" skill.rank)}}</label>
                                 </div>
                                 <div class="skill {{key}} fb-15 pl-1 center-text center-self">
-                                    {{> "systems/ptu/static/templates/partials/mod-field.hbs" 
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs" 
                                         path=(concat "system.skills." key ".modifier.value") 
                                         value=skill.modifier.value
                                         dtype="Number" 
@@ -222,7 +222,7 @@
                     <!-- Items -->
                     <div class="swsh-box mt-2 w-100">
                         {{#each actor.items_categorized as | category catname| }}
-                            {{> "systems/ptu/static/templates/partials/item-display-partial.hbs" title=(concat (concat
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(concat (concat
                             (localize "ITEM.TypeItemPlural") ": ") catname) type="item" data=category category=catname
                             boxed=true filter=../actor.item_categories}}
                         {{/each}}
@@ -282,7 +282,7 @@
                 <div class="swsh-body" style="padding: 0;">
                     <div class="d-flex w-100" style="margin: 0.1rem 0;">
                         <div class="col-sm-6 small-input">
-                            {{> "systems/ptu/templates/partials/mod-field.hbs"
+                            {{> "systems/pe/templates/partials/mod-field.hbs"
                             mod=data.modifiers.damageBonus.physical.mod
                             path="system.modifiers.damageBonus.physical.value"
                             value=data.modifiers.damageBonus.physical.value
@@ -292,7 +292,7 @@
                             flipped=true}}
                         </div>
                         <div class="col-sm-6 small-input">
-                            {{> "systems/ptu/templates/partials/mod-field.hbs"
+                            {{> "systems/pe/templates/partials/mod-field.hbs"
                             mod=data.modifiers.damageBonus.special.mod
                             path="system.modifiers.damageBonus.special.value"
                             value=data.modifiers.damageBonus.special.value
@@ -408,7 +408,7 @@
                     <!-- Feats -->
                     <div class="swsh-box mt-2 w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeFeatPlural") type="feat" data=actor.feats featsOrEdges=actor.system.feats}}
                         </div>
                     </div>
@@ -417,7 +417,7 @@
                     <!-- Edges-->
                     <div class="swsh-box mt-2 w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeEdgePlural") type="edge" data=actor.edges featsOrEdges=actor.system.edges}}
                         </div>
                     </div>
@@ -452,7 +452,7 @@
                                         data-dtype="Number" disabled />
                                 </div>
                                 <div class="stats {{key}} levelUp col-sm-2">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     path=(concat "system.stats." key ".levelUp")
                                     value=stat.levelUp
                                     dtype="Number"
@@ -463,7 +463,7 @@
                                     flipped=(gt 3 @index)}}
                                 </div>
                                 <div class="stats {{key}} mod col-sm-2">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=stat.mod.mod
                                     path=(concat "system.stats." key ".mod.value")
                                     value=stat.mod.value
@@ -475,7 +475,7 @@
                                 </div>
                                 <div class="stats stage stage col-sm-2">
                                     {{#if (isdefined stat.stage)}}
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=stat.stage.mod
                                     path=(concat "system.stats." key ".stage.value")
                                     value=stat.stage.value
@@ -499,7 +499,7 @@
                                         "PTU.StatsRemainingLevelupPoints"}}:</label>
                                 </div>
                                 <div class="col">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     path="system.levelUpPoints"
                                     value=data.levelUpPoints
                                     dtype="Number"
@@ -515,7 +515,7 @@
                         <!-- Abilities -->
                         <div class="swsh-box mb-2 w-100">
                             <div class="swsh-body" style="display: block;">
-                                {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                                {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                                 "ITEM.TypeAbilityPlural") type="ability" data=actor.abilities}}
                             </div>
                         </div>
@@ -545,7 +545,7 @@
                             <div class="swsh-body" style="display: block;">
                                 <div class="d-flex w-100 mt-1 mb-1">
                                     <div class="col-sm-4">
-                                        {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                        {{> "systems/pe/templates/partials/mod-field.hbs"
                                         path="system.evasion.physical"
                                         value=data.evasion.physical
                                         dtype="Number"
@@ -556,7 +556,7 @@
                                         flipped=true}}
                                     </div>
                                     <div class="col-sm-4">
-                                        {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                        {{> "systems/pe/templates/partials/mod-field.hbs"
                                         path="system.evasion.special"
                                         value=data.evasion.special
                                         dtype="Number"
@@ -567,7 +567,7 @@
                                         flipped=true}}
                                     </div>
                                     <div class="col-sm-4">
-                                        {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                        {{> "systems/pe/templates/partials/mod-field.hbs"
                                         path="system.evasion.speed"
                                         value=data.evasion.speed
                                         dtype="Number"
@@ -717,7 +717,7 @@
 
                             <!-- Other Capabilities -->
                             <div class="swsh-body w-100 mt-2" style="display: block;">
-                                {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                                {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                                 "PTU.CapabilityOther") type="capability" data=actor.capabilities}}
                             </div>
                         </div>
@@ -828,7 +828,7 @@
                         <div class="swsh-body">
                             <div class="d-flex w-100 mt-1 mb-1">
                                 <div class="col-sm-6">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.initiative.mod
                                     path="system.modifiers.initiative.value"
                                     value=data.modifiers.initiative.value
@@ -838,7 +838,7 @@
                                     flipped=true}}
                                 </div>
                                 <div class="col-sm-6">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.statPoints.mod
                                     path="system.modifiers.statPoints.value"
                                     value=data.modifiers.statPoints.value
@@ -868,7 +868,7 @@
                         <div class="swsh-body">
                             <div class="d-flex w-100 mt-1 mb-1">
                                 <div class="col-sm-4">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.acBonus.mod
                                     path="system.modifiers.acBonus.value"
                                     value=data.modifiers.acBonus.value
@@ -878,7 +878,7 @@
                                     flipped=true}}
                                 </div>
                                 <div class="col-sm-4">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.critRange.mod
                                     path="system.modifiers.critRange.value"
                                     value=data.modifiers.critRange.value
@@ -888,7 +888,7 @@
                                     flipped=true}}
                                 </div>
                                 <div class="col-sm-4">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.effectRange.mod
                                     path="system.modifiers.effectRange.value"
                                     value=data.modifiers.effectRange.value
@@ -922,7 +922,7 @@
                         <div class="swsh-body">
                             <div class="d-flex w-100 mt-1 mb-1">
                                 <div class="col-sm-6">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.damageReduction.physical.mod
                                     path="system.modifiers.damageReduction.physical.value"
                                     value=data.modifiers.damageReduction.physical.value
@@ -932,7 +932,7 @@
                                     "system.modifiers.damageReduction.physical.mod")}}
                                 </div>
                                 <div class="col-sm-6">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.damageReduction.special.mod
                                     path="system.modifiers.damageReduction.special.value"
                                     value=data.modifiers.damageReduction.special.value
@@ -965,7 +965,7 @@
                         <div class="swsh-body">
                             <div class="d-flex w-100 mt-1 mb-1">
                                 <div class="col-sm-4">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.evasion.physical.mod
                                     path="system.modifiers.evasion.physical.value"
                                     value=data.modifiers.evasion.physical.value
@@ -974,7 +974,7 @@
                                     modOrigins=(getProperty actor.origins "system.modifiers.evasion.physical.mod")}}
                                 </div>
                                 <div class="col-sm-4">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.evasion.special.mod
                                     path="system.modifiers.evasion.special.value"
                                     value=data.modifiers.evasion.special.value
@@ -983,7 +983,7 @@
                                     modOrigins=(getProperty actor.origins "system.modifiers.evasion.special.mod")}}
                                 </div>
                                 <div class="col-sm-4">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=data.modifiers.evasion.speed.mod
                                     path="system.modifiers.evasion.speed.value"
                                     value=data.modifiers.evasion.speed.value
@@ -1014,7 +1014,7 @@
                                 </div>
                                 {{#with (lookup ../data.modifiers.baseStats key) as |baseStatMod|}}
                                 <div class="stats {{key}} levelUp col-sm-3">
-                                    {{> "systems/ptu/templates/partials/mod-field.hbs"
+                                    {{> "systems/pe/templates/partials/mod-field.hbs"
                                     mod=baseStatMod.mod
                                     path=(concat "system.modifiers.baseStats." key ".value")
                                     value=baseStatMod.value
@@ -1230,7 +1230,7 @@
                 <div class="col">
                     <div class="swsh-box mt-2 w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.DexEntrySeen") type="dexentry" data=actor.dex.seen}}
                         </div>
                     </div>
@@ -1239,7 +1239,7 @@
                 <div class="col">
                     <div class="swsh-box mt-2 w-100">
                         <div class="swsh-body w-100" style="display: block;">
-                            {{> "systems/ptu/templates/partials/item-display-partial.hbs" title=(localize
+                            {{> "systems/pe/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.DexEntryOwned") type="dexentry" data=actor.dex.owned}}
                         </div>
                     </div>
@@ -1259,7 +1259,7 @@
                     </div>
                 </div>
                 <div class="swsh-body pt-3 p-2">
-                    {{> "systems/ptu/templates/partials/active-effects.hbs"}}
+                    {{> "systems/pe/templates/partials/active-effects.hbs"}}
                 </div>
             </div>
         </div> --}}

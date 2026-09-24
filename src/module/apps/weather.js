@@ -4,9 +4,9 @@ class Weather extends Application {
 
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["ptu", "weather"],
+            classes: ["pe", "weather"],
             title: "Weather",
-            template: "systems/ptu/static/templates/apps/weather.hbs",
+            template: "systems/pe/static/templates/apps/weather.hbs",
             width: 450,
             height: 300,
             resizable: true,
@@ -15,7 +15,7 @@ class Weather extends Application {
     }
 
     static _initializeGlobalEffects() {
-        const effects = game.settings.get("ptu", "weatherEffects");
+        const effects = game.settings.get("pe", "weatherEffects");
         for (const effect of effects) {
             const item = new CONFIG.PTU.Item.proxy(effect, { temporary: true });
             const updates = {};
@@ -72,7 +72,7 @@ class Weather extends Application {
 
         effect.updateSource({ "system.mode": event.target.value });
 
-        await game.settings.set("ptu", "weatherEffects", Array.from(Weather.globalEffects.values(), effect => effect.toObject()));
+        await game.settings.set("pe", "weatherEffects", Array.from(Weather.globalEffects.values(), effect => effect.toObject()));
         this.render(true);
     }
 
@@ -111,7 +111,7 @@ class Weather extends Application {
 
         Weather.globalEffects.get(effect.id).updateSource({ "system.mode": 'disabled', "system.global": true })
 
-        await game.settings.set("ptu", "weatherEffects", Array.from(Weather.globalEffects.values(), effect => effect.toObject()));
+        await game.settings.set("pe", "weatherEffects", Array.from(Weather.globalEffects.values(), effect => effect.toObject()));
         this.render(true);
     }
 
@@ -123,7 +123,7 @@ class Weather extends Application {
         if (!effect) return;
         Weather.globalEffects.delete(effectId);
 
-        await game.settings.set("ptu", "weatherEffects", Array.from(Weather.globalEffects.values(), effect => effect.toObject()));
+        await game.settings.set("pe", "weatherEffects", Array.from(Weather.globalEffects.values(), effect => effect.toObject()));
         this.render(true);
     }
 

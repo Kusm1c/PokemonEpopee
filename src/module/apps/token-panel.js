@@ -16,8 +16,8 @@ export class TokenPanel extends Application {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            id: "ptu-token-panel",
-            template: "systems/ptu/static/templates/apps/token-panel.hbs",
+            id: "pe-token-panel",
+            template: "systems/pe/static/templates/apps/token-panel.hbs",
             popOut: false,
         });
     }
@@ -33,7 +33,7 @@ export class TokenPanel extends Application {
         const attacks = [];
         const struggles = [];
         for (const [id, attack] of actor.attacks.entries()) {
-            if (attack.item.getFlag("ptu", "showInTokenPanel") === false) continue;
+            if (attack.item.getFlag("pe", "showInTokenPanel") === false) continue;
             const data = {
                 name: attack.label,
                 img: attack.img,
@@ -47,14 +47,14 @@ export class TokenPanel extends Application {
                 keywords: attack.item?.system.keywords ?? [],
                 sort: attack.item?.sort ?? 0,
             };
-            if(attack.item?.system.category) data.category = `/systems/ptu/static/css/images/types2/${attack.item?.system.category}IC_Icon.png`;
+            if(attack.item?.system.category) data.category = `/systems/pe/static/css/images/types2/${attack.item?.system.category}IC_Icon.png`;
             if (attack.item.system.isStruggle) struggles.push(data);
             else attacks.push(data);
         }
 
         const items = actor.itemTypes.item?.sort((a, b) => a.sort - b.sort)?.reduce((acc, item) => {
-            if (item.getFlag("ptu", "showInTokenPanel") === false) return acc;
-            if (item.getFlag("ptu", "showInTokenPanel") !== false && (item.getFlag("ptu", "showInTokenPanel") !== true && !item.roll)) return acc;
+            if (item.getFlag("pe", "showInTokenPanel") === false) return acc;
+            if (item.getFlag("pe", "showInTokenPanel") !== false && (item.getFlag("pe", "showInTokenPanel") !== true && !item.roll)) return acc;
             if (item instanceof CONFIG.PTU.Item.documentClasses.pokeball) acc.balls.push(item);
             else acc.other.push(item);
             return acc;
@@ -62,7 +62,7 @@ export class TokenPanel extends Application {
 
         const feats = [];
         for (const feat of actor.itemTypes.feat?.sort((a, b) => a.sort - b.sort) ?? []) {
-            if (feat.getFlag("ptu", "showInTokenPanel") === false) continue;
+            if (feat.getFlag("pe", "showInTokenPanel") === false) continue;
             feats.push({
                 name: feat.name,
                 img: feat.img,
@@ -76,7 +76,7 @@ export class TokenPanel extends Application {
 
         const abilities = []
         for (const ability of actor.itemTypes.ability?.sort((a, b) => a.sort - b.sort) ?? []) {
-            if (ability.getFlag("ptu", "showInTokenPanel") === false) continue;
+            if (ability.getFlag("pe", "showInTokenPanel") === false) continue;
             abilities.push({
                 name: ability.name,
                 img: ability.img,
@@ -89,7 +89,7 @@ export class TokenPanel extends Application {
 
         const effects = [];
         for (const effect of actor.itemTypes.effect?.sort((a, b) => a.sort - b.sort) ?? []) {
-            if (effect.getFlag("ptu", "showInTokenPanel") === false) continue;
+            if (effect.getFlag("pe", "showInTokenPanel") === false) continue;
             effects.push({
                 id: effect.id,
                 parent: effect.parent.id,
@@ -114,7 +114,7 @@ export class TokenPanel extends Application {
 
         let heldItem = null;
         if(this.actor.system.heldItem && this.actor.system.heldItem != "None") {
-            const item = await game.ptu.item.get(this.actor.system.heldItem, "item");
+            const item = await game.pe.item.get(this.actor.system.heldItem, "item");
             heldItem = {
                 name: item?.name || this.actor.system.heldItem,
                 img: item?.img || "icons/svg/item-bag.svg",
@@ -123,7 +123,7 @@ export class TokenPanel extends Application {
 
         const show = {
             party: true, // Default to expanded
-            ...game.user.getFlag("ptu", "TokenPanel.show") ?? {}
+            ...game.user.getFlag("pe", "TokenPanel.show") ?? {}
         };
 
         return {
@@ -150,26 +150,26 @@ export class TokenPanel extends Application {
 
         if ($('#actions-accordion').find(".actions-actions, .struggles-actions").length > 1) {
             $html.find('#actions-accordion').enhsplitter({
-                position: game.user.getFlag("ptu", "TokenPanel.actionsSplit") ?? "50%",
+                position: game.user.getFlag("pe", "TokenPanel.actionsSplit") ?? "50%",
                 splitterSize: "10px",
                 minSize: 0,
-                onDragEnd: (e, c) => game.user.setFlag("ptu", "TokenPanel.actionsSplit", c.currentPosition),
+                onDragEnd: (e, c) => game.user.setFlag("pe", "TokenPanel.actionsSplit", c.currentPosition),
             });
         }
         if ($('#items-accordion').find(".pokeball-items, .other-items").length > 1) {
             $html.find('#items-accordion').enhsplitter({
-                position: game.user.getFlag("ptu", "TokenPanel.itemsSplit") ?? "50%",
+                position: game.user.getFlag("pe", "TokenPanel.itemsSplit") ?? "50%",
                 splitterSize: "10px",
                 minSize: 0,
-                onDragEnd: (e, c) => game.user.setFlag("ptu", "TokenPanel.itemsSplit", c.currentPosition),
+                onDragEnd: (e, c) => game.user.setFlag("pe", "TokenPanel.itemsSplit", c.currentPosition),
             });
         }
 
         for (const toggle of $html.find(".toggle-bar .action, .top-panel-toggle")) {
             toggle.addEventListener("click", (event) => {
                 const target = event.currentTarget.dataset.target;
-                const isShown = game.user.getFlag("ptu", `TokenPanel.show.${target}`);
-                game.user.setFlag("ptu", `TokenPanel.show.${target}`, !isShown);
+                const isShown = game.user.getFlag("pe", `TokenPanel.show.${target}`);
+                game.user.setFlag("pe", `TokenPanel.show.${target}`, !isShown);
                 this.refresh();
             });
         }
@@ -182,7 +182,7 @@ export class TokenPanel extends Application {
 
                 attack.roll?.({
                     event, callback: async (rolls, targets, msg, event) => {
-                        if (!game.settings.get("ptu", "autoRollDamage")) return;
+                        if (!game.settings.get("pe", "autoRollDamage")) return;
 
                         const params = {
                             event,
@@ -193,7 +193,7 @@ export class TokenPanel extends Application {
                         }
                         const result = await attack.damage?.(params);
                         if (result === null) {
-                            return await msg.update({ "flags.ptu.resolved": false })
+                            return await msg.update({ "flags.pe.resolved": false })
                         }
                     }
                 });
@@ -350,8 +350,8 @@ export class TokenPanel extends Application {
         if (this.actor.type == "pokemon") {
             (() => {
                 // if a trainer is set, get the actor
-                if (this.actor.flags?.ptu?.party?.trainer) {
-                    party.trainer = game.actors.get(this.actor.flags.ptu.party.trainer);
+                if (this.actor.flags?.pe?.party?.trainer) {
+                    party.trainer = game.actors.get(this.actor.flags.pe.party.trainer);
 
                     return;
                 }
@@ -394,8 +394,8 @@ export class TokenPanel extends Application {
         if (!partyFolder) return party;
 
         const pokemon = partyFolder.contents.filter(actor => actor.type == "pokemon" &&
-            actor.flags?.ptu?.party?.trainer == party.trainer.id &&
-            !actor.flags?.ptu?.party?.boxed);
+            actor.flags?.pe?.party?.trainer == party.trainer.id &&
+            !actor.flags?.pe?.party?.boxed);
 
         if (pokemon.length > 0) party.pokemon = pokemon;
         return party;

@@ -5,8 +5,8 @@ export class PTUSpeciesMassGenerator extends FormApplication {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["ptu", "pokemon", "generator"],
-            template: "systems/ptu/static/templates/apps/species-mass-generator-sheet.hbs",
+            classes: ["pe", "pokemon", "generator"],
+            template: "systems/pe/static/templates/apps/species-mass-generator-sheet.hbs",
             width: 350,
             height: "auto",
             title: "Species Mass-Generator",
@@ -140,7 +140,7 @@ export class PTUSpeciesMassGenerator extends FormApplication {
         let folder = data.folder;
         const monsToGenerate = [];
 
-        const shinyChance = game.settings.get("ptu", "generation.defaultDexDragInShinyChance") > 1 ? game.settings.get("ptu", "generation.defaultDexDragInShinyChance") / 100 : game.settings.get("ptu", "generation.defaultDexDragInShinyChance");
+        const shinyChance = game.settings.get("pe", "generation.defaultDexDragInShinyChance") > 1 ? game.settings.get("pe", "generation.defaultDexDragInShinyChance") / 100 : game.settings.get("pe", "generation.defaultDexDragInShinyChance");
 
         if (species) {
             for (let i = 0; i < amount; i++) {

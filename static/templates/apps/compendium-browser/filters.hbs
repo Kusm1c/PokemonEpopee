@@ -56,7 +56,7 @@
     {{#each filterData.multiselects as |selectData type|}}
         <div class="filtercontainer" data-filter-type="multiselects" data-filter-name="{{type}}">
             <h3>{{localize selectData.label}}</h3>
-            <input class="ptu-tagify" name="{{type}}" data-tagify-select="true" spellcheck="false" value="{{json selectData.selected}}" />
+            <input class="pe-tagify" name="{{type}}" data-tagify-select="true" spellcheck="false" value="{{json selectData.selected}}" />
             <div class="filter-conjunction">
                 <label><input type="radio" name="{{type}}-filter-conjunction" value="and"{{#if (eq selectData.conjunction "and")}} checked{{/if}}><span>{{localize "PTU.CompendiumBrowser.Filter.AndLabel"}}</span></label>
                 <label><input type="radio" name="{{type}}-filter-conjunction" value="or"{{#if (eq selectData.conjunction "or")}} checked{{/if}}><span>{{localize "PTU.CompendiumBrowser.Filter.OrLabel"}}</span></label>

@@ -10,7 +10,7 @@ export function registerHandlebarsHelpers() {
 // TODO: Go over these and optimize / replace / remove as necessary
 function _registerPTUHelpers() {
 
-    Handlebars.registerHelper("getGameSetting", function (key) { return game.settings.get("ptu", key) });
+    Handlebars.registerHelper("getGameSetting", function (key) { return game.settings.get("pe", key) });
     Handlebars.registerHelper("getProperty", foundry.utils.getProperty); // native foundry function
 
     Handlebars.registerHelper("range", function (start, end) {
@@ -52,7 +52,7 @@ function _registerPTUHelpers() {
     // Handlebars.registerHelper('pokeballStyles', function (pokeball) {
 
     //     // Get the styles for the provided Pokeball type
-    //     const styles = game.settings.get("ptu", "pokeballBackgroundThemes") ? (CONFIG.PTU.data.sheetThemes.styles[pokeball] || CONFIG.PTU.data.sheetThemes.defaultStyle) : CONFIG.PTU.data.sheetThemes.defaultStyle;
+    //     const styles = game.settings.get("pe", "pokeballBackgroundThemes") ? (CONFIG.PTU.data.sheetThemes.styles[pokeball] || CONFIG.PTU.data.sheetThemes.defaultStyle) : CONFIG.PTU.data.sheetThemes.defaultStyle;
 
     //     const highlightShape = styles.highlightShape ? CONFIG.PTU.data.sheetThemes.shapes[styles.highlightShape] ?? "" : "";
 
@@ -97,12 +97,12 @@ function _registerPTUHelpers() {
     // });
 
     // Handlebars.registerHelper("pokeBallHeaderStyle", function (pokeball) {
-    //     const styles = game.settings.get("ptu", "pokeballBackgroundThemes") ? (CONFIG.PTU.data.sheetThemes.styles[pokeball] || CONFIG.PTU.data.sheetThemes.defaultStyle) : CONFIG.PTU.data.sheetThemes.defaultStyle;
+    //     const styles = game.settings.get("pe", "pokeballBackgroundThemes") ? (CONFIG.PTU.data.sheetThemes.styles[pokeball] || CONFIG.PTU.data.sheetThemes.defaultStyle) : CONFIG.PTU.data.sheetThemes.defaultStyle;
     //     return new Handlebars.SafeString(`${styles.backgroundColor}`);
     // });
 
     // Handlebars.registerHelper("pokeBallHighlightStyle", function (pokeball) {
-    //     const styles = game.settings.get("ptu", "pokeballBackgroundThemes") ? (CONFIG.PTU.data.sheetThemes.styles[pokeball] || CONFIG.PTU.data.sheetThemes.defaultStyle) : CONFIG.PTU.data.sheetThemes.defaultStyle;
+    //     const styles = game.settings.get("pe", "pokeballBackgroundThemes") ? (CONFIG.PTU.data.sheetThemes.styles[pokeball] || CONFIG.PTU.data.sheetThemes.defaultStyle) : CONFIG.PTU.data.sheetThemes.defaultStyle;
     //     if(styles.highlight) return new Handlebars.SafeString(`${styles.backgroundColor}`);
     //     return new Handlebars.SafeString(`black`);
     // });
@@ -110,7 +110,7 @@ function _registerPTUHelpers() {
     //     Handlebars.registerHelper("itemDescription", function (name) {
     //         if (!name) return "";
     //         if (name || 0 !== name.length) {
-    //             let item = game.ptu.data.items.find(i => i.name.toLowerCase().includes(name.toLowerCase()));
+    //             let item = game.pe.data.items.find(i => i.name.toLowerCase().includes(name.toLowerCase()));
     //             if (item) return item.system.effect;
     //         }
     //         return "";
@@ -164,7 +164,7 @@ function _registerPTUHelpers() {
     })
 
     //     Handlebars.registerHelper("calcFrequencyIconPath", function (frequency, currentUseCount) {
-    //         const basePath = "systems/ptu/images/icons/";
+    //         const basePath = "systems/pe/images/icons/";
     //         const useCount = Number(currentUseCount);
     //         switch (frequency) {
     //             case "At-Will":
@@ -267,7 +267,7 @@ function _registerPTUHelpers() {
     //     })
 
     //     Handlebars.registerHelper("getStat", function (species, statKey) {
-    //         const speciesStats = game.ptu.utils.species.get(species);
+    //         const speciesStats = game.pe.utils.species.get(species);
     //         if (!speciesStats) return 0;
 
     //         const renamingDict = {
@@ -285,7 +285,7 @@ function _registerPTUHelpers() {
     //         return speciesStats["Base Stats"][key] ?? 0;
     //     });
 
-    //     Handlebars.registerHelper("tmName", function (tmNum) { return game.ptu.data.TMsData.get(tmNum) });
+    //     Handlebars.registerHelper("tmName", function (tmNum) { return game.pe.data.TMsData.get(tmNum) });
 
     Handlebars.registerHelper("helpText", function (item) {
         if (!item) return;

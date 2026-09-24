@@ -5,14 +5,14 @@ export class Migration115RulesAutomation extends MigrationBase {
     static version = 0.115;
     requiresFlush = true;
 
-    static once = game?.settings?.get("ptu","worldSchemaVersion") >= Migration115RulesAutomation.version;
+    static once = game?.settings?.get("pe","worldSchemaVersion") >= Migration115RulesAutomation.version;
 
     /**
      * @type {MigrationBase['updateItem']} 
      */
     async updateItem(item, actor) {
         if(item.type !== "move") return;
-        const moves = this.moves ??= await game.packs.get("ptu.moves").getDocuments();
+        const moves = this.moves ??= await game.packs.get("pe.moves").getDocuments();
         const slug = item.system.slug || sluggify(item.name);
 
         const move = (() => {

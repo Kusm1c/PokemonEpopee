@@ -6,9 +6,9 @@ class PTUSpecies extends PTUItem {
         return sluggify(this.name);
     }
 
-    getImagePath({ gender = game.i18n.localize("PTU.Male"), shiny = false, extension = game.settings.get("ptu", "generation.defaultImageExtension"), suffix = "" }={}) {
-        const path = game.settings.get("ptu", "generation.defaultImageDirectory");
-        const useName = game.settings.get("ptu", "generation.defaultPokemonImageNameType");
+    getImagePath({ gender = game.i18n.localize("PTU.Male"), shiny = false, extension = game.settings.get("pe", "generation.defaultImageExtension"), suffix = "" }={}) {
+        const path = game.settings.get("pe", "generation.defaultImageDirectory");
+        const useName = game.settings.get("pe", "generation.defaultPokemonImageNameType");
         const femaleTag = gender.toLowerCase() == "female" ? "f" : "";
         const shinyTag = shiny ? "s" : "";
 
@@ -16,7 +16,7 @@ class PTUSpecies extends PTUItem {
     }
 
     static async convertToPTUSpecies(speciesData, options = {}) {
-        const data = { type: "species", system: {}, img: "/systems/ptu/css/images/icons/dex_icon.png", folder: "5Jvv9TXViaCrDerw", ...options };
+        const data = { type: "species", system: {}, img: "/systems/pe/css/images/icons/dex_icon.png", folder: "5Jvv9TXViaCrDerw", ...options };
 
         data.name = Handlebars.helpers.capitalize(speciesData._id);
         data.system.slug = sluggify(data.name);

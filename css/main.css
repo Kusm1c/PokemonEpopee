@@ -547,104 +547,104 @@
 .chat-message.message .damage-taken .buttons button i {
   margin: unset;
 }
-.ptu.pokemon.drag-in section {
+.pe.pokemon.drag-in section {
   background: linear-gradient(45deg, #ecdbeb, #dffffe);
 }
-.ptu.pokemon.drag-in section form h3 {
+.pe.pokemon.drag-in section form h3 {
   border-bottom: unset;
 }
-.ptu.pokemon.drag-in section form input[type="number"] {
+.pe.pokemon.drag-in section form input[type="number"] {
   -moz-appearance: auto;
   max-width: 69%;
 }
-.ptu.pokemon.drag-in
+.pe.pokemon.drag-in
   section
   form
   input[type="number"]::-webkit-inner-spin-button,
-.ptu.pokemon.drag-in
+.pe.pokemon.drag-in
   section
   form
   input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: auto;
   opacity: 1;
 }
-.ptu.pokemon.drag-in section form input[type="number"].level {
+.pe.pokemon.drag-in section form input[type="number"].level {
   max-width: 30%;
 }
-.ptu.pokemon.generator section {
+.pe.pokemon.generator section {
   background: linear-gradient(45deg, #ecdbeb, #dffffe);
   padding: unset;
 }
-.ptu.pokemon.generator form h3 {
+.pe.pokemon.generator form h3 {
   border-bottom: unset;
 }
-.ptu.pokemon.generator form .header-bar {
+.pe.pokemon.generator form .header-bar {
   padding: 0.5rem;
 }
-.ptu.pokemon.generator form .header-bar h3 {
+.pe.pokemon.generator form .header-bar h3 {
   border-bottom: unset;
   margin: 0;
 }
-.ptu.pokemon.generator form input[type="number"] {
+.pe.pokemon.generator form input[type="number"] {
   -moz-appearance: auto;
   max-width: 69%;
 }
-.ptu.pokemon.generator form input[type="number"]::-webkit-inner-spin-button,
-.ptu.pokemon.generator form input[type="number"]::-webkit-outer-spin-button {
+.pe.pokemon.generator form input[type="number"]::-webkit-inner-spin-button,
+.pe.pokemon.generator form input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: auto;
   opacity: 1;
 }
-.ptu.pokemon.generator form input[type="number"].level {
+.pe.pokemon.generator form input[type="number"].level {
   max-width: 25%;
   text-align: center;
 }
-.ptu.pokemon.generator form .tab-button {
+.pe.pokemon.generator form .tab-button {
   border: 2px groove #c42835;
   background: #ffffff25;
 }
-.ptu.pokemon.generator form input[type="text"]::placeholder {
+.pe.pokemon.generator form input[type="text"]::placeholder {
   opacity: 0.8;
 }
-.ptu.pokemon.generator form input[type="submit"] {
+.pe.pokemon.generator form input[type="submit"] {
   font-size: 14.5px;
   font-weight: bold;
   padding: 0.5rem 1.5rem;
 }
-.ptu.pokemon.generator form .species {
+.pe.pokemon.generator form .species {
   padding: 0.5rem;
   background: #ffffffa6;
   border-radius: 15px;
 }
-.ptu.pokemon.generator form .species .content-link {
+.pe.pokemon.generator form .species .content-link {
   margin-left: 0.25rem;
 }
-.ptu.level-up section {
+.pe.level-up section {
   background: unset;
   padding: unset;
 }
-.ptu.level-up form .header-bar h3 {
+.pe.level-up form .header-bar h3 {
   border-bottom: unset;
   margin: 0;
   padding: 0.5rem;
 }
-.ptu.level-up form .avatar {
+.pe.level-up form .avatar {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
 }
-.ptu.level-up form .avatar img {
+.pe.level-up form .avatar img {
   border: unset;
   border-radius: 50%;
   background: whitesmoke;
   border: 2px solid whitesmoke;
   max-height: 225px;
 }
-.ptu.level-up form .image-divider {
+.pe.level-up form .image-divider {
   align-self: center;
   padding: 0 1rem;
 }
-.ptu.level-up form .image-divider::before {
+.pe.level-up form .image-divider::before {
   content: "";
   display: inline-block;
   width: 0;
@@ -653,25 +653,25 @@
   border-bottom: 20px solid transparent;
   border-left: 20px solid black;
 }
-.ptu.level-up form .stats-bar {
+.pe.level-up form .stats-bar {
   padding: 0.5rem;
   font-size: 20px;
   font-weight: bold;
 }
-.ptu.level-up form .evolution-bar {
+.pe.level-up form .evolution-bar {
   padding: 0.5rem;
   font-size: 16px;
 }
-.ptu.level-up form .abilities .abilities-column {
+.pe.level-up form .abilities .abilities-column {
   flex: 1 0 33%;
 }
-.ptu.level-up form .abilities .ability-header {
+.pe.level-up form .abilities .ability-header {
   min-height: 50px;
   display: flex;
   text-align: left;
   background: rgba(0, 0, 0, 0.15);
 }
-.ptu.level-up form .abilities .ability-header .border {
+.pe.level-up form .abilities .ability-header .border {
   border: dotted 2px var(--color-border-dark-tertiary);
   display: flex;
   height: fit-content;
@@ -681,92 +681,92 @@
   min-width: 150px;
   justify-content: center;
 }
-.ptu.level-up form .abilities .ability-header .border.locked {
+.pe.level-up form .abilities .ability-header .border.locked {
   background: rgba(0, 0, 0, 0.15);
   filter: brightness(0.7);
 }
-.ptu.level-up form .abilities .ability-header .border.select {
+.pe.level-up form .abilities .ability-header .border.select {
   box-shadow: 0 0 25px 0 #656565;
 }
-.ptu.level-up form .abilities .ability-header .linked-item {
+.pe.level-up form .abilities .ability-header .linked-item {
   align-self: center;
   text-align: center;
 }
-.ptu.level-up form .abilities .ability-header .content-link {
+.pe.level-up form .abilities .ability-header .content-link {
   height: 21px;
   align-self: center;
   min-width: 125px;
   max-width: 125px;
   text-overflow: ellipsis;
 }
-.ptu.level-up form .abilities .ability {
+.pe.level-up form .abilities .ability {
   text-align: left;
   padding: 2px;
 }
-.ptu.level-up form .abilities .ability .content-link {
+.pe.level-up form .abilities .ability .content-link {
   min-width: 150px;
   max-width: 150px;
   text-overflow: ellipsis;
 }
-.ptu.level-up form .moves .moves-dropzone.dragover {
+.pe.level-up form .moves .moves-dropzone.dragover {
   background: #ffffff66;
   border-radius: 10px;
 }
-.ptu.level-up form .moves .move {
+.pe.level-up form .moves .move {
   text-align: left;
   padding: 2px;
 }
-.ptu.level-up form .moves .move .content-link {
+.pe.level-up form .moves .move .content-link {
   min-width: 150px;
   max-width: 150px;
   text-overflow: ellipsis;
 }
-.ptu.level-up form .stats {
+.pe.level-up form .stats {
   align-items: center;
   padding: 0.25rem;
 }
-.ptu.level-up form .stats.hp,
-.ptu.level-up form .stats.def,
-.ptu.level-up form .stats.spdef {
+.pe.level-up form .stats.hp,
+.pe.level-up form .stats.def,
+.pe.level-up form .stats.spdef {
   background: #fefefe;
 }
-.ptu.level-up form .stats.atk,
-.ptu.level-up form .stats.spatk,
-.ptu.level-up form .stats.spd {
+.pe.level-up form .stats.atk,
+.pe.level-up form .stats.spatk,
+.pe.level-up form .stats.spd {
   background: #e1ecf2;
 }
-.ptu.level-up form .stats-keys {
+.pe.level-up form .stats-keys {
   place-self: center;
 }
-.ptu.level-up form .stats-keys.key {
+.pe.level-up form .stats-keys.key {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.level-up form .stats-keys.nature-up {
+.pe.level-up form .stats-keys.nature-up {
   color: #b27d94;
   font-weight: bold;
 }
-.ptu.level-up form .stats-keys.nature-down {
+.pe.level-up form .stats-keys.nature-down {
   color: #98c7c9;
   font-weight: bold;
 }
 /* move to individual files once done */
-.ptu.sheet.gen8 h3 {
+.pe.sheet.gen8 h3 {
   border-bottom: unset;
 }
-.ptu.sheet.gen8 .window-resizable-handle {
+.pe.sheet.gen8 .window-resizable-handle {
   z-index: 100;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .skills {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .skills {
   flex: 0 0 60%;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .left {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .left {
   flex: 0 0 48%;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box {
   overflow: unset;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
@@ -775,7 +775,7 @@
   place-self: center;
   margin: 3px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
@@ -783,7 +783,7 @@
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
@@ -792,44 +792,44 @@
   font-weight: bold;
   text-align: center;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.hp,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.def,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.spdef {
   background: #fefefe;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.atk,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.spatk,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.spd {
   background: #e1ecf2;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .other {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .other {
   flex: 0 0 37%;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .other .profile-img {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .other .profile-img {
   flex: 0 0 50%;
   align-self: center;
   background: whitesmoke;
@@ -837,10 +837,10 @@
   border: 2px solid whitesmoke;
   max-height: 225px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .capability .skills .rollable {
+.pe.sheet.gen8.actor.compact main.sheet-body .capability .skills .rollable {
   position: relative;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -851,7 +851,7 @@
   top: 50%;
   transform: translate(0, -50%);
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -859,7 +859,7 @@
   .resource-label {
   padding-left: 4px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -867,7 +867,7 @@
   text-shadow: 0 0 10px #ff0000a0;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -875,55 +875,55 @@
   label:hover {
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill.bgcolor {
   padding: 8px 5px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--body {
+.pe.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--body {
   background-color: #e06666aa;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--mind {
+.pe.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--mind {
   background-color: #ffe599aa;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .type--spirit {
   background-color: #93c47daa;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--Pathetic {
   background: #cfe2f3;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--Untrained {
   background: #9fc5e8;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--Novice {
   background: #6fa8dc;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--Adept {
   background: #3d85c6;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -931,7 +931,7 @@
   background: #0b5394;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -939,58 +939,58 @@
   background: #073763;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--Virtuoso {
   background: #e9be25;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--Invalid {
   background: #ff0f0faa;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.hp,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.def,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spdef {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.hp,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.def,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spdef {
   background: #fefefe;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.atk,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spatk,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spd {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.atk,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spatk,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spd {
   background: #e1ecf2;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .stats {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .stats {
   place-self: center;
   margin: 3px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .stats.key {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .stats.key {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio {
   display: block;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio .editor {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio .editor {
   min-height: 35px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .extra
   .swsh-body.bio
   .tox.tox-tinymce {
   min-height: 160px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .effects .swsh-body {
+.pe.sheet.gen8.actor.compact main.sheet-body .effects .swsh-body {
   display: block;
 }
-.ptu.sheet.gen8.actor section {
+.pe.sheet.gen8.actor section {
   padding: unset;
 }
-.ptu.sheet.gen8.actor section form {
+.pe.sheet.gen8.actor section form {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -998,7 +998,7 @@
   justify-content: flex-start;
   overflow: hidden;
 }
-.ptu.sheet.gen8.actor header.sheet-header {
+.pe.sheet.gen8.actor header.sheet-header {
   z-index: 10;
   position: inherit;
   padding: 0.25rem;
@@ -1008,14 +1008,14 @@
   flex: 0 0 50px;
   box-shadow: black 0px 0px 10px;
 }
-.ptu.sheet.gen8.actor header.sheet-header nav {
+.pe.sheet.gen8.actor header.sheet-header nav {
   flex: 1;
   justify-content: flex-start;
   gap: 10px;
   flex-direction: column;
   align-items: center;
 }
-.ptu.sheet.gen8.actor header.sheet-header nav .item {
+.pe.sheet.gen8.actor header.sheet-header nav .item {
   color: black;
   padding: 0.25rem;
   background: whitesmoke;
@@ -1024,28 +1024,28 @@
   height: 30px;
   width: 30px;
 }
-.ptu.sheet.gen8.actor .item-list-header {
+.pe.sheet.gen8.actor .item-list-header {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid black;
 }
-.ptu.sheet.gen8.actor .item-list-header .title {
+.pe.sheet.gen8.actor .item-list-header .title {
   flex: 1;
   margin: unset;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-amount {
+.pe.sheet.gen8.actor .item-list-header .item-amount {
   display: flex;
   align-items: center;
   flex: 0 0 143px;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-amount input {
+.pe.sheet.gen8.actor .item-list-header .item-amount input {
   width: 30px;
   text-align: center;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-amount h4 {
+.pe.sheet.gen8.actor .item-list-header .item-amount h4 {
   word-break: break-word;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-controls {
+.pe.sheet.gen8.actor .item-list-header .item-controls {
   flex: 0 0 66px;
   justify-content: end;
   display: flex;
@@ -1053,7 +1053,7 @@
   flex-wrap: wrap;
   align-self: center;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-create {
@@ -1067,14 +1067,14 @@
   font-size: 12px;
   text-align: center;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-create:hover {
   background: #788898cc;
   text-shadow: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-settings {
@@ -1085,42 +1085,42 @@
   color: rgba(0, 0, 0, 0.6);
   border-radius: 5px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-settings:hover {
   background: #788898cc;
   text-shadow: unset;
 }
-.ptu.sheet.gen8.actor .item-list {
+.pe.sheet.gen8.actor .item-list {
   padding: unset;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon {
   flex: 0 0 42px;
   max-width: 42px;
   max-height: 42px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon img {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon img {
   background: lightgray;
   height: 42px;
   width: 42px;
   object-fit: scale-down;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon .icon {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon .icon {
   display: block;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon .dice {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon .dice {
   display: none;
   background: lightslategray;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .item-icon.rollable:hover
   > .icon {
   display: none;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .item-icon.rollable:hover
@@ -1128,16 +1128,16 @@
   display: block;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info {
   flex: 1;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-name {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-name {
   flex: 0 1 auto;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags {
   flex: 1 1 0;
   display: flex;
   flex-direction: row;
@@ -1145,7 +1145,7 @@
   gap: 5px;
   padding-left: 5px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags .tag {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags .tag {
   height: 20px;
   margin: 0;
   white-space: nowrap;
@@ -1158,7 +1158,7 @@
   align-items: center;
   gap: 4px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
@@ -1166,7 +1166,7 @@
   .tag.shadowless {
   box-shadow: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
@@ -1180,7 +1180,7 @@
   padding-left: 1px;
   border-radius: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
@@ -1190,7 +1190,7 @@
   padding-left: 3px;
   padding-right: 3px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags {
   flex: 0 0 100%;
   display: flex;
   flex-direction: row;
@@ -1199,7 +1199,7 @@
   padding-left: 5px;
   padding-top: 2px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags .tag {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags .tag {
   height: 20px;
   margin: 0;
   white-space: nowrap;
@@ -1212,7 +1212,7 @@
   align-items: center;
   gap: 4px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
@@ -1226,7 +1226,7 @@
   padding-left: 1px;
   border-radius: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
@@ -1236,56 +1236,56 @@
   padding-left: 3px;
   padding-right: 3px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-summary {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-summary {
   padding-left: 41px;
 }
-.ptu.sheet.gen8.actor .item-list .item {
+.pe.sheet.gen8.actor .item-list .item {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 2px 0;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8.actor .item-list .item.disabled {
+.pe.sheet.gen8.actor .item-list .item.disabled {
   filter: opacity(0.7) grayscale(100%);
   pointer-events: none;
 }
-.ptu.sheet.gen8.actor .item-list .item:nth-child(odd) {
+.pe.sheet.gen8.actor .item-list .item:nth-child(odd) {
   background: #eeeeeea6;
 }
-.ptu.sheet.gen8.actor .item-list .item:nth-child(even) {
+.pe.sheet.gen8.actor .item-list .item:nth-child(even) {
   background: #dddddda6;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon {
+.pe.sheet.gen8.actor .item-list .item .item-icon {
   flex: 0 0 41px;
   max-width: 41px;
   max-height: 41px;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon img {
+.pe.sheet.gen8.actor .item-list .item .item-icon img {
   background: #000000;
   height: 41px;
   width: 41px;
   object-fit: scale-down;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon .icon {
+.pe.sheet.gen8.actor .item-list .item .item-icon .icon {
   display: block;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon .dice {
+.pe.sheet.gen8.actor .item-list .item .item-icon .dice {
   display: none;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .icon {
+.pe.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .icon {
   display: none;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .dice {
+.pe.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .dice {
   display: block;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info {
+.pe.sheet.gen8.actor .item-list .item .item-info {
   flex: 1 0 65%;
   display: flex;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags {
   flex: 1 1 0;
   display: flex;
   flex-direction: row;
@@ -1293,7 +1293,7 @@
   gap: 5px;
   padding-left: 5px;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag {
   height: 20px;
   margin: 0;
   white-space: nowrap;
@@ -1306,10 +1306,10 @@
   align-items: center;
   gap: 4px;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag.shadowless {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag.shadowless {
   box-shadow: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag img {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag img {
   height: auto;
   width: 19px;
   object-fit: scale-down;
@@ -1317,37 +1317,37 @@
   padding-left: 1px;
   border-radius: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag span {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag span {
   padding-left: 3px;
   padding-right: 3px;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-name {
+.pe.sheet.gen8.actor .item-list .item .item-name {
   flex: 0 1 auto;
   margin-left: 5px;
   align-self: center;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-name h4 {
+.pe.sheet.gen8.actor .item-list .item .item-name h4 {
   cursor: pointer;
   margin: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-name h4:hover {
+.pe.sheet.gen8.actor .item-list .item .item-name h4:hover {
   text-shadow: 0 0 10px #ff0000a0;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-quantity {
+.pe.sheet.gen8.actor .item-list .item .item-quantity {
   flex: 0 0 45px;
   text-align: center;
   font-size: 12px;
   margin: 0 0.25rem;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-quantity input[type="number"] {
+.pe.sheet.gen8.actor .item-list .item .item-quantity input[type="number"] {
   -moz-appearance: auto;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .item-quantity
   input[type="number"]::-webkit-inner-spin-button,
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .item-quantity
@@ -1355,7 +1355,7 @@
   -webkit-appearance: auto;
   opacity: 1;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-controls {
+.pe.sheet.gen8.actor .item-list .item .item-controls {
   flex: 0 0 72px;
   justify-content: end;
   display: flex;
@@ -1364,12 +1364,12 @@
   align-self: center;
   margin-right: 0.25rem;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-controls .item-control {
+.pe.sheet.gen8.actor .item-list .item .item-controls .item-control {
   flex: 0 0 18px;
   font-size: 12px;
   text-align: center;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary {
+.pe.sheet.gen8.actor .item-list .item .item-summary {
   height: 0;
   opacity: 0;
   margin: 0.25rem 0.5rem;
@@ -1377,21 +1377,21 @@
   flex: 1 1 100%;
   margin-right: 0.5rem;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary.transitioning {
+.pe.sheet.gen8.actor .item-list .item .item-summary.transitioning {
   height: auto;
   margin: 0;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary.show {
+.pe.sheet.gen8.actor .item-list .item .item-summary.show {
   height: auto;
   opacity: 1;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary p {
+.pe.sheet.gen8.actor .item-list .item .item-summary p {
   margin: 0;
   padding: 0;
   word-break: break-word;
   white-space: pre-line;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items {
+.pe.sheet.gen8.actor .item-list .item .nested-items {
   flex: 1 1 100%;
   margin: 2px 0 2px 31px;
   padding: 4px 4px 4px 4px;
@@ -1401,19 +1401,19 @@
   opacity: 0;
   transition: all 0.4s linear;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item {
   padding: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item:not(:first-child) {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item:not(:first-child) {
   padding-top: 2px;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item:not(:last-child) {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item:not(:last-child) {
   padding-bottom: 2px;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item .item-controls {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item .item-controls {
   margin-right: calc(0.25rem - 4px);
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .nested-items
@@ -1423,7 +1423,7 @@
   .item-controls {
   margin-right: calc(0.25rem - 8px);
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .nested-items
@@ -1435,7 +1435,7 @@
   .item-controls {
   margin-right: calc(0.25rem - 12px);
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .nested-items
@@ -1449,58 +1449,58 @@
   .item-controls {
   margin-right: calc(0.25rem - 16px);
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.transitioning {
+.pe.sheet.gen8.actor .item-list .item .nested-items.transitioning {
   height: auto;
   margin: 0;
   padding: 0;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.show {
+.pe.sheet.gen8.actor .item-list .item .nested-items.show {
   height: auto;
   opacity: 1;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.hide {
+.pe.sheet.gen8.actor .item-list .item .nested-items.hide {
   padding: 0;
   margin: 0;
   margin-left: 31px;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.hide .item {
+.pe.sheet.gen8.actor .item-list .item .nested-items.hide .item {
   display: none;
 }
-.ptu.sheet.gen8.actor main.sheet-body {
+.pe.sheet.gen8.actor main.sheet-body {
   z-index: 10;
   position: inherit;
   padding: 0.5rem;
   flex: 1;
   overflow: auto;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box {
   overflow: unset;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats {
   text-align: center;
   place-self: center;
   margin: 3px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats.key {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats.key {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .swsh-header {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .swsh-header {
   background: #e1ecf2;
   font-weight: bold;
   text-align: center;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.hp,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.def,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spdef {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.hp,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.def,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spdef {
   background: #fefefe;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.atk,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spatk,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spd {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.atk,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spatk,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spd {
   background: #e1ecf2;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .combat
   .swsh-box.effectiveness
@@ -1509,7 +1509,7 @@
   max-height: 30px;
   width: auto;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .combat
   .swsh-box.effectiveness
@@ -1520,7 +1520,7 @@
   align-items: center;
   flex-direction: row;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .combat
   .swsh-box.effectiveness
@@ -1530,115 +1530,115 @@
   text-align: left;
   font-size: 15px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .inventory .swsh-body .color-wrapper {
+.pe.sheet.gen8.actor main.sheet-body .inventory .swsh-body .color-wrapper {
   padding: 2px 5px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .inventory
   .swsh-body
   .color-wrapper:nth-child(odd) {
   background: #dddddda6;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable {
   position: relative;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable .fa-dice-d20 {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable .fa-dice-d20 {
   position: absolute;
   left: 3px;
   top: 50%;
   transform: translate(0, -50%);
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable .resource-label {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable .resource-label {
   padding-left: 4px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable:hover {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable:hover {
   text-shadow: 0 0 10px #ff0000a0;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable label:hover {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable label:hover {
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill.bgcolor {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill.bgcolor {
   padding: 8px 5px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .type--body {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .type--body {
   background-color: #e06666aa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .type--mind {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .type--mind {
   background-color: #ffe599aa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .type--spirit {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .type--spirit {
   background-color: #93c47daa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Pathetic {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Pathetic {
   background: #cfe2f3;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Untrained {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Untrained {
   background: #9fc5e8;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Novice {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Novice {
   background: #6fa8dc;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Adept {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Adept {
   background: #3d85c6;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Expert {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Expert {
   background: #0b5394;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Master {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Master {
   background: #073763;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Virtuoso {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Virtuoso {
   background: #e9be25;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--Invalid {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--Invalid {
   background: #ff0f0faa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills,
+.pe.sheet.gen8.actor main.sheet-body .stats .other {
   flex: 0 0 35%;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: center;
   padding-right: 5px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > input,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info > input,
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > input,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info > input,
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
   -webkit-box-flex: 0 !important;
   -ms-flex: 0 0 40px !important;
   flex: 0 0 40px !important;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
   text-align: center;
   font-size: 20px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .avatar {
+.pe.sheet.gen8.actor main.sheet-body .stats .avatar {
   flex: 0 0 25%;
   justify-content: center;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .avatar .profile-img {
+.pe.sheet.gen8.actor main.sheet-body .stats .avatar .profile-img {
   flex: 0 0 50%;
   align-self: center;
   background: whitesmoke;
   border-radius: 50%;
   border: 2px solid whitesmoke;
 }
-.ptu.sheet.gen8 .nature-up {
+.pe.sheet.gen8 .nature-up {
   color: #b27d94;
 }
-.ptu.sheet.gen8 .nature-down {
+.pe.sheet.gen8 .nature-down {
   color: #98c7c9;
 }
-.ptu.sheet.gen8 .swsh-box {
+.pe.sheet.gen8 .swsh-box {
   border: black solid 1px;
   box-shadow: 0px 0px 4px 1px black;
   background: #fefefe;
@@ -1646,21 +1646,21 @@
   display: flex;
   flex-direction: column;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-header {
+.pe.sheet.gen8 .swsh-box .swsh-header {
   padding: 2px 5px;
   background: #d3d3d1;
   display: flex;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-header.vertical {
+.pe.sheet.gen8 .swsh-box .swsh-header.vertical {
   height: 100%;
   align-items: center;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-body {
+.pe.sheet.gen8 .swsh-box .swsh-body {
   padding: 2px 5px;
   display: flex;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-body.dark-body {
+.pe.sheet.gen8 .swsh-box .swsh-body.dark-body {
   background: #b3b3b3;
 }
 /* -------------------------------------------- */

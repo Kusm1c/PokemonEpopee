@@ -5,7 +5,7 @@ import { RuleElementForm } from './base.js'
 class FlatModifierForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/flat-modifier.hbs";
+        return "systems/pe/static/templates/item/rules/flat-modifier.hbs";
     }
 
     /** @override */

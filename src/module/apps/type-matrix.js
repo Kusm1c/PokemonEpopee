@@ -6,11 +6,11 @@ class TypeMatrix extends FormApplication {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        options.classes.push("ptu-settings-menu");
+        options.classes.push("pe-settings-menu");
 
         return foundry.utils.mergeObject(options, {
             title: "PTU.TypeMatrix.Title",
-            template: "systems/ptu/static/templates/config/settings/types.hbs",
+            template: "systems/pe/static/templates/config/settings/types.hbs",
             id: "type-matrix",
             width: "auto",
             height: "auto",
@@ -24,7 +24,7 @@ class TypeMatrix extends FormApplication {
         const data = await super.getData();
 
         if (this.cache["types"] === undefined) {
-            const types = game.settings.get("ptu", "type.typeEffectiveness") || this.constructor.settings.typeEffectiveness.default;
+            const types = game.settings.get("pe", "type.typeEffectiveness") || this.constructor.settings.typeEffectiveness.default;
             this.cache["types"] = types;
         }
 
@@ -32,8 +32,8 @@ class TypeMatrix extends FormApplication {
         delete typeEffectiveness.Untyped;
 
         let typeLength = Object.keys(typeEffectiveness).length + 1;
-        if(!game.settings.get("ptu", "homebrew.nuclearType") && typeEffectiveness["Nuclear"]) typeLength--;
-        if(!game.settings.get("ptu", "homebrew.shadowType") && typeEffectiveness["Shadow"]) typeLength--;
+        if(!game.settings.get("pe", "homebrew.nuclearType") && typeEffectiveness["Nuclear"]) typeLength--;
+        if(!game.settings.get("pe", "homebrew.shadowType") && typeEffectiveness["Shadow"]) typeLength--;
 
         return {
             ...data,

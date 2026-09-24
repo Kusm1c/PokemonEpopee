@@ -13,7 +13,7 @@ export class Migration106SpeciesFieldToSpeciesItem extends MigrationBase {
 
             if(actor.system.species) {
                 if(!actor.items.some(i => i.type === "species")) {
-                    const species = await game.ptu.item.get(actor.system.species ?? "", "species");
+                    const species = await game.pe.item.get(actor.system.species ?? "", "species");
                     if(species) actor.items.push(species.toObject());
                     else {
                         const folder = game.folders.getName('Old-CSE-Migration');

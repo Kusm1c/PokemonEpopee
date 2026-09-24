@@ -92,7 +92,7 @@ async function runStatusResistance(condition, actorUpdates) {
     }
 
     if (effect.skipTurn || effect.noMoveAction || effect.moveActionOnly || effect.targetLockout) {
-        actorUpdates["flags.ptu.statusRestriction"] = describeEffect(condition, tier, effect);
+        actorUpdates["flags.pe.statusRestriction"] = describeEffect(condition, tier, effect);
     }
 
     const conditionUpdate = buildConditionUpdate(effect, { intensity });

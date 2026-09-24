@@ -1,7 +1,7 @@
 class PTUTokenConfig extends foundry.applications.sheets.TokenConfig {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/config/token/token-config.hbs";
+        return "systems/pe/static/templates/config/token/token-config.hbs";
     }
 
     get dimensionFromActorSize() {
@@ -21,8 +21,8 @@ class PTUTokenConfig extends foundry.applications.sheets.TokenConfig {
         return {
             ...(await super.getData(options)),
             sizeLinkable: !!this.actor,
-            linkToSizeTitle: this.token.flags.ptu.linkToActorSize ? "Unlink" : "Link",
-            autoscaleTitle: this.token.flags.ptu.autoscale ? "Unlink" : "Link"
+            linkToSizeTitle: this.token.flags.pe.linkToActorSize ? "Unlink" : "Link",
+            autoscaleTitle: this.token.flags.pe.autoscale ? "Unlink" : "Link"
         }
     }
 
@@ -30,15 +30,15 @@ class PTUTokenConfig extends foundry.applications.sheets.TokenConfig {
     activateListeners($html) {
         super.activateListeners($html);
 
-        if(this.token.flags.ptu.autoscale) {
+        if(this.token.flags.pe.autoscale) {
             this._disableScale($html);
         }
 
         const linkToSizeButton = $html.find("a[data-action=toggle-link-to-size]");
         linkToSizeButton.on("click", async () => {
-            await this.token.setFlag("ptu", "linkToActorSize", !this.token.flags.ptu.linkToActorSize)
+            await this.token.setFlag("pe", "linkToActorSize", !this.token.flags.pe.linkToActorSize)
             // await this.token.update({
-            //     "flags.ptu.linkToActorSize": !!!this.token.flags.ptu.linkToActorSize,
+            //     "flags.pe.linkToActorSize": !!!this.token.flags.pe.linkToActorSize,
             // });
             // this.#reestablishPrototype();
             await this.render();
@@ -46,8 +46,8 @@ class PTUTokenConfig extends foundry.applications.sheets.TokenConfig {
 
         const autoscaleButton = $html.find("a[data-action=toggle-autoscale]");
         autoscaleButton.on("click", async () => {
-            await this.token.setFlag("ptu", "autoscale", !this.token.flags.ptu.autoscale)
-            //await this.token.update({ "flags.ptu.autoscale": !!!this.token.flags.ptu.autoscale });
+            await this.token.setFlag("pe", "autoscale", !this.token.flags.pe.autoscale)
+            //await this.token.update({ "flags.pe.autoscale": !!!this.token.flags.pe.autoscale });
             // this.#reestablishPrototype();
             await this.render();
         });
@@ -55,7 +55,7 @@ class PTUTokenConfig extends foundry.applications.sheets.TokenConfig {
 
     _disableScale($html) {
         // If autoscale is disabled globally, keep form input enabled
-        if(!game.settings.get("ptu", "tokens.autoscale")) return;
+        if(!game.settings.get("pe", "tokens.autoscale")) return;
 
         const scale = $html.find(".form-group.scale");
         scale.addClass("children-disabled");

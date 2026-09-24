@@ -9,7 +9,7 @@ export class Migration102SpeciesDexEntries extends MigrationBase {
      */
     async updateItem(item, actor) {
       console.debug("This migration has become obsolete.")
-        // const dexentries = this.dexentries ??= await game.packs.get("ptu.dex-entries").getDocuments();
+        // const dexentries = this.dexentries ??= await game.packs.get("pe.dex-entries").getDocuments();
 
         // if(item.type !== "species") return;
 

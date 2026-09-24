@@ -22,14 +22,14 @@ class PTUDexSheet extends FormApplication {
         if (PTUDexSheet.speciesMap.size === 0) {
             new Promise(
                 async (resolve, reject) => {
-                    const packs = Object.entries(game.settings.get("ptu", "compendiumBrowserPacks")["species"]).reduce((acc, [id, value]) => {
-                        if(id === "ptu.species") {
-                            if(value.load === false) acc = acc.filter(id => id !== "ptu.species")
+                    const packs = Object.entries(game.settings.get("pe", "compendiumBrowserPacks")["species"]).reduce((acc, [id, value]) => {
+                        if(id === "pe.species") {
+                            if(value.load === false) acc = acc.filter(id => id !== "pe.species")
                             return acc;
                         }
                         if(value?.load) acc.push(id);
                         return acc;
-                    }, ["ptu.species"]) 
+                    }, ["pe.species"]) 
                     if (packs.length === 0) return ui.notifications.error("Please enable at least one species compendium from the Compendium Browser settings.");
                     const docs = [];
                     for(const packId of packs) {
@@ -58,10 +58,10 @@ class PTUDexSheet extends FormApplication {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             title: "PTU.DexSheet.Title",
-            classes: ["ptu", "sheet", "gen8", "dex"],
+            classes: ["pe", "sheet", "gen8", "dex"],
             width: 625,
             height: 775,
-            template: 'systems/ptu/static/templates/apps/dex-sheet.hbs',
+            template: 'systems/pe/static/templates/apps/dex-sheet.hbs',
             resizable: false,
             submitOnChange: true,
             submitOnClose: true,
@@ -96,7 +96,7 @@ class PTUDexSheet extends FormApplication {
 
         data.dex.total = (this.speciesDocs ?? [])
             .map((species) => ({
-                img: PTUDexSheet.speciesArtCache.get(species.slug) ?? "/systems/ptu/css/images/icons/dex_icon.png",
+                img: PTUDexSheet.speciesArtCache.get(species.slug) ?? "/systems/pe/css/images/icons/dex_icon.png",
                 id: species.slug,
                 name: Handlebars.helpers.formatSlug(species.slug),
                 number: species.system.number,
@@ -199,7 +199,7 @@ class PTUDexSheet extends FormApplication {
             if (!species) continue;
 
             const imgPromise = PokemonGenerator.getImage(species)
-                .then(img => PTUDexSheet.speciesArtCache.set(slug, img ?? "/systems/ptu/css/images/icons/dex_icon.png"))
+                .then(img => PTUDexSheet.speciesArtCache.set(slug, img ?? "/systems/pe/css/images/icons/dex_icon.png"))
                 .then(() => this.element.find(`.dex-item[data-id="${slug}"] .dex-item-img img`).attr("src", PTUDexSheet.speciesArtCache.get(slug)))
 
             promises.push(imgPromise);

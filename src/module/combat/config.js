@@ -14,13 +14,13 @@ export class PTUCombatTrackerConfig {
       
       const html = $(element);
       
-      const leagueBattle = game.settings.get("ptu", "leagueBattle");
+      const leagueBattle = game.settings.get("pe", "leagueBattle");
       
       const leagueBattleHtml = `
         <div class="form-group">
-          <label for="ptu-league-battle">League Battle?</label>
+          <label for="pe-league-battle">League Battle?</label>
           <div class="form-fields">
-            <input type="checkbox" name="ptu.leagueBattle" id="ptu-league-battle" ${leagueBattle ? 'checked' : ''}>
+            <input type="checkbox" name="pe.leagueBattle" id="pe-league-battle" ${leagueBattle ? 'checked' : ''}>
           </div>
           <p class="hint">Sort player characters in inverted order before pokémon</p>
         </div>
@@ -40,14 +40,14 @@ export class PTUCombatTrackerConfig {
       
       saveButton.on('click', async (event) => {
         setTimeout(async () => {
-          const checkbox = html.find('input[name="ptu.leagueBattle"]');
+          const checkbox = html.find('input[name="pe.leagueBattle"]');
           if (checkbox.length) {
             const isChecked = checkbox.is(':checked');
-            const currentValue = game.settings.get("ptu", "leagueBattle");
+            const currentValue = game.settings.get("pe", "leagueBattle");
             
             // Only save if the value actually changed
             if (isChecked !== currentValue) {
-              await game.settings.set("ptu", "leagueBattle", isChecked);
+              await game.settings.set("pe", "leagueBattle", isChecked);
             } else {
               console.log("PTU Combat Config | Value unchanged, skipping save to avoid unnecessary initiative reset.");
             }

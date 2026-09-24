@@ -70,7 +70,7 @@ Tracks every feature from the original design doc. Check items off as they're ve
 - [x] Navigation check + 1d10 drift roll + compass auto-correction, via the "Advance Travel Quarter" macro
 - [x] 1d8 half-hour-within-Quarter roll, same macro
 - [x] Encounter check system - the macro lets you pick a Tracks/Lair/Wandering RollTable (Foundry's native RollTable, you author the actual per-region content) and rolls them in the doc's specified order (tracks, then lair, then wandering)
-- [x] Progression-based hex movement - the macro now tracks cumulative km (stored on `game.user.flags.ptu.travelState`, persists across sessions/reloads), accumulates `speed x 4h x multiplier` each Quarter, and announces when the party exits the hex (with overflow km carried into the next one). You still pick the threshold yourself each time you enter a new hex (6km start/near/return vs 12km far side) since there's no hex-map canvas to read that from automatically.
+- [x] Progression-based hex movement - the macro now tracks cumulative km (stored on `game.user.flags.pe.travelState`, persists across sessions/reloads), accumulates `speed x 4h x multiplier` each Quarter, and announces when the party exits the hex (with overflow km carried into the next one). You still pick the threshold yourself each time you enter a new hex (6km start/near/return vs 12km far side) since there's no hex-map canvas to read that from automatically.
 - [x] Rhythm + Travel Mode parameters - exposed as a free-form speed multiplier (default 1.0) rather than a fixed table, since the doc doesn't specify exact values for each Rhythm/Mode combination. Set it yourself per your own house values instead of me guessing numbers that aren't in the source doc.
 - [ ] Landmark discovery rules (on-route/familiar/visible auto-spot) - still blocked on the Pokedex/landmark-tracking system in section 4, not built yet.
 - The "Advance Travel Quarter" macro is created automatically and refreshed when its command changes; `node scripts/test-travel-engine.mjs` to verify the pure logic
@@ -80,7 +80,7 @@ Tracks every feature from the original design doc. Check items off as they're ve
 - [x] Port PTR's dex tooling - already there unmodified (`PTUDexSheet`, per-Trainer)
 - [ ] Shared/group mode - **not built**. `PTUDexSheet` (`src/module/apps/dex/sheet.js`) is hardcoded to one Trainer actor at a time; a group view needs a new Application aggregating seen/owned state across multiple Trainers. Scoped as similar-sized work to the Actor Sheet sections (13-15) - deferred to keep pace, not attempted half-built.
 - [x] Spreadsheet import/export tool - CSV, not a binary spreadsheet format, but propagates correctly: it edits the Species compendium items directly (`system.stats.*`, `system.size.sizeClass/weightClass`), and since Pokemon actors derive their stats from their linked Species at runtime (`prepareDerivedData`), every actor of that species picks up the change automatically without touching each Actor - no separate "push to actors" step needed
-  - `scripts/foundry-console/export-species-spreadsheet.js` downloads `ptu-species-stats.csv`
+  - `scripts/foundry-console/export-species-spreadsheet.js` downloads `pe-species-stats.csv`
   - `scripts/foundry-console/import-species-spreadsheet.js` opens a file picker and writes the CSV back into the compendium
 
 ## 5. Combat Actions Rework
@@ -340,10 +340,10 @@ Four pages: **Overview / Stats**, **Actions**, **Pokémons**, **Narration**.
 
 ## 8. Shared Inventory (Inventaire Partagé)
 
-- [x] A shared container every player can open — a normal Actor flagged `flags.ptu.sharedInventory`, every player set to OWNER. Chosen over a world setting because those are GM-only: an owned Actor lets a player drop into the bag with no socket round-trip.
+- [x] A shared container every player can open — a normal Actor flagged `flags.pe.sharedInventory`, every player set to OWNER. Chosen over a world setting because those are GM-only: an owned Actor lets a player drop into the bag with no socket round-trip.
 - [x] Drag'n'drop **both ways**, using Foundry's own drag payloads so the receiving sheet needs no special handling. A click-to-take button does the same thing for anyone who dislikes dragging.
 - [x] Holds **Items** as real embedded Items on the container, so transfer is the engine's own document move — no custom serialisation to drift.
-- [x] Holds **Pokemon** as UUID references in `flags.ptu.sharedPokemon`. Foundry cannot embed an Actor inside an Actor, so taking one reassigns `flags.ptu.party.trainer` rather than copying the Actor — which is what you want for a shared pool. Dangling references (Pokemon deleted from the world) are surfaced with a Clean button instead of vanishing silently.
+- [x] Holds **Pokemon** as UUID references in `flags.pe.sharedPokemon`. Foundry cannot embed an Actor inside an Actor, so taking one reassigns `flags.pe.party.trainer` rather than copying the Actor — which is what you want for a shared pool. Dangling references (Pokemon deleted from the world) are surfaced with a Clean button instead of vanishing silently.
 - [x] Permissions: the automatic setup grants OWNER to every player plus `default: OWNER`; the GM can tighten it per-user on the Actor afterwards.
 - [ ] Concurrency: two players grabbing the same stack at once. Item moves are create-then-delete, so a simultaneous grab could duplicate. Needs a guard before real play with several players.
 
@@ -579,7 +579,7 @@ Table supplied 2026-09-21. **This supersedes the guessed "±1d4 per 5 STAB" word
 - [ ] `src/module/system/damage/move.js` (158 lines) is dead — `base.js` returns at the `PTUDamageCheck` branch, so `PTUMoveDamage.calculate` below it is unreachable. Delete it.
 - [ ] `pokemon-sheet.hbs` is dead — the sheet hardcodes the compact variant. Delete it.
 - [ ] Every custom icon points at `mystery-man.svg` because the guessed Foundry core paths (`cloud.svg`, `wall.svg`...) 404. Needs real custom icons.
-- [ ] System id stays `ptu` internally (renaming broke 184 hardcoded `Compendium.ptu.xxx` refs); only the display title is `PokemonEpopee`. Revisit only with a real migration plan.
+- [ ] System id stays `pe` internally (renaming broke 184 hardcoded `Compendium.pe.xxx` refs); only the display title is `PokemonEpopee`. Revisit only with a real migration plan.
 
 ---
 Legend: `[x]` verified working in Foundry, `[ ]` not started or not yet verified.

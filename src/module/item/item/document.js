@@ -13,14 +13,14 @@ class PTUItemItem extends PTUItem {
         super.prepareBaseData();
         
         if(this.enabled) {
-            this.flags.ptu.rollOptions.all[`item:equipped`] = true;
-            this.flags.ptu.rollOptions.item[`item:equipped`] = true;
+            this.flags.pe.rollOptions.all[`item:equipped`] = true;
+            this.flags.pe.rollOptions.item[`item:equipped`] = true;
         }
     }
 
     /** @override */
     prepareSiblingData() {
-        const itemGrants = this.flags.ptu.itemGrants;
+        const itemGrants = this.flags.pe.itemGrants;
         if(!itemGrants) return this.grants = [];
         this.grants = Object.values(itemGrants).flatMap((grant) => {
             return this.actor?.items.get(grant.id) ? [this.actor.items.get(grant.id)] : [];
@@ -31,25 +31,25 @@ class PTUItemItem extends PTUItem {
     async _preUpdate(changed, options, user) {
         let oldClass = {}, newClass = {};
         
-        if(changed.flags?.ptu?.grantedBy !== undefined) {
-            const container = this.actor?.items.get(changed.flags.ptu.grantedBy.id);
+        if(changed.flags?.pe?.grantedBy !== undefined) {
+            const container = this.actor?.items.get(changed.flags.pe.grantedBy.id);
             if(container) {
                 newClass.actor = container;
-                newClass.update = {"flags.ptu.itemGrants": {[this._id]: {id: this._id, onDelete: "detach"}}};   
+                newClass.update = {"flags.pe.itemGrants": {[this._id]: {id: this._id, onDelete: "detach"}}};   
             }
-            if(this.flags.ptu?.grantedBy?.id) {
-                const oldContainer = this.actor?.items.get(this.flags.ptu.grantedBy.id);
+            if(this.flags.pe?.grantedBy?.id) {
+                const oldContainer = this.actor?.items.get(this.flags.pe.grantedBy.id);
                 if(oldContainer) {
                     oldClass.actor = oldContainer;
-                    oldClass.update = {"flags.ptu.itemGrants": {[`-=${this._id}`]: null}};
+                    oldClass.update = {"flags.pe.itemGrants": {[`-=${this._id}`]: null}};
                 }
             }
         }
-        else if(changed.flags?.ptu?.["-=grantedBy"] !== undefined) {
-            const oldContainer = this.actor?.items.get(this.flags.ptu?.grantedBy?.id);
+        else if(changed.flags?.pe?.["-=grantedBy"] !== undefined) {
+            const oldContainer = this.actor?.items.get(this.flags.pe?.grantedBy?.id);
             if(oldContainer) {
                 oldClass.actor = oldContainer;
-                oldClass.update = {"flags.ptu.itemGrants": {[`-=${this._id}`]: null}};
+                oldClass.update = {"flags.pe.itemGrants": {[`-=${this._id}`]: null}};
             }
         }
 

@@ -5,8 +5,8 @@ export class PTUSpeciesDragOptionsPrompt extends FormApplication {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["ptu", "pokemon", "drag-in"],
-            template: "systems/ptu/static/templates/apps/species-drag-prompt.hbs",
+            classes: ["pe", "pokemon", "drag-in"],
+            template: "systems/pe/static/templates/apps/species-drag-prompt.hbs",
             width: 250,
             height: "auto",
             title: "Species Drag-In"
@@ -27,16 +27,16 @@ export class PTUSpeciesDragOptionsPrompt extends FormApplication {
     getData() {
         const data = super.getData();
 
-        const shinyChanceDefault = Number(game.settings.get("ptu", "generation.defaultDexDragInShinyChance"));
-        const statRandomnessDefault = Number(game.settings.get("ptu", "generation.defaultDexDragInStatRandomness"));
+        const shinyChanceDefault = Number(game.settings.get("pe", "generation.defaultDexDragInShinyChance"));
+        const statRandomnessDefault = Number(game.settings.get("pe", "generation.defaultDexDragInStatRandomness"));
 
         return {
             ...data,
-            levelMinDefault: game.settings.get("ptu", "generation.defaultDexDragInLevelMin"),
-            levelMaxDefault: game.settings.get("ptu", "generation.defaultDexDragInLevelMax"),
+            levelMinDefault: game.settings.get("pe", "generation.defaultDexDragInLevelMin"),
+            levelMaxDefault: game.settings.get("pe", "generation.defaultDexDragInLevelMax"),
             shinyChanceDefault: shinyChanceDefault > 1 ? shinyChanceDefault / 100 : shinyChanceDefault,
             statRandomnessDefault: statRandomnessDefault > 1 ? statRandomnessDefault / 100 : statRandomnessDefault,
-            preventDefault: game.settings.get("ptu", "generation.defaultDexDragInPreventEvolution"),
+            preventDefault: game.settings.get("pe", "generation.defaultDexDragInPreventEvolution"),
             species: this.species.name
         }
     }

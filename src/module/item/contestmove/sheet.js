@@ -2,7 +2,7 @@ import { PTUItemSheet } from "../index.js";
 
 class PTUContestMoveSheet extends PTUItemSheet {
     get template() {
-        return "systems/ptu/static/templates/item/contest-move-sheet.hbs";
+        return "systems/pe/static/templates/item/contest-move-sheet.hbs";
     }
 
     /** @override */

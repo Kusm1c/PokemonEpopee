@@ -15,10 +15,10 @@ class PTUPokemonTrainingSheet extends FormApplication {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             title: "PTU.PokemonTrainingSheet.Title",
-            classes: ["ptu", "sheet", "party", "training"],
+            classes: ["pe", "sheet", "party", "training"],
             width: 637,
             height: 600,
-            template: 'systems/ptu/static/templates/apps/pokemon-training-sheet.hbs',
+            template: 'systems/pe/static/templates/apps/pokemon-training-sheet.hbs',
             dragDrop: [
                 { dragSelector: ".party-list .party-item.draggable", dropSelector: ".party-list.droppable" },
                 { dragSelector: undefined, dropSelector: '.party-list.droppable' },
@@ -115,8 +115,8 @@ class PTUPokemonTrainingSheet extends FormApplication {
         // If the actor is a pokemon, we need to get the trainer
         if (actor.type == "pokemon") {
             // if a trainer is set, get the actor
-            if (actor.flags?.ptu?.party?.trainer) {
-                this.trainer = game.actors.get(actor.flags.ptu.party.trainer);
+            if (actor.flags?.pe?.party?.trainer) {
+                this.trainer = game.actors.get(actor.flags.pe.party.trainer);
                 return;
             }
 
@@ -186,16 +186,16 @@ class PTUPokemonTrainingSheet extends FormApplication {
                     const partyFolder = this.folders.party;
                     const party = game.actors.filter(actor =>
                         actor.type == "pokemon" &&
-                        actor.flags?.ptu?.party?.trainer == this.trainer.id &&
-                        !actor.flags?.ptu?.party?.boxed);
+                        actor.flags?.pe?.party?.trainer == this.trainer.id &&
+                        !actor.flags?.pe?.party?.boxed);
 
-                    const available = trainerFolder.contents.filter(actor => actor.type == "pokemon" && !actor.flags?.ptu?.party?.trainer) ?? [];
+                    const available = trainerFolder.contents.filter(actor => actor.type == "pokemon" && !actor.flags?.pe?.party?.trainer) ?? [];
                     for (const mon of available) {
                         if (mon.folder.id == partyFolder.id) continue;
                         await mon.update({
                             "folder": partyFolder.id,
-                            "flags.ptu.party.trainer": this.trainer.id,
-                            "flags.ptu.party.boxed": false
+                            "flags.pe.party.trainer": this.trainer.id,
+                            "flags.pe.party.boxed": false
                         });
                     };
                     for (const mon of party) {
@@ -219,8 +219,8 @@ class PTUPokemonTrainingSheet extends FormApplication {
                     const box = this.folders.box;
                     const boxed = game.actors.filter(actor =>
                         actor.type == "pokemon" &&
-                        actor.flags?.ptu?.party?.trainer == this.trainer.id &&
-                        actor.flags?.ptu?.party?.boxed);
+                        actor.flags?.pe?.party?.trainer == this.trainer.id &&
+                        actor.flags?.pe?.party?.boxed);
                     for (const mon of boxed) {
                         if (mon.folder.id == box.id) continue;
                         await mon.update({ "folder": box.id });
@@ -243,8 +243,8 @@ class PTUPokemonTrainingSheet extends FormApplication {
         // Otherwise, get the pokemon from the flag
         const party = game.actors.filter(actor =>
             actor.type == "pokemon" &&
-            actor.flags?.ptu?.party?.trainer == this.trainer.id &&
-            !actor.flags?.ptu?.party?.boxed);
+            actor.flags?.pe?.party?.trainer == this.trainer.id &&
+            !actor.flags?.pe?.party?.boxed);
 
         this.party = party;
     }
@@ -259,8 +259,8 @@ class PTUPokemonTrainingSheet extends FormApplication {
         // Otherwise, get the pokemon from the flag
         const boxed = game.actors.filter(actor =>
             actor.type == "pokemon" &&
-            actor.flags?.ptu?.party?.trainer == this.trainer.id &&
-            actor.flags?.ptu?.party?.boxed);
+            actor.flags?.pe?.party?.trainer == this.trainer.id &&
+            actor.flags?.pe?.party?.boxed);
 
         this.boxed = boxed;
     }
@@ -269,7 +269,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
         // Load available pokemon located in the trainer's folder
         const folder = this.folders.root;
 
-        const available = folder.contents.filter(actor => actor.type == "pokemon" && !actor.flags?.ptu?.party?.trainer) ?? [];
+        const available = folder.contents.filter(actor => actor.type == "pokemon" && !actor.flags?.pe?.party?.trainer) ?? [];
         this.available = available;
     }
 
@@ -362,7 +362,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
             if (actor.type != "pokemon") return;
 
             // If the actor is already in the party, do nothing
-            if (actor.flags?.ptu?.party?.trainer == this.trainer.id) return;
+            if (actor.flags?.pe?.party?.trainer == this.trainer.id) return;
 
             const { partyStatus } = event.currentTarget?.dataset ?? {};
 
@@ -376,8 +376,8 @@ class PTUPokemonTrainingSheet extends FormApplication {
                         if (actor.folder?.id != folder.id) {
                             await actor.update({ folder: folder.id });
                         }
-                        if (actor.flags?.ptu?.party?.trainer) {
-                            await actor.unsetFlag("ptu", "party");
+                        if (actor.flags?.pe?.party?.trainer) {
+                            await actor.unsetFlag("pe", "party");
                         }
 
                         this.available.push(actor);
@@ -393,7 +393,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                         if (actor.folder?.id != folder.id) {
                             await actor.update({ folder: folder.id });
                         }
-                        await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: false });
+                        await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: false });
 
                         this.party.push(actor);
                         this.available = this.available.filter(a => a.uuid != actor.uuid);
@@ -409,7 +409,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                         if (actor.folder?.id != folder.id) {
                             await actor.update({ folder: folder.id });
                         }
-                        await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: true });
+                        await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: true });
 
                         this.boxed.push(actor);
                         this.available = this.available.filter(a => a.uuid != actor.uuid);
@@ -435,7 +435,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                         if (actor.folder?.id != folder.id) {
                             await actor.update({ folder: folder.id });
                         }
-                        await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: true });
+                        await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: true });
 
                         this.handledDrop = false;
                         return this.render();
@@ -454,7 +454,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                     if (actor.folder?.id != folder.id) {
                         await actor.update({ folder: folder.id });
                     }
-                    await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: false });
+                    await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: false });
 
                     this.party.push(actor);
                     this.available = this.available.filter(a => a.uuid != actor.uuid);
@@ -468,7 +468,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                     if (actor.folder?.id != folder.id) {
                         await actor.update({ folder: folder.id });
                     }
-                    await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: true });
+                    await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: true });
 
                     this.boxed.push(actor);
                     this.available = this.available.filter(a => a.uuid != actor.uuid);
@@ -509,8 +509,8 @@ class PTUPokemonTrainingSheet extends FormApplication {
                 if (actor.folder?.id != folder.id) {
                     await actor.update({ folder: folder.id });
                 }
-                if (actor.flags?.ptu?.party?.trainer) {
-                    await actor.unsetFlag("ptu", "party");
+                if (actor.flags?.pe?.party?.trainer) {
+                    await actor.unsetFlag("pe", "party");
                 }
 
                 this[type].splice(index, 1);
@@ -526,7 +526,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                 if (actor.folder?.id != folder.id) {
                     await actor.update({ folder: folder.id });
                 }
-                await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: false });
+                await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: false });
 
                 this[type].splice(index, 1);
                 this.party.push(actor);
@@ -541,7 +541,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                 if (actor.folder?.id != folder.id) {
                     await actor.update({ folder: folder.id });
                 }
-                await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: true });
+                await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: true });
 
                 this[type].splice(index, 1);
                 this.boxed.push(actor);
@@ -575,7 +575,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                 if (actor.folder?.id != folder.id) {
                     await actor.update({ folder: folder.id });
                 }
-                await actor.setFlag("ptu", "party", { trainer: this.trainer.id, boxed: true });
+                await actor.setFlag("pe", "party", { trainer: this.trainer.id, boxed: true });
 
                 this[type]?.splice?.(index, 1);
                 return this.render();
@@ -628,7 +628,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
             
             if (trainingEffectID !== "") {
                 (async (effect) => {
-                    effect = await game.packs.get("ptu.effects").getDocument(trainingEffectID);
+                    effect = await game.packs.get("pe.effects").getDocument(trainingEffectID);
                     await actor.createEmbeddedDocuments('Item', [effect]);
                 })(trainingEffectID);
             }

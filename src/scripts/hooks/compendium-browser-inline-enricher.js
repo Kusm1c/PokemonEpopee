@@ -122,8 +122,8 @@ export const CompendiumBrowserInlineEnricher = {
                     const [tabName, paramString, displayText] = match.slice(1, 4)
                     const tabNameSlug = CONFIG.PTU.util.sluggify(tabName, { camel: "dromedary" })
 
-                    const broken = game?.ptu?.compendiumBrowser 
-                        ? game.ptu.compendiumBrowser.tabs[tabNameSlug] === undefined
+                    const broken = game?.pe?.compendiumBrowser 
+                        ? game.pe.compendiumBrowser.tabs[tabNameSlug] === undefined
                         : false;
 
                     const a = document.createElement("a");
@@ -165,7 +165,7 @@ export const CompendiumBrowserInlineEnricher = {
                     let tabKey = el.getAttribute("compendium-link-tab")
                     if (tabKey === "pokeedges") tabKey = "pokeEdges";
                     /** @type {CompendiumBrowserTab} */
-                    const tab = game.ptu.compendiumBrowser.tabs[tabKey]
+                    const tab = game.pe.compendiumBrowser.tabs[tabKey]
 
                     if (!tab) {
                         if(!event.currentTarget.classList.contains("broken")) {

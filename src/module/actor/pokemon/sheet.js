@@ -11,8 +11,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	/** @override */
 	static get defaultOptions() {
 		const options = foundry.utils.mergeObject(super.defaultOptions, {
-			classes: ['ptu', 'sheet', 'actor', 'gen8'],
-			template: 'systems/ptu/static/templates/actor/pokemon-sheet.hbs',
+			classes: ['pe', 'sheet', 'actor', 'gen8'],
+			template: 'systems/pe/static/templates/actor/pokemon-sheet.hbs',
 			width: 1200,
 			height: 640,
 			tabs: [{
@@ -28,7 +28,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		// If compact style is enabled
 		if (true) {
 			options.classes.push('compact');
-			options.template = 'systems/ptu/static/templates/actor/pokemon-sheet-compact.hbs';
+			options.template = 'systems/pe/static/templates/actor/pokemon-sheet-compact.hbs';
 			options.width = 900;
 			options.height = 650;
 		}
@@ -37,7 +37,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	}
 
 	get ballStyle() {
-		if (this.actor.flags.ptu.theme) return this.actor.flags.ptu.theme;
+		if (this.actor.flags.pe.theme) return this.actor.flags.pe.theme;
 		if (this.actor.system.pokeball) {
 			const ball = this.actor.system.pokeball.toLowerCase().replace('ball', '').trim();
 			if (ball == "basic" || ball == "poke") return "default";
@@ -362,8 +362,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		// "Lors d'un Entrainement, chaque joueur lance 1d100, dont le but est de depasser
 		// la Difficulte d'Entrainement." One roll per active player, resolved together.
 		html.find('.contest-mode-toggle').click(async () => {
-			const current = this.actor.getFlag("ptu", "contestMode") === true;
-			await this.actor.setFlag("ptu", "contestMode", !current);
+			const current = this.actor.getFlag("pe", "contestMode") === true;
+			await this.actor.setFlag("pe", "contestMode", !current);
 		});
 
 		html.find('.training-roll').click(async () => {
@@ -463,7 +463,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 			await attack.roll?.({
 				event, callback: async (rolls, targets, msg, event) => {
-					if (!game.settings.get("ptu", "autoRollDamage")) return;
+					if (!game.settings.get("pe", "autoRollDamage")) return;
 
 					const params = {
 						event,
@@ -474,7 +474,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 					}
 					const result = await attack.damage?.(params);
 					if (result === null) {
-						return await msg.update({ "flags.ptu.resolved": false })
+						return await msg.update({ "flags.pe.resolved": false })
 					}
 				}
 			});
@@ -608,9 +608,9 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		}
 
 
-		const granter = this.actor.items.get(item.flags.ptu?.grantedBy?.id ?? "");
+		const granter = this.actor.items.get(item.flags.pe?.grantedBy?.id ?? "");
 		if (granter) {
-			const parentGrant = Object.values(granter?.flags.ptu?.itemGrants ?? {}).find((g) => g.id === item.id);
+			const parentGrant = Object.values(granter?.flags.pe?.itemGrants ?? {}).find((g) => g.id === item.id);
 
 			if (parentGrant?.onDelete === "restrict") {
 				return Dialog.prompt({

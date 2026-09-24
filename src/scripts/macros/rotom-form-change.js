@@ -6,12 +6,12 @@ export function changeRotomForm() {
         const notifId = ui.notifications.info("Updating rotom...")
         const [species, move] = await (async () => {
             switch (forme) {
-                case "normal": return [await game.ptu.item.get("rotom-normal", "species"), null]
-                case "fan": return [await game.ptu.item.get("rotom-fan", "species"), await game.ptu.item.get("air-slash", "move")]
-                case "frost": return [await game.ptu.item.get("rotom-frost", "species"), await game.ptu.item.get("blizzard", "move")]
-                case "heat": return [await game.ptu.item.get("rotom-heat", "species"), await game.ptu.item.get("overheat", "move")]
-                case "mow": return [await game.ptu.item.get("rotom-mow", "species"), await game.ptu.item.get("leaf-storm", "move")]
-                case "wash": return [await game.ptu.item.get("rotom-wash", "species"), await game.ptu.item.get("hydro-pump", "move")]
+                case "normal": return [await game.pe.item.get("rotom-normal", "species"), null]
+                case "fan": return [await game.pe.item.get("rotom-fan", "species"), await game.pe.item.get("air-slash", "move")]
+                case "frost": return [await game.pe.item.get("rotom-frost", "species"), await game.pe.item.get("blizzard", "move")]
+                case "heat": return [await game.pe.item.get("rotom-heat", "species"), await game.pe.item.get("overheat", "move")]
+                case "mow": return [await game.pe.item.get("rotom-mow", "species"), await game.pe.item.get("leaf-storm", "move")]
+                case "wash": return [await game.pe.item.get("rotom-wash", "species"), await game.pe.item.get("hydro-pump", "move")]
             }
         })();
         if (!species) return ui.notifications.error("Could not find rotom species");

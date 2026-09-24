@@ -276,7 +276,7 @@ class PTUAttackCheck extends PTUDiceCheck {
             category.classList.add("type-img");
 
             const categoryImg = document.createElement("img");
-            categoryImg.src = `/systems/ptu/static/css/images/categories/${this.item.system.category}.png`;
+            categoryImg.src = `/systems/pe/static/css/images/categories/${this.item.system.category}.png`;
             category.append(categoryImg);
 
             header.append(category, type);
@@ -317,7 +317,7 @@ class PTUAttackCheck extends PTUDiceCheck {
      * @returns {boolean}
      */
     attackOutOfRange() {
-        if (!this.isSelfAttack && game.settings.get("ptu", "automation.failAttackIfOutOfRange")) {
+        if (!this.isSelfAttack && game.settings.get("pe", "automation.failAttackIfOutOfRange")) {
             for (const context of this.contexts) {
                 if (typeof context.distance !== "number") continue;
 
@@ -340,7 +340,7 @@ class PTUAttackCheck extends PTUDiceCheck {
      * @returns {boolean}
      */
     attackNoTargets() {
-        if (game.settings.get("ptu", "automation.failAttackIfNoTarget")) {
+        if (game.settings.get("pe", "automation.failAttackIfNoTarget")) {
             if (this._contexts.size === 0) {
                 ui.notifications.warn("PTU.Action.NoTarget", { localize: true });
                 return false;

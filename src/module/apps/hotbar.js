@@ -34,7 +34,7 @@ class PTUHotBar extends foundry.applications.ui.Hotbar {
                                 type: "script",
                                 command: command,
                                 img: item.img,
-                                flags: { "ptu.itemMacro": true }
+                                flags: { "pe.itemMacro": true }
                             });
                         }
                         return macro;

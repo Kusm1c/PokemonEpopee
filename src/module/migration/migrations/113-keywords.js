@@ -16,7 +16,7 @@ export class Migration113Keywords extends MigrationBase {
     async updateItem(item, actor) {
         if(!["feat", "move", "item"].includes(item.type)) return;
 
-        const items = this.items[item.type] ??= await game.packs.get(`ptu.${item.type}s`).getDocuments();
+        const items = this.items[item.type] ??= await game.packs.get(`pe.${item.type}s`).getDocuments();
 
         const entry = items.find(entry => entry.slug === (item.slug || sluggify(item.name)));
         if(!entry) return;

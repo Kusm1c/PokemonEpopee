@@ -49,11 +49,11 @@ const GamePTU = {
                 dexSync,
                 initializeWorldNotes: (async () => {
                     if (game.folders.getName("Actor Notes")) {
-                        return game.settings.set("ptu", "worldNotesFolder", game.folders.getName("Actor Notes").id)
+                        return game.settings.set("pe", "worldNotesFolder", game.folders.getName("Actor Notes").id)
                     }
         
                     const folder = await Folder.create({ name: "Actor Notes", type: "JournalEntry" });
-                    return game.settings.set("ptu", "worldNotesFolder", folder.id)
+                    return game.settings.set("pe", "worldNotesFolder", folder.id)
                 }),
                 openPokemonTraining: (actor) => {
                     if (!actor) {
@@ -71,22 +71,22 @@ const GamePTU = {
 
         Weather._initializeGlobalEffects();
 
-        game.ptu = foundry.utils.mergeObject(game.ptu ?? {}, initData)
+        game.pe = foundry.utils.mergeObject(game.pe ?? {}, initData)
 
-        CONFIG.PTU.data.typeEffectiveness = game.settings.get("ptu", "type.typeEffectiveness") ?? CONFIG.PTU.data.typeEffectiveness;
+        CONFIG.PTU.data.typeEffectiveness = game.settings.get("pe", "type.typeEffectiveness") ?? CONFIG.PTU.data.typeEffectiveness;
     },
     onSetup() {},
     onReady() {
-        game.ptu.compendiumBrowser = new CompendiumBrowser();
-        game.ptu.typeMatrix = new TypeMatrix()
+        game.pe.compendiumBrowser = new CompendiumBrowser();
+        game.pe.typeMatrix = new TypeMatrix()
 
         if (game.user.isGM) {
-            if (!game.settings.get("ptu", "worldNotesFolder")) {
-                game.ptu.macros.initializeWorldNotes();
+            if (!game.settings.get("pe", "worldNotesFolder")) {
+                game.pe.macros.initializeWorldNotes();
             }
             // Else if necessary since initializeWorldNotes is async and we don't want to wait for it
-            else if (game.folders.get(game.settings.get("ptu", "worldNotesFolder")) === null) {
-                game.ptu.macros.initializeWorldNotes();
+            else if (game.folders.get(game.settings.get("pe", "worldNotesFolder")) === null) {
+                game.pe.macros.initializeWorldNotes();
             }
         }
 

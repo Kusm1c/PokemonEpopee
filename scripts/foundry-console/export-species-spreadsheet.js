@@ -1,5 +1,5 @@
-const pack = game.packs.get("ptu.species");
-if (!pack) throw new Error("Compendium ptu.species not found");
+const pack = game.packs.get("pe.species");
+if (!pack) throw new Error("Compendium pe.species not found");
 
 const docs = await pack.getDocuments();
 const header = ["slug", "name", "hp", "atk", "def", "spatk", "spdef", "spd", "sizeClass", "weightClass"];
@@ -26,8 +26,8 @@ const blob = new Blob([csv], { type: "text/csv" });
 const url = URL.createObjectURL(blob);
 const link = document.createElement("a");
 link.href = url;
-link.download = "ptu-species-stats.csv";
+link.download = "pe-species-stats.csv";
 link.click();
 URL.revokeObjectURL(url);
 
-console.log(`Exported ${docs.length} species to ptu-species-stats.csv`);
+console.log(`Exported ${docs.length} species to pe-species-stats.csv`);

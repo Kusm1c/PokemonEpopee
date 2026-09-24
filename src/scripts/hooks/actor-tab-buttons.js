@@ -7,8 +7,8 @@ export const ActorButtons = {
             if (sidebarButtons.find(".import-party").length > 0) return;
             
             // Create grouped button rows for better layout
-            const secondRowDiv = $('<div class="ptu-button-row ptu-button-row-secondary"></div>');
-            const thirdRowDiv = $('<div class="ptu-button-row ptu-button-row-tertiary"></div>');
+            const secondRowDiv = $('<div class="pe-button-row pe-button-row-secondary"></div>');
+            const thirdRowDiv = $('<div class="pe-button-row pe-button-row-tertiary"></div>');
             
             // Add buttons to appropriate rows
             secondRowDiv.append(`<button class="import-party"><i class="fas fa-upload"></i>Import Party</button>`);
@@ -35,7 +35,7 @@ export const ActorButtons = {
                 });
             });
             $("#sidebar #actors .directory-header .action-buttons .pokemon-training").on("click", async (event) => {
-                game.ptu.macros.openPokemonTraining();
+                game.pe.macros.openPokemonTraining();
             });
         });
 
@@ -45,7 +45,7 @@ export const ActorButtons = {
 
             footer.append(`<button type="button" class="compendium-browser-btn"><i class="fa-solid fa-magnifying-glass"></i> Compendium Browser</button>`);
             footer.find(".compendium-browser-btn").on("click", async () => {
-                await game.ptu.compendiumBrowser.loadTab("items")
+                await game.pe.compendiumBrowser.loadTab("items")
             });
         });
 

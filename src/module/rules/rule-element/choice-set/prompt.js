@@ -24,7 +24,7 @@ export class ChoiceSetPrompt extends Application {
     static get defaultOptions() {
         return {
             ...super.defaultOptions,
-            classes: ["ptu", "choice-set-prompt"],
+            classes: ["pe", "choice-set-prompt"],
             resizable: false,
             height: "auto",
             width: "auto",
@@ -34,7 +34,7 @@ export class ChoiceSetPrompt extends Application {
 
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/apps/choice-set-prompt.hbs";
+        return "systems/pe/static/templates/apps/choice-set-prompt.hbs";
     }
 
     /** @override */

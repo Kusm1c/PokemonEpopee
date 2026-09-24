@@ -14,7 +14,7 @@ class PTUMoveDamage {
             modifier: Number(move.system.damageBase),
         }));
 
-        context.skipDialog ??= game.settings.get("ptu", "skipRollDialog");
+        context.skipDialog ??= game.settings.get("pe", "skipRollDialog");
 
         context.title ??= `${context.item?.name}: Damage Roll` ?? check.slug;
         

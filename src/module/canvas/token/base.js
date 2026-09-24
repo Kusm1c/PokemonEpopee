@@ -343,7 +343,7 @@ class PTUToken extends foundry.canvas.placeables.Token {
     }
 
     isFlanked() {
-        if (!game.settings.get("ptu", "automation.flankingDetection")) return false;
+        if (!game.settings.get("pe", "automation.flankingDetection")) return false;
         const flankingTokens = canvas.tokens.placeables.filter(t => t !== this && t.canFlank(this));
         if (flankingTokens.length <= 1) return false;
 
@@ -408,7 +408,7 @@ class PTUToken extends foundry.canvas.placeables.Token {
 
     canFlank(flankee) {
         if (!this.actor || !flankee.actor) return false;
-        if (this === flankee || !game.settings.get("ptu", "automation.flankingDetection")) return false;
+        if (this === flankee || !game.settings.get("pe", "automation.flankingDetection")) return false;
         if (this.actor.conditions.bySlug("fainted").length > 0) return false;
 
         if (!this.actor.isEnemyOf(flankee.actor)) return false;
@@ -422,13 +422,13 @@ class PTUToken extends foundry.canvas.placeables.Token {
 
     /** @override */
     _onControl(options = {}) {
-        if (game.ready) game.ptu.tokenPanel.refresh(true);
+        if (game.ready) game.pe.tokenPanel.refresh(true);
         super._onControl(options);
     }
 
     /** @override */
     _onRelease(options) {
-        game.ptu.tokenPanel.refresh(true);
+        game.pe.tokenPanel.refresh(true);
         super._onRelease(options);
     }
 }

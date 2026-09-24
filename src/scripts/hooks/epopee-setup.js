@@ -18,7 +18,7 @@ export const EpopeeSetup = {
 
             let applied;
             try {
-                applied = Number(game.settings.get("ptu", "epopeeSetupVersion")) || 0;
+                applied = Number(game.settings.get("pe", "epopeeSetupVersion")) || 0;
             } catch {
                 // Setting not registered yet (an older world loading newer code).
                 return;
@@ -31,7 +31,7 @@ export const EpopeeSetup = {
             try {
                 const log = await runWorldSetup();
 
-                await game.settings.set("ptu", "epopeeSetupVersion", SETUP_VERSION);
+                await game.settings.set("pe", "epopeeSetupVersion", SETUP_VERSION);
 
                 if (log.length) {
                     for (const line of log) console.log("PokemonEpopee | " + line);

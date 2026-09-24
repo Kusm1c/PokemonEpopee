@@ -214,7 +214,7 @@ class PTUSkillCheck extends PTUDiceCheck {
             core: {
                 canPopout: true
             },
-            ptu: {
+            pe: {
                 context: {
                     actor: this.actor?.id ?? null,
                     token: this.token?.id ?? null,

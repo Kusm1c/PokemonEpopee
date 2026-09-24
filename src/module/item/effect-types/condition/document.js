@@ -26,7 +26,7 @@ class PTUCondition extends BaseEffectPTU {
     }
 
     get appliedBy() {
-        return this.actor?.items.get(this.flags.ptu?.grantedBy?.id ?? "") ?? null;
+        return this.actor?.items.get(this.flags.pe?.grantedBy?.id ?? "") ?? null;
     }
 
     get value() {
@@ -41,8 +41,8 @@ class PTUCondition extends BaseEffectPTU {
     get isLocked() {
         if (super.isLocked) return true;
 
-        const granter = this.actor?.items.get(this.flags.ptu?.grantedBy?.id ?? "");
-        const grants = Object.values(granter?.flags.ptu?.itemGrants ?? {});
+        const granter = this.actor?.items.get(this.flags.pe?.grantedBy?.id ?? "");
+        const grants = Object.values(granter?.flags.pe?.itemGrants ?? {});
         return grants.find((g) => g.id === this.id)?.onDelete === "restrict";
     }
 
@@ -108,7 +108,7 @@ class PTUCondition extends BaseEffectPTU {
                             return header.outerHTML;
                         })(),
                         flags: {
-                            ptu: {
+                            pe: {
                                 context: {
                                     type: "damage-roll",
                                     targets: [{
@@ -211,7 +211,7 @@ class PTUCondition extends BaseEffectPTU {
     }
 
     async #handleHyperMode() {
-        const hypermode = await fromUuid('Compendium.ptu.effects.Item.NegVrXO5uxnkiyIZ');
+        const hypermode = await fromUuid('Compendium.pe.effects.Item.NegVrXO5uxnkiyIZ');
         await ChatMessage.create({
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
             content: `<p>${game.i18n.format("PTU.Action.Hypermode.Create", { name: this.actor.name })}</p>`
@@ -377,7 +377,7 @@ class PTUCondition extends BaseEffectPTU {
         const effective = statistic.dc.value <= result.total;
 
         if (!effective) {
-            const vulnerable = await fromUuid('Compendium.ptu.effects.Item.wqzPWKMbwvOWLVoI');
+            const vulnerable = await fromUuid('Compendium.pe.effects.Item.wqzPWKMbwvOWLVoI');
             const data = vulnerable.toObject();
             data.system.duration = { value: 1, unit: 'rounds', expiry: 'turn-start'};
             await actor.createEmbeddedDocuments("Item", [data]);

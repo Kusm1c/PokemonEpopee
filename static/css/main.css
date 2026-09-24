@@ -1100,7 +1100,7 @@ a.pokedollar span {
 }
 a.pokedollar span::before {
   content: "";
-  background: url(/systems/ptu/static/css/images/Pokémon_Dollar_sign.svg);
+  background: url(/systems/pe/static/css/images/Pokémon_Dollar_sign.svg);
   background-size: contain;
   background-repeat: no-repeat;
   position: absolute;
@@ -1111,77 +1111,77 @@ a.pokedollar span::before {
   filter: invert(28%) sepia(2%) saturate(3040%) hue-rotate(14deg)
     brightness(78%) contrast(75%);
 }
-.ptu.rulebook {
+.pe.rulebook {
   background: linear-gradient(45deg, #ecdbebfa, #dffffea3);
 }
-.ptu.rulebook ::-webkit-scrollbar-thumb {
+.pe.rulebook ::-webkit-scrollbar-thumb {
   outline: none;
   border-radius: 3px;
   background: #ff5a68 !important;
   border: 1px solid #ff4150 !important;
 }
-.ptu.rulebook ::-webkit-scrollbar-track {
+.pe.rulebook ::-webkit-scrollbar-track {
   box-shadow: 0 0 1px #ff6a77 inset !important;
   border-radius: 4px;
 }
-.ptu.rulebook table {
+.pe.rulebook table {
   border-top: 1px solid #ff6a77;
   border-bottom: 1px solid #ff6a77;
 }
-.ptu.rulebook table thead {
+.pe.rulebook table thead {
   background: #ff6a77aa;
   color: black;
   text-shadow: unset;
   border-bottom: 1px solid #ff6a77;
 }
-.ptu.rulebook table tr {
+.pe.rulebook table tr {
   text-align: center;
 }
-.ptu.rulebook table tr:nth-child(odd) {
+.pe.rulebook table tr:nth-child(odd) {
   background: #ff6a7741;
 }
-.ptu.rulebook table tr:nth-child(even) {
+.pe.rulebook table tr:nth-child(even) {
   background: #ff0e2246;
 }
-.ptu.rulebook table.nature-chart {
+.pe.rulebook table.nature-chart {
   border: 2px solid #ff6a77;
 }
-.ptu.rulebook table.nature-chart td:nth-child(3) {
+.pe.rulebook table.nature-chart td:nth-child(3) {
   border-right: 2px solid #ff6a77;
 }
-.ptu.rulebook .journal-entry-content {
+.pe.rulebook .journal-entry-content {
   background: whitesmoke;
 }
-.ptu.rulebook aside {
+.pe.rulebook aside {
   padding: 0.1rem 0 0.1rem 0.4rem;
 }
-.ptu.rulebook .left {
+.pe.rulebook .left {
   float: left;
   margin: 0 0.75rem 0 0;
   clear: left;
 }
-.ptu.rulebook .right {
+.pe.rulebook .right {
   float: right;
   margin: 0 0 0 0.75rem;
   clear: right;
 }
-.ptu.rulebook .left,
-.ptu.rulebook .right {
+.pe.rulebook .left,
+.pe.rulebook .right {
   max-width: 350px;
   padding: 0.5rem;
 }
-.ptu.rulebook .left > h3,
-.ptu.rulebook .right > h3 {
+.pe.rulebook .left > h3,
+.pe.rulebook .right > h3 {
   text-align: center;
   font-family: "Roundest Bold";
   margin: 0 0 -8px 0;
   font-size: 1rem;
   color: black;
 }
-.ptu.rulebook.journal-entry {
+.pe.rulebook.journal-entry {
   min-width: 60rem;
 }
-.ptu.rulebook.journal-entry .journal-header {
+.pe.rulebook.journal-entry .journal-header {
   text-align: center;
   width: 100%;
   margin: auto;
@@ -1189,58 +1189,58 @@ a.pokedollar span::before {
   background: #ff6a77;
   border-radius: 5px 0 0 5px;
 }
-.ptu.rulebook.journal-entry .journal-header input.title {
+.pe.rulebook.journal-entry .journal-header input.title {
   background: transparent;
   color: black;
   text-overflow: ellipsis;
 }
-.ptu.rulebook.journal-entry-page
+.pe.rulebook.journal-entry-page
   .editable
   .journal-page-content.editor-content
   figure.head
   img {
   max-width: 700px;
 }
-.ptu.rulebook.journal-entry-page
+.pe.rulebook.journal-entry-page
   .editable
   .journal-page-content.editor-content
   figure
   img {
   max-width: 300px;
 }
-.ptu.rulebook.journal-entry-page
+.pe.rulebook.journal-entry-page
   .editable
   .journal-page-content.editor-content
   aside
   img {
   max-width: 128px;
 }
-.ptu.rulebook.journal-entry-page,
-.ptu.rulebook section.journal-entry-content {
+.pe.rulebook.journal-entry-page,
+.pe.rulebook section.journal-entry-content {
   border: unset;
 }
-.ptu.rulebook.journal-entry-page div.editable,
-.ptu.rulebook section.journal-entry-content div.editable {
+.pe.rulebook.journal-entry-page div.editable,
+.pe.rulebook section.journal-entry-content div.editable {
   margin: unset;
 }
-.ptu.rulebook.journal-entry-page div.editable div.scrollable,
-.ptu.rulebook section.journal-entry-content div.editable div.scrollable {
+.pe.rulebook.journal-entry-page div.editable div.scrollable,
+.pe.rulebook section.journal-entry-content div.editable div.scrollable {
   padding: 0.5rem 0;
   scrollbar-gutter: stable both-edges;
 }
-.ptu.rulebook.journal-entry-page div.editable div.scrollable div.edit-container,
-.ptu.rulebook
+.pe.rulebook.journal-entry-page div.editable div.scrollable div.edit-container,
+.pe.rulebook
   section.journal-entry-content
   div.editable
   div.scrollable
   div.edit-container {
   z-index: 5;
 }
-.ptu.rulebook.journal-entry-page
+.pe.rulebook.journal-entry-page
   div.editable
   div.scrollable
   section.journal-page-content,
-.ptu.rulebook
+.pe.rulebook
   section.journal-entry-content
   div.editable
   div.scrollable
@@ -1248,36 +1248,36 @@ a.pokedollar span::before {
   padding: 0 1rem;
   margin: 0.5rem 0;
 }
-.ptu.rulebook.journal-entry-page .journal-header,
-.ptu.rulebook section.journal-entry-content .journal-header {
+.pe.rulebook.journal-entry-page .journal-header,
+.pe.rulebook section.journal-entry-content .journal-header {
   z-index: 1;
 }
-.ptu.rulebook.journal-entry-page .journal-header input,
-.ptu.rulebook section.journal-entry-content .journal-header input {
+.pe.rulebook.journal-entry-page .journal-header input,
+.pe.rulebook section.journal-entry-content .journal-header input {
   color: black;
   text-overflow: ellipsis;
   border: none;
   font-weight: bold;
 }
-.ptu.rulebook.journal-entry-page .journal-page-header,
-.ptu.rulebook section.journal-entry-content .journal-page-header {
+.pe.rulebook.journal-entry-page .journal-page-header,
+.pe.rulebook section.journal-entry-content .journal-page-header {
   position: relative;
   margin: auto;
   display: flex;
   justify-content: center;
 }
-.ptu.rulebook.journal-entry-page .journal-page-header h1,
-.ptu.rulebook section.journal-entry-content .journal-page-header h1,
-.ptu.rulebook.journal-entry-page .journal-page-header h2,
-.ptu.rulebook section.journal-entry-content .journal-page-header h2,
-.ptu.rulebook.journal-entry-page .journal-page-header h3,
-.ptu.rulebook section.journal-entry-content .journal-page-header h3 {
+.pe.rulebook.journal-entry-page .journal-page-header h1,
+.pe.rulebook section.journal-entry-content .journal-page-header h1,
+.pe.rulebook.journal-entry-page .journal-page-header h2,
+.pe.rulebook section.journal-entry-content .journal-page-header h2,
+.pe.rulebook.journal-entry-page .journal-page-header h3,
+.pe.rulebook section.journal-entry-content .journal-page-header h3 {
   margin: unset;
   clear: both;
   flex: 1;
 }
-.ptu.rulebook.journal-entry-page .journal-page-header h1,
-.ptu.rulebook section.journal-entry-content .journal-page-header h1 {
+.pe.rulebook.journal-entry-page .journal-page-header h1,
+.pe.rulebook section.journal-entry-content .journal-page-header h1 {
   position: relative;
   color: black;
   text-align: center;
@@ -1288,10 +1288,10 @@ a.pokedollar span::before {
   border-bottom: 2px solid #ff6a77;
   flex: 0 0 60%;
 }
-.ptu.rulebook.journal-entry-page .journal-page-header h2,
-.ptu.rulebook section.journal-entry-content .journal-page-header h2,
-.ptu.rulebook.journal-entry-page .journal-page-header h3,
-.ptu.rulebook section.journal-entry-content .journal-page-header h3 {
+.pe.rulebook.journal-entry-page .journal-page-header h2,
+.pe.rulebook section.journal-entry-content .journal-page-header h2,
+.pe.rulebook.journal-entry-page .journal-page-header h3,
+.pe.rulebook section.journal-entry-content .journal-page-header h3 {
   margin: 0.5rem 1rem 0.25rem 1rem;
   width: auto;
   line-height: 2rem;
@@ -1299,55 +1299,55 @@ a.pokedollar span::before {
   color: black;
   border-bottom: 2px solid black;
 }
-.ptu.rulebook.journal-entry aside.sidebar.flexcol.directory.journal-sidebar {
+.pe.rulebook.journal-entry aside.sidebar.flexcol.directory.journal-sidebar {
   color: white;
   border: unset;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   div.action-buttons,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   header.directory-header {
   z-index: 2;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   div.action-buttons
   button.next,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   header.directory-header
   button.next,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   div.action-buttons
   button.previous,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   header.directory-header
   button.previous,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   div.action-buttons
   a.action-button,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   header.directory-header
   a.action-button,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   div.action-buttons
   input,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   header.directory-header
   input,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   div.action-buttons
   button.create,
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   header.directory-header
   button.create {
@@ -1359,20 +1359,20 @@ a.pokedollar span::before {
   height: 28px;
   color: black;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item {
   line-height: 30px;
   border: unset;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item.active::after {
   border: unset;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item
@@ -1380,21 +1380,21 @@ a.pokedollar span::before {
   text-overflow: ellipsis;
   font-size: 0.9rem;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item
   ol.headings {
   display: none;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item
   .page-heading {
   color: black;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item.level1::before {
@@ -1408,7 +1408,7 @@ a.pokedollar span::before {
   margin: 0.25rem 0;
   border-radius: 5px;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item.level1
@@ -1416,32 +1416,32 @@ a.pokedollar span::before {
   font-size: 1.1rem;
   font-weight: bold;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item.level2
   span.page-title {
   text-indent: 0rem;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar
   ol.directory-list
   li.directory-item.level3
   span.page-title {
   text-indent: 0.5rem;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar:not(.collapsed) {
   flex-basis: 16rem;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar:not(.collapsed)
   span.page-number {
   color: transparent;
   width: 24px;
   margin-right: 2px;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar:not(.collapsed)
   .active
   span.page-number {
@@ -1452,44 +1452,44 @@ a.pokedollar span::before {
   background-position: center;
   background-repeat: no-repeat;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar:not(.collapsed)
   .active
   + .active
   span.page-number {
   background-image: unset;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar.collapsed {
   padding: 0 0 0 0.1rem;
   flex-basis: 2.5rem;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar.collapsed
   .active {
   font-weight: bold;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar.collapsed
   .active
   div.page-heading {
   background-color: #22222442;
   border-radius: 8px;
 }
-.ptu.rulebook.journal-entry
+.pe.rulebook.journal-entry
   aside.sidebar.flexcol.directory.journal-sidebar.collapsed
   .page-number {
   color: black;
 }
-.ptu.rulebook:not(.minimized) header.window-header {
+.pe.rulebook:not(.minimized) header.window-header {
   padding-bottom: 2px;
   line-height: 2rem;
   z-index: 3;
   border: unset;
   filter: drop-shadow(1px 1px 4px #150c0c);
 }
-.ptu.rulebook:not(.minimized) header.window-header h4,
-.ptu.rulebook:not(.minimized) header.window-header a {
+.pe.rulebook:not(.minimized) header.window-header h4,
+.pe.rulebook:not(.minimized) header.window-header a {
   text-shadow: 1px 2px 3px black;
 }
 .token-panel {
@@ -2125,14 +2125,14 @@ a.pokedollar span::before {
   padding-left: 40px;
   height: 40px;
 }
-.ptu-settings-menu .type-grid {
+.pe-settings-menu .type-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), 40px);
   grid-auto-flow: row;
   grid-auto-rows: 40px;
   overflow: auto;
 }
-.ptu-settings-menu .type-grid .type {
+.pe-settings-menu .type-grid .type {
   overflow: hidden;
   border: 1px solid #222224;
   display: flex;
@@ -2140,38 +2140,38 @@ a.pokedollar span::before {
   font-size: 15px;
   text-align: center;
 }
-.ptu-settings-menu .type-grid .type img {
+.pe-settings-menu .type-grid .type img {
   border: unset;
   border-radius: 0;
   object-fit: fill;
   flex: 1;
 }
-.ptu-settings-menu .type-grid .type span {
+.pe-settings-menu .type-grid .type span {
   align-self: center;
   margin: auto;
 }
-.ptu-settings-menu .type-grid .type[data-modifier="0"] {
+.pe-settings-menu .type-grid .type[data-modifier="0"] {
   background-color: #222224aa;
   color: whitesmoke;
 }
-.ptu-settings-menu .type-grid .type[data-modifier="0.5"] {
+.pe-settings-menu .type-grid .type[data-modifier="0.5"] {
   background-color: #ff8888;
 }
-.ptu-settings-menu .type-grid .type[data-modifier="2"] {
+.pe-settings-menu .type-grid .type[data-modifier="2"] {
   background-color: #88ff88aa;
 }
-.ptu-settings-menu .type-grid .type:hover {
+.pe-settings-menu .type-grid .type:hover {
   box-shadow: inset 0 0 10px #222224;
 }
-.ptu-settings-menu .type-grid .type.highlight-x {
+.pe-settings-menu .type-grid .type.highlight-x {
   border-top: 3px solid #222224;
   border-bottom: 3px solid #222224;
 }
-.ptu-settings-menu .type-grid .type.highlight-y {
+.pe-settings-menu .type-grid .type.highlight-y {
   border-left: 3px solid #222224;
   border-right: 3px solid #222224;
 }
-.ptu-settings-menu .form-group label {
+.pe-settings-menu .form-group label {
   flex: 0 1 auto;
   padding-right: 1rem;
 }
@@ -2813,110 +2813,110 @@ a.content-link img {
 .chat-message.message .damage-taken .buttons button i {
   margin: unset;
 }
-.ptu.pokemon.drag-in section {
+.pe.pokemon.drag-in section {
   background: linear-gradient(45deg, #ecdbeb, #dffffe);
 }
-.ptu.pokemon.drag-in section form h3 {
+.pe.pokemon.drag-in section form h3 {
   border-bottom: unset;
 }
-.ptu.pokemon.drag-in section form input[type="number"] {
+.pe.pokemon.drag-in section form input[type="number"] {
   -moz-appearance: auto;
   max-width: 69%;
 }
-.ptu.pokemon.drag-in
+.pe.pokemon.drag-in
   section
   form
   input[type="number"]::-webkit-inner-spin-button,
-.ptu.pokemon.drag-in
+.pe.pokemon.drag-in
   section
   form
   input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: auto;
   opacity: 1;
 }
-.ptu.pokemon.drag-in section form input[type="number"].level {
+.pe.pokemon.drag-in section form input[type="number"].level {
   max-width: 30%;
 }
-.ptu.pokemon.generator section {
+.pe.pokemon.generator section {
   background: linear-gradient(45deg, #ecdbeb, #dffffe);
   padding: unset;
 }
-.ptu.pokemon.generator form h3 {
+.pe.pokemon.generator form h3 {
   border-bottom: unset;
 }
-.ptu.pokemon.generator form .header-bar {
+.pe.pokemon.generator form .header-bar {
   padding: 0.5rem;
 }
-.ptu.pokemon.generator form .header-bar h3 {
+.pe.pokemon.generator form .header-bar h3 {
   border-bottom: unset;
   margin: 0;
 }
-.ptu.pokemon.generator form input[type="number"] {
+.pe.pokemon.generator form input[type="number"] {
   -moz-appearance: auto;
   max-width: 69%;
 }
-.ptu.pokemon.generator form input[type="number"]::-webkit-inner-spin-button,
-.ptu.pokemon.generator form input[type="number"]::-webkit-outer-spin-button {
+.pe.pokemon.generator form input[type="number"]::-webkit-inner-spin-button,
+.pe.pokemon.generator form input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: auto;
   opacity: 1;
 }
-.ptu.pokemon.generator form input[type="number"].level {
+.pe.pokemon.generator form input[type="number"].level {
   max-width: 25%;
   text-align: center;
 }
-.ptu.pokemon.generator form .tab-button {
+.pe.pokemon.generator form .tab-button {
   border: 2px groove #c42835;
   background: #ffffff25;
 }
-.ptu.pokemon.generator form input[type="text"]::placeholder {
+.pe.pokemon.generator form input[type="text"]::placeholder {
   opacity: 0.8;
 }
-.ptu.pokemon.generator form input[type="submit"] {
+.pe.pokemon.generator form input[type="submit"] {
   font-size: 14.5px;
   font-weight: bold;
   padding: 0.5rem 1.5rem;
 }
-.ptu.pokemon.generator form .species {
+.pe.pokemon.generator form .species {
   padding: 0.5rem;
   background: #ffffffa6;
   border-radius: 15px;
 }
-.ptu.pokemon.generator form .species .content-link {
+.pe.pokemon.generator form .species .content-link {
   margin-left: 0.25rem;
 }
-.ptu.pokemon.npc-quick-build .window-content .header-bar {
+.pe.pokemon.npc-quick-build .window-content .header-bar {
   border-bottom: 2px solid #222224;
   margin-bottom: 1.3em;
   padding: 0.5em;
   padding-bottom: 0.2em;
 }
-.ptu.pokemon.npc-quick-build .window-content .header-bar .title {
+.pe.pokemon.npc-quick-build .window-content .header-bar .title {
   text-align: center;
 }
-.ptu.pokemon.npc-quick-build .window-content .header-bar nav {
+.pe.pokemon.npc-quick-build .window-content .header-bar nav {
   display: flex;
   justify-content: space-evenly;
 }
-.ptu.pokemon.npc-quick-build .window-content .header-bar nav a.current {
+.pe.pokemon.npc-quick-build .window-content .header-bar nav a.current {
   text-shadow: 0 0 8px var(--color-shadow-primary);
 }
-.ptu.pokemon.npc-quick-build .window-content .footer-controls {
+.pe.pokemon.npc-quick-build .window-content .footer-controls {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 1em;
 }
-.ptu.pokemon.npc-quick-build .window-content .footer-controls [type="button"] {
+.pe.pokemon.npc-quick-build .window-content .footer-controls [type="button"] {
   padding-left: 1em;
   padding-right: 1em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
 }
-.ptu.pokemon.npc-quick-build .window-content h4 {
+.pe.pokemon.npc-quick-build .window-content h4 {
   text-align: center;
   font-weight: bold;
 }
-.ptu.pokemon.npc-quick-build .window-content .warning-box {
+.pe.pokemon.npc-quick-build .window-content .warning-box {
   border: 2px dashed rgba(255, 136, 0, 0.5);
   background-color: rgba(255, 136, 0, 0.2);
   border-radius: 20px;
@@ -2924,12 +2924,12 @@ a.content-link img {
   top: -0.7em;
   padding: 0.2em 1em;
 }
-.ptu.pokemon.npc-quick-build .window-content .warning-box .warning-title {
+.pe.pokemon.npc-quick-build .window-content .warning-box .warning-title {
   font-size: large;
   color: orangered;
   text-shadow: 1px 1px orange;
 }
-.ptu.pokemon.npc-quick-build .window-content .warning-box .warnings {
+.pe.pokemon.npc-quick-build .window-content .warning-box .warnings {
   text-align: center;
   max-height: 60px;
   transition: max-height 1s ease-in-out;
@@ -2937,30 +2937,30 @@ a.content-link img {
   scrollbar-width: thin;
   scrollbar-color: var(--color-scrollbar) var(--color-scrollbar-track);
 }
-.ptu.pokemon.npc-quick-build .window-content .warning-box:hover .warnings {
+.pe.pokemon.npc-quick-build .window-content .warning-box:hover .warnings {
   max-height: 150px;
   transition-delay: 500ms;
 }
-.ptu.pokemon.npc-quick-build .window-content .trainer-info {
+.pe.pokemon.npc-quick-build .window-content .trainer-info {
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: baseline;
   gap: 0.2em 2em;
 }
-.ptu.pokemon.npc-quick-build .window-content .trainer-info .profile-img-label {
+.pe.pokemon.npc-quick-build .window-content .trainer-info .profile-img-label {
   align-self: center;
 }
-.ptu.pokemon.npc-quick-build .window-content .trainer-info .profile-img {
+.pe.pokemon.npc-quick-build .window-content .trainer-info .profile-img {
   max-height: 100px;
   align-self: center;
   justify-self: center;
 }
-.ptu.pokemon.npc-quick-build .window-content .selected-features .tagify,
-.ptu.pokemon.npc-quick-build .window-content .selected-edges .tagify {
+.pe.pokemon.npc-quick-build .window-content .selected-features .tagify,
+.pe.pokemon.npc-quick-build .window-content .selected-edges .tagify {
   min-width: 100%;
 }
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats {
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 4em;
@@ -2970,10 +2970,10 @@ a.content-link img {
   margin-left: 1em;
   margin-right: 1em;
 }
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills .skill,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .skill,
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills .stat,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .stat {
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills .skill,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .skill,
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills .stat,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .stat {
   display: grid;
   grid-template-columns: 2em 1fr 2em;
   grid-template-rows: 1fr 1fr;
@@ -2982,49 +2982,49 @@ a.content-link img {
   border-radius: 0.4em;
   position: relative;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-prev-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-prev-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-prev-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-prev-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-prev-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-prev-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-prev-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3038,49 +3038,49 @@ a.content-link img {
   border-top-left-radius: 0.4em;
   border-bottom-left-radius: 0.4em;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-prev-rank-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-prev-rank-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-prev-rank-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-prev-rank-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-prev-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-prev-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-prev-clickarea:not(.disabled),
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3092,49 +3092,49 @@ a.content-link img {
     rgba(255, 255, 255, 0) 100%
   );
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-prev-rank-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-prev-rank-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-prev-rank-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-prev-rank-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-prev-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-prev-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-prev-clickarea:not(.disabled):hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3146,49 +3146,49 @@ a.content-link img {
     rgba(120, 120, 120, 0) 100%
   );
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-prev-rank-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-prev-rank-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-prev-rank-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-prev-rank-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-prev-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-prev-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-prev-clickarea.disabled:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3201,49 +3201,49 @@ a.content-link img {
   );
   cursor: not-allowed;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-next-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-next-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-next-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-next-rank-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-next-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-next-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-next-clickarea,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3262,49 +3262,49 @@ a.content-link img {
     rgba(255, 255, 255, 0) 100%
   );
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-next-rank-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-next-rank-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-next-rank-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-next-rank-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-next-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-next-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-next-clickarea:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3316,55 +3316,55 @@ a.content-link img {
     rgba(120, 120, 120, 0) 100%
   );
 }
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills .skill *,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .skill *,
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills .stat *,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .stat * {
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills .skill *,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .skill *,
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills .stat *,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .stat * {
   text-align: center;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-prev-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-prev-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-prev-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-prev-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-prev,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-prev,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-prev,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3373,49 +3373,49 @@ a.content-link img {
   grid-column: 1;
   grid-row: 1 / 3;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-next-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-next-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-next-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-next-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-next,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-next,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-next,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3424,49 +3424,49 @@ a.content-link img {
   grid-column: 3;
   grid-row: 1 / 3;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-name,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3475,49 +3475,49 @@ a.content-link img {
   grid-column: 2;
   grid-row: 1;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .skill-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .skill-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .skill-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .stat
   .skill-rank,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   .stat-value,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   .stat-value,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   .stat-value,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3526,32 +3526,32 @@ a.content-link img {
   grid-column: 2;
   grid-row: 2;
 }
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills .skill input,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .skill input,
-.ptu.pokemon.npc-quick-build .window-content .skills-box .skills .stat input,
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .stat input {
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills .skill input,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .skill input,
+.pe.pokemon.npc-quick-build .window-content .skills-box .skills .stat input,
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .stat input {
   background: unset;
   border: unset;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill
   input:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill
   input:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat
   input:hover,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3560,22 +3560,22 @@ a.content-link img {
   border: 1px solid gray;
   padding: 0px 2px;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .skill-points-remaining,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
   .skill-points-remaining,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
   .stat-points-remaining,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3583,7 +3583,7 @@ a.content-link img {
   text-align: center;
   font-style: italic;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3591,7 +3591,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--pathetic);
   color: var(--skillFgColor--pathetic);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3599,7 +3599,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--untrained);
   color: var(--skillFgColor--untrained);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3607,7 +3607,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--novice);
   color: var(--skillFgColor--novice);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3615,7 +3615,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--adept);
   color: var(--skillFgColor--adept);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3623,7 +3623,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--expert);
   color: var(--skillFgColor--expert);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3631,7 +3631,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--master);
   color: var(--skillFgColor--master);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3639,7 +3639,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--virtuoso);
   color: var(--skillFgColor--virtuoso);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .skills-box
   .skills
@@ -3647,7 +3647,7 @@ a.content-link img {
   background-color: var(--skillBkgColor--invalid);
   color: var(--skillFgColor--invalid);
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3655,11 +3655,11 @@ a.content-link img {
   background-color: #990000;
   color: white;
 }
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .stat.stat-low {
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .stat.stat-low {
   background-color: #e08a8a;
   color: black;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3667,11 +3667,11 @@ a.content-link img {
   background-color: #d6d6d6;
   color: black;
 }
-.ptu.pokemon.npc-quick-build .window-content .stats-box .stats .stat.stat-high {
+.pe.pokemon.npc-quick-build .window-content .stats-box .stats .stat.stat-high {
   background-color: #85ca7e;
   color: black;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .stats-box
   .stats
@@ -3679,7 +3679,7 @@ a.content-link img {
   background-color: #19850d;
   color: white;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .pokemon-party-settings {
@@ -3687,7 +3687,7 @@ a.content-link img {
   grid-template-columns: 1fr 1fr;
   margin-bottom: 1em;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .pokemon-party-settings
@@ -3696,7 +3696,7 @@ a.content-link img {
   align-items: baseline;
   gap: 1em;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .pokemon-party-settings
@@ -3704,13 +3704,13 @@ a.content-link img {
   input {
   flex: 0.25;
 }
-.ptu.pokemon.npc-quick-build .window-content .pokemon-box .all-party-pokemon {
+.pe.pokemon.npc-quick-build .window-content .pokemon-box .all-party-pokemon {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5em;
   padding-bottom: 15px;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3737,14 +3737,14 @@ a.content-link img {
   text-shadow: 2px 2px black;
   font-size: large;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
   .party-pokemon:nth-child(even) {
   top: 15px;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3755,7 +3755,7 @@ a.content-link img {
   background: unset;
   border: unset;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3766,7 +3766,7 @@ a.content-link img {
   opacity: 1;
   /* for Firefox */
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3775,7 +3775,7 @@ a.content-link img {
   border: 1px solid gray;
   padding: 0px 2px;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3784,7 +3784,7 @@ a.content-link img {
   grid-column: 1 / 4;
   grid-row: 2;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3796,7 +3796,7 @@ a.content-link img {
   padding-top: 5px;
   border: unset;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3807,7 +3807,7 @@ a.content-link img {
   display: flex;
   font-size: larger;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3816,7 +3816,7 @@ a.content-link img {
   label {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3829,7 +3829,7 @@ a.content-link img {
   justify-content: flex-end;
   align-items: baseline;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3838,7 +3838,7 @@ a.content-link img {
   label {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3846,7 +3846,7 @@ a.content-link img {
   .pokemon-gender.gender-Genderless {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3856,14 +3856,14 @@ a.content-link img {
   color: #046dda;
   text-shadow: 1px 1px #70baff;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
   .party-pokemon
   .pokemon-gender.gender-Male
   select,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3872,7 +3872,7 @@ a.content-link img {
   div {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3881,7 +3881,7 @@ a.content-link img {
   select {
   display: inline-block;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3891,14 +3891,14 @@ a.content-link img {
   color: #ee2617;
   text-shadow: 1px 1px #ff9ca7;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
   .party-pokemon
   .pokemon-gender.gender-Female
   select,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3907,7 +3907,7 @@ a.content-link img {
   div {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3916,7 +3916,7 @@ a.content-link img {
   select {
   display: inline-block;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3928,7 +3928,7 @@ a.content-link img {
   align-items: baseline;
   padding-left: 5px;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3943,7 +3943,7 @@ a.content-link img {
   display: flex;
   opacity: 0.2;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3952,7 +3952,7 @@ a.content-link img {
   input {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3960,7 +3960,7 @@ a.content-link img {
   .pokemon-shiny.checked {
   opacity: 1;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3971,7 +3971,7 @@ a.content-link img {
   justify-self: end;
   padding-right: 5px;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .pokemon-box
   .all-party-pokemon
@@ -3980,33 +3980,33 @@ a.content-link img {
   grid-column: 4;
   grid-row: 2;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .tagify.one-entry
   [role="textbox"]:not(:first-child) {
   display: none;
 }
-.ptu.pokemon.npc-quick-build .window-content .computed-links {
+.pe.pokemon.npc-quick-build .window-content .computed-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.25em;
   width: 100%;
 }
-.ptu.pokemon.npc-quick-build .window-content .sub-choices {
+.pe.pokemon.npc-quick-build .window-content .sub-choices {
   margin-top: 0.6em;
 }
-.ptu.pokemon.npc-quick-build .window-content .sub-choices h4 {
+.pe.pokemon.npc-quick-build .window-content .sub-choices h4 {
   text-align: center;
 }
-.ptu.pokemon.npc-quick-build .window-content .sub-choices .options {
+.pe.pokemon.npc-quick-build .window-content .sub-choices .options {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.25em;
   width: 100%;
 }
-.ptu.pokemon.npc-quick-build .window-content .sub-choices .options .sub-choice {
+.pe.pokemon.npc-quick-build .window-content .sub-choices .options .sub-choice {
   background-color: #e4f8f8;
   border-radius: 5px;
   border: 1px solid var(--color-border-dark-1);
@@ -4015,7 +4015,7 @@ a.content-link img {
   padding-top: 0.25em;
   padding-bottom: 0.25em;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .sub-choices
   .options
@@ -4023,26 +4023,26 @@ a.content-link img {
   input[type="radio"] {
   display: none;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .sub-choices
   .options
   .sub-choice.checked,
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .sub-choices
   .options
   .sub-choice:not(.disabled):hover {
   background-color: #b0fdfd;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .sub-choices
   .options
   .sub-choice:not(.checked):not(.disabled) {
   cursor: pointer;
 }
-.ptu.pokemon.npc-quick-build
+.pe.pokemon.npc-quick-build
   .window-content
   .sub-choices
   .options
@@ -4051,10 +4051,10 @@ a.content-link img {
   cursor: not-allowed;
   opacity: 0.6;
 }
-.ptu.pokemon.npc-quick-build .window-content .content-link.auto {
+.pe.pokemon.npc-quick-build .window-content .content-link.auto {
   border-style: dotted;
 }
-.ptu.pokemon.npc-quick-build .window-content .loading .load-wheel {
+.pe.pokemon.npc-quick-build .window-content .loading .load-wheel {
   margin: auto;
   border: 1.8em solid #f0f0f0;
   border-radius: 50%;
@@ -4075,33 +4075,33 @@ a.content-link img {
     transform: rotate(360deg);
   }
 }
-.ptu.level-up section {
+.pe.level-up section {
   background: unset;
   padding: unset;
 }
-.ptu.level-up form .header-bar h3 {
+.pe.level-up form .header-bar h3 {
   border-bottom: unset;
   margin: 0;
   padding: 0.5rem;
 }
-.ptu.level-up form .avatar {
+.pe.level-up form .avatar {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
 }
-.ptu.level-up form .avatar img {
+.pe.level-up form .avatar img {
   border: unset;
   border-radius: 50%;
   background: whitesmoke;
   border: 2px solid whitesmoke;
   max-height: 225px;
 }
-.ptu.level-up form .image-divider {
+.pe.level-up form .image-divider {
   align-self: center;
   padding: 0 1rem;
 }
-.ptu.level-up form .image-divider::before {
+.pe.level-up form .image-divider::before {
   content: "";
   display: inline-block;
   width: 0;
@@ -4110,25 +4110,25 @@ a.content-link img {
   border-bottom: 20px solid transparent;
   border-left: 20px solid black;
 }
-.ptu.level-up form .stats-bar {
+.pe.level-up form .stats-bar {
   padding: 0.5rem;
   font-size: 20px;
   font-weight: bold;
 }
-.ptu.level-up form .evolution-bar {
+.pe.level-up form .evolution-bar {
   padding: 0.5rem;
   font-size: 16px;
 }
-.ptu.level-up form .abilities .abilities-column {
+.pe.level-up form .abilities .abilities-column {
   flex: 1 0 33%;
 }
-.ptu.level-up form .abilities .ability-header {
+.pe.level-up form .abilities .ability-header {
   min-height: 50px;
   display: flex;
   text-align: left;
   background: rgba(0, 0, 0, 0.15);
 }
-.ptu.level-up form .abilities .ability-header .border {
+.pe.level-up form .abilities .ability-header .border {
   border: dotted 2px var(--color-border-dark-tertiary);
   display: flex;
   height: fit-content;
@@ -4138,92 +4138,92 @@ a.content-link img {
   min-width: 150px;
   justify-content: center;
 }
-.ptu.level-up form .abilities .ability-header .border.locked {
+.pe.level-up form .abilities .ability-header .border.locked {
   background: rgba(0, 0, 0, 0.15);
   filter: brightness(0.7);
 }
-.ptu.level-up form .abilities .ability-header .border.select {
+.pe.level-up form .abilities .ability-header .border.select {
   box-shadow: 0 0 25px 0 #656565;
 }
-.ptu.level-up form .abilities .ability-header .linked-item {
+.pe.level-up form .abilities .ability-header .linked-item {
   align-self: center;
   text-align: center;
 }
-.ptu.level-up form .abilities .ability-header .content-link {
+.pe.level-up form .abilities .ability-header .content-link {
   height: 21px;
   align-self: center;
   min-width: 125px;
   max-width: 125px;
   text-overflow: ellipsis;
 }
-.ptu.level-up form .abilities .ability {
+.pe.level-up form .abilities .ability {
   text-align: left;
   padding: 2px;
 }
-.ptu.level-up form .abilities .ability .content-link {
+.pe.level-up form .abilities .ability .content-link {
   min-width: 150px;
   max-width: 150px;
   text-overflow: ellipsis;
 }
-.ptu.level-up form .moves .moves-dropzone.dragover {
+.pe.level-up form .moves .moves-dropzone.dragover {
   background: #ffffff66;
   border-radius: 10px;
 }
-.ptu.level-up form .moves .move {
+.pe.level-up form .moves .move {
   text-align: left;
   padding: 2px;
 }
-.ptu.level-up form .moves .move .content-link {
+.pe.level-up form .moves .move .content-link {
   min-width: 150px;
   max-width: 150px;
   text-overflow: ellipsis;
 }
-.ptu.level-up form .stats {
+.pe.level-up form .stats {
   align-items: center;
   padding: 0.25rem;
 }
-.ptu.level-up form .stats.hp,
-.ptu.level-up form .stats.def,
-.ptu.level-up form .stats.spdef {
+.pe.level-up form .stats.hp,
+.pe.level-up form .stats.def,
+.pe.level-up form .stats.spdef {
   background: #fefefe;
 }
-.ptu.level-up form .stats.atk,
-.ptu.level-up form .stats.spatk,
-.ptu.level-up form .stats.spd {
+.pe.level-up form .stats.atk,
+.pe.level-up form .stats.spatk,
+.pe.level-up form .stats.spd {
   background: #e1ecf2;
 }
-.ptu.level-up form .stats-keys {
+.pe.level-up form .stats-keys {
   place-self: center;
 }
-.ptu.level-up form .stats-keys.key {
+.pe.level-up form .stats-keys.key {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.level-up form .stats-keys.nature-up {
+.pe.level-up form .stats-keys.nature-up {
   color: #b27d94;
   font-weight: bold;
 }
-.ptu.level-up form .stats-keys.nature-down {
+.pe.level-up form .stats-keys.nature-down {
   color: #98c7c9;
   font-weight: bold;
 }
 /* move to individual files once done */
-.ptu.sheet.gen8 h3 {
+.pe.sheet.gen8 h3 {
   border-bottom: unset;
 }
-.ptu.sheet.gen8 .window-resizable-handle {
+.pe.sheet.gen8 .window-resizable-handle {
   z-index: 100;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .skills {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .skills {
   flex: 0 0 60%;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .left {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .left {
   flex: 0 0 48%;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box {
   overflow: unset;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
@@ -4232,7 +4232,7 @@ a.content-link img {
   place-self: center;
   margin: 3px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
@@ -4240,7 +4240,7 @@ a.content-link img {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
@@ -4249,44 +4249,44 @@ a.content-link img {
   font-weight: bold;
   text-align: center;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.hp,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.def,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.spdef {
   background: #fefefe;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.atk,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.spatk,
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .stats
   .swsh-box.stats-box
   .flex-row.spd {
   background: #e1ecf2;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .other {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .other {
   flex: 0 0 37%;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .stats .other .profile-img {
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .other .profile-img {
   flex: 0 0 50%;
   align-self: center;
   background: whitesmoke;
@@ -4294,10 +4294,10 @@ a.content-link img {
   border: 2px solid whitesmoke;
   max-height: 225px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .capability .skills .rollable {
+.pe.sheet.gen8.actor.compact main.sheet-body .capability .skills .rollable {
   position: relative;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -4308,7 +4308,7 @@ a.content-link img {
   top: 50%;
   transform: translate(0, -50%);
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -4316,7 +4316,7 @@ a.content-link img {
   .resource-label {
   padding-left: 4px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -4324,7 +4324,7 @@ a.content-link img {
   text-shadow: 0 0 10px #ff0000a0;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -4332,55 +4332,55 @@ a.content-link img {
   label:hover {
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill.bgcolor {
   padding: 8px 5px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--body {
+.pe.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--body {
   background-color: #e06666aa;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--mind {
+.pe.sheet.gen8.actor.compact main.sheet-body .capability .skills .type--mind {
   background-color: #ffe599aa;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .type--spirit {
   background-color: #93c47daa;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--pathetic {
   background: #cfe2f3;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--untrained {
   background: #9fc5e8;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--novice {
   background: #6fa8dc;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--adept {
   background: #3d85c6;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -4388,7 +4388,7 @@ a.content-link img {
   background: #0b5394;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
@@ -4396,73 +4396,73 @@ a.content-link img {
   background: #073763;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--virtuoso {
   background: #e9be25;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .capability
   .skills
   .skill--invalid {
   background: #ff0f0faa;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.hp,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.def,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spdef {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.hp,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.def,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spdef {
   background: #fefefe;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.atk,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spatk,
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spd {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.atk,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spatk,
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .flex-row.spd {
   background: #e1ecf2;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .stats {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .stats {
   place-self: center;
   margin: 3px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .stats.key {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .stats.key {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio {
   display: block;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio .editor {
+.pe.sheet.gen8.actor.compact main.sheet-body .extra .swsh-body.bio .editor {
   min-height: 35px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .extra
   .swsh-body.bio
   .tox.tox-tinymce {
   min-height: 160px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .effects .swsh-body {
+.pe.sheet.gen8.actor.compact main.sheet-body .effects .swsh-body {
   display: block;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .tp-box {
+.pe.sheet.gen8.actor.compact main.sheet-body .tp-box {
   padding-top: 0.25rem;
   text-align: center;
   align-items: center;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .tp-box span {
+.pe.sheet.gen8.actor.compact main.sheet-body .tp-box span {
   align-self: center;
   padding: 0 0.5rem;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .tp-box input {
+.pe.sheet.gen8.actor.compact main.sheet-body .tp-box input {
   flex: 0 0 50px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .contests .contest-dice-grid {
+.pe.sheet.gen8.actor.compact main.sheet-body .contests .contest-dice-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(6, 33px);
   padding: 0;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .contests
   .contest-dice-grid
@@ -4473,14 +4473,14 @@ a.content-link img {
   align-items: center;
   padding: 1px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .contests
   .contest-dice-grid
   .item.header-item {
   font-weight: bold;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .contests
   .contest-dice-grid
@@ -4489,21 +4489,21 @@ a.content-link img {
   flex: 0 0 auto;
   max-width: 80px;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .contests .mod-input {
+.pe.sheet.gen8.actor.compact main.sheet-body .contests .mod-input {
   flex: 0 0 25%;
   text-align: center;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .contests .mod-input:before {
+.pe.sheet.gen8.actor.compact main.sheet-body .contests .mod-input:before {
   padding: 0 5px 0 0;
   bottom: unset;
   top: 0;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .spirit .spirit-grid {
+.pe.sheet.gen8.actor.compact main.sheet-body .spirit .spirit-grid {
   display: grid;
   grid-template-columns: 45px auto;
   grid-auto-rows: auto;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .spirit
   .spirit-grid
@@ -4513,7 +4513,7 @@ a.content-link img {
   display: flex;
   padding: 4px;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .spirit
   .spirit-grid
@@ -4521,14 +4521,14 @@ a.content-link img {
   justify-content: center;
   align-items: center;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .spirit .spirit-grid .item {
+.pe.sheet.gen8.actor.compact main.sheet-body .spirit .spirit-grid .item {
   border: 1px solid #222224;
   word-break: break-word;
   display: flex;
   padding: 4px;
   color: #22222488;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .spirit
   .spirit-grid
@@ -4536,12 +4536,12 @@ a.content-link img {
   color: #222224;
   background: #22222422;
 }
-.ptu.sheet.gen8.actor.compact main.sheet-body .spirit .spirit-grid .item i {
+.pe.sheet.gen8.actor.compact main.sheet-body .spirit .spirit-grid .item i {
   font-size: 12px;
   align-self: center;
   color: #222224cc;
 }
-.ptu.sheet.gen8.actor.compact
+.pe.sheet.gen8.actor.compact
   main.sheet-body
   .spirit
   .spirit-grid
@@ -4549,10 +4549,10 @@ a.content-link img {
   justify-content: center;
   align-items: center;
 }
-.ptu.sheet.gen8.actor section {
+.pe.sheet.gen8.actor section {
   padding: unset;
 }
-.ptu.sheet.gen8.actor section form {
+.pe.sheet.gen8.actor section form {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -4560,7 +4560,7 @@ a.content-link img {
   justify-content: flex-start;
   overflow: hidden;
 }
-.ptu.sheet.gen8.actor header.sheet-header {
+.pe.sheet.gen8.actor header.sheet-header {
   z-index: 10;
   position: inherit;
   padding: 0.25rem;
@@ -4570,14 +4570,14 @@ a.content-link img {
   flex: 0 0 50px;
   box-shadow: black 0px 0px 10px;
 }
-.ptu.sheet.gen8.actor header.sheet-header nav {
+.pe.sheet.gen8.actor header.sheet-header nav {
   flex: 1;
   justify-content: flex-start;
   gap: 10px;
   flex-direction: column;
   align-items: center;
 }
-.ptu.sheet.gen8.actor header.sheet-header nav .item {
+.pe.sheet.gen8.actor header.sheet-header nav .item {
   color: black;
   padding: 0.25rem;
   background: whitesmoke;
@@ -4586,41 +4586,41 @@ a.content-link img {
   height: 30px;
   width: 30px;
 }
-.ptu.sheet.gen8.actor main.sheet-body {
+.pe.sheet.gen8.actor main.sheet-body {
   z-index: 10;
   position: inherit;
   padding: 0.5rem;
   flex: 1;
   overflow: auto;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box {
   overflow: unset;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats {
   text-align: center;
   place-self: center;
   margin: 3px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats.key {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .stats.key {
   font-weight: bold;
   text-transform: uppercase;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .swsh-header {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .swsh-header {
   background: #e1ecf2;
   font-weight: bold;
   text-align: center;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.hp,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.def,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spdef {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.hp,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.def,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spdef {
   background: #fefefe;
 }
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.atk,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spatk,
-.ptu.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spd {
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.atk,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spatk,
+.pe.sheet.gen8.actor main.sheet-body .combat .swsh-box .flex-row.spd {
   background: #e1ecf2;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .combat
   .swsh-box.effectiveness
@@ -4629,7 +4629,7 @@ a.content-link img {
   max-height: 30px;
   width: auto;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .combat
   .swsh-box.effectiveness
@@ -4640,7 +4640,7 @@ a.content-link img {
   align-items: center;
   flex-direction: row;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .combat
   .swsh-box.effectiveness
@@ -4650,136 +4650,136 @@ a.content-link img {
   text-align: left;
   font-size: 15px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .inventory .swsh-body .color-wrapper {
+.pe.sheet.gen8.actor main.sheet-body .inventory .swsh-body .color-wrapper {
   padding: 2px 5px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   main.sheet-body
   .inventory
   .swsh-body
   .color-wrapper:nth-child(odd) {
   background: #dddddda6;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable {
   position: relative;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable .fa-dice-d20 {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable .fa-dice-d20 {
   position: absolute;
   left: 3px;
   top: 50%;
   transform: translate(0, -50%);
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable .resource-label {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable .resource-label {
   padding-left: 4px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable:hover {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable:hover {
   text-shadow: 0 0 10px #ff0000a0;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .rollable label:hover {
+.pe.sheet.gen8.actor main.sheet-body .stats .rollable label:hover {
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill.bgcolor {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill.bgcolor {
   padding: 8px 5px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .type--body {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .type--body {
   background-color: #e06666aa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .type--mind {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .type--mind {
   background-color: #ffe599aa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .type--spirit {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .type--spirit {
   background-color: #93c47daa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--pathetic {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--pathetic {
   background: #cfe2f3;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--untrained {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--untrained {
   background: #9fc5e8;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--novice {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--novice {
   background: #6fa8dc;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--adept {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--adept {
   background: #3d85c6;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--expert {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--expert {
   background: #0b5394;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--master {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--master {
   background: #073763;
   color: #cfe2f3;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--virtuoso {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--virtuoso {
   background: #e9be25;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .skill--invalid {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .skill--invalid {
   background: #ff0f0faa;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills,
+.pe.sheet.gen8.actor main.sheet-body .stats .other {
   flex: 0 0 35%;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: center;
   padding-right: 5px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > input,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info > input,
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > input,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info > input,
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
   -webkit-box-flex: 0 !important;
   -ms-flex: 0 0 40px !important;
   flex: 0 0 40px !important;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
-.ptu.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
+.pe.sheet.gen8.actor main.sheet-body .stats .skills .hp-info > span,
+.pe.sheet.gen8.actor main.sheet-body .stats .other .hp-info > span {
   text-align: center;
   font-size: 20px;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .avatar {
+.pe.sheet.gen8.actor main.sheet-body .stats .avatar {
   flex: 0 0 25%;
   justify-content: center;
 }
-.ptu.sheet.gen8.actor main.sheet-body .stats .avatar .profile-img {
+.pe.sheet.gen8.actor main.sheet-body .stats .avatar .profile-img {
   flex: 0 0 50%;
   align-self: center;
   background: whitesmoke;
   border-radius: 50%;
   border: 2px solid whitesmoke;
 }
-.ptu.sheet.gen8.actor .item-list-header,
-.ptu.sheet.gen8.dex .item-list-header {
+.pe.sheet.gen8.actor .item-list-header,
+.pe.sheet.gen8.dex .item-list-header {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid black;
 }
-.ptu.sheet.gen8.actor .item-list-header .title,
-.ptu.sheet.gen8.dex .item-list-header .title {
+.pe.sheet.gen8.actor .item-list-header .title,
+.pe.sheet.gen8.dex .item-list-header .title {
   flex: 1;
   margin: unset;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-amount,
-.ptu.sheet.gen8.dex .item-list-header .item-amount {
+.pe.sheet.gen8.actor .item-list-header .item-amount,
+.pe.sheet.gen8.dex .item-list-header .item-amount {
   display: flex;
   align-items: center;
   flex: 0 0 143px;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-amount input,
-.ptu.sheet.gen8.dex .item-list-header .item-amount input {
+.pe.sheet.gen8.actor .item-list-header .item-amount input,
+.pe.sheet.gen8.dex .item-list-header .item-amount input {
   width: 30px;
   text-align: center;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-amount h4,
-.ptu.sheet.gen8.dex .item-list-header .item-amount h4 {
+.pe.sheet.gen8.actor .item-list-header .item-amount h4,
+.pe.sheet.gen8.dex .item-list-header .item-amount h4 {
   word-break: break-word;
 }
-.ptu.sheet.gen8.actor .item-list-header .item-controls,
-.ptu.sheet.gen8.dex .item-list-header .item-controls {
+.pe.sheet.gen8.actor .item-list-header .item-controls,
+.pe.sheet.gen8.dex .item-list-header .item-controls {
   flex: 0 0 66px;
   justify-content: end;
   display: flex;
@@ -4787,11 +4787,11 @@ a.content-link img {
   flex-wrap: wrap;
   align-self: center;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-create,
-.ptu.sheet.gen8.dex .item-list-header .item-controls .item-control.item-create {
+.pe.sheet.gen8.dex .item-list-header .item-controls .item-control.item-create {
   background: #ffffffa6;
   border-radius: 5px;
   font-weight: 400;
@@ -4802,34 +4802,34 @@ a.content-link img {
   font-size: 12px;
   text-align: center;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-create:hover,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list-header
   .item-controls
   .item-control.item-create:hover {
   background: #788898cc;
   text-shadow: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-create
   span,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list-header
   .item-controls
   .item-control.item-create
   span {
   white-space: nowrap;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-settings,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list-header
   .item-controls
   .item-control.item-settings {
@@ -4840,61 +4840,61 @@ a.content-link img {
   color: rgba(0, 0, 0, 0.6);
   border-radius: 5px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list-header
   .item-controls
   .item-control.item-settings:hover,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list-header
   .item-controls
   .item-control.item-settings:hover {
   background: #788898cc;
   text-shadow: unset;
 }
-.ptu.sheet.gen8.actor .item-list,
-.ptu.sheet.gen8.dex .item-list {
+.pe.sheet.gen8.actor .item-list,
+.pe.sheet.gen8.dex .item-list {
   padding: unset;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon,
-.ptu.sheet.gen8.dex .item-list.move-list .item .item-icon {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon,
+.pe.sheet.gen8.dex .item-list.move-list .item .item-icon {
   flex: 0 0 42px;
   max-width: 42px;
   max-height: 42px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon img,
-.ptu.sheet.gen8.dex .item-list.move-list .item .item-icon img {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon img,
+.pe.sheet.gen8.dex .item-list.move-list .item .item-icon img {
   background: lightgray;
   height: 42px;
   width: 42px;
   object-fit: scale-down;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon .icon,
-.ptu.sheet.gen8.dex .item-list.move-list .item .item-icon .icon {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon .icon,
+.pe.sheet.gen8.dex .item-list.move-list .item .item-icon .icon {
   display: block;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-icon .dice,
-.ptu.sheet.gen8.dex .item-list.move-list .item .item-icon .dice {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-icon .dice,
+.pe.sheet.gen8.dex .item-list.move-list .item .item-icon .dice {
   display: none;
   background: lightslategray;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .item-icon.rollable:hover
   > .icon,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list.move-list
   .item
   .item-icon.rollable:hover
   > .icon {
   display: none;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .item-icon.rollable:hover
   > .dice,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list.move-list
   .item
   .item-icon.rollable:hover
@@ -4902,19 +4902,19 @@ a.content-link img {
   display: block;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info {
   flex: 1;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-name,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .item-name {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-name,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .item-name {
   flex: 0 1 auto;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags {
   flex: 1 1 0;
   display: flex;
   flex-direction: row;
@@ -4922,8 +4922,8 @@ a.content-link img {
   gap: 5px;
   padding-left: 5px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags .tag,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags .tag {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags .tag,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags .tag {
   height: 20px;
   margin: 0;
   white-space: nowrap;
@@ -4936,13 +4936,13 @@ a.content-link img {
   align-items: center;
   gap: 4px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
   .item-tags
   .tag.shadowless,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list.move-list
   .item
   .move-info
@@ -4950,8 +4950,8 @@ a.content-link img {
   .tag.shadowless {
   box-shadow: unset;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags .tag img,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags .tag img {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .item-tags .tag img,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags .tag img {
   height: auto;
   width: 19px;
   object-fit: scale-down;
@@ -4959,19 +4959,19 @@ a.content-link img {
   padding-left: 1px;
   border-radius: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
   .item-tags
   .tag
   span,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags .tag span {
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .item-tags .tag span {
   padding-left: 3px;
   padding-right: 3px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags {
   flex: 0 0 100%;
   display: flex;
   flex-direction: row;
@@ -4980,8 +4980,8 @@ a.content-link img {
   padding-left: 5px;
   padding-top: 2px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags .tag,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags .tag {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags .tag,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags .tag {
   height: 20px;
   margin: 0;
   white-space: nowrap;
@@ -4994,13 +4994,13 @@ a.content-link img {
   align-items: center;
   gap: 4px;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
   .move-tags
   .tag.gradient,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list.move-list
   .item
   .move-info
@@ -5008,8 +5008,8 @@ a.content-link img {
   .tag.gradient {
   background: linear-gradient(45deg, #ecdbeb, #dffffe);
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags .tag img,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags .tag img {
+.pe.sheet.gen8.actor .item-list.move-list .item .move-info .move-tags .tag img,
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags .tag img {
   height: 18px;
   width: 19px;
   object-fit: scale-down;
@@ -5017,80 +5017,80 @@ a.content-link img {
   padding-left: 1px;
   border-radius: unset;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list.move-list
   .item
   .move-info
   .move-tags
   .tag
   span,
-.ptu.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags .tag span {
+.pe.sheet.gen8.dex .item-list.move-list .item .move-info .move-tags .tag span {
   padding-left: 3px;
   padding-right: 3px;
 }
-.ptu.sheet.gen8.actor .item-list.move-list .item .item-summary,
-.ptu.sheet.gen8.dex .item-list.move-list .item .item-summary {
+.pe.sheet.gen8.actor .item-list.move-list .item .item-summary,
+.pe.sheet.gen8.dex .item-list.move-list .item .item-summary {
   padding-left: 41px;
 }
-.ptu.sheet.gen8.actor .item-list .item,
-.ptu.sheet.gen8.dex .item-list .item {
+.pe.sheet.gen8.actor .item-list .item,
+.pe.sheet.gen8.dex .item-list .item {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 2px 0;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8.actor .item-list .item.disabled,
-.ptu.sheet.gen8.dex .item-list .item.disabled {
+.pe.sheet.gen8.actor .item-list .item.disabled,
+.pe.sheet.gen8.dex .item-list .item.disabled {
   filter: opacity(0.7) grayscale(100%);
   pointer-events: none;
 }
-.ptu.sheet.gen8.actor .item-list .item:nth-child(odd),
-.ptu.sheet.gen8.dex .item-list .item:nth-child(odd) {
+.pe.sheet.gen8.actor .item-list .item:nth-child(odd),
+.pe.sheet.gen8.dex .item-list .item:nth-child(odd) {
   background: #eeeeeea6;
 }
-.ptu.sheet.gen8.actor .item-list .item:nth-child(even),
-.ptu.sheet.gen8.dex .item-list .item:nth-child(even) {
+.pe.sheet.gen8.actor .item-list .item:nth-child(even),
+.pe.sheet.gen8.dex .item-list .item:nth-child(even) {
   background: #dddddda6;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon,
-.ptu.sheet.gen8.dex .item-list .item .item-icon {
+.pe.sheet.gen8.actor .item-list .item .item-icon,
+.pe.sheet.gen8.dex .item-list .item .item-icon {
   flex: 0 0 41px;
   max-width: 41px;
   max-height: 41px;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon img,
-.ptu.sheet.gen8.dex .item-list .item .item-icon img {
+.pe.sheet.gen8.actor .item-list .item .item-icon img,
+.pe.sheet.gen8.dex .item-list .item .item-icon img {
   background: #000000;
   height: 41px;
   width: 41px;
   object-fit: scale-down;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon .icon,
-.ptu.sheet.gen8.dex .item-list .item .item-icon .icon {
+.pe.sheet.gen8.actor .item-list .item .item-icon .icon,
+.pe.sheet.gen8.dex .item-list .item .item-icon .icon {
   display: block;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon .dice,
-.ptu.sheet.gen8.dex .item-list .item .item-icon .dice {
+.pe.sheet.gen8.actor .item-list .item .item-icon .dice,
+.pe.sheet.gen8.dex .item-list .item .item-icon .dice {
   display: none;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .icon,
-.ptu.sheet.gen8.dex .item-list .item .item-icon.rollable:hover > .icon {
+.pe.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .icon,
+.pe.sheet.gen8.dex .item-list .item .item-icon.rollable:hover > .icon {
   display: none;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .dice,
-.ptu.sheet.gen8.dex .item-list .item .item-icon.rollable:hover > .dice {
+.pe.sheet.gen8.actor .item-list .item .item-icon.rollable:hover > .dice,
+.pe.sheet.gen8.dex .item-list .item .item-icon.rollable:hover > .dice {
   display: block;
   cursor: pointer;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info,
-.ptu.sheet.gen8.dex .item-list .item .item-info {
+.pe.sheet.gen8.actor .item-list .item .item-info,
+.pe.sheet.gen8.dex .item-list .item .item-info {
   flex: 1 0 65%;
   display: flex;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags,
-.ptu.sheet.gen8.dex .item-list .item .item-info .item-tags {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags,
+.pe.sheet.gen8.dex .item-list .item .item-info .item-tags {
   flex: 1 1 0;
   display: flex;
   flex-direction: row;
@@ -5099,8 +5099,8 @@ a.content-link img {
   padding-left: 5px;
   align-self: center;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag,
-.ptu.sheet.gen8.dex .item-list .item .item-info .item-tags .tag {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag,
+.pe.sheet.gen8.dex .item-list .item .item-info .item-tags .tag {
   height: 20px;
   margin: 0;
   white-space: nowrap;
@@ -5113,12 +5113,12 @@ a.content-link img {
   align-items: center;
   gap: 4px;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag.shadowless,
-.ptu.sheet.gen8.dex .item-list .item .item-info .item-tags .tag.shadowless {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag.shadowless,
+.pe.sheet.gen8.dex .item-list .item .item-info .item-tags .tag.shadowless {
   box-shadow: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag img,
-.ptu.sheet.gen8.dex .item-list .item .item-info .item-tags .tag img {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag img,
+.pe.sheet.gen8.dex .item-list .item .item-info .item-tags .tag img {
   height: auto;
   width: 19px;
   object-fit: scale-down;
@@ -5126,60 +5126,60 @@ a.content-link img {
   padding-left: 1px;
   border-radius: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-info .item-tags .tag span,
-.ptu.sheet.gen8.dex .item-list .item .item-info .item-tags .tag span {
+.pe.sheet.gen8.actor .item-list .item .item-info .item-tags .tag span,
+.pe.sheet.gen8.dex .item-list .item .item-info .item-tags .tag span {
   padding-left: 3px;
   padding-right: 3px;
 }
-.ptu.sheet.gen8.actor .item-list .item.item-item .item-name,
-.ptu.sheet.gen8.dex .item-list .item.item-item .item-name {
+.pe.sheet.gen8.actor .item-list .item.item-item .item-name,
+.pe.sheet.gen8.dex .item-list .item.item-item .item-name {
   max-width: 50%;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-name,
-.ptu.sheet.gen8.dex .item-list .item .item-name {
+.pe.sheet.gen8.actor .item-list .item .item-name,
+.pe.sheet.gen8.dex .item-list .item .item-name {
   flex: 0 1 auto;
   margin-left: 5px;
   align-self: center;
   max-width: 60%;
   word-break: break-word;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-name h4,
-.ptu.sheet.gen8.dex .item-list .item .item-name h4 {
+.pe.sheet.gen8.actor .item-list .item .item-name h4,
+.pe.sheet.gen8.dex .item-list .item .item-name h4 {
   cursor: pointer;
   margin: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-name h4:hover,
-.ptu.sheet.gen8.dex .item-list .item .item-name h4:hover {
+.pe.sheet.gen8.actor .item-list .item .item-name h4:hover,
+.pe.sheet.gen8.dex .item-list .item .item-name h4:hover {
   text-shadow: 0 0 10px #ff0000a0;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-quantity,
-.ptu.sheet.gen8.dex .item-list .item .item-quantity {
+.pe.sheet.gen8.actor .item-list .item .item-quantity,
+.pe.sheet.gen8.dex .item-list .item .item-quantity {
   flex: 0 0 45px;
   text-align: center;
   font-size: 12px;
   margin: 0 0.25rem;
   align-self: center;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-quantity input[type="number"],
-.ptu.sheet.gen8.dex .item-list .item .item-quantity input[type="number"] {
+.pe.sheet.gen8.actor .item-list .item .item-quantity input[type="number"],
+.pe.sheet.gen8.dex .item-list .item .item-quantity input[type="number"] {
   -moz-appearance: auto;
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .item-quantity
   input[type="number"]::-webkit-inner-spin-button,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list
   .item
   .item-quantity
   input[type="number"]::-webkit-inner-spin-button,
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .item-quantity
   input[type="number"]::-webkit-outer-spin-button,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list
   .item
   .item-quantity
@@ -5187,8 +5187,8 @@ a.content-link img {
   -webkit-appearance: auto;
   opacity: 1;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-controls,
-.ptu.sheet.gen8.dex .item-list .item .item-controls {
+.pe.sheet.gen8.actor .item-list .item .item-controls,
+.pe.sheet.gen8.dex .item-list .item .item-controls {
   flex: 0 0 90px;
   justify-content: end;
   display: flex;
@@ -5197,14 +5197,14 @@ a.content-link img {
   align-self: center;
   margin-right: 0.25rem;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-controls .item-control,
-.ptu.sheet.gen8.dex .item-list .item .item-controls .item-control {
+.pe.sheet.gen8.actor .item-list .item .item-controls .item-control,
+.pe.sheet.gen8.dex .item-list .item .item-controls .item-control {
   flex: 0 0 18px;
   font-size: 12px;
   text-align: center;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary,
-.ptu.sheet.gen8.dex .item-list .item .item-summary {
+.pe.sheet.gen8.actor .item-list .item .item-summary,
+.pe.sheet.gen8.dex .item-list .item .item-summary {
   height: 0;
   opacity: 0;
   margin: 0.25rem 0.5rem;
@@ -5212,25 +5212,25 @@ a.content-link img {
   flex: 1 1 100%;
   margin-right: 0.5rem;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary.transitioning,
-.ptu.sheet.gen8.dex .item-list .item .item-summary.transitioning {
+.pe.sheet.gen8.actor .item-list .item .item-summary.transitioning,
+.pe.sheet.gen8.dex .item-list .item .item-summary.transitioning {
   height: auto;
   margin: 0;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary.show,
-.ptu.sheet.gen8.dex .item-list .item .item-summary.show {
+.pe.sheet.gen8.actor .item-list .item .item-summary.show,
+.pe.sheet.gen8.dex .item-list .item .item-summary.show {
   height: auto;
   opacity: 1;
 }
-.ptu.sheet.gen8.actor .item-list .item .item-summary p,
-.ptu.sheet.gen8.dex .item-list .item .item-summary p {
+.pe.sheet.gen8.actor .item-list .item .item-summary p,
+.pe.sheet.gen8.dex .item-list .item .item-summary p {
   margin: 0;
   padding: 0;
   word-break: break-word;
   white-space: pre-line;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items,
-.ptu.sheet.gen8.dex .item-list .item .nested-items {
+.pe.sheet.gen8.actor .item-list .item .nested-items,
+.pe.sheet.gen8.dex .item-list .item .nested-items {
   flex: 1 1 100%;
   margin: 2px 0 2px 31px;
   padding: 4px 4px 4px 4px;
@@ -5240,23 +5240,23 @@ a.content-link img {
   opacity: 0;
   transition: all 0.4s linear;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item,
-.ptu.sheet.gen8.dex .item-list .item .nested-items .item {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item,
+.pe.sheet.gen8.dex .item-list .item .nested-items .item {
   padding: unset;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item:not(:first-child),
-.ptu.sheet.gen8.dex .item-list .item .nested-items .item:not(:first-child) {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item:not(:first-child),
+.pe.sheet.gen8.dex .item-list .item .nested-items .item:not(:first-child) {
   padding-top: 2px;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item:not(:last-child),
-.ptu.sheet.gen8.dex .item-list .item .nested-items .item:not(:last-child) {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item:not(:last-child),
+.pe.sheet.gen8.dex .item-list .item .nested-items .item:not(:last-child) {
   padding-bottom: 2px;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items .item .item-controls,
-.ptu.sheet.gen8.dex .item-list .item .nested-items .item .item-controls {
+.pe.sheet.gen8.actor .item-list .item .nested-items .item .item-controls,
+.pe.sheet.gen8.dex .item-list .item .nested-items .item .item-controls {
   margin-right: calc(0.25rem - 4px);
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .nested-items
@@ -5264,7 +5264,7 @@ a.content-link img {
   .nested-items
   .item
   .item-controls,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list
   .item
   .nested-items
@@ -5274,7 +5274,7 @@ a.content-link img {
   .item-controls {
   margin-right: calc(0.25rem - 8px);
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .nested-items
@@ -5284,7 +5284,7 @@ a.content-link img {
   .nested-items
   .item
   .item-controls,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list
   .item
   .nested-items
@@ -5296,7 +5296,7 @@ a.content-link img {
   .item-controls {
   margin-right: calc(0.25rem - 12px);
 }
-.ptu.sheet.gen8.actor
+.pe.sheet.gen8.actor
   .item-list
   .item
   .nested-items
@@ -5308,7 +5308,7 @@ a.content-link img {
   .nested-items
   .item
   .item-controls,
-.ptu.sheet.gen8.dex
+.pe.sheet.gen8.dex
   .item-list
   .item
   .nested-items
@@ -5322,76 +5322,76 @@ a.content-link img {
   .item-controls {
   margin-right: calc(0.25rem - 16px);
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.transitioning,
-.ptu.sheet.gen8.dex .item-list .item .nested-items.transitioning {
+.pe.sheet.gen8.actor .item-list .item .nested-items.transitioning,
+.pe.sheet.gen8.dex .item-list .item .nested-items.transitioning {
   height: auto;
   margin: 0;
   padding: 0;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.show,
-.ptu.sheet.gen8.dex .item-list .item .nested-items.show {
+.pe.sheet.gen8.actor .item-list .item .nested-items.show,
+.pe.sheet.gen8.dex .item-list .item .nested-items.show {
   height: auto;
   opacity: 1;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.hide,
-.ptu.sheet.gen8.dex .item-list .item .nested-items.hide {
+.pe.sheet.gen8.actor .item-list .item .nested-items.hide,
+.pe.sheet.gen8.dex .item-list .item .nested-items.hide {
   padding: 0;
   margin: 0;
   margin-left: 31px;
 }
-.ptu.sheet.gen8.actor .item-list .item .nested-items.hide .item,
-.ptu.sheet.gen8.dex .item-list .item .nested-items.hide .item {
+.pe.sheet.gen8.actor .item-list .item .nested-items.hide .item,
+.pe.sheet.gen8.dex .item-list .item .nested-items.hide .item {
   display: none;
 }
-.ptu.sheet.gen8.dex section {
+.pe.sheet.gen8.dex section {
   padding: 0;
 }
-.ptu.sheet.gen8.dex form {
+.pe.sheet.gen8.dex form {
   overflow: hidden;
 }
-.ptu.sheet.gen8.dex .header {
+.pe.sheet.gen8.dex .header {
   height: fit-content !important;
   flex-direction: row;
   justify-content: space-between;
   margin: 0.25rem;
 }
-.ptu.sheet.gen8.dex .header .swsh-header {
+.pe.sheet.gen8.dex .header .swsh-header {
   background-color: #aed3a2;
 }
-.ptu.sheet.gen8.dex .header .header-label {
+.pe.sheet.gen8.dex .header .header-label {
   font-weight: bold;
   flex: 0 0 28px;
   display: flex;
 }
-.ptu.sheet.gen8.dex .header .header-label span {
+.pe.sheet.gen8.dex .header .header-label span {
   align-self: center;
 }
-.ptu.sheet.gen8.dex .header .header-item {
+.pe.sheet.gen8.dex .header .header-item {
   align-self: center;
   text-align: center;
   height: 28px;
   width: 100%;
 }
-.ptu.sheet.gen8.dex .header .header-item input[name="hideUnknown"]:checked {
+.pe.sheet.gen8.dex .header .header-item input[name="hideUnknown"]:checked {
   accent-color: #d15555;
 }
-.ptu.sheet.gen8.dex .header .header-item input[name="hideSeen"]:checked {
+.pe.sheet.gen8.dex .header .header-item input[name="hideSeen"]:checked {
   accent-color: #dd7600;
 }
-.ptu.sheet.gen8.dex .header .header-item input[name="hideOwned"]:checked {
+.pe.sheet.gen8.dex .header .header-item input[name="hideOwned"]:checked {
   accent-color: green;
 }
-.ptu.sheet.gen8.dex div.help-text {
+.pe.sheet.gen8.dex div.help-text {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.ptu.sheet.gen8.dex span.help-text {
+.pe.sheet.gen8.dex span.help-text {
   color: gray;
   font-style: italic;
   word-break: break-word;
 }
-.ptu.sheet.gen8.dex .dex-grid {
+.pe.sheet.gen8.dex .dex-grid {
   display: grid;
   height: 100%;
   width: 100%;
@@ -5401,42 +5401,42 @@ a.content-link img {
   grid-auto-rows: 120px;
   overflow-y: scroll;
 }
-.ptu.sheet.gen8.dex .dex-item {
+.pe.sheet.gen8.dex .dex-item {
   display: flex;
   flex-direction: column;
   max-height: 120px;
 }
-.ptu.sheet.gen8.dex .dex-item .dex-item-img img {
+.pe.sheet.gen8.dex .dex-item .dex-item-img img {
   filter: grayscale(100%) brightness(0);
 }
-.ptu.sheet.gen8.dex .dex-item.seen .dex-item-img img {
+.pe.sheet.gen8.dex .dex-item.seen .dex-item-img img {
   filter: grayscale(75%) brightness(75%) blur(1px);
 }
-.ptu.sheet.gen8.dex .dex-item.owned .dex-item-img img {
+.pe.sheet.gen8.dex .dex-item.owned .dex-item-img img {
   filter: unset;
 }
-.ptu.sheet.gen8.dex .dex-item-img {
+.pe.sheet.gen8.dex .dex-item-img {
   width: calc(100% - 17px);
   height: calc(100% - 17px);
   align-self: center;
   background: #aed3a2a6;
   border-radius: 50%;
 }
-.ptu.sheet.gen8.dex .dex-item-img img {
+.pe.sheet.gen8.dex .dex-item-img img {
   border: unset;
 }
-.ptu.sheet.gen8.dex .dex-item-name {
+.pe.sheet.gen8.dex .dex-item-name {
   font-weight: bold;
   text-align: center;
   height: 17px;
 }
-.ptu.sheet.gen8 .nature-up {
+.pe.sheet.gen8 .nature-up {
   color: #b27d94;
 }
-.ptu.sheet.gen8 .nature-down {
+.pe.sheet.gen8 .nature-down {
   color: #98c7c9;
 }
-.ptu.sheet.gen8 .swsh-box {
+.pe.sheet.gen8 .swsh-box {
   border: black solid 1px;
   box-shadow: 0px 0px 4px 1px black;
   background: #fefefe;
@@ -5444,65 +5444,65 @@ a.content-link img {
   display: flex;
   flex-direction: column;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-header {
+.pe.sheet.gen8 .swsh-box .swsh-header {
   padding: 2px 5px;
   background: #d3d3d1;
   display: flex;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-header.vertical {
+.pe.sheet.gen8 .swsh-box .swsh-header.vertical {
   height: 100%;
   align-items: center;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-body {
+.pe.sheet.gen8 .swsh-box .swsh-body {
   padding: 2px 5px;
   display: flex;
   flex-wrap: wrap;
 }
-.ptu.sheet.gen8 .swsh-box .swsh-body.dark-body {
+.pe.sheet.gen8 .swsh-box .swsh-body.dark-body {
   background: #b3b3b3;
 }
-.ptu.weather {
+.pe.weather {
   --weather-border-divider: 1px solid var(--color-underline-header);
 }
-.ptu.weather .window-content {
+.pe.weather .window-content {
   background: #d1fed4;
 }
-.ptu.weather .hint-text {
+.pe.weather .hint-text {
   flex: 0 1 auto;
   padding-bottom: 0.5rem;
   border-bottom: var(--weather-border-divider);
 }
-.ptu.weather .effects {
+.pe.weather .effects {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
 }
-.ptu.weather .effects .effect {
+.pe.weather .effects .effect {
   flex: 0 0 25px;
   display: flex;
   flex-direction: row;
   gap: 5px;
   padding: 0.5rem 0;
 }
-.ptu.weather .effects .effect:nth-child(even) {
+.pe.weather .effects .effect:nth-child(even) {
   border-top: var(--weather-border-divider);
 }
-.ptu.weather .effects .effect:last-child {
+.pe.weather .effects .effect:last-child {
   border-bottom: var(--weather-border-divider);
 }
-.ptu.weather .effects .effect .icon {
+.pe.weather .effects .effect .icon {
   flex: 0 0 25px;
   height: 25px;
 }
-.ptu.weather .effects .effect .name {
+.pe.weather .effects .effect .name {
   flex: 1 0 auto;
   align-self: center;
   font-weight: bold;
 }
-.ptu.weather .effects .effect .mode-select {
+.pe.weather .effects .effect .mode-select {
   flex: 0 0 100px;
 }
-.ptu.weather .effects .effect .item-controls {
+.pe.weather .effects .effect .item-controls {
   flex: 0 1 40px;
   display: flex;
   flex-direction: row;
@@ -8455,7 +8455,7 @@ a.content-link img {
   bottom: 0;
   z-index: 999;
 }
-#sidebar #actors .directory-header .action-buttons .ptu-button-row {
+#sidebar #actors .directory-header .action-buttons .pe-button-row {
   display: flex;
   width: 100%;
   gap: 4px;
@@ -8465,7 +8465,7 @@ a.content-link img {
   #actors
   .directory-header
   .action-buttons
-  .ptu-button-row.ptu-button-row-secondary
+  .pe-button-row.pe-button-row-secondary
   button {
   flex: 1;
   min-width: 0;
@@ -8474,15 +8474,15 @@ a.content-link img {
   #actors
   .directory-header
   .action-buttons
-  .ptu-button-row.ptu-button-row-tertiary
+  .pe-button-row.pe-button-row-tertiary
   button {
   width: 100%;
 }
-#sidebar #actors .directory-header .action-buttons .ptu-button-row button {
+#sidebar #actors .directory-header .action-buttons .pe-button-row button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#sidebar #actors .directory-header .action-buttons .ptu-button-row button i {
+#sidebar #actors .directory-header .action-buttons .pe-button-row button i {
   margin-right: 4px;
 }

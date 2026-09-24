@@ -15,7 +15,7 @@
  */
 
 /** Where the wizard looks for authored Origins, in order. */
-const ORIGIN_SOURCES = ["ptu.origins", "ptu.edges", "ptu.feats"];
+const ORIGIN_SOURCES = ["pe.origins", "pe.edges", "pe.feats"];
 
 /**
  * Pull every Origin-flavoured item the world can offer.
@@ -68,40 +68,40 @@ async function runOriginWizard(actor) {
         <div class="form-group">
             <label>Origine</label>
             ${origins.length
-            ? `<select id="ptu-origin-uuid"><option value="">(saisie libre)</option>${originOptions}</select>`
+            ? `<select id="pe-origin-uuid"><option value="">(saisie libre)</option>${originOptions}</select>`
             : `<p style="font-size:11px;opacity:.7;">Aucune Origine trouvée dans les compendiums — saisie libre.</p>`}
         </div>
         <div class="form-group">
             <label>Nom de l'Origine</label>
-            <input type="text" id="ptu-origin-name" value="${actor.system.epopee?.origin?.name ?? ""}"/>
+            <input type="text" id="pe-origin-name" value="${actor.system.epopee?.origin?.name ?? ""}"/>
         </div>
         <div class="form-group">
             <label>Choix Rédigé <span style="opacity:.6;">(apparaît entre crochets)</span></label>
-            <input type="text" id="ptu-origin-choice" value="${actor.system.epopee?.origin?.choice ?? ""}"/>
+            <input type="text" id="pe-origin-choice" value="${actor.system.epopee?.origin?.choice ?? ""}"/>
         </div>
         <hr/>
         <p style="font-weight:bold;">Accordé directement</p>
         <div class="form-group">
             <label>Pokédollars</label>
-            <input type="number" id="ptu-origin-money" value="0"/>
+            <input type="number" id="pe-origin-money" value="0"/>
         </div>
         <div class="form-group">
             <label>Compétence augmentée (auto)</label>
-            <select id="ptu-origin-skill-auto"><option value="">(aucune)</option>${skills}</select>
+            <select id="pe-origin-skill-auto"><option value="">(aucune)</option>${skills}</select>
         </div>
         <hr/>
         <p style="font-weight:bold;">Au choix</p>
         <div class="form-group">
             <label>Compétence augmentée (au choix)</label>
-            <select id="ptu-origin-skill-pick"><option value="">(aucune)</option>${skills}</select>
+            <select id="pe-origin-skill-pick"><option value="">(aucune)</option>${skills}</select>
         </div>
         <div class="form-group">
             <label>Nombre de Features de l'Origine</label>
-            <input type="number" id="ptu-origin-features" value="1"/>
+            <input type="number" id="pe-origin-features" value="1"/>
         </div>
         <div class="form-group">
             <label>Description concaténée</label>
-            <textarea id="ptu-origin-desc" rows="3">${actor.system.epopee?.origin?.description ?? ""}</textarea>
+            <textarea id="pe-origin-desc" rows="3">${actor.system.epopee?.origin?.description ?? ""}</textarea>
         </div>
     `;
 
@@ -111,14 +111,14 @@ async function runOriginWizard(actor) {
         label: "Appliquer",
         options: { width: 480 },
         callback: (html) => ({
-            uuid: html.find("#ptu-origin-uuid").val() ?? "",
-            name: html.find("#ptu-origin-name").val()?.trim() ?? "",
-            choice: html.find("#ptu-origin-choice").val()?.trim() ?? "",
-            money: Number(html.find("#ptu-origin-money").val()) || 0,
-            skillAuto: html.find("#ptu-origin-skill-auto").val() ?? "",
-            skillPick: html.find("#ptu-origin-skill-pick").val() ?? "",
-            features: Number(html.find("#ptu-origin-features").val()) || 0,
-            description: html.find("#ptu-origin-desc").val() ?? ""
+            uuid: html.find("#pe-origin-uuid").val() ?? "",
+            name: html.find("#pe-origin-name").val()?.trim() ?? "",
+            choice: html.find("#pe-origin-choice").val()?.trim() ?? "",
+            money: Number(html.find("#pe-origin-money").val()) || 0,
+            skillAuto: html.find("#pe-origin-skill-auto").val() ?? "",
+            skillPick: html.find("#pe-origin-skill-pick").val() ?? "",
+            features: Number(html.find("#pe-origin-features").val()) || 0,
+            description: html.find("#pe-origin-desc").val() ?? ""
         })
     }).catch(() => null);
 

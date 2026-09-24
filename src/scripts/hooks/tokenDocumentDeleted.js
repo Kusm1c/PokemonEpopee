@@ -4,7 +4,7 @@ export const DeleteToken = {
             if(!document.actor) return;
             if(document.isLinked) return;
             for (const effect of [document.actor.itemTypes.effect, document.actor.itemTypes.condition].flat().filter((x) => x)) {
-                game.ptu.effectTracker.unregister(effect);
+                game.pe.effectTracker.unregister(effect);
             }
         })
     }

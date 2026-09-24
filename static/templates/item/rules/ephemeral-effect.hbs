@@ -19,7 +19,7 @@
             {{#if selectorIsArray}}Multiple{{else}}Single{{/if}}
         </button>
         {{#if selectorIsArray}}
-            <input type="text" class="ptu-tagify selectors-list" name="system.rules.{{index}}.selectors" value="{{json rule.selectors}}" data-dtype="JSON"/>
+            <input type="text" class="pe-tagify selectors-list" name="system.rules.{{index}}.selectors" value="{{json rule.selectors}}" data-dtype="JSON"/>
         {{else}}
             <input type="text" name="system.rules.{{index}}.selectors" value="{{rule.selectors}}" />
         {{/if}}
@@ -46,7 +46,7 @@
             {{#if predicationIsMultiple}}Multiple{{else}}Complex{{/if}}
         </button>
         {{#if predicationIsMultiple}}
-            <input type="text" class="ptu-tagify predicate-list" name="system.rules.{{index}}.predicate" value="{{json rule.predicate}}" data-dtype="JSON"/>
+            <input type="text" class="pe-tagify predicate-list" name="system.rules.{{index}}.predicate" value="{{json rule.predicate}}" data-dtype="JSON"/>
         {{else}}
             <input type="text" name="system.rules.{{index}}.predicate" value="{{json rule.predicate}}" />
         {{/if}}

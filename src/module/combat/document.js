@@ -16,7 +16,7 @@ class PTUCombat extends Combat {
 
     /** @override */
     _sortCombatants(a, b) {
-        const leagueBattle = game.settings.get("ptu", "leagueBattle");
+        const leagueBattle = game.settings.get("pe", "leagueBattle");
         
         const resolveTie = () => {
             const [priorityA, priorityB] = [a, b].map(
@@ -221,8 +221,8 @@ class PTUCombat extends Combat {
 
             // Reset all data to get updated encounter roll options
             this.resetActors();
-            await game.ptu.effectTracker.refresh();
-            game.ptu.tokenPanel.refresh();
+            await game.pe.effectTracker.refresh();
+            game.pe.tokenPanel.refresh();
         });
     }
 
@@ -231,8 +231,8 @@ class PTUCombat extends Combat {
         super._onDelete(options, userId);
 
         if (this.started) {
-            Hooks.callAll("ptu.endTurn", this.combatant ?? null, this, userId);
-            game.ptu.effectTracker.onEncounterEnd(this);
+            Hooks.callAll("pe.endTurn", this.combatant ?? null, this, userId);
+            game.pe.effectTracker.onEncounterEnd(this);
         }
 
         game.user.targets.clear();

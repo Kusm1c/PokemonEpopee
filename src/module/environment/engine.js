@@ -41,10 +41,10 @@ async function applyStageBonus(combat, definition, sign) {
 async function startWeather(combat, slug, extended = false) {
     const definition = WEATHER_DEFINITIONS[slug];
     if (!definition) return;
-    const existing = combat.flags.ptu?.weather;
+    const existing = combat.flags.pe?.weather;
     if (existing) await applyStageBonus(combat, WEATHER_DEFINITIONS[existing.slug], -1);
 
-    await combat.update({ "flags.ptu.weather": { slug, remaining: extended ? definition.extendedDuration : definition.duration } });
+    await combat.update({ "flags.pe.weather": { slug, remaining: extended ? definition.extendedDuration : definition.duration } });
     await applyStageBonus(combat, definition, 1);
     await announce(game.i18n.format("PTU.Epopee.Environment.Chat.WeatherStart", { name: game.i18n.localize(`PTU.Epopee.Environment.Weather.${slug}`) }));
 }
@@ -52,44 +52,44 @@ async function startWeather(combat, slug, extended = false) {
 async function startField(combat, slug, extended = false) {
     const definition = FIELD_DEFINITIONS[slug];
     if (!definition) return;
-    await combat.update({ "flags.ptu.field": { slug, remaining: extended ? definition.extendedDuration : definition.duration } });
+    await combat.update({ "flags.pe.field": { slug, remaining: extended ? definition.extendedDuration : definition.duration } });
     await announce(game.i18n.format("PTU.Epopee.Environment.Chat.FieldStart", { name: game.i18n.localize(`PTU.Epopee.Environment.Field.${slug}`) }));
 }
 
 async function clearWeather(combat) {
-    const existing = combat.flags.ptu?.weather;
+    const existing = combat.flags.pe?.weather;
     if (existing) await applyStageBonus(combat, WEATHER_DEFINITIONS[existing.slug], -1);
-    await combat.update({ "flags.ptu.weather": null });
+    await combat.update({ "flags.pe.weather": null });
 }
 
 async function clearField(combat) {
-    await combat.update({ "flags.ptu.field": null });
+    await combat.update({ "flags.pe.field": null });
 }
 
 async function toggleZone(combat, slug) {
     const definition = ZONE_DEFINITIONS[slug];
     if (!definition) return;
 
-    const active = combat.flags.ptu?.zones?.[slug] !== undefined;
+    const active = combat.flags.pe?.zones?.[slug] !== undefined;
     if (active) {
-        await combat.update({ [`flags.ptu.zones.-=${slug}`]: null });
+        await combat.update({ [`flags.pe.zones.-=${slug}`]: null });
         await announce(game.i18n.format("PTU.Epopee.Environment.Chat.ZoneEnd", { name: game.i18n.localize(`PTU.Epopee.Environment.Zone.${slug}`) }));
     } else {
-        await combat.update({ [`flags.ptu.zones.${slug}`]: definition.duration });
+        await combat.update({ [`flags.pe.zones.${slug}`]: definition.duration });
         await announce(game.i18n.format("PTU.Epopee.Environment.Chat.ZoneStart", { name: game.i18n.localize(`PTU.Epopee.Environment.Zone.${slug}`) }));
     }
 }
 
 async function tickZones(combat) {
-    const zones = combat.flags.ptu?.zones ?? {};
+    const zones = combat.flags.pe?.zones ?? {};
     const updates = {};
     for (const [slug, remaining] of Object.entries(zones)) {
         const next = remaining - 1;
         if (next <= 0) {
-            updates[`flags.ptu.zones.-=${slug}`] = null;
+            updates[`flags.pe.zones.-=${slug}`] = null;
             await announce(game.i18n.format("PTU.Epopee.Environment.Chat.ZoneEnd", { name: game.i18n.localize(`PTU.Epopee.Environment.Zone.${slug}`) }));
         } else {
-            updates[`flags.ptu.zones.${slug}`] = next;
+            updates[`flags.pe.zones.${slug}`] = next;
         }
     }
     if (Object.keys(updates).length) await combat.update(updates);
@@ -97,8 +97,8 @@ async function tickZones(combat) {
 
 function getActiveTypeModifiers(combat) {
     const modifiers = [];
-    const weather = combat?.flags.ptu?.weather;
-    const field = combat?.flags.ptu?.field;
+    const weather = combat?.flags.pe?.weather;
+    const field = combat?.flags.pe?.field;
 
     if (weather) {
         const definition = WEATHER_DEFINITIONS[weather.slug];
@@ -114,8 +114,8 @@ function getActiveTypeModifiers(combat) {
 }
 
 async function applyPerRoundEffects(combat) {
-    const weather = combat.flags.ptu?.weather;
-    const field = combat.flags.ptu?.field;
+    const weather = combat.flags.pe?.weather;
+    const field = combat.flags.pe?.field;
     if (!weather && !field) return;
 
     for (const combatant of combat.combatants) {
@@ -148,8 +148,8 @@ async function applyPerRoundEffects(combat) {
 }
 
 async function tickEnvironment(combat) {
-    const weather = combat.flags.ptu?.weather;
-    const field = combat.flags.ptu?.field;
+    const weather = combat.flags.pe?.weather;
+    const field = combat.flags.pe?.field;
 
     await applyPerRoundEffects(combat);
     await tickZones(combat);
@@ -160,7 +160,7 @@ async function tickEnvironment(combat) {
             await clearWeather(combat);
             await announce(game.i18n.format("PTU.Epopee.Environment.Chat.WeatherEnd", { name: game.i18n.localize(`PTU.Epopee.Environment.Weather.${weather.slug}`) }));
         } else {
-            await combat.update({ "flags.ptu.weather.remaining": remaining });
+            await combat.update({ "flags.pe.weather.remaining": remaining });
         }
     }
 
@@ -170,7 +170,7 @@ async function tickEnvironment(combat) {
             await clearField(combat);
             await announce(game.i18n.format("PTU.Epopee.Environment.Chat.FieldEnd", { name: game.i18n.localize(`PTU.Epopee.Environment.Field.${field.slug}`) }));
         } else {
-            await combat.update({ "flags.ptu.field.remaining": remaining });
+            await combat.update({ "flags.pe.field.remaining": remaining });
         }
     }
 }

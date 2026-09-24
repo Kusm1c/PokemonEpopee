@@ -14,11 +14,11 @@ export class PokemonGenerator {
     async prepare(
         { minLevel, maxLevel, shinyChance, statRandomness, preventEvolution, saveDefault } =
             {
-                minLevel: Number(game.settings.get("ptu", "generation.defaultDexDragInLevelMin")),
-                maxLevel: Number(game.settings.get("ptu", "generation.defaultDexDragInLevelMax")),
-                shinyChance: Number(game.settings.get("ptu", "generation.defaultDexDragInShinyChance")),
-                statRandomness: Number(game.settings.get("ptu", "generation.defaultDexDragInStatRandomness")),
-                preventEvolution: game.settings.get("ptu", "generation.defaultDexDragInPreventEvolution"),
+                minLevel: Number(game.settings.get("pe", "generation.defaultDexDragInLevelMin")),
+                maxLevel: Number(game.settings.get("pe", "generation.defaultDexDragInLevelMax")),
+                shinyChance: Number(game.settings.get("pe", "generation.defaultDexDragInShinyChance")),
+                statRandomness: Number(game.settings.get("pe", "generation.defaultDexDragInStatRandomness")),
+                preventEvolution: game.settings.get("pe", "generation.defaultDexDragInPreventEvolution"),
                 saveDefault: false
             }) {
         if (!this.level) {
@@ -56,9 +56,9 @@ export class PokemonGenerator {
         this.img = await PokemonGenerator.getImage(this.species, { gender: this.gender, shiny: this.shiny });
         this.tokenImg = (() => {
             if(!this.img) return;
-            const tokenImageExtension = game.settings.get("ptu", "generation.defaultTokenImageExtension");
+            const tokenImageExtension = game.settings.get("pe", "generation.defaultTokenImageExtension");
             if(this.img.endsWith(tokenImageExtension)) return this.img;
-            const actorImageExtension = game.settings.get("ptu", "generation.defaultImageExtension");
+            const actorImageExtension = game.settings.get("pe", "generation.defaultImageExtension");
             return this.img.replace(actorImageExtension, tokenImageExtension);
         })();
 
@@ -173,7 +173,7 @@ export class PokemonGenerator {
             abilityData.flags.core = {
                 sourceId: speciesAbility.data.uuid,
             }
-            abilityData.flags.ptu = {
+            abilityData.flags.pe = {
                 abilityChosen: speciesAbility.tier
             }
 
@@ -370,7 +370,7 @@ export class PokemonGenerator {
         }
     }
 
-    static async getImage(species, { gender = game.i18n.localize("PTU.Male"), shiny = false, extension = game.settings.get("ptu", "generation.defaultImageExtension"), suffix = "" } = {}) {
+    static async getImage(species, { gender = game.i18n.localize("PTU.Male"), shiny = false, extension = game.settings.get("pe", "generation.defaultImageExtension"), suffix = "" } = {}) {
         // Check for default
         let path = species.getImagePath({ gender, shiny, extension, suffix });
         let result = await fetch(path)

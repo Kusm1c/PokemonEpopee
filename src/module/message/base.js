@@ -1,11 +1,11 @@
 class ChatMessagePTU extends ChatMessage {
     constructor(data = {}, context = {}) {
-        data.flags = foundry.utils.mergeObject(foundry.utils.expandObject(data.flags ?? {}), { core: {}, ptu: {} });
+        data.flags = foundry.utils.mergeObject(foundry.utils.expandObject(data.flags ?? {}), { core: {}, pe: {} });
         super(data, context);
     }
 
     get actor() {
-        const attack = this.flags.ptu.attack;
+        const attack = this.flags.pe.attack;
         if (!attack) return null;
         const actorUUID = "actor" in attack ? attack.actor : null;
         if (!actorUUID) return null;
@@ -17,7 +17,7 @@ class ChatMessagePTU extends ChatMessage {
     }
 
     get target() {
-        const context = this.flags.ptu.context;
+        const context = this.flags.pe.context;
         if (!context) return null;
         const targetUUID = "target" in context ? context.target?.token : null;
         if (!targetUUID) return null;
@@ -31,7 +31,7 @@ class ChatMessagePTU extends ChatMessage {
     }
 
     get targets() {
-        const context = this.flags.ptu.context;
+        const context = this.flags.pe.context;
         if (!context) return null;
         const targets = context.targets ?? [];
         if (!targets) return null;
@@ -49,7 +49,7 @@ class ChatMessagePTU extends ChatMessage {
     }
 
     get context() {
-        const context = this.flags.ptu.context;
+        const context = this.flags.pe.context;
         return context ?? null;
     }
 
@@ -76,7 +76,7 @@ class ChatMessagePTU extends ChatMessage {
         const actor = this.actor;
         if (!actor?.system.attacks) return null;
 
-        const attack = actor.system.attacks.get(this.flags.ptu.attack.id);
+        const attack = actor.system.attacks.get(this.flags.pe.attack.id);
         return attack ?? null;
     }
 
@@ -92,7 +92,7 @@ class ChatMessagePTU extends ChatMessage {
     }
 
     get outcomes() {
-        return this.flags.ptu?.context?.outcomes ?? null;
+        return this.flags.pe?.context?.outcomes ?? null;
     }
 
     getRollData() {
@@ -126,7 +126,7 @@ class ChatMessagePTU extends ChatMessage {
         $html.find("button.use").on("click", async event => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            const item = await fromUuid(this.flags.ptu.origin.item);
+            const item = await fromUuid(this.flags.pe.origin.item);
             if (!item) return;
 
             await item?.use();
@@ -134,10 +134,10 @@ class ChatMessagePTU extends ChatMessage {
         $html.find("button.apply-capture").on("click", async event => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            const item = await fromUuid(this.flags.ptu.origin.uuid);
+            const item = await fromUuid(this.flags.pe.origin.uuid);
             if (!item) return;
 
-            await item?.applyCapture(this.flags.ptu.context);
+            await item?.applyCapture(this.flags.pe.context);
         });
         $html.find("button.contested-check").on("click", async event => {
             event.preventDefault();
@@ -147,7 +147,7 @@ class ChatMessagePTU extends ChatMessage {
             const target = this.targets.find(t => t.actor.isOwner);
             if (!target || total === undefined || total === null) return;
 
-            const {actor, token} = this.flags.ptu.origin;
+            const {actor, token} = this.flags.pe.origin;
             const tokenDocument = await fromUuid(token);
 
             const skill = this.context.skill;
@@ -155,7 +155,7 @@ class ChatMessagePTU extends ChatMessage {
 
             const dialog = new Dialog({
                 title: game.i18n.format("PTU.Dialog.ContestedCheck.Title", {name: target.actor.name, skill: game.i18n.localize(`PTU.Skills.${skill}`)}),
-                content: await foundry.applications.handlebars.renderTemplate("systems/ptu/static/templates/apps/contested-check.hbs", {
+                content: await foundry.applications.handlebars.renderTemplate("systems/pe/static/templates/apps/contested-check.hbs", {
                     skill,
                     skillOptions,
                 }),
@@ -205,7 +205,7 @@ class ChatMessagePTU extends ChatMessage {
                                     ]
 
                                     await this.update({
-                                        "flags.ptu.context.outcomes": {
+                                        "flags.pe.context.outcomes": {
                                             [target.actor.uuid]: outcome
                                         },
                                         "rolls": [JSON.stringify(this.rolls[0])]
@@ -231,7 +231,7 @@ export { ChatMessagePTU, PTUChatMessageProxy }
 const PTUChatMessageProxy = new Proxy(ChatMessagePTU, {
     construct(_target, args) {
         const rolls = args[0].rolls;
-        const type = args[0].flags?.ptu?.context?.type;
+        const type = args[0].flags?.pe?.context?.type;
         if (type == "attack-roll") return new CONFIG.PTU.ChatMessage.documentClasses.attack(...args);
         if (type == "damage-roll") return new CONFIG.PTU.ChatMessage.documentClasses.damage(...args);
 

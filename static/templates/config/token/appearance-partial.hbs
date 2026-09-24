@@ -57,23 +57,23 @@
                 {{localize "TOKEN.Dimensions"}} <span class="units">({{localize "GridSpaces"}})</span>
                 {{#if sizeLinkable}}
                     <a data-action="toggle-link-to-size" title="{{localize (concat "PTU.Token.Size.LinkToActorSize." linkToSizeTitle)}}">
-                        <i class="fa-solid fa-fw fa-lock{{#unless object.flags.ptu.linkToActorSize}}-open{{/unless}}"></i>
+                        <i class="fa-solid fa-fw fa-lock{{#unless object.flags.pe.linkToActorSize}}-open{{/unless}}"></i>
                     </a>
                 {{/if}}
             </label>
             <div class="form-fields">
                 <label>{{localize "Width"}}</label>
-                <input type="number" step="0.1" name="width" placeholder="units" value="{{object.width}}" {{disabled object.flags.ptu.linkToActorSize}} />
+                <input type="number" step="0.1" name="width" placeholder="units" value="{{object.width}}" {{disabled object.flags.pe.linkToActorSize}} />
                 <label>{{localize "Height"}}</label>
-                <input type="number" step="0.1" name="height" placeholder="units" value="{{object.height}}" {{disabled object.flags.ptu.linkToActorSize}} />
+                <input type="number" step="0.1" name="height" placeholder="units" value="{{object.height}}" {{disabled object.flags.pe.linkToActorSize}} />
             </div>
         </div>
         <div class="form-group scale">
             <label>
                 {{localize "Scale"}} <span class="units">({{localize "Ratio"}})</span>
-                {{#if (and sizeLinkable object.flags.ptu.linkToActorSize)}}
+                {{#if (and sizeLinkable object.flags.pe.linkToActorSize)}}
                     <a data-action="toggle-autoscale" title="{{localize (concat "PTU.Token.Size.LinkToActorSize." autoscaleTitle)}}">
-                        <i class="fa-solid fa-fw fa-lock{{#unless object.flags.ptu.autoscale}}-open{{/unless}}"></i>
+                        <i class="fa-solid fa-fw fa-lock{{#unless object.flags.pe.autoscale}}-open{{/unless}}"></i>
                     </a>
                 {{/if}}
             </label>

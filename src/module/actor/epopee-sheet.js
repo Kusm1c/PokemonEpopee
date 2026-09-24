@@ -103,7 +103,7 @@ function prepareEpopeeSheetData(actor, { includeFlavours = false } = {}) {
         stab: stabValue(level),
         skillDieSize: SKILL_DIE_SIZE,
         skillGroups: prepareSkillGroups(actor),
-        contestMode: actor.getFlag("ptu", "contestMode") === true
+        contestMode: actor.getFlag("pe", "contestMode") === true
     };
 
     if (includeFlavours) {

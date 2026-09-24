@@ -6,7 +6,7 @@ class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
     /** @override */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["ptu", "sheet", "item"],
+            classes: ["pe", "sheet", "item"],
             width: 650,
             height: 510,
             tabs: [{ navSelector: ".tabs", contentSelector: ".sheet-body", initial: "overview" }],
@@ -21,7 +21,7 @@ class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
 
     /** @override */
     get template() {
-        return `systems/ptu/static/templates/item/${this.object.type}-sheet.hbs`;
+        return `systems/pe/static/templates/item/${this.object.type}-sheet.hbs`;
     }
 
     /** @override */
@@ -29,7 +29,7 @@ class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
         const data = super.getData();
         data.config = CONFIG.PTU.data;
         
-        data.editLocked = data.editable == false ? true : this.object.getFlag('ptu', 'editLocked') ?? false;
+        data.editLocked = data.editable == false ? true : this.object.getFlag('pe', 'editLocked') ?? false;
 
         this.object._updateIcon({update: true});
 
@@ -79,9 +79,9 @@ class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
             )
         }
 
-        if(this.item.flags.ptu?.showInTokenPanel === undefined) {
-            if(this.item.type === "item" && this.item.roll) data.item.flags.ptu.showInTokenPanel = true;
-            if (["move", "ability", "feat", "effect"].includes(this.item.type)) data.item.flags.ptu.showInTokenPanel = true;
+        if(this.item.flags.pe?.showInTokenPanel === undefined) {
+            if(this.item.type === "item" && this.item.roll) data.item.flags.pe.showInTokenPanel = true;
+            if (["move", "ability", "feat", "effect"].includes(this.item.type)) data.item.flags.pe.showInTokenPanel = true;
         }
         
         return data;

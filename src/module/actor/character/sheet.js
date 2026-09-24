@@ -14,8 +14,8 @@ export class PTUCharacterSheet extends PTUActorSheet {
 	/** @override */
 	static get defaultOptions() {
 		const options = foundry.utils.mergeObject(super.defaultOptions, {
-			classes: ['ptu', 'sheet', 'actor', 'gen8'],
-			template: 'systems/ptu/static/templates/actor/trainer-sheet.hbs',
+			classes: ['pe', 'sheet', 'actor', 'gen8'],
+			template: 'systems/pe/static/templates/actor/trainer-sheet.hbs',
 			width: 1200,
 			height: 635,
 			tabs: [{
@@ -31,7 +31,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		// If compact style is enabled
 		if (true) {
 			options.classes.push('compact');
-			options.template = 'systems/ptu/static/templates/actor/trainer-sheet-compact.hbs';
+			options.template = 'systems/pe/static/templates/actor/trainer-sheet-compact.hbs';
 			options.width = 900;
 			options.height = 650;
 		}
@@ -40,7 +40,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 	}
 
 	get ballStyle() {
-		return this.actor.flags.ptu.theme || "default";
+		return this.actor.flags.pe.theme || "default";
 	}
 
 	/* -------------------------------------------- */
@@ -61,12 +61,12 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		data["ballStyle"] = this.ballStyle;
 
 		// Setup Item Columns
-		if (this.actor.getFlag("ptu", "itemColumns") === undefined) {
+		if (this.actor.getFlag("pe", "itemColumns") === undefined) {
 			const columns = { one: ["Key", "Medical", "Misc"], two: ["Pokemon Items", "PokeBalls", "TMs", "Money"], available: ["Equipment", "Food"] };
-			this.actor.setFlag("ptu", "itemColumns", columns)
+			this.actor.setFlag("pe", "itemColumns", columns)
 			data.columns = columns;
 		}
-		else data.columns = this.actor.getFlag("ptu", "itemColumns");
+		else data.columns = this.actor.getFlag("pe", "itemColumns");
 
 		const IWR = this.actor.iwr;
 		data.effectiveness = {
@@ -328,8 +328,8 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		html.find('.origin-wizard').click(() => runOriginWizard(this.actor));
 
 		html.find('.contest-mode-toggle').click(async () => {
-			const current = this.actor.getFlag("ptu", "contestMode") === true;
-			await this.actor.setFlag("ptu", "contestMode", !current);
+			const current = this.actor.getFlag("pe", "contestMode") === true;
+			await this.actor.setFlag("pe", "contestMode", !current);
 		});
 
 		// "Liste des Honneurs, chacun contenant un paragraphe libre a ecrire."
@@ -424,7 +424,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 
 			await attack.roll?.({
 				event, callback: async (rolls, targets, msg, event) => {
-					if (!game.settings.get("ptu", "autoRollDamage")) return;
+					if (!game.settings.get("pe", "autoRollDamage")) return;
 
 					const params = {
 						event,
@@ -435,7 +435,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 					}
 					const result = await attack.damage?.(params);
 					if (result === null) {
-						return await msg.update({ "flags.ptu.resolved": false })
+						return await msg.update({ "flags.pe.resolved": false })
 					}
 				}
 			});
@@ -582,11 +582,11 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			}
 
 			const source = this.actor.items.get(itemData._id);
-			if (!source?.isGranted && target?.isContainer && source?.flags?.ptu?.grantedBy?.id != target.id) {
-				await source?.update({ "flags.ptu.grantedBy": { id: target.id, onDelete: "detach" } })
+			if (!source?.isGranted && target?.isContainer && source?.flags?.pe?.grantedBy?.id != target.id) {
+				await source?.update({ "flags.pe.grantedBy": { id: target.id, onDelete: "detach" } })
 			}
-			else if (source?.flags?.ptu?.grantedBy?.id && !target?.isContainer) {
-				await source?.update({ "flags.ptu.-=grantedBy": null })
+			else if (source?.flags?.pe?.grantedBy?.id && !target?.isContainer) {
+				await source?.update({ "flags.pe.-=grantedBy": null })
 			}
 		}
 
@@ -668,9 +668,9 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			return deleteItem();
 		}
 
-		const granter = this.actor.items.get(item.flags.ptu?.grantedBy?.id ?? "");
+		const granter = this.actor.items.get(item.flags.pe?.grantedBy?.id ?? "");
 		if (granter) {
-			const parentGrant = Object.values(granter?.flags.ptu?.itemGrants ?? {}).find((g) => g.id === item.id);
+			const parentGrant = Object.values(granter?.flags.pe?.itemGrants ?? {}).find((g) => g.id === item.id);
 
 			if (parentGrant?.onDelete === "restrict") {
 				return Dialog.prompt({
@@ -680,10 +680,10 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			}
 		}
 
-		if (item.flags.ptu?.itemGrants) {
-			for (const grant of Object.values(item.flags.ptu.itemGrants)) {
+		if (item.flags.pe?.itemGrants) {
+			for (const grant of Object.values(item.flags.pe.itemGrants)) {
 				const grantee = this.actor.items.get(grant.id);
-				if (grantee && grantee.flags.ptu.grantedBy.onDelete === "restrict") {
+				if (grantee && grantee.flags.pe.grantedBy.onDelete === "restrict") {
 					return Dialog.prompt({
 						title: game.i18n.localize("DIALOG.DeleteItem.Title"),
 						content: game.i18n.format("DIALOG.DeleteItem.Restricted", { name: item.name, parentName: grantee.name }),

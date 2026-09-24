@@ -3,7 +3,7 @@ import { RuleElementForm } from './index.js'
 class RollOptionForm extends RuleElementForm {
     /** @override */
     get template() {
-        return "systems/ptu/static/templates/item/rules/roll-option.hbs";
+        return "systems/pe/static/templates/item/rules/roll-option.hbs";
     }
 
     /** @override */
