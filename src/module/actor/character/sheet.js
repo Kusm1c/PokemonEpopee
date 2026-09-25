@@ -127,7 +127,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			slotsUsed,
 			slotsMax,
 			slotsOver: slotsUsed > slotsMax,
-			origin: ep.origin ?? { name: "", choice: "", description: "" },
+			origin: ep.origin ?? { slug: "", name: "", choice: "", description: "", granted: false },
 			narrative: ep.narrative ?? {},
 			// "pastille pour notifier qu'il y a des trucs a faire : X Stat a repartir,
 			// Y feature a placer, Z edge a choisir."

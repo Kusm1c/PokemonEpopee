@@ -152,7 +152,9 @@
                                     {{else}}Choisir une Origine{{/if}}
                                 </button>
                                 {{#if epopee.origin.description}}
-                                <div style="font-size:11px;opacity:.8;text-align:left;padding:4px;">{{epopee.origin.description}}</div>
+                                {{!-- pre-line: the wizard writes a plain-text block with
+                                      real newlines, and this is rendered escaped. --}}
+                                <div style="font-size:11px;opacity:.8;text-align:left;padding:4px;white-space:pre-line;">{{epopee.origin.description}}</div>
                                 {{/if}}
                             </div>
                         </div>

@@ -488,9 +488,11 @@
         "hideExperience": false,
         "itemSlots": 20,
         "origin": {
+          "slug": "",
           "name": "",
           "choice": "",
-          "description": ""
+          "description": "",
+          "granted": false
         },
         "narrative": {
           "honours": [],
