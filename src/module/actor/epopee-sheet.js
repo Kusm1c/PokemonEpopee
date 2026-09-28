@@ -9,7 +9,7 @@
 import { MAX_COMBAT_STAGES } from "../combat-math/config.js";
 import { clampStages, fragment, mdsTerm, stabValue } from "../combat-math/formula.js";
 import { flavoursForNature } from "../natures/flavors.js";
-import { SKILL_DIE_SIZE, SKILL_GROUPS } from "../skills/config.js";
+import { SKILL_DIE_SIZE, SKILL_GROUPS, skillRank, skillRankBonus } from "../skills/config.js";
 import { hpFragment } from "../statuses/roll.js";
 
 /**
@@ -53,12 +53,14 @@ function prepareStatDisplay(actor) {
 function prepareSkillGroups(actor) {
     const skills = Object.entries(actor.system.skills ?? {});
     const groups = SKILL_GROUPS.map(g => ({ ...g, skills: [] }));
-    const other = { id: "other", label: "AUTRE", colour: "#777777", skills: [] };
+    const other = { id: "other", labelKey: "PTU.Epopee.SkillGroupOther", colour: "#777777", skills: [] };
     const origins = actor.origins ?? {};
 
     for (const [key, skill] of skills) {
-        const diceCount = Math.min(6, Math.max(1, skill.value?.total ?? 1));
-        const modifier = skill.modifier?.total ?? 0;
+        // Same helper the roll engine uses, so the formula printed here cannot drift
+        // from the dice actually thrown. See system/check/skill.js prepareModifiers.
+        const diceCount = skillRank(skill);
+        const modifier = skillRankBonus(diceCount) + (skill.modifier?.total ?? 0);
 
         // Belt and braces: derived fields are set during data prep, but a skill the
         // species data doesn't know about used to arrive here bare and render as

@@ -12,6 +12,45 @@
 const SKILL_DIE_SIZE = 20;
 
 /**
+ * Each skill die is worth `d20 + 10`, so the flat bonus scales with the pool: an Adept
+ * (Rank 4) rolls 4d20+40, not 4d20+10.
+ *
+ * The bonus follows the *rank*, not the dice actually rolled. Edges that grant extra
+ * dice (the `skill-check-dice` synthetics in system/check/skill.js) add a die without
+ * adding its +10, so a bonus die is worth a die rather than a whole rank.
+ */
+const SKILL_RANK_BONUS = 10;
+
+/** The legal rank range. A rank outside it is clamped before anything is derived. */
+const MIN_SKILL_RANK = 1;
+const MAX_SKILL_RANK = 6;
+
+/**
+ * The rank a skill actually rolls at.
+ *
+ * Shared by the roll engine and the sheet, which each used to clamp on their own. Both
+ * the dice and the bonus must come from this one value: a bonus derived from an
+ * unclamped rank would hand a Rank 8 skill 6d20+80 instead of 6d20+60.
+ *
+ * @param {object} skill an entry of `actor.system.skills`
+ * @returns {number}
+ */
+function skillRank(skill) {
+    const raw = Number(skill?.value?.total);
+    return Math.clamp(Number.isFinite(raw) ? raw : MIN_SKILL_RANK, MIN_SKILL_RANK, MAX_SKILL_RANK);
+}
+
+/**
+ * The flat bonus accompanying a skill's dice.
+ *
+ * @param {number} rank a rank already passed through `skillRank`
+ * @returns {number}
+ */
+function skillRankBonus(rank) {
+    return rank * SKILL_RANK_BONUS;
+}
+
+/**
  * The three groups, in display order, mapped onto PTR's existing `type` field.
  *
  * PTR already tags every skill body/mind/spirit and those buckets line up exactly with
@@ -19,9 +58,9 @@ const SKILL_DIE_SIZE = 20;
  * rather than a new taxonomy.
  */
 const SKILL_GROUPS = [
-    { id: "body", label: "VOLONTÉ", colour: "#c0392b" },
-    { id: "mind", label: "SAVOIR", colour: "#27ae60" },
-    { id: "spirit", label: "ÉMOTION", colour: "#2980b9" }
+    { id: "body", labelKey: "PTU.Epopee.SkillGroupBody", colour: "#c0392b" },
+    { id: "mind", labelKey: "PTU.Epopee.SkillGroupMind", colour: "#2980b9" },
+    { id: "spirit", labelKey: "PTU.Epopee.SkillGroupSpirit", colour: "#27ae60" }
 ];
 
 /**
@@ -36,4 +75,13 @@ const MIGRATED_SKILLS = {
     guile: { group: "spirit", movedFrom: "mind" }
 };
 
-export { SKILL_DIE_SIZE, SKILL_GROUPS, MIGRATED_SKILLS };
+export {
+    SKILL_DIE_SIZE,
+    SKILL_RANK_BONUS,
+    MIN_SKILL_RANK,
+    MAX_SKILL_RANK,
+    skillRank,
+    skillRankBonus,
+    SKILL_GROUPS,
+    MIGRATED_SKILLS
+};

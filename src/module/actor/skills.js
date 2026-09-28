@@ -5,18 +5,35 @@ import { Statistic } from "../system/statistic/index.js";
 
 class PTUSkills {
     /**
-     * @param {Number} skillRank 
+     * @param {Number} skillRank
      * @returns {String} The skill rank's slug
+     *
+     * The stock table listed 1-6 and 8, so a rank of 7 - or 9 and up - fell through to
+     * "invalid" and the sheet rendered "PTU.SkillInvalid". That is reachable in ordinary
+     * play: Pokemon skills start at 2 and edges add to them, so a few increases put a
+     * skill at 7 and the row broke. Ranks are now clamped into the table instead: above
+     * Master is Virtuoso, and anything at or below zero reads as Pathetic rather than as
+     * an error. A non-numeric value is still "invalid", since that is a real data fault
+     * worth seeing.
      */
     static getRankSlug(skillRank) {
-        switch (skillRank) {
+        // `Number(null)` is 0, which would read as a legitimate rank and hide a missing
+        // value behind "Pathetic". Only an actual number, or a string holding one, counts.
+        if (skillRank === null || skillRank === undefined || skillRank === "") return "invalid";
+
+        const rank = Number(skillRank);
+        if (!Number.isFinite(rank)) return "invalid";
+
+        if (rank >= 8) return "virtuoso";
+        if (rank >= 7) return "master";
+
+        switch (Math.max(1, Math.round(rank))) {
             case 1: return "pathetic"//game.i18n.localize("PTU.SkillPathetic");
             case 2: return "untrained"//game.i18n.localize("PTU.SkillUntrained");
             case 3: return "novice"//game.i18n.localize("PTU.SkillNovice");
             case 4: return "adept"//game.i18n.localize("PTU.SkillAdept");
             case 5: return "expert"//game.i18n.localize("PTU.SkillExpert");
             case 6: return "master"//game.i18n.localize("PTU.SkillMaster");
-            case 8: return "virtuoso"//game.i18n.localize("PTU.SkillVirtuoso");
             default: return "invalid"//game.i18n.localize("PTU.SkillInvalid");
         }
     }

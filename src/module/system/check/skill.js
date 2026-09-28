@@ -1,4 +1,4 @@
-import { SKILL_DIE_SIZE } from "../../skills/config.js";
+import { SKILL_DIE_SIZE, SKILL_RANK_BONUS, skillRank, skillRankBonus } from "../../skills/config.js";
 import { sluggify } from "../../../util/misc.js";
 import { PTUDiceModifier, PTUModifier, StatisticDiceModifier, StatisticModifier } from "../../actor/modifiers.js";
 import { PTUDiceCheck, eventToRollParams } from "./check.js";
@@ -33,16 +33,31 @@ class PTUSkillCheck extends PTUDiceCheck {
     prepareModifiers() {
         super.prepareModifiers();
 
+        // Clamped once and reused for both the pool and the bonus. Deriving them
+        // separately is how a Rank 8 skill ends up rolling 6d20+80.
+        const rank = skillRank(this.actor.system.skills[this.skill]);
+
         /** @type {PTUDiceModifier[]} */
         const diceModifiers = [
             new PTUDiceModifier({
-                diceNumber: Math.clamp(this.actor.system.skills[this.skill]?.value?.total ?? 1, 1, 6),
+                diceNumber: rank,
                 dieSize: SKILL_DIE_SIZE,
                 label: game.i18n.format("PTU.Check.SkillDice", { skill: this.skillLabel })
             })
         ]
 
         const modifiers = [
+            // Epopee: a skill die is worth d20 + 10, so the flat part scales with rank.
+            // Kept as its own modifier rather than folded into the skill mod below, so
+            // the roll dialog shows where the number came from.
+            new PTUModifier({
+                label: game.i18n.format("PTU.Epopee.SkillRankBonus", {
+                    skill: this.skillLabel,
+                    rank,
+                    bonus: SKILL_RANK_BONUS
+                }),
+                modifier: skillRankBonus(rank)
+            }),
             new PTUModifier({
                 label: game.i18n.format("PTU.Check.SkillMod", { skill: this.skillLabel }),
                 modifier: this.actor.system.skills[this.skill]?.modifier?.total ?? 0

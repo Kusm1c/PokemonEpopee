@@ -374,6 +374,22 @@
             "levelUp": 0,
             "label": "Speed"
           }
+        },
+        "secondaryStats": {
+          "precision": {
+            "value": 0,
+            "mod": { "value": 0, "mod": 0 },
+            "stage": { "value": 0, "mod": 0 },
+            "labelKey": "PTU.Epopee.Precision",
+            "abbrKey": "PTU.Epopee.PrecisionAbbr"
+          },
+          "esquive": {
+            "value": 0,
+            "mod": { "value": 0, "mod": 0 },
+            "stage": { "value": 0, "mod": 0 },
+            "labelKey": "PTU.Epopee.Esquive",
+            "abbrKey": "PTU.Epopee.EsquiveAbbr"
+          }
         }
       },
       "shared": {

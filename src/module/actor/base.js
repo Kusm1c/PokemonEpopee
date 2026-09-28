@@ -14,6 +14,7 @@ import { PTUMoveDamage } from "../system/damage/move.js";
 import { combatStages, statForFormula } from "../combat-math/actor.js";
 import { defenseTerm, mdsTerm } from "../combat-math/formula.js";
 import { ActorConditions } from "./conditions.js";
+import { prepareSecondaryStats } from "../stats/secondary.js";
 import { IWRData, ImmunityData, ResistanceData, WeaknessData, scaleTypeEffectiveness } from "./iwr.js";
 import { PTUModifier, StatisticModifier } from "./modifiers.js";
 
@@ -306,6 +307,10 @@ class PTUActor extends Actor {
 
     prepareDerivedData() {
         this.prepareSynthetics();
+
+        // Epopee PRE/ESQ. Before prepareMoves, which builds the attack statistics that
+        // read Precision off the prepared totals.
+        prepareSecondaryStats(this.system);
 
         if (this.allowedItemTypes.includes('move')) {
             this.system.attacks = this.prepareMoves();
@@ -1106,10 +1111,11 @@ class PTUActor extends Actor {
                     return arr;
                 }
 
-                if (localType === "normal") {
-                    arr.push(constructStruggleItem(type, "Physical", "Melee, 1 Target"))
-                }
-
+                // Epopee has its own Lutte among the common capabilities, so PTR's
+                // automatic Normal Struggle is not granted. Only the typed Struggles
+                // above survive, because those come from a RollOption an edge or a
+                // feature deliberately set - removing those would silently disable
+                // content a player chose.
                 return arr;
             }, []);
 

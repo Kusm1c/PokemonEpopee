@@ -2,6 +2,7 @@ import { sluggify } from "../../../util/misc.js";
 import { CheckModifier, PTUModifier, StatisticModifier } from "../../actor/modifiers.js";
 import { PTUCondition } from "../../item/index.js";
 import { ALL_STATUS_DEFINITIONS } from "../../statuses/definitions.js";
+import { esquiveValue, precisionBonus } from "../../stats/secondary.js";
 import { PTUDiceCheck } from "./check.js";
 import { AttackRoll } from "./rolls/attack-roll.js";
 
@@ -57,6 +58,18 @@ class PTUAttackCheck extends PTUDiceCheck {
                 slug: "accuracy-bonus",
                 label: "Accuracy Bonus",
                 modifier: this.actor.system.modifiers.acBonus.total
+            }));
+        }
+
+        // Epopee: Precision raises the attacker's own accuracy rolls. Kept separate from
+        // acBonus above, which is PTR's modifier that abilities and effects write into -
+        // folding PRE in would make the two indistinguishable in the roll breakdown.
+        const precision = precisionBonus(this.actor);
+        if (precision !== 0) {
+            this.modifiers.push(new PTUModifier({
+                slug: "precision",
+                label: game.i18n.localize("PTU.Epopee.Precision"),
+                modifier: precision
             }));
         }
 
@@ -214,6 +227,22 @@ class PTUAttackCheck extends PTUDiceCheck {
                             break;
                         }
                     }
+                }
+
+                // Epopee: Esquive raises the number the attacker has to beat.
+                //
+                // Added on top of the evasion chosen above rather than competing with it:
+                // that switch picks whichever of Physical/Special/Speed evasion applies to
+                // the move's category, while ESQ is a stat of its own that applies to
+                // every incoming accuracy roll. Skipped when zero so it does not clutter
+                // the breakdown of a Pokemon that has none.
+                const esquive = esquiveValue(context.actor);
+                if (esquive !== 0) {
+                    target.statistic.push(new PTUModifier({
+                        slug: "esquive",
+                        label: game.i18n.localize("PTU.Epopee.Esquive"),
+                        modifier: esquive
+                    }));
                 }
 
                 for (const modifier of extractModifiers(context.actor.synthetics, ["evasion"], { test: context.options })) {

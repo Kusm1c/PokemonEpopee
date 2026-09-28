@@ -23,13 +23,18 @@ const FLAVOUR_BY_STAT = {
     "Special Defense": "Bitter"
 };
 
-/** For the sheet, in French, matching the rules text. */
+/**
+ * Display labels for the sheet.
+ *
+ * Kept as a table rather than reusing the keys directly so that translating these later
+ * is a one-line change here, not a hunt through the sheet templates.
+ */
 const FLAVOUR_LABELS = {
-    "Spicy": "Épicé",
-    "Sour": "Acide",
-    "Sweet": "Sucré",
-    "Dry": "Sec",
-    "Bitter": "Amer"
+    "Spicy": "Spicy",
+    "Sour": "Sour",
+    "Sweet": "Sweet",
+    "Dry": "Dry",
+    "Bitter": "Bitter"
 };
 
 /**
@@ -71,4 +76,63 @@ function flavoursForNature(natureName, natureData) {
     };
 }
 
-export { FLAVOUR_BY_STAT, FLAVOUR_LABELS, flavourForStat, flavoursForNature };
+/**
+ * Short labels for the stats a Nature moves, for the dropdown.
+ *
+ * Deliberately abbreviated: the option text carries a name plus two stats, and the full
+ * "Special Attack" pushes the line past the width of the select.
+ */
+const STAT_ABBREVIATIONS = {
+    "HP": "HP",
+    "Attack": "ATK",
+    "Defense": "DEF",
+    "Speed": "SPD",
+    "Special Attack": "SPATK",
+    "Special Defense": "SPDEF"
+};
+
+/**
+ * Build the dropdown entries for the Nature select, each annotated with what it changes.
+ *
+ * The sheet used to hand `natureData` straight to `selectOptions` with
+ * `labelAttr="value"`, so every option rendered its raw `[raised, lowered]` array and a
+ * player had to know the table by heart to pick. Each option now reads
+ * `Adamant (+ATQ / -ATS)`.
+ *
+ * A Nature that raises and lowers the same stat is the series' way of writing "no
+ * change", so it is labelled as neutral rather than showing `+ATQ / -ATQ`.
+ *
+ * @param {Record<string, [string, string]>} natureData Usually CONFIG.PTU.data.natureData
+ * @returns {{value: string, label: string}[]} sorted by name
+ */
+function natureOptions(natureData) {
+    if (!natureData || typeof natureData !== "object") return [];
+
+    const abbr = (stat) => STAT_ABBREVIATIONS[stat] ?? stat;
+
+    return Object.entries(natureData)
+        .map(([name, entry]) => {
+            if (!Array.isArray(entry) || entry.length < 2) return { value: name, label: name };
+
+            const [raised, lowered] = entry;
+            const label = raised === lowered
+                ? game.i18n.format("PTU.Epopee.NatureNeutral", { nature: name })
+                : game.i18n.format("PTU.Epopee.NatureChange", {
+                    nature: name,
+                    raised: abbr(raised),
+                    lowered: abbr(lowered)
+                });
+
+            return { value: name, label };
+        })
+        .sort((a, b) => a.value.localeCompare(b.value));
+}
+
+export {
+    FLAVOUR_BY_STAT,
+    FLAVOUR_LABELS,
+    STAT_ABBREVIATIONS,
+    flavourForStat,
+    flavoursForNature,
+    natureOptions
+};

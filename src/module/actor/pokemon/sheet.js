@@ -1,6 +1,8 @@
-import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND } from "./config.js";
+import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND, MAX_STATUSES } from "./config.js";
+import { STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { PERIODS, itemUsage, resetUses } from "../../usage/engine.js";
 import { prepareEpopeeSheetData } from "../epopee-sheet.js";
+import { natureOptions } from "../../natures/flavors.js";
 import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { clampStages } from "../../combat-math/formula.js";
 import { Statistic } from "../../system/statistic/index.js";
@@ -58,6 +60,10 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		data['natures'] = CONFIG.PTU.data.natureData;
 
+		// Each option is annotated with the stats it moves, e.g. "Adamant (+ATQ / -ATS)".
+		// `natures` above is the raw table and stays for anything else reading it.
+		data['natureChoices'] = natureOptions(CONFIG.PTU.data.natureData);
+
 		data["ballStyle"] = this.ballStyle;
 
 		const IWR = this.actor.iwr;
@@ -101,7 +107,38 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			heldItems: this._prepareHeldItemSplit(),
 			loyaltyChecked: this.actor.system.loyalty?.checked ?? 0,
 			reactionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_REACTION,
-			protectionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_PROTECTION
+			protectionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_PROTECTION,
+			// Exposed so the template can name the threshold in a localised string rather
+			// than hardcoding "5" and "10" in the markup alongside the translated text.
+			loyaltyReaction: LOYALTY_REACTION,
+			loyaltyProtection: LOYALTY_PROTECTION,
+			statuses: this._prepareStatusCount()
+		};
+	}
+
+	/**
+	 * Count the statuses weighing on this Pokemon, against the 3 the doc allows.
+	 *
+	 * Counts only the eight real statuses in STATUS_DEFINITIONS. `actor.conditions` also
+	 * carries Traps, Coats and bookkeeping entries such as `fainted`, and counting those
+	 * would show a Pokemon at 5/3 for being asleep behind a Substitute.
+	 *
+	 * Only active ones count: an inactive condition is present but not weighing on the
+	 * Pokemon, so it would inflate the tally without affecting play.
+	 *
+	 * Soft, like the move split: `over` is a flag for the sheet, not a block. A status is
+	 * usually inflicted rather than chosen, so refusing the fourth would mean dropping
+	 * something the GM just applied.
+	 */
+	_prepareStatusCount() {
+		const slugs = new Set(Object.values(STATUS_DEFINITIONS).map(d => d.slug));
+		const active = (this.actor.conditions ?? []).filter(c => c.active && slugs.has(c.slug));
+
+		return {
+			list: active,
+			count: active.length,
+			max: MAX_STATUSES,
+			over: active.length > MAX_STATUSES
 		};
 	}
 
@@ -112,15 +149,19 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	 */
 	_prepareMoveSplit() {
 		const moves = this.actor.itemTypes?.move ?? [];
-		const bucket = (kind) => {
+
+		// Technique is the explicit case; everything else is Naturelle. Matching both
+		// exactly would drop a move carrying an unexpected acquisition out of both lists.
+		// Kept identical to the split in getData so the two can never disagree.
+		const bucket = (isTechnical) => {
 			const list = moves
-				.filter(m => !m.system.isStruggle && (m.system.acquisition ?? "natural") === kind)
+				.filter(m => !m.system.isStruggle && (m.system.acquisition === "technical") === isTechnical)
 				.map(m => ({ move: m, usage: itemUsage(m) }));
 			return { list, count: list.length, over: list.length > MAX_MOVES_PER_KIND };
 		};
 
-		const natural = bucket("natural");
-		const technical = bucket("technical");
+		const natural = bucket(false);
+		const technical = bucket(true);
 
 		return {
 			natural,
@@ -314,9 +355,13 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			// Epopee: "Split entre Capacites Naturelles (par LvL ou Oeuf) et Capacites
 			// Techniques (par CT ou move tutor) -- 4 max chacun (notif quand y'en a trop)".
 			// Over the cap is allowed but flagged, so reorganising a moveset isn't blocked.
-			const byKind = (kind) => sorted.filter(m => (m.system.acquisition ?? "natural") === kind);
-			const natural = byKind("natural");
-			const technical = byKind("technical");
+			// Anything not explicitly "technical" counts as Naturelle, rather than both
+			// lists demanding an exact match. An unexpected value - a legacy "tutor" or
+			// "egg", a capitalised "Natural" - used to match neither, and the move then
+			// showed in no list at all while still sitting on the Pokemon. Routing the
+			// remainder to Naturelles means nothing can silently disappear.
+			const technical = sorted.filter(m => m.system.acquisition === "technical");
+			const natural = sorted.filter(m => m.system.acquisition !== "technical");
 
 			return {
 				moves: sorted,
@@ -561,6 +606,49 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	}
 
 	/**
+	 * Route a dropped move into the list it was dropped on.
+	 *
+	 * Naturelles and Techniques render through the same partial with `type="move"`, so a
+	 * dropped move carried nothing to say which list it landed in and always took the
+	 * `"natural"` default from template.json. Dropping onto Techniques appeared to do
+	 * nothing: the move was added, just to the other list. The drop zones now carry
+	 * `data-acquisition` and this reads it.
+	 *
+	 * Only set when the drop actually lands in a marked zone, so dropping elsewhere on
+	 * the sheet keeps the item's own value rather than being forced to "natural".
+	 *
+	 * @override
+	 */
+	async _onDropItem(event, data) {
+		if (!this.actor.isOwner) return false;
+
+		const zone = event.target?.closest?.("[data-acquisition]");
+		const acquisition = zone?.dataset?.acquisition;
+
+		if (acquisition) {
+			const item = await Item.implementation.fromDropData(data);
+
+			// Only moves have an acquisition, and only a move already on this actor is a
+			// re-sort rather than a new drop - that case is left to the default handler.
+			if (item?.type === "move" && !this.actor.items.has(item.id)) {
+				const itemData = item.toObject();
+				itemData.system = { ...itemData.system, acquisition };
+				return this._onDropItemCreate(itemData);
+			}
+
+			if (item?.type === "move" && this.actor.items.has(item.id)) {
+				const existing = this.actor.items.get(item.id);
+				if (existing.system.acquisition !== acquisition) {
+					await existing.update({ "system.acquisition": acquisition });
+				}
+				return false;
+			}
+		}
+
+		return super._onDropItem(event, data);
+	}
+
+	/**
 	 * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
 	 * @param {Event} event   The originating click event
 	 * @private
@@ -582,6 +670,14 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		};
 		// Remove the type from the dataset since it's in the itemData.type prop.
 		delete itemData.system['type'];
+
+		// Same routing as the drop handler: the "+" button sits inside one of the two
+		// move lists, so a move created from the Techniques header should land there
+		// rather than taking the "natural" default.
+		const zone = event.currentTarget?.closest?.("[data-acquisition]");
+		if (type === "move" && zone?.dataset?.acquisition) {
+			itemData.system.acquisition = zone.dataset.acquisition;
+		}
 
 		if (itemData.type === "ActiveEffect") {
 			throw new Error("ActiveEffects are not supported in PTU");

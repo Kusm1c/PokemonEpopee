@@ -33,7 +33,8 @@
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsMod"}}</div>
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsStage"}}</div>
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsTotal"}}</div>
-                            <div class="fb-10 mt-2 mb-2" title="Fragment: 25% of the stat, rounded up">Frag</div>
+                            <div class="fb-10 mt-2 mb-2"
+                                title="{{localize "PTU.Epopee.Fragment"}}">Frag</div>
                             <div class="fb-25 mt-2 mb-2" title="Modifications de Statistiques">MdS</div>
                         </div>
                         <div class="swsh-body p-0">
@@ -111,6 +112,54 @@
                                 </div>
                             </div>
                             {{/each}}
+
+                            {{!-- Epopee: PRE and ESQ sit below the six main stats and
+                                  deliberately have no Level-Up column - they are not
+                                  bought with stat points. They live under
+                                  system.secondaryStats rather than system.stats so the
+                                  loop above cannot pick them up and give them one. --}}
+                            {{#each actor.system.secondaryStats as |stat key|}}
+                            <div class="d-flex flex-row {{key}}" style="border-top:1px dashed rgba(128,128,128,.4);">
+                                <div class="stats {{key}} key fb-20">
+                                    <label for="system.secondaryStats.{{key}}.value" class="resource-label"
+                                        title="{{localize stat.labelKey}}">{{localize stat.abbrKey}}</label>
+                                </div>
+                                <div class="stats {{key}} base fb-15">
+                                    <input type="number" name="system.secondaryStats.{{key}}.value"
+                                        value="{{stat.value}}" data-dtype="Number" />
+                                </div>
+                                {{!-- Empty cell where Level-Up would be. --}}
+                                <div class="fb-20 center-text" style="opacity:.3;">&mdash;</div>
+                                <div class="stats {{key}} mod fb-15">
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
+                                    mod=stat.mod.mod
+                                    path=(concat "system.secondaryStats." key ".mod.value")
+                                    value=stat.mod.value
+                                    total="ignored"
+                                    dtype="Number"
+                                    modOrigins=(getProperty ../actor.origins (concat "system.secondaryStats." key
+                                    ".mod.mod"))}}
+                                </div>
+                                <div class="stats stage stage fb-15">
+                                    {{> "systems/pe/static/templates/partials/mod-field.hbs"
+                                    mod=stat.stage.mod
+                                    path=(concat "system.secondaryStats." key ".stage.value")
+                                    value=stat.stage.value
+                                    total="ignored"
+                                    dtype="Number"
+                                    modOrigins=(getProperty ../actor.origins (concat "system.secondaryStats." key
+                                    ".stage.mod"))}}
+                                </div>
+                                <div class="stats {{key}} total fb-15">
+                                    <input type="number" name="system.secondaryStats.{{key}}.total"
+                                        value="{{stat.total}}" data-dtype="Number" disabled />
+                                </div>
+                                {{!-- No Fragment: PRE/ESQ are accuracy modifiers, not
+                                      values a Fragment is ever taken of. --}}
+                                <div class="fb-10 center-text"><span style="opacity:.3;">&mdash;</span></div>
+                                <div class="fb-25"></div>
+                            </div>
+                            {{/each}}
                         </div>
                         {{#if actor.system.levelUpPoints}}
                         <div class="d-flex flex-row levelUpPoints center-text align-items-center">
@@ -179,7 +228,14 @@
                                     <input name="system.health.max" type="number" value="{{actor.system.health.max}}"
                                         placeholder="Max HP" disabled />
                                 </div>
-                                <div class="fb-15 center-text" style="align-self:center;" title="Fragment de Point de Vie">
+                                {{!-- Epopee: the HP Fragment is 1/20th of max HP, i.e. 5%,
+                                      not the 25% the other stats use. It sits by the HP
+                                      bar because HP has no row in the stat table, so the
+                                      label has to carry the percentage itself - a bare
+                                      number here reads as a 25% Fragment like the rest. --}}
+                                <div class="fb-15 center-text" style="align-self:center;"
+                                    title="{{localize "PTU.Epopee.HpFragmentHint" max=actor.system.health.max}}">
+                                    <div style="font-size:9px;opacity:.7;line-height:1;">{{localize "PTU.Epopee.HpFragment"}}</div>
                                     <b>{{epopee.hpFragment}}</b>
                                 </div>
                                 <div class="options w-100 pb-1 pt-1 mt-1">
@@ -248,8 +304,13 @@
                                     <div
                                         class="d-flex w-100 pt-1 pb-1 align-items-center justify-content-center center-text">
                                         <div class="fb-45">
+                                            {{!-- natureChoices annotates each Nature with
+                                                  the stats it moves. The old form fed the
+                                                  raw table through labelAttr="value",
+                                                  which printed the [raised, lowered]
+                                                  array as the option text. --}}
                                             <select name="system.nature.value" class="w-100">
-                                                {{selectOptions natures selected=actor.system.nature.value labelAttr="value"}}
+                                                {{selectOptions natureChoices selected=actor.system.nature.value valueAttr="value" labelAttr="label"}}
                                             </select>
                                         </div>
                                     </div>
@@ -339,8 +400,12 @@
                         </div>
                     </div>
                     {{else}}
+                    {{!-- Epopee: data-acquisition marks the drop zone. Both lists render
+                          through the same partial with type="move", so without it a
+                          dropped move has nothing to say which one it landed in and
+                          always takes the "natural" default from template.json. --}}
                     <!-- Epopee: Capacites Naturelles (level-up / egg), 4 max -->
-                    <div class="swsh-box w-100">
+                    <div class="swsh-box w-100" data-acquisition="natural">
                         <div class="swsh-body w-100" style="display: block;">
                             {{#if actions.naturalOver}}
                             <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
@@ -354,7 +419,7 @@
                     </div>
 
                     <!-- Epopee: Capacites Techniques (TM / tutor), 4 max -->
-                    <div class="swsh-box w-100 mt-2">
+                    <div class="swsh-box w-100 mt-2" data-acquisition="technical">
                         <div class="swsh-body w-100" style="display: block;">
                             {{#if actions.technicalOver}}
                             <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
@@ -368,39 +433,22 @@
                     </div>
                     {{/if}}
 
-                    <!-- Epopee: Capacites Communes -->
+                    {{!-- Epopee: Reaction, Protection and Lutte moved to the Capabilities
+                          tab - they are common actions, not moves. Only the typed
+                          Struggles an edge or feature granted remain here, and only when
+                          there are any. --}}
+                    {{#if actions.struggles.length}}
                     <div class="swsh-box w-100 mt-2">
                         <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
-                            <b>Capacités Communes</b>
+                            <b>{{localize "ITEM.TypeStrugglePlural"}}</b>
                         </div>
                         <div class="swsh-body w-100" style="display: block;">
-                            <div class="d-flex flex-row align-items-center w-100 p-1"
-                                style="{{#unless epopee.reactionUnlocked}}opacity:.45;{{/unless}}"
-                                title="{{#if epopee.reactionUnlocked}}Débloquée{{else}}Verrouillée : nécessite 5 de Loyauté (actuellement {{epopee.loyaltyChecked}}){{/if}}">
-                                <div class="fb-10 center-text">
-                                    <i class="fas {{#if epopee.reactionUnlocked}}fa-shield-halved{{else}}fa-lock{{/if}}"></i>
-                                </div>
-                                <div class="fb-60"><b>Action de Réaction</b></div>
-                                <div class="fb-30 center-text" style="font-size:11px;">
-                                    {{#if epopee.reactionUnlocked}}Loyauté 5 ✓{{else}}Loyauté {{epopee.loyaltyChecked}} / 5{{/if}}
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row align-items-center w-100 p-1"
-                                style="{{#unless epopee.protectionUnlocked}}opacity:.45;{{/unless}}"
-                                title="{{#if epopee.protectionUnlocked}}Débloquée{{else}}Verrouillée : nécessite 10 de Loyauté (actuellement {{epopee.loyaltyChecked}}){{/if}}">
-                                <div class="fb-10 center-text">
-                                    <i class="fas {{#if epopee.protectionUnlocked}}fa-shield{{else}}fa-lock{{/if}}"></i>
-                                </div>
-                                <div class="fb-60"><b>Action de Protection</b></div>
-                                <div class="fb-30 center-text" style="font-size:11px;">
-                                    {{#if epopee.protectionUnlocked}}Loyauté 10 ✓{{else}}Loyauté {{epopee.loyaltyChecked}} / 10{{/if}}
-                                </div>
-                            </div>
                             {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
                             "ITEM.TypeStrugglePlural") type="move" items=actions.struggles ballStyle=ballStyle
                             no-add=true}}
                         </div>
                     </div>
+                    {{/if}}
                 </div>
                 <div class="fb-0">
 
@@ -746,6 +794,49 @@
                             "PTU.CapabilityOther") type="capability" items=capabilities}}
                         </div>
                     </div>
+
+                    {{!-- Epopee: "Action de Reaction et Action de Protection devraient
+                          etre des capacites." Moved here from the Moves tab: they are
+                          not attacks and were sitting among them. Lutte joins them -
+                          PTR's automatic Normal Struggle is no longer granted (see
+                          actor/base.js prepareMoves), so this block is where the common
+                          actions live. --}}
+                    <div class="swsh-box mb-2 w-100">
+                        <div
+                            class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
+                            <b>{{localize "PTU.Epopee.CommonCapabilities"}}</b>
+                        </div>
+                        <div class="swsh-body w-100" style="display: block;">
+                            <div class="d-flex flex-row align-items-center w-100 p-1"
+                                title="{{localize "PTU.Epopee.StruggleHint"}}">
+                                <div class="fb-10 center-text"><i class="fas fa-hand-fist"></i></div>
+                                <div class="fb-60"><b>{{localize "PTU.Epopee.Struggle"}}</b></div>
+                                <div class="fb-30 center-text" style="font-size:11px;">{{localize "PTU.Epopee.Always"}}</div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center w-100 p-1"
+                                style="{{#unless epopee.reactionUnlocked}}opacity:.45;{{/unless}}"
+                                title="{{#if epopee.reactionUnlocked}}{{localize "PTU.Epopee.Unlocked"}}{{else}}{{localize "PTU.Epopee.LockedLoyalty" required=epopee.loyaltyReaction current=epopee.loyaltyChecked}}{{/if}}">
+                                <div class="fb-10 center-text">
+                                    <i class="fas {{#if epopee.reactionUnlocked}}fa-shield-halved{{else}}fa-lock{{/if}}"></i>
+                                </div>
+                                <div class="fb-60"><b>{{localize "PTU.Epopee.ReactionAction"}}</b></div>
+                                <div class="fb-30 center-text" style="font-size:11px;">
+                                    {{#if epopee.reactionUnlocked}}{{localize "PTU.Epopee.LoyaltyMet" required=epopee.loyaltyReaction}}{{else}}{{localize "PTU.Epopee.LoyaltyProgress" current=epopee.loyaltyChecked required=epopee.loyaltyReaction}}{{/if}}
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center w-100 p-1"
+                                style="{{#unless epopee.protectionUnlocked}}opacity:.45;{{/unless}}"
+                                title="{{#if epopee.protectionUnlocked}}{{localize "PTU.Epopee.Unlocked"}}{{else}}{{localize "PTU.Epopee.LockedLoyalty" required=epopee.loyaltyProtection current=epopee.loyaltyChecked}}{{/if}}">
+                                <div class="fb-10 center-text">
+                                    <i class="fas {{#if epopee.protectionUnlocked}}fa-shield{{else}}fa-lock{{/if}}"></i>
+                                </div>
+                                <div class="fb-60"><b>{{localize "PTU.Epopee.ProtectionAction"}}</b></div>
+                                <div class="fb-30 center-text" style="font-size:11px;">
+                                    {{#if epopee.protectionUnlocked}}{{localize "PTU.Epopee.LoyaltyMet" required=epopee.loyaltyProtection}}{{else}}{{localize "PTU.Epopee.LoyaltyProgress" current=epopee.loyaltyChecked required=epopee.loyaltyProtection}}{{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex fb-58 skills">
                     <!-- Skills -->
@@ -762,7 +853,7 @@
                             {{#each epopee.skillGroups as |group|}}
                             <div class="d-flex flex-row align-items-center w-100 center-text"
                                 style="background:{{group.colour}};color:#fff;font-weight:bold;letter-spacing:1px;padding:2px 0;font-size:11px;">
-                                <div class="w-100">{{group.label}}</div>
+                                <div class="w-100">{{localize group.labelKey}}</div>
                             </div>
                             {{#each group.skills as |s|}}
                             <div class="d-flex flex-row {{s.key}} align-items-center w-100">
@@ -1636,8 +1727,19 @@
                 <div class="fb-75">
                     <div class="swsh-box">
                         <div class="swsh-body pt-3 p-2">
-                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
-                            "TYPES.Item.conditionPlural") type="condition" items=conditions}}
+                            {{!-- Epopee: 3 statuses max. Soft like the move limits - the
+                                  banner warns, nothing is blocked, since a status is
+                                  inflicted rather than chosen. Only the eight real
+                                  statuses count; Traps and Coats are listed below with
+                                  the other conditions but do not fill a slot. --}}
+                            {{#if epopee.statuses.over}}
+                            <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
+                                {{localize "PTU.Epopee.StatusesOver" count=epopee.statuses.count max=epopee.statuses.max}}
+                            </div>
+                            {{/if}}
+                            {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(concat
+                            (localize "TYPES.Item.conditionPlural") " (" epopee.statuses.count "/" epopee.statuses.max ")")
+                            type="condition" items=conditions}}
                         </div>
                         <div class="swsh-body pt-3 p-2">
                             {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize

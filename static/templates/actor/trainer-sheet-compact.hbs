@@ -39,7 +39,7 @@
                             {{#each epopee.skillGroups as |group|}}
                             <div class="d-flex flex-row align-items-center w-100 center-text"
                                 style="background:{{group.colour}};color:#fff;font-weight:bold;letter-spacing:1px;padding:2px 0;font-size:11px;">
-                                <div class="w-100">{{group.label}}</div>
+                                <div class="w-100">{{localize group.labelKey}}</div>
                             </div>
                             {{#each group.skills as |s|}}
                             <div class="d-flex flex-row {{s.key}} align-items-center w-100">
