@@ -19,7 +19,7 @@ const SKILL_DIE_SIZE = 20;
  * dice (the `skill-check-dice` synthetics in system/check/skill.js) add a die without
  * adding its +10, so a bonus die is worth a die rather than a whole rank.
  */
-const SKILL_RANK_BONUS = 10;
+const SKILL_RANK_BONUS = 5;
 
 /** The legal rank range. A rank outside it is clamped before anything is derived. */
 const MIN_SKILL_RANK = 1;
