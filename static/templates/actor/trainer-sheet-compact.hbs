@@ -412,8 +412,8 @@
                                 <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsMod"}}</div>
                                 <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsStage"}}</div>
                                 <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsTotal"}}</div>
-                                <div class="fb-10 mt-2 mb-2" title="Fragment : 25% de la stat, arrondi au supérieur">Frag</div>
-                                <div class="fb-25 mt-2 mb-2" title="Modifications de Statistiques">MdS</div>
+                                <div class="fb-10 mt-2 mb-2" title="{{localize "PTU.Epopee.Fragment"}}">Frag</div>
+                                <div class="fb-25 mt-2 mb-2" title="{{localize "PTU.Epopee.CombatStages"}}">MdS</div>
                             </div>
                             <div class="swsh-body p-0">
                                 {{#each actor.system.stats as |stat key|}}
@@ -486,6 +486,56 @@
                                             </div>
                                             {{/with}}
                                         </div>
+                                    </div>
+                                {{/each}}
+
+                                {{!-- Epopee: PRE and ESQ sit below the six main stats and
+                                      deliberately have no Level-Up column - they are not
+                                      bought with stat points. They live under
+                                      system.secondaryStats rather than system.stats so the
+                                      loop above cannot pick them up and give them one.
+                                      Same block as the Pokemon sheet: the stats are shared
+                                      by both actor types via the `stats` template. --}}
+                                {{#each actor.system.secondaryStats as |stat key|}}
+                                    <div class="d-flex flex-row {{key}}" style="border-top:1px dashed rgba(128,128,128,.4);">
+                                        <div class="stats {{key}} key fb-20">
+                                            <label for="system.secondaryStats.{{key}}.value" class="resource-label"
+                                                title="{{localize stat.labelKey}}">{{localize stat.abbrKey}}</label>
+                                        </div>
+                                        <div class="stats {{key}} base fb-15">
+                                            <input type="number" name="system.secondaryStats.{{key}}.value"
+                                                value="{{stat.value}}" data-dtype="Number" />
+                                        </div>
+                                        {{!-- Empty cell where Level-Up would be. --}}
+                                        <div class="fb-20 center-text" style="opacity:.3;">&mdash;</div>
+                                        <div class="stats {{key}} mod fb-15">
+                                            {{> "systems/pe/static/templates/partials/mod-field.hbs"
+                                            mod=stat.mod.mod
+                                            path=(concat "system.secondaryStats." key ".mod.value")
+                                            value=stat.mod.value
+                                            total="ignored"
+                                            dtype="Number"
+                                            modOrigins=(getProperty ../actor.origins (concat "system.secondaryStats." key
+                                            ".mod.mod"))}}
+                                        </div>
+                                        <div class="stats stage stage fb-15">
+                                            {{> "systems/pe/static/templates/partials/mod-field.hbs"
+                                            mod=stat.stage.mod
+                                            path=(concat "system.secondaryStats." key ".stage.value")
+                                            value=stat.stage.value
+                                            total="ignored"
+                                            dtype="Number"
+                                            modOrigins=(getProperty ../actor.origins (concat "system.secondaryStats." key
+                                            ".stage.mod"))}}
+                                        </div>
+                                        <div class="stats {{key}} total fb-15">
+                                            <input type="number" name="system.secondaryStats.{{key}}.total"
+                                                value="{{stat.total}}" data-dtype="Number" disabled />
+                                        </div>
+                                        {{!-- No Fragment: PRE/ESQ are accuracy modifiers, not
+                                              values a Fragment is ever taken of. --}}
+                                        <div class="fb-10 center-text"><span style="opacity:.3;">&mdash;</span></div>
+                                        <div class="fb-25"></div>
                                     </div>
                                 {{/each}}
                             </div>
