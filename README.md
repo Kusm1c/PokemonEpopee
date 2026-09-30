@@ -23,7 +23,7 @@ Feel free to open an issue or join our [Discord Server](https://discord.gg/ptrfv
 #### Release Build (V13)
 If you would like to use the latest stable build, just import the following manifest into foundry: 
 ```
-https://github.com/pokemon-tabletop-reunited/ptr1e/releases/latest/download/system.json
+https://raw.githubusercontent.com/Kusm1c/PokemonEpopee/main/system.json
 ```
 ### PTU 1.05 (V10 - Not Recommended)
 If you're looking for the Non-PTR version you can install the [PTU Branch](https://github.com/pokemon-tabletop-reunited/ptr1e/tree/PTU-1.05)
