@@ -1006,85 +1006,263 @@ const ORIGINS = [
             }
         ]
     },    {
-        slug: "artiste",
-        name: "Artiste",
+        slug: "marchand",
+        name: "Marchand",
 
         intro: [
-            "L",
-            "O"
+            "Le marchandage, la négociation et la vente, c'est bien quelque chose que tu as dans le sang. A force de vendre, tu as réussi à amasser une grande quantité d'argument et de raisons pour lesquelles tes produits sont bien meilleurs que ceux du voisin. ",
+            "Que tu sois marchants itinérants, ayant voyagé un peu partout, propriétaire d'une petite épicerie ou vendeur de pokéball dans une multinationale, ces compétences avec le public te rendent bien souvent de bons services et te permettent d'évoluer dans le monde des Pokémons avec un certain calme et une grande assurance."
         ],
 
         startingPokemon: {
-            text: "U",
+            text: "Un Pokémon qui est là pour t'aider à vendre, ou juste qui occupe les clients quand tu fais autre chose.",
             examples: [
-                "U",
-                "U",
-                "U"
+                "Un Pikachu dont la frimousse fait fondre tout les acheteurs",
+                "Un Sonistrelle qui surveille tout le monde et veut te protéger des voleurs",
+                "Un Olivini adorable qui compte les marchandises régulièrement"
             ]
         },
 
         personalityPrompts: [
-            "A",
-            "A",
-            "A",
+            "Est-ce que tu es radin, ou vend pour pouvoir dépenser plus tard ?",
+            "Pourquoi est-ce que tu t'es intéressé au marchandage ?",
+            "Est-ce que rencontrer des gens hors travail te dérange ?",
             "Quelle est ta plus grande peur ?"
         ],
 
         relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
+            "Pourquoi est-ce que je te parais ridicule ?",
+            "Comment est-ce que je t'ai persuadé d'acheter quelque chose ?",
+            "Qu'est-ce qui t'agace chez moi ?",
+            "Pourquoi est-ce que tu te tiens loin de moi ?"
         ],
 
-        money: 10,
+        money: 75000,
 
         trait: {
-            name: "U",
+            name: "Dépensez sans compter",
             description: [
-                "C",
-                "Q"
+                "Choisis une profession dans la liste ci-dessous, ou négocie en une avec ton MJ.",
+                "Quand tu fais un jet de compétence ayant un lien avec ton profession, fais ton jet de compétence deux fois et utilises le meilleur résultat."
             ],
-            choiceLabel: "U",
+            choiceLabel: "Dépensez sans compter",
             choices: [
-                "a",
-                "a",
+                "Entrepreneur",
+                "Marchand itinérant",
+                "Propriétaire de petit commerce",
+                "Trader",
+                "Vendeur",
+                "Vendeur aux enchères",
+                "Vendeur de Pokémon"
 
             ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
             allowCustom: true
         },
 
         items: [
             {
-                label: "a",
+                label: "Sac de Diplomate ou Sac de Voyageur",
                 options: [
-                    { label: "a" },
-                    { label: "a" }
+                    { label: "Sac de Diplomate" },
+                    { label: "Sac de Voyageur" }
                 ]
             },
             {
-                label: "U",
+                label: "De beaux vêtements propres ou un oreiller bien confortable",
                 options: [
-                    { label: "U" },
-                    { label: "U" }
+                    { label: "De beaux vêtements propres" },
+                    { label: "Un oreiller bien confortable" }
                 ]
             },
             {
-                label: "U",
+                label: "Un document à présenter aux représentant de la ville pour avoir une place confortable exclusive ou 10 000₽",
                 options: [
-                    { label: "U" },
-                    { label: "U" }
+                    { label: "Un document à présenter aux représentant de la ville" },
+                    { label: "10 000₽" }
                 ]
             },
             {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
+                label: "1 Guérison",
+                grant: { label: "Potion", lookup: "Full Restore", quantity: 1 }
+            },
+            {
+                label: "2 Potions",
+                grant: { label: "Potion", lookup: "Potion", quantity: 2 }
+            },
+            {
+                label: "4 Basic Balls",
+                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 4 }
+            }
+        ]
+    },      {
+        slug: "militaire",
+        name: "Militaire",
+
+        intro: [
+            "Le combat, c'est bien le sujet que tu connais le mieux. Tu as été sur le champ de bataille, tu as affronté humains et Pokémons. Bien vite, les combats sont devenus violents, mais tu as survécu à cela et tu es maintenant présent pour en parler.",
+            "Tu t'es certainement illustré par des actions inoubliables qui ont changé le tournant des affrontements. Ou bien tu es resté à l'arrière, laissant les autres y aller à ta place. Mais le fait que tu sois encore là est une preuve de ta débrouillardise et de tes capacités physiques et morales. Visiblement, rien ne t'arrêtera."
+        ],
+
+        startingPokemon: {
+            text: "Un Pokémon bon combattant qui cherche encore à prouver sa valeur ou un Pokémon fatigué qui te suit par loyauté.",
+            examples: [
+                "Un Scorplane qui attaquera le premier qui le regarde mal",
+                "Un Charibari traumatisé et passant juste son temps avec toi",
+                "Un Moufette faisant sa mission de s'assurer qu'il ne t'arrive rien"
+            ]
+        },
+
+        personalityPrompts: [
+            "Pourquoi as-tu rejoins les combats ?",
+            "Est-ce que tu es toujours proche de ta famille ?",
+            "Quelle est ta façon de combattre préférée ?",
+            "Quelle est ta plus grande peur ?"
+        ],
+
+        relationshipPrompts: [
+            "Pourquoi te regarder me rappelle de mauvais souvenirs ?",
+            "Quelle histoire je te raconte pour t'impressionner ?",
+            "Quand est-ce que je t'ai croisé alors que j'étais au plus mal ?",
+            "Pourquoi suis-je incapable de te faire confiance ?"
+        ],
+
+        money: 60000,
+
+        trait: {
+            name: "Art de la Guerre",
+            description: [
+                "Choisis une spécialité militaire dans la liste ci-dessous, ou négocie en une avec ton MJ.",
+                "Quand tu fais un jet de compétence ayant un lien avec ta spécialité militaire, fais ton jet de compétence deux fois et utilises le meilleur résultat."
+            ],
+            choiceLabel: "U",
+            choices: [
+                "Ingénieur militaire",
+                "Jeune recrue",
+                "Médecin de combat",
+                "Mercenaire",
+                "Soldat",
+                "Stratège",
+                "Vétéran de guerre"
+
+            ],
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+            allowCustom: true
+        },
+
+        items: [
+            {
+                label: "Sac de Sport ou Sac de Diplomate",
+                options: [
+                    { label: "Sac de Sport" },
+                    { label: "Sac de Diplomate" }
+                ]
+            },
+            {
+                label: "Une arme peut être rouillée mais qui t'as bien servi par le passé",
+                options: [
+                    { label: "Une arme peut être rouillée mais qui t'as bien servi par le passé" }
+                ]
+            },
+            {
+                label: "Une photo souvenir de ta famille ou le souvenir de quelqu'un que tu as combattu",
+                options: [
+                    { label: "Une photo souvenir de ta famille" },
+                    { label: "Le souvenir de quelqu'un que tu as combattu" }
+                ]
+            },
+            {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
                 label: "1 soin de statut au choix",
                 options: [
                     { label: "Anti-para", lookup: "Paralyze Heal" },
                     { label: "Antidote", lookup: "Antidote" },
                     { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
+                    { label: "Anti-gel", lookup: "Ice Heal" },
+                    { label: "Réveil", lookup: "Awakening" }
+                ]
+            },
+            {
+                label: "2 Potions",
+                grant: { label: "Super Potion", lookup: "Super Potion", quantity: 2 }
+            },
+            {
+                label: "2 Basic Balls",
+                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 2 }
+            }
+        ]
+    },  {
+        slug: "nouveau-depart",
+        name: "Nouveau Départ",
+
+        intro: [
+            "Assez âgé pour partir à l'aventure, trop jeune pour avoir développé la moindre compétence, mais parfaitement prêt à affronter le monde par la force s'il le faut. Les jeunes prêt à partir ne peuvent attendre de quitter leurs chez eux et commencer leur voyage.",
+            "Qu'importe d'où tu viens et ce que tu as fait auparavant, il est temps de partir! Maintenant que tu es là, quittant ta maison si jeune, tu es seul, mais le monde t'ouvre les bras et peut être qu'il a besoin de jeunes pour le secouer un peu ? Qu'attendons-nous ?!"
+        ],
+
+        startingPokemon: {
+            text: "Un Pokémon offert par le Professeur Pokémon de ton village, ou un Pokémon que tu connais depuis toujours et que tu viens de capturer.",
+            examples: [
+                "Un Bulbizarre venant du Professeur Pokémon, parfait pour commencer",
+                "Un Tiplouf au fort caractère mais qui s'est laissé capturé",
+                "Un Ponchiot énergique offert par ta grande tante"
+            ]
+        },
+
+        personalityPrompts: [
+            "Pourquoi partir maintenant et non plus tard ?",
+            "Est-ce que tu es triste de quitter ton chez toi ?",
+            "Qu'est-ce que tu attends le plus de ce voyage ?",
+            "Quelle est ta plus grande peur ?"
+        ],
+
+        relationshipPrompts: [
+            "Pourquoi est-ce que tu es la première personne à qui j'ai parlé ?",
+            "Comment est-ce que j'essaye d'apprendre de tes actions ?",
+            "Qu'est-ce que je trouve décourageant chez toi ?",
+            "Pourquoi je veux absolument te vaincre en combat Pokémon ?"
+        ],
+
+        money: 8000,
+
+        trait: {
+            name: "Je veux être le meilleur",
+            description: [
+                "3/ jour, quand tu fais un jet de compétence sur un sujet qui intéresse ton personnage, fais ton jet de compétence deux fois et utilises le meilleur résultat.",
+            ]
+        },
+
+        items: [
+            {
+                label: "Sac de Dresseur ou Explorakit",
+                options: [
+                    { label: "Sac de Dresseur" },
+                    { label: "Explorakit" }
+                ]
+            },
+            {
+                label: "Un vélo transportable ou une vieille canne à pêche",
+                options: [
+                    { label: "Une vieille canne à pêche" },
+                    { label: "Un vélo transportable" }
+                ]
+            },
+            {
+                label: "Un souvenir de chez toi ou un photo d'un lieu que tu veux absolument visiter un jour",
+                options: [
+                    { label: "Un souvenir de chez toi" },
+                    { label: "Une photo d'un lieu que tu veux absolument visiter un jour" }
+                ]
+            },
+            {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+                label: "1 soin de statut au choix",
+                options: [
+                    { label: "Anti-para", lookup: "Paralyze Heal" },
+                    { label: "Antidote", lookup: "Antidote" },
+                    { label: "Anti-brûle", lookup: "Burn Heal" },
+                    { label: "Anti-gel", lookup: "Ice Heal" },
+                    { label: "Réveil", lookup: "Awakening" }
                 ]
             },
             {
@@ -1092,647 +1270,565 @@ const ORIGINS = [
                 grant: { label: "Potion", lookup: "Potion", quantity: 1 }
             },
             {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
+                label: "6 Basic Balls",
+                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 6 }
             }
         ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
+    },
 
-        intro: [
-            "L",
-            "O"
-        ],
+    
+      {
+        slug: "prepose",
+        name: "Préposé",
 
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
-            ]
-        },
+    intro: [
+    "Des horaires imprévisibles et des clients malpolis ne semblent pas attirant, mais tu as tout de même décidé de travailler pendant des années dans cette industrie, jusqu'à prouver ta valeur. Bien que tes revenus ne soient pas toujours sûrs, tu as appris une grande diversité de compétences en travaillant dur.",
+    "Tu as pu cuisiner, coiffer, ou aider les gens à prendre des décision sur ce qu'ils font de leurs argents. Tes compétences sont précieuses et tu as appris à te vendre comme quelqu'un de sympathique, qu'importe ce que tu ressens et la sécheresse de ton porte-monnaie."
+],
 
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
+    startingPokemon: {
+    text: "Un Pokémon aussi énergique que toi et courant partout, ou un Pokémon qui t'aide à te détendre et ne pas paniquer.",
+        examples: [
+        "Un Pachirisu qui ne sait pas s'arrêter de courir et se faire remarquer",
+        "Un Chochodile peut être maladroit mais plein de bonne volonté",
+        "Un Picassault bien plus organisé que toi"
+    ]
+},
+
+    personalityPrompts: [
+        "Comment est-ce que tu évacues ton stress ?",
+        "Que fais-tu quand tu t'ennuies ?",
+        "Si tu pouvais te téléporter immédiatement, où irais-tu ?",
+        "Quelle est ta plus grande peur ?"
+    ],
 
         relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
+    "Que fais-tu quand je perds mon calme ?",
+    "Comment est-ce qu'on s'est rencontré sur mon lieu de travail ?",
+    "Pourquoi est-ce que tu me regardes avec insistance ?",
+    "Que dois-je faire pour que tu me respectes ?"
+],
 
-        money: 10,
+    money: 15000,
 
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
+    trait: {
+    name: "Passez une bonne journée",
+        description: [
+        "Choisis une profession dans la liste ci-dessous, ou négocie en une avec ton MJ.",
+        "Quand tu fais un jet de compétence ayant un lien avec ta profession, fais ton jet de compétence deux fois et utilises le meilleur résultat."
+    ],
+        choiceLabel: "Passez une bonne journée",
+        choices: [
+        "Animateur",
+        "Barman",
+        "Caissier",
+        "Préparateur de commandes",
+        "Réceptionniste",
+        "Serveur",
+        "Voiturier"
 
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
-        },
+    ],
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+        allowCustom: true
+},
 
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
-        ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
-
-        intro: [
-            "L",
-            "O"
-        ],
-
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
+    items: [
+        {
+            label: "Sac de Diplomate ou Sac Médical",
+            options: [
+                { label: "Sac de Diplomate" },
+                { label: "Sac Médical" }
             ]
         },
-
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
-
-        relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
-
-        money: 10,
-
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
-
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
-        },
-
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
-        ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
-
-        intro: [
-            "L",
-            "O"
-        ],
-
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
+        {
+            label: "Un objet perdu par une cliente dont tu ne sais que faire",
+            options: [
+                { label: "Un objet perdu par une cliente dont tu ne sais que faire" }
             ]
         },
-
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
-
-        relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
-
-        money: 10,
-
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
-
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
-        },
-
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
-        ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
-
-        intro: [
-            "L",
-            "O"
-        ],
-
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
+        {
+            label: "Un guide des meilleurs endroits où trouver du travail rapidement ou une chaise pliable que tu sors dès que tu peux te reposer",
+            options: [
+                { label: "Un guide des meilleurs endroits où trouver du travail rapidement" },
+                { label: "Une chaise pliable que tu sors dès que tu peux te reposer" }
             ]
         },
-
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
-
-        relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
-
-        money: 10,
-
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
-
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
-        },
-
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
-        ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
-
-        intro: [
-            "L",
-            "O"
-        ],
-
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
+        {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+            label: "1 soin de statut au choix",
+            options: [
+                {label: "Anti-para", lookup: "Paralyze Heal"},
+                {label: "Antidote", lookup: "Antidote"},
+                {label: "Anti-brûle", lookup: "Burn Heal"},
+                {label: "Anti-gel", lookup: "Ice Heal"},
+                {label: "Réveil", lookup: "Awakening"}
             ]
         },
+        {
+            label: "1 Baie Sitrus",
+            grant: { label: "Baie Sitrus", lookup: "Sitrus Berry", quantity: 1 }
+        },
+        {
+            label: "6 Basic Balls",
+            grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 6 }
+        }
+    ]
+},      {
+    slug: "privilegie",
+        name: "Privilégié",
 
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
+    intro: [
+    "Une vie de luxe et de richesse t'as donné tout les privilèges pour vivre bien au dessus des moyens dont profites les gens normaux. Il est possible que tu vas l'hériter, ou que tu ais déjà hérité, d'un grand conglomérat de Pokémon. Peut être que tes parents possèdent une suite d'hôtel de luxe sur toutes les plages de la région. Peut être que ton argent est récent, et que tu as plein de courtiers et d'avocats qui le garde investit pour garentir un retour.",
+    "Tu n'as besoin de rien et tu ne fais face qu'à peu d'obstacle. Tu risques de découvrir bien vite qu'il y a de nombreuses personnes pour qui ta richesse ne veut rien dire dans le monde des Pokémons."
+],
+
+    startingPokemon: {
+    text: "Un Pokémon qui montre ton niveau social par sa rareté, ou un petit Pokémon que tu as recueilli plus jeune sans que personne ne le sache.",
+        examples: [
+        "Un Coupenotte acheté par tes parents pour ton anniversaire",
+        "Un Rongourmand t'ayant fait pitié un hiver et que tu as aidé",
+        "Un Malosse qui est aussi ton garde du corps"
+    ]
+},
+
+    personalityPrompts: [
+        "Dépenses-tu ton argent constamment et pour n'importe quoi ?",
+        "Pourquoi te sens-tu différent des autres ?",
+        "Est-ce que tu pars régulièrement en voyage à l'étranger ?",
+        "Quelle est ta plus grande peur ?"
+    ],
 
         relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
+    "Pourquoi est-ce que ta parole ne m'intéresse pas ?",
+    "Qu'est-ce qui me dégoute en toi ?",
+    "Pourquoi est-ce que j'ai besoin de toi ?",
+    "Pourquoi t'ais-je donné de l'argent à un moment ?"
+],
 
-        money: 10,
+    money: 400000,
 
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
+    trait: {
+    name: "Gros billets",
+        description: [
+        "Si une situation le permet (avec accord du MJ), vous pouvez dépenser un certain montant de Pokédollars (corruption, financement matériel...) pour permettre à tous les joueurs de réaliser des jets de compétences une deuxième fois puis en utilisant le meilleur résultat.",
+        "Vous devez déduire ce montant par le RP ou d'autres actions préalables. Cet effet ne permet pas de lancer une troisième fois un jet de compétence."
+    ]
+},
 
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
-        },
-
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
-        ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
-
-        intro: [
-            "L",
-            "O"
-        ],
-
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
+    items: [
+        {
+            label: "Coffret Mode ou Sac de Diplomate",
+            options: [
+                { label: "Coffret Mode" },
+                { label: "Sac de Diplomate" }
             ]
         },
-
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
-
-        relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
-
-        money: 10,
-
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
-
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
-        },
-
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
-        ]
-    },    {
-        slug: "artiste",
-        name: "Artiste",
-
-        intro: [
-            "L",
-            "O"
-        ],
-
-        startingPokemon: {
-            text: "U",
-            examples: [
-                "U",
-                "U",
-                "U"
+        {
+            label: "Une sélection de vêtements et/ou accessoires de très haute facture",
+            options: [
+                { label: "Une sélection de vêtements et/ou accessoires de très haute facture" }
             ]
         },
+        {
+            label: "Les clefs d'un manoir où tu passes tes vacances ou une relique apparemment très rare que tu as acheté sur un coup de tête",
+            options: [
+                { label: "Les clefs d'un manoir où tu passes tes vacances" },
+                { label: "Une relique apparemment très rare que tu as acheté sur un coup de tête" }
+            ]
+        },
+        {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+            label: "1 soin de statut au choix",
+            options: [
+                { label: "Guérison", lookup: "Full Restore", quantity: 2 },
+                { label: "Rappel", lookup: "Revive", quantity: 5 }
+            ]
+        },
+        {
+            label: "3 Hyper Ball",
+            grant: {label: "Hyper Ball", lookup: "Hyper Ball", quantity: 3}
+        },
+        {
+            label: "Une carte gold qui te permet de dépenser sans compter.",
+            grant: { label: "Carte Gold", quantity: 1 }
+        }
+    ]
+},      {
+    slug: "responsable",
+        name: "Responsable",
 
-        personalityPrompts: [
-            "A",
-            "A",
-            "A",
-            "Quelle est ta plus grande peur ?"
-        ],
+    intro: [
+    "S'il y a bien une personne sur qui on sait qu'on peut compter, c'est toi. Depuis certainement des années, tu as ce rôle de dirigeant et tout le monde autour de toi prête attention à tes paroles et décisions.",
+    "Peut être que tu ne te sens pas à la hauteur d'un tel rôle, peut être que tu l'as quitté d'ailleurs. Mais personne ne peut nier que tu as été responsable de d'autres personnes, un leader, que tu sois compétent ou non dans cette tâche. Malgré tout, cela t'as apporté des habitudes, un regard plus vif et une compréhension des codes sociaux certainement supérieure à la moyenne. Cela sera certainement utile en toute situation."
+],
+
+    startingPokemon: {
+    text: "Un Pokémon responsable et sérieux comme toi... Ou au contraire, un Pokémon te donnant le sourire quand tu es assaillis de responsabilité.",
+        examples: [
+        "Un Goinfrex étonnemment responsable s'il n'y a pas de nourriture",
+        "Un Plumeline dirigeant les autres d'une plume de fer",
+        "Un Voltoutou aboyant constamment pour te faire prendre des pauses"
+    ]
+},
+
+    personalityPrompts: [
+        "Quelle est ta plus grande fierté ?",
+        "Où vas-tu quand tu as besoin de faire une pause ?",
+        "Sur quel sujet es-tu intraitable ?",
+        "Quelle est ta plus grande peur ?"
+    ],
 
         relationshipPrompts: [
-            "A",
-            "A",
-            "A",
-            "À quel Pokémon me fais-tu penser ?"
-        ],
+    "Qu'ais-je dit qui a pu te choquer ?",
+    "Qu'est-ce que je fais qui te rassure par temps difficile ?",
+    "Pourquoi ais-je peur de te décevoir ?",
+    "Comment est-ce que je t'impressionne ?"
+],
 
-        money: 10,
+    money: 50000,
 
-        trait: {
-            name: "U",
-            description: [
-                "C",
-                "Q"
-            ],
-            choiceLabel: "U",
-            choices: [
-                "a",
-                "a",
+    trait: {
+    name: "De grandes responsabilités",
+        description: [
+        "Choisis une occupation professionnelle dans la liste ci-dessous, ou négocie en une avec ton MJ.",
+        "Quand tu fais un jet de compétence ayant un lien avec ton occupation professionelle, fais ton jet de compétence deux fois et utilises le meilleur résultat."
+    ],
+        choiceLabel: "De grandes responsabilités",
+        choices: [
+        "Aristograte",
+        "Diplomate",
+        "Dirigeant d'organisation",
+        "Maire",
+        "Médiateur",
+        "Membre du gouvernement",
+        "Politicien"
 
-            ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
+    ],
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+        allowCustom: true
+},
+
+    items: [
+        {
+            label: "Sac de Diplomate ou Sac de Recherche",
+            options: [
+                { label: "Sac de Diplomate" },
+                { label: "Sac de Recherche" }
+            ]
         },
+        {
+            label: "Un moyen de communication à distance rapide et sûr",
+            options: [
+                { label: "Un moyen de communication à distance rapide et sûr" }
+            ]
+        },
+        {
+            label: "Une preuve officielle de ton poste à responsabilité ou 40 000₽",
+            options: [
+                { label: "Une preuve officielle de ton poste à responsabilité" },
+                { label: "40 000₽" }
+            ]
+        },
+        {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+            label: "3 Potions ou 2 Poképoupée",
+            options: [
+                {label: "Potion", lookup: "Potion", quantity: 3},
+                {label: "Poképoupée, quantity: 2"}
+            ]
+        },
+        {
+            label: "2 Total Soin",
+            grant: { label: "Total Soin", lookup: "Full Heal", quantity: 2 }
+        },
+        {
+            label: "2 Basic Balls",
+            grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 2 }
+        }
+    ]
+},
+{
+    slug: "sbire",
+        name: "Sbire",
 
-        items: [
-            {
-                label: "a",
-                options: [
-                    { label: "a" },
-                    { label: "a" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                label: "U",
-                options: [
-                    { label: "U" },
-                    { label: "U" }
-                ]
-            },
-            {
-                // The source table lists "Anti-para" twice; the duplicate is dropped here.
-                label: "1 soin de statut au choix",
-                options: [
-                    { label: "Anti-para", lookup: "Paralyze Heal" },
-                    { label: "Antidote", lookup: "Antidote" },
-                    { label: "Anti-brûle", lookup: "Burn Heal" },
-                    { label: "Anti-gel", lookup: "Ice Heal" }
-                ]
-            },
-            {
-                label: "1 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 1 }
-            },
-            {
-                label: "3 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
-            }
+    intro: [
+    "Quand il s'agit de loi, tu ne lui accordes pas le moindre respect. Que tu sois un sbire qui travaille sous l'influence d'un culte, ou un chef de la pègre, tes contacts criminels t'ont tenus au courant de qui a le pouvoir dans quelle partie du monde et comment en tirer parti.",
+    "Tandis que certaines teams évident le feu des projecteurs, le monde entier sait qu'elles sont là parce que d'autres larges organisations ont agit dans le but de le conquérir, comme la Team Plasma ou la Team Rocket. Qu'importe la vie que tu as laissé derrière toi, ou si tu es toujours un membre actif de plans précis, ta loyauté t'as toujours bien servie."
+],
+
+    startingPokemon: {
+    text: "Un Pokémon agressif prêt à attaquer ou un Pokémon discret faisant les poches des malheureux.",
+        examples: [
+        "Un Gloupti prêt à manger le premier venu",
+        "Un Cornèbre voleur et un peu farceur",
+        "Un Bébécaille abandonné n'ayant plus rien à perdre"
+    ]
+},
+
+    personalityPrompts: [
+        "Pourquoi est-ce que tu as choisis cette organisation en particulier ?",
+        "Où est-ce que tu te vois dans 5 ans ?",
+        "Quel est ta relation avec le danger ?",
+        "Quelle est ta plus grande peur ?"
+    ],
+
+        relationshipPrompts: [
+    "Nous nous sommes déjà croisé dans de mauvaises circonstances, lesquelles ?",
+    "Pourquoi est-ce que tu m'admires ? Nan mais sérieux pourquoi ?",
+    "Pourquoi est-ce que tu trouves que j'agis dangereusement ?",
+    "Qu'est-ce qui te fait dire que je suis, ou non, de confiance ?"
+],
+
+    money: 10,
+
+    trait: {
+    name: "Talent criminel",
+        description: [
+        "Choisis un historique criminel dans la liste ci-dessous, ou négocie en une avec ton MJ.",
+        "Quand tu fais un jet de compétence ayant un lien avec ton historique criminel, fais ton jet de compétence deux fois et utilises le meilleur résultat.",
+        "De plus, si tu faisais/fais parti d'une large organisation criminelle, tu as un contact dans cette organisation avec laquelle tu peux communiquer pour découvrir ce qu'il se passe dans l'organisation et ce que tu devrais faire pour les aider. Discutes en avec ton MJ avant la campagne pour créer ce PNJ."
+    ],
+        choiceLabel: "Talent criminel",
+        choices: [
+        "Braconnier",
+        "Cyber criminel",
+        "Homme de main",
+        "Tueur à gage",
+        "Voleur"
+
+    ],
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+        allowCustom: true
+},
+
+    items: [
+        {
+            label: "Sac de Dresseur ou Sac de Recherche",
+            options: [
+                { label: "Sad de Dresseur" },
+                { label: "Sac de Recherche" }
+            ]
+        },
+        {
+            label: "Un objet volé bien qu'il n'ait que peu de valeur ou soit inutilisable",
+            options: [
+                { label: "Un objet volé bien qu'il n'ait que peu de valeur ou soit inutilisable" }
+            ]
+        },
+        {
+            label: "Un objet utile à tes activités de sbire qui n'est pas une arme",
+            options: [
+                { label: "Un objet utile à tes activités de sbire qui n'est pas une arme" }
+            ]
+        },
+        {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+            label: "1 Hyper Potion ou 1 Total Soin",
+            options: [
+                {label: "Hyper Potion", lookup: "Hyper Potion"},
+                {label: "Total Soin", lookup: "Full Heal"}
+            ]
+        },
+        {
+            label: "3 Potions",
+            grant: { label: "Potion", lookup: "Potion", quantity: 3 }
+        },
+        {
+            label: "6 Basic Balls",
+            grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 6 }
+        }
         ]
+},      {
+    slug: "spiritualiste",
+        name: "Spiritualiste",
+
+    intro: [
+    "Les secrets du monde des Pokémons ne seront jamais tous découvert. Les gens dans le monde entier y croient et prient différents Pokémon légendaires, Pokémon mythiques, et même vénèrent certains humains comme des prophètes d'un ancien temps.",
+    "De plus, le monde spirituel après la mort se manifeste et peut être étudié, menant à de nombreux pratiquants religieux qui deviennent aussi médiums, sorciers ou communiquant de magie. Ton temps est passé à étudier dans une communauté sacrée qui t'as mené à de nombreux lieux spirituels, ce qui sera sans aucun doute utile."
+],
+
+    startingPokemon: {
+    text: "Un Pokémon qui partage tes croyances et te suit partout ou un qui est là pour t'aider à partager la bonne parole.",
+        examples: [
+        "Un Brocélôme qui te suis depuis des années sans savoir pourquoi",
+        "Un Lixy qui éclaire ton chemin en cas de besoin",
+        "Un Grondogue un peu agressif mais qui veut toujours bien faire"
+    ]
+},
+
+    personalityPrompts: [
+        "Quel est l'élément qui a créé ta foi ?",
+        "Comment approches-tu les gens ne partageant pas tes croyances ?",
+        "Pourquoi tu aimes te lever le matin ?",
+        "Quelle est ta plus grande peur ?"
+    ],
+
+        relationshipPrompts: [
+    "Pourquoi est-ce que je t'inspire de l'espoir ?",
+    "Qu'est-ce qui te dérange dans mes pratiques quotidiennes ?",
+    "Pourquoi est-ce que tu cherches à me parler constamment ?",
+    "Qu'ai-je dis qui t'as vexé ?"
+],
+
+    money: 10000,
+
+    trait: {
+    name: "Guide spirituel",
+        description: [
+        "Choisis jusqu'à deux êtres ou systèmes religieux dans lesquels tu crois et fais parti de la communauté.",
+        "Quand tu fais un jet de compétence ayant un lien avec ces croyances spirituelles, fais ton jet de compétence deux fois et utilises le meilleur résultat.",
+        "De plus, si tu prie ou médite pour au moins une minute avant de faire un jet, tu peux utiliser Guide spirituel sur ce jet de compétence s'il est logique avec la situation."
+    ],
+        choiceLabel: "Guide spirituel",
+        choices: [
+        "Adorateur du Prisme",
+        "Croyant d'Arceus",
+        "Moine de Regigigas",
+        "Religieux du Soleil et de la Lune",
+        "Secte de Giratina",
+        "Spirituel des Dragons de la création"
+
+    ],
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+        allowCustom: true
+},
+
+    items: [
+        {
+            label: "Explorakit ou Sac Médical",
+            options: [
+                { label: "Explorakit" },
+                { label: "Sac Médical" }
+            ]
+        },
+        {
+            label: "Un foulard permettant de te reconnaître comme membre ta religion",
+            options: [
+                { label: "Un foulard permettant de te reconnaître comme membre ta religion" }
+            ]
+        },
+        {
+            label: "Un petit objet essentiel pour tes prières ou des écrits de ta religion que tu relis jusqu'à plus soif",
+            options: [
+                { label: "Un petit objet essentiel pour tes prières" },
+                { label: "Des écrits de ta religion que tu relis jusqu'à plus soif" }
+            ]
+        },
+        {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+            label: "2 soin de statut au choix",
+            options: [
+                {label: "Anti-para", lookup: "Paralyze Heal", quantity: 2},
+                {label: "Antidote", lookup: "Antidote", quantity: 2},
+                {label: "Anti-brûle", lookup: "Burn Heal", quantity: 2},
+                {label: "Anti-gel", lookup: "Ice Heal", quantity: 2},
+                {label: "Réveil", lookup: "Awakening", quantity: 2}
+            ]
+        },
+        {
+            label: "2 Rappels",
+            grant: { label: "Rappel", lookup: "Revive", quantity: 2 }
+        },
+        {
+            label: "4 Basic Balls",
+            grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 4 }
+        }
+    ]
+},  {
+    slug: "technicien",
+        name: "Technicien",
+
+    intro: [
+    "L'expertise de la programmation et de l'ingénierie t'as permis, après de longues années d'étude, d'avoir un train de vie confortable. ",
+    "Que tu créés des logiciels utilisés par des millions de personnes, ou bien que tu travailles dans un système de maintenance de ligne d'assemblage, tu as découvert un paquet de compétences qui seront toujours utiles en technologie dans le monde des Pokémons."
+],
+
+    startingPokemon: {
+    text: "Un Pokémon tout aussi passionné par l'électronique que toi, ou un Pokémon qui s'emmêle dans les câbles aussi souvent qu'il est attachant.",
+        examples: [
+        "Un Porygon pour qui tu développes des mises à jour",
+        "Un Dedenne qui veut comprendre absolument tout ce que tu fais",
+        "Un Mascaïman qui a promis d'arrêter de mordre tes installations"
+    ]
+},
+
+    personalityPrompts: [
+        "Pourquoi est-ce que tu préfères vivre dans un lieu plutôt qu'un autre ?",
+        "Est-ce que tu as déjà piraté quelque chose, volontairement ou non ?",
+        "Qu'est-ce qui t'énerve le plus chez les autres ?",
+        "Quelle est ta plus grande peur ?"
+    ],
+
+        relationshipPrompts: [
+    "Qu'est-ce que j'ai réparé ou simplifié pour toi ?",
+    "Pourquoi est-ce que tu sembles étonné par ma présence ?",
+    "Qu'est-ce que j'ai fait qui t'interroge maintenant constamment ?",
+    "Comment est-ce que je connais ton identité sans t'avoir rencontré ?"
+],
+
+    money: 60000,
+
+    trait: {
+    name: "Savoir-faire technique",
+        description: [
+        "Choisis une profession possible dans la liste ci-dessous, ou négocie en une avec ton MJ. ",
+        "Quand tu fais un jet de compétence ayant un lien avec ton occupation, fais ton jet de compétence deux fois et utilises le meilleur résultat."
+    ],
+        choiceLabel: "Savoir-faire tec",
+        choices: [
+        "Administrateur réseau",
+        "Data scientist",
+        "Ingénieur autobile",
+        "Ingénieur informatique",
+        "Ingénieur en robotique",
+        "Programmeur en cybersécurité"
+
+    ],
+// The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+        allowCustom: true
+},
+
+    items: [
+        {
+            label: "Sac de Recherche ou Sac de Voyageur",
+            options: [
+                { label: "Sac de Recherche" },
+                { label: "Sac de Voyageur" }
+            ]
+        },
+        {
+            label: "Un mini ordinateur non connecté à internet mais toujours pratique",
+            options: [
+                { label: "Un mini ordinateur non connecté à internet mais toujours pratique" }
+            ]
+        },
+        {
+            label: "Un taser un peu faiblard que tu veux améliorer ou un étrange CD que tu n'arrives pas à décrypter",
+            options: [
+                { label: "Un taser un peu faiblard que tu veux améliorer" },
+                { label: "Un étrange CD que tu n'arrives pas à décrypter" }
+            ]
+        },
+        {
+// The source table lists "Anti-para" twice; the duplicate is dropped here.
+            label: "1 soin de statut au choix",
+            options: [
+                {label: "Anti-para", lookup: "Paralyze Heal"},
+                {label: "Antidote", lookup: "Antidote"},
+                {label: "Anti-brûle", lookup: "Burn Heal"},
+                {label: "Anti-gel", lookup: "Ice Heal"},
+                {label: "Réveil", lookup: "Awakening"}
+            ]
+        },
+        {
+            label: "2 Potions",
+            grant: { label: "Potion", lookup: "Potion", quantity: 2 }
+        },
+        {
+            label: "6 Basic Balls",
+            grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 6 }
+        }
+    ]
     },
 ];
 
