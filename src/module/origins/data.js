@@ -1135,7 +1135,7 @@ const ORIGINS = [
                 "Choisis une spécialité militaire dans la liste ci-dessous, ou négocie en une avec ton MJ.",
                 "Quand tu fais un jet de compétence ayant un lien avec ta spécialité militaire, fais ton jet de compétence deux fois et utilises le meilleur résultat."
             ],
-            choiceLabel: "U",
+            choiceLabel: "Art de la Guerre",
             choices: [
                 "Ingénieur militaire",
                 "Jeune recrue",
@@ -1495,7 +1495,7 @@ const ORIGINS = [
     ],
         choiceLabel: "De grandes responsabilités",
         choices: [
-        "Aristograte",
+        "Aristocrate",
         "Diplomate",
         "Dirigeant d'organisation",
         "Maire",
@@ -1579,7 +1579,7 @@ const ORIGINS = [
     "Qu'est-ce qui te fait dire que je suis, ou non, de confiance ?"
 ],
 
-    money: 10,
+    money: 10000,
 
     trait: {
     name: "Talent criminel",
@@ -1774,7 +1774,7 @@ const ORIGINS = [
         "Choisis une profession possible dans la liste ci-dessous, ou négocie en une avec ton MJ. ",
         "Quand tu fais un jet de compétence ayant un lien avec ton occupation, fais ton jet de compétence deux fois et utilises le meilleur résultat."
     ],
-        choiceLabel: "Savoir-faire tec",
+        choiceLabel: "Savoir-faire technique",
         choices: [
         "Administrateur réseau",
         "Data scientist",
