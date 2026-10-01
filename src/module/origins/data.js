@@ -413,6 +413,101 @@ const ORIGINS = [
             }
         ]
     },    {
+        slug: "docteur",
+        name: "Docteur",
+
+        intro: [
+            "Étudier la connaissance médicale pour devenir un professionnel de la santé a prit des années complètes de ta vie. Tu peux avoir étudié pour être médecin généraliste, psychiatre, pharmacien, chirurgien, ou un infirmier dans un centre Pokémon. Tu peux aussi avoir été un practicien de naturopathie avec des années d'études ou de pratiques.",
+            "Bien que ton savoir spécialisé peut ne pas avoir directement affecté ton savoir de Pokémon, tu as pu avoir un train de vie confortable en étant payé pour soigner ceux dans le besoin."
+        ],
+
+        startingPokemon: {
+            text: "Un Pokémon doux et rassurant avec tes patients, ou bien un blagueur là pour faire rire les autres.",
+            examples: [
+                "Un Leveinard prêt à aider les autres en toute circonstance",
+                "Un Zorua farceur qui se transforme pour faire sourire",
+                "Un Sucroquin parfait pour se rassurer en le serrant dans ses bras"
+            ]
+        },
+
+        personalityPrompts: [
+            "Quel est la première chose que tu fais tôt le matin ?",
+            "Est-ce que l'empathie est quelque chose d'évident pour toi et les autres ?",
+            "Es-tu infallible malgré l'urgence et les situations de panique ?",
+            "Quelle est ta plus grande peur ?"
+        ],
+
+        relationshipPrompts: [
+            "Je t'ai déjà rendu service par le passé, comment et pourquoi ?",
+            "Pourquoi est-ce que je veux te protéger ?",
+            "Qu'est-ce que tu as fait pour que j'ai envie de t'éviter ?",
+            "Est-ce que j'approuve de toutes les idées que tu proposes ?"
+        ],
+
+        money: 75000,
+
+        trait: {
+            name: "Bon docteur",
+            description: [
+                "Choisis une spécialité médicale dans la liste ci-dessous, ou négocie en une avec ton MJ.",
+                "Quand tu fais un jet de compétence ayant un lien avec ta profession, fais ton jet de compétence deux fois et utilises le meilleur résultat."
+            ],
+            choiceLabel: "Bon docteur",
+            choices: [
+                "Chercheur médical",
+                "Chirurgien",
+                "Médecin Généraliste",
+                "Naturopathe",
+                "Pharmacien",
+                "Psychiatre"
+
+            ],
+            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
+            allowCustom: true
+        },
+
+        items: [
+            {
+                label: "Sac Médical ou Sac de Recherche",
+                options: [
+                    { label: "Sac Médical" },
+                    { label: "Sac de Recherche" }
+                ]
+            },
+            {
+                label: "Un grigri porte-chance ou un ruban offert par un de tes patients",
+                options: [
+                    { label: "Un grigri porte-chance" },
+                    { label: "Un ruban offert par un de tes patients" }
+                ]
+            },
+            {
+                label: "Des vêtements de rechange facile à couper pour faire des bandages",
+                options: [
+                    { label: "Des vêtements de rechange facile à couper pour faire des bandages" }
+                ]
+            },
+            {
+                // The source table lists "Anti-para" twice; the duplicate is dropped here.
+                label: "1 soin de statut au choix",
+                options: [
+                    { label: "Anti-para", lookup: "Paralyze Heal" },
+                    { label: "Antidote", lookup: "Antidote" },
+                    { label: "Anti-brûle", lookup: "Burn Heal" },
+                    { label: "Anti-gel", lookup: "Ice Heal" },
+                    { label: "Réveil", lookup: "Awakening" }
+                ]
+            },
+            {
+                label: "2 Potions",
+                grant: { label: "Potion", lookup: "Potion", quantity: 2 }
+            },
+            {
+                label: "3 Basic Balls",
+                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 6 }
+            }
+        ]
+    },    {
         slug: "col-bleu",
         name: "Col Bleu",
 
@@ -503,12 +598,12 @@ const ORIGINS = [
                 ]
             },
             {
-                label: "3 Potions",
-                grant: { label: "Potion", lookup: "Potion", quantity: 3 }
+                label: "3 Super Potions",
+                grant: { label: "Super Potion", lookup: "Super Potion", quantity: 3 }
             },
             {
                 label: "6 Basic Balls",
-                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 6 }
+                grant: { label: "Basic Ball", lookup: "Basic Ball", quantity: 3 }
             }
         ]
     },    {
