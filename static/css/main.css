@@ -8487,29 +8487,38 @@ a.content-link img {
   margin-right: 4px;
 }
 
+
 /*
- * Epopee: separators between merged tab sections.
+ * Epopee: merged tab sections.
  *
- * Several former tabs now share one tab. Without a boundary they run together and it is
- * not obvious where, say, Moves ends and Combat begins. A rule plus spacing restores the
- * division the tab edge used to provide.
+ * Several former tabs now share one tab, stacked vertically.
  *
- * Applied with `+` so only sections that FOLLOW another get a line - the first one in a
- * tab sits directly under the tab bar and needs no rule above it.
+ * The overlap: every section wrapper carries `h-100`, i.e. `height: 100% !important`,
+ * written when the section owned a whole tab. Stacked, each one still demands the full
+ * height of the tab, so section two is laid out on top of section one. Inside a merged
+ * tab the height has to follow the content instead.
+ *
+ * The separator then restores the boundary the tab edge used to provide.
  */
-.merged-section {
-  position: relative;
-  margin-top: 14px;
-  padding-top: 14px;
+.merged-section .h-100,
+.merged-section.h-100 {
+  height: auto !important;
 }
 
-.merged-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 4px;
-  right: 4px;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 1px;
+.merged-section {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px solid rgba(0, 0, 0, 0.35);
+}
+
+/*
+ * A tab holding merged sections is now taller than the sheet, so it has to scroll.
+ * Without this the stacked sections are simply clipped at the bottom of the window.
+ * Restricted to the tabs that actually hold sections, so other sheets keep their layout.
+ */
+.tab.details.stats:has(.merged-section),
+.tab.details.combat:has(.merged-section),
+.tab.details.extra:has(.merged-section) {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
