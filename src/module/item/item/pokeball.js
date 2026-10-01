@@ -254,16 +254,7 @@ class PokeballItem extends PTUItemItem {
                     }
                 }
 
-                // Injury mods
-                // For each injury add +5
-                const injuries = target.actor.system.health?.injuries;
-                if (injuries) {
-                    DCModifiers.push(new PTUModifier({
-                        slug: "injury-modifier",
-                        label: "Injury Modifier",
-                        modifier: injuries * 5
-                    }));
-                }
+                // Epopee drops Injuries; PTR added +5 to the capture DC per Injury.
 
                 // Stage mods
                 // For each combat stage in a stat below 0 add +2 to the capture DC

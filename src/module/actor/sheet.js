@@ -25,35 +25,21 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
                 class: "heal-character",
                 icon: "fas fa-heart",
                 onclick: async () => {
+                    // Epopee drops Injuries, so a Pokecenter visit is a straight refill.
+                    // PTR also cleared up to three Injuries per visit, and max HP moved
+                    // as they were healed - hence the two-step update this replaces.
                     const hp = this.actor.system.health.value;
-                    const maxHp = this.actor.system.health.max;
                     const totalHp = this.actor.system.health.total;
-                    const injuries = this.actor.system.health.injuries;
-                    if(injuries === 0 && hp === maxHp) return ui.notifications.info(`${this.actor.name} is already at full health!`);
-                    if(injuries <= 3) {
-                        await this.actor.update({
-                            "system.health.value": totalHp,
-                            "system.health.injuries": 0
-                        });
-                        await ChatMessage.create({
-                            speaker: {alias: this.actor.name},
-                            content: `${this.actor.name} was healed to full health! (${hp} -> ${totalHp}) and healed ${injuries} injuries! (${injuries} -> 0)`
-                        })
-                    } 
-                    else {
-                        await this.actor.update({
-                            "system.health.injuries": Math.max(0, injuries - 3)
-                        })
 
-                        const newMax = this.actor.system.health.max;
-                        await this.actor.update({
-                            "system.health.value": newMax
-                        });
-                        await ChatMessage.create({
-                            speaker: {alias: this.actor.name},
-                            content: `${this.actor.name} was healed to full health! (${hp} -> ${newMax}) and healed 3 injuries! (${injuries} -> ${Math.max(0, injuries - 3)})`
-                        })
+                    if (hp === totalHp) {
+                        return ui.notifications.info(`${this.actor.name} is already at full health!`);
                     }
+
+                    await this.actor.update({ "system.health.value": totalHp });
+                    await ChatMessage.create({
+                        speaker: { alias: this.actor.name },
+                        content: `${this.actor.name} was healed to full health! (${hp} -> ${totalHp})`
+                    });
                 }
             })
         }

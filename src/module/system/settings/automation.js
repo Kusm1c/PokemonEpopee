@@ -57,22 +57,10 @@ const AutomationSettingsConfig = {
         default: 9,
         type: Number,
     },
-    "massiveDamageThresholdPercent":{
-        name: "PTU.Settings.Automation.MassiveDamageThreshold.Name",
-        hint: "PTU.Settings.Automation.MassiveDamageThreshold.Hint",
-        scope: "world",
-        config: true,
-        default: 50,
-        type: Number,
-    },
-    "hpInjuryGateIntervalPercent":{
-        name: "PTU.Settings.Automation.HpInjuryGateInterval.Name",
-        hint: "PTU.Settings.Automation.HpInjuryGateInterval.Hint",
-        scope: "world",
-        config: true,
-        default: 50,
-        type: Number,
-    }
+    // Epopee drops Injuries and Massive Damage, so the thresholds that drove them -
+    // massiveDamageThresholdPercent and hpInjuryGateIntervalPercent - are gone. Nothing
+    // reads them any more, and leaving them in the menu would offer the GM dials that
+    // change nothing.
 }
 
 export class AutomationSettings extends PTUSettingsMenu {

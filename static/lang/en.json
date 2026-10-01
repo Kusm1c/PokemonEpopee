@@ -167,6 +167,8 @@
       "EsquiveAbbr": "EVA",
       "Fragment": "Fragment: 25% of the stat, rounded up. HP is the exception: its Fragment is 5%, shown next to the health bar.",
       "CombatStages": "Combat Stages",
+      "JirachiWish": "Jirachi's Wish",
+      "JirachiWishHint": "Tick or untick freely.",
       "HpFragment": "HP Frag 5%",
       "HpFragmentHint": "HP Fragment: 5% of max HP ({max}), rounded up",
       "StatusesOver": "{count} / {max} Statuses — over the limit",

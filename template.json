@@ -503,6 +503,7 @@
         "maxControlLevelOverride": null,
         "hideExperience": false,
         "itemSlots": 20,
+        "jirachiWish": false,
         "origin": {
           "slug": "",
           "name": "",

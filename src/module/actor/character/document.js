@@ -101,7 +101,7 @@ class PTUTrainerActor extends PTUActor {
             //         .map(([key, value]) => ([key, value.value.total]))
             // ),
             level: { current: system.level.current },
-            health: { current: system.health.value, temp: system.tempHp, injuries: system.health.injuries },
+            health: { current: system.health.value, temp: system.tempHp },
             skills: {}
         }
     }
@@ -200,7 +200,9 @@ class PTUTrainerActor extends PTUActor {
         system.levelUpPoints = system.levelUpPoints - result.pointsSpend;
 
         system.health.total = 10 + (system.level.current * (["data-revamp", "short-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? 4 : (game.settings.get("pe", "variant.trainerAdvancement") === "long-track" ? 1 : 2))) + (system.stats.hp.total * 3);
-        system.health.max = system.health.injuries > 0 ? Math.trunc(system.health.total * (1 - ((system.modifiers.hardened ? Math.min(system.health.injuries, 5) : system.health.injuries) / 10))) : system.health.total;
+        // Epopee drops Injuries, so max HP is simply the computed total - PTR shaved 10%
+        // off it per Injury accumulated.
+        system.health.max = system.health.total;
 
         system.health.percent = Math.round((system.health.value / system.health.max) * 100);
         system.health.totalPercent = Math.round((system.health.value / system.health.total) * 100);

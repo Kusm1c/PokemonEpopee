@@ -152,11 +152,8 @@ class PTUCondition extends BaseEffectPTU {
 
             const dcModifiers = (() => {
                 if(this.slug === "shadow-pokemon") {
-                    const mods = [new PTUModifier({ slug: "dc", label: "DC", modifier: 5 })];
-                    for(let i = 1; i <= this.actor.attributes.health.injuries; i++) {
-                        mods.push(new PTUModifier({ slug: `injury-${i}`, label: `Injury ${i}`, modifier: 2 }));
-                    }
-                    return mods;
+                    // Epopee drops Injuries; PTR added +2 to this DC per Injury.
+                    return [new PTUModifier({ slug: "dc", label: "DC", modifier: 5 })];
                 }
                 if (!decrease) return [new PTUModifier({ slug: "dc", label: "DC", modifier: dc })];
                 const modifier = 20 - ((this.value - 1) * (this.slug === "hyper-mode" ? 2 : 6));

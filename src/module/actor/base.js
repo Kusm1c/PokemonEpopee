@@ -623,54 +623,12 @@ class PTUActor extends Actor {
 
         const preUpdateSource = this.toObject();
 
-        const { injuries, injuryStatements } = (() => {
-            let injuries = 0;
-            const injuryStatements = [];
-
-            const { health, tempHp } = this.system;
-
-            const massiveDamageGatePercentage = game.settings.get("pe", "automation.massiveDamageThresholdPercent")
-            const maxHpInjuryIntervalPercentage = game.settings.get("pe", "automation.hpInjuryGateIntervalPercent")
-
-            if (hpDamage >= Math.ceil(health.total * massiveDamageGatePercentage / 100)) {
-                injuries++;
-                injuryStatements.push(game.i18n.format("PTU.ApplyDamage.MassiveDamageInjury", { actor: this.link }));
-            }
-            if (this.system.boss?.is) {
-                if (hpUpdate.updates["system.health.value"] <= 0) {
-                    const { bars, turns } = this.system.boss;
-                    const halfBars = Math.floor(turns / 2);
-                    if (bars >= halfBars && (bars - 1) < halfBars) {
-                        injuries++;
-                        injuryStatements.push(game.i18n.format("PTU.ApplyDamage.BossHalfBarInjury", { actor: this.link }));
-                    }
-                }
-            }
-            else {
-                // Every time a mon reaches a health threshhold, which is at 100% - maxHpInjuryIntervalPercentage, 100% - 2*maxHpInjuryIntervalPercentage, ...
-                // one Injury should be added to the count.
-                const currentPercentage = Math.ceil((health.value / health.total) * 100);
-                const newPercentage = Math.ceil((((tempHp?.value ?? 0) + health.value - hpDamage) / health.total) * 100);
-
-                for (let i = 100 - maxHpInjuryIntervalPercentage; true; i -= maxHpInjuryIntervalPercentage) {
-                    if (i > currentPercentage) continue;
-
-                    if (currentPercentage > i && i >= newPercentage) {
-                        injuries++;
-                        const percentageShortened = Math.floor(i * 1000) / 1000
-                        injuryStatements.push(game.i18n.format("PTU.ApplyDamage.HpThresholdInjury", { actor: this.link, percentage: percentageShortened }));
-                    }
-                    else break;
-                }
-            }
-            return { injuries, injuryStatements }
-        })();
-
-        // If injuries should be applied, add them to hpUpdates
-        if (injuries > 0) {
-            hpUpdate.updates["system.health.injuries"] = (isNaN(Number(preUpdateSource.system.health.injuries)) ? 0 : Number(preUpdateSource.system.health.injuries)) + injuries;
-        }
-
+        // Epopee does not use Injuries or Massive Damage. PTR awarded an Injury on a
+        // single large hit and on crossing HP thresholds, and each one shaved 10% off max
+        // HP - a second health track on top of the damage formula, which this ruleset
+        // replaces outright. The whole calculation is gone rather than gated behind a
+        // setting: nothing reads `system.health.injuries` any more, so leaving it would
+        // only compute a number no one consumes.
         let bossStatement = null;
         // Do updates
         if (hpDamage !== 0 || hpUpdate.tempHpIncreased !== 0) {
@@ -680,11 +638,9 @@ class PTUActor extends Actor {
                 if (bars > 0) {
                     const newBars = Math.max(bars - 1, 0);
                     hpUpdate.updates["system.boss.bars"] = newBars;
-                    hpUpdate.updates["system.health.value"] =
-                        (injuries > this.system.health.injuries)
-                            ? Math.trunc(this.system.health.total * (1 - ((this.system.modifiers.hardened ? Math.min(this.system.health.injuries, 5) : this.system.health.injuries) / 10)))
-                            : this.system.health.max;
-                    //TODO: Apply Injuries
+                    // A broken bar restores the boss to full. PTR shaved 10% per Injury
+                    // off this figure; with Injuries gone there is nothing to subtract.
+                    hpUpdate.updates["system.health.value"] = this.system.health.max;
                     await this.update(hpUpdate.updates);
                     bossStatement = game.i18n.format("PTU.ApplyDamage.BossBarBroken", { actor: this.link, bars: newBars });
                 }
@@ -723,7 +679,7 @@ class PTUActor extends Actor {
             ? game.i18n.format("PTU.ApplyDamage.GainedTempHp", { actor: this.link, hpDamage: hpUpdate.tempHpIncreased })
             : null;
 
-        const statements = [hpStatement, tempHpStatement, bossStatement, ...injuryStatements].filter(s => s).join("<br>");
+        const statements = [hpStatement, tempHpStatement, bossStatement].filter(s => s).join("<br>");
         const enrichedHtml = await foundry.applications.ux.TextEditor.implementation.enrichHTML(statements, { async: true })
         const canUndoDamage = !!hpDamage
 

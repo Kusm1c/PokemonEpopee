@@ -8486,3 +8486,30 @@ a.content-link img {
 #sidebar #actors .directory-header .action-buttons .pe-button-row button i {
   margin-right: 4px;
 }
+
+/*
+ * Epopee: separators between merged tab sections.
+ *
+ * Several former tabs now share one tab. Without a boundary they run together and it is
+ * not obvious where, say, Moves ends and Combat begins. A rule plus spacing restores the
+ * division the tab edge used to provide.
+ *
+ * Applied with `+` so only sections that FOLLOW another get a line - the first one in a
+ * tab sits directly under the tab bar and needs no rule above it.
+ */
+.merged-section {
+  position: relative;
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.merged-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 4px;
+  right: 4px;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 1px;
+}

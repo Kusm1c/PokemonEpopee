@@ -145,7 +145,7 @@ class PTUPokemonActor extends PTUActor {
         // Set attributes which are underrived data
         this.attributes = {
             level: { current: system.level.current, tillNext: system.level.expTillNextLevel, percent: system.level.percent },
-            health: { current: system.health.value, temp: system.tempHp, injuries: system.health.injuries },
+            health: { current: system.health.value, temp: system.tempHp },
             skills: {},
         }
     }
@@ -245,7 +245,9 @@ class PTUPokemonActor extends PTUActor {
         if (system.shiny) this.flags.pe.rollOptions.all["self:pokemon:shiny"] = true;
 
         system.health.total = 10 + system.level.current + (system.stats.hp.total * 3);
-        system.health.max = system.health.injuries > 0 ? Math.trunc(system.health.total * (1 - ((system.modifiers.hardened ? Math.min(system.health.injuries, 5) : system.health.injuries) / 10))) : system.health.total;
+        // Epopee drops Injuries, so max HP is simply the computed total - PTR shaved 10%
+        // off it per Injury accumulated.
+        system.health.max = system.health.total;
         if (system.health.value === null) system.health.value = system.health.max;
 
         system.health.percent = Math.round((system.health.value / system.health.max) * 100);
