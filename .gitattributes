@@ -1,3 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 packs/** binary
+
+# Native modules must never go through line-ending normalisation: `text=auto` guesses,
+# and a wrong guess rewrites bytes inside the compiled binary, which then fails to load
+# with an unhelpful error on the machine that cloned it.
+*.node binary

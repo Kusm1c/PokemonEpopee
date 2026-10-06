@@ -7,6 +7,16 @@ node_modules/
 npm-debug.log
 foundry.js
 
+# ...except the official Foundry CLI vendored under scripts/pack-tools. It is committed
+# on purpose: the machines that use it have no npm, so its dependencies have to travel
+# with the repo. They are real copies, never links - a junction here once let a "discard
+# changes" delete files inside the Foundry installation itself.
+!scripts/pack-tools/fvtt-cli/node_modules/
+!scripts/pack-tools/fvtt-cli/node_modules/**
+
+# The JSON extracted from a pack is a working copy; the .ldb files are the source.
+/packs/_source/
+
 # Release
 system.zip
 foundry-0.8.3.js
