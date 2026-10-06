@@ -1,83 +1,109 @@
 <#
 .SYNOPSIS
-    Read and write the system's LevelDB compendium packs, with no Node.js install.
+    Extract a compendium pack to JSON, or compile JSON back into a pack.
 
 .DESCRIPTION
-    Foundry ships `classic-level` - the same library foundryvtt-cli uses - and its
-    Electron binary runs plain scripts when ELECTRON_RUN_AS_NODE is set. Together that
-    provides a modern Node and the native LevelDB binding without installing anything.
+    A thin wrapper around the official Foundry CLI (@foundryvtt/foundryvtt-cli), vendored
+    under scripts/pack-tools/fvtt-cli. The wrapper exists only so nobody has to remember
+    paths: all the work is done by Foundry's own extractPack/compilePack.
 
-    Foundry must be CLOSED. LevelDB takes an exclusive lock on an open pack; a second
-    writer will either fail outright or leave the pack inconsistent.
+    Nothing needs installing. Foundry is an Electron app, so it ships a modern Node, and
+    its own node_modules already contain the heavy dependencies the CLI needs
+    (classic-level with its native LevelDB binding, nedb-promises, @seald-io). This script
+    points the CLI at them and runs it with Foundry's Node.
+
+    FOUNDRY MUST BE CLOSED. LevelDB takes an exclusive lock on an open pack; a second
+    writer either fails or leaves the pack inconsistent. The script refuses to run while
+    Foundry is up.
 
 .PARAMETER Command
-    extract - write one .json per document into -Out
-    compile - read those .json files back into the pack
-    list    - print "key<TAB>name" for every primary document
+    extract - pack -> one JSON file per document, in packs/_source/<pack>/
+    compile - those JSON files -> back into the pack
 
 .PARAMETER Pack
-    Pack name (e.g. "moves") or a full path to a pack directory.
-
-.PARAMETER Out
-    Directory for extract/compile. Defaults to packs/_source/<pack>.
-
-.EXAMPLE
-    .\pack.ps1 list moves
+    Pack name as it appears under packs/, e.g. moves, abilities, species.
 
 .EXAMPLE
     .\pack.ps1 extract moves
-    # edit the JSON files under packs/_source/moves
+    # edit the files in packs\_source\moves
     .\pack.ps1 compile moves
 
 .NOTES
-    Always commit, or copy, a pack before compiling into it: a bad write is not
-    recoverable from the pack itself.
+    Commit the pack before compiling. A bad write cannot be recovered from the pack
+    itself, and the .ldb files are what the rest of the team pulls.
 #>
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("extract", "compile", "list")]
+    [ValidateSet("extract", "compile")]
     [string]$Command,
 
     [Parameter(Mandatory = $true)]
     [string]$Pack,
-
-    [string]$Out,
 
     [string]$FoundryExe = "C:\Program Files\Foundry Virtual Tabletop\Foundry Virtual Tabletop.exe"
 )
 
 $ErrorActionPreference = "Stop"
 
-$repo = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
-$tool = Join-Path $PSScriptRoot "pack-tool.js"
+$repo    = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+$cliDir  = Join-Path $PSScriptRoot "fvtt-cli"
+$runner  = Join-Path $PSScriptRoot "run-cli.mjs"
+$packDir = Join-Path $repo "packs\$Pack"
+$srcDir  = Join-Path $repo "packs\_source\$Pack"
 
 if (-not (Test-Path $FoundryExe)) {
-    throw "Foundry not found at '$FoundryExe'. Pass -FoundryExe with the correct path."
+    throw "Foundry introuvable : '$FoundryExe'. Passe -FoundryExe avec le bon chemin."
 }
-
-# Refuse to run while Foundry holds the pack open.
-if (Get-Process -Name "Foundry*" -ErrorAction SilentlyContinue) {
-    throw "Foundry is running. Close it first - LevelDB locks the pack while it is open."
-}
-
-# A bare pack name always resolves under packs/. Only treat the argument as a path when
-# it actually looks like one, otherwise "moves" would match a same-named folder in
-# whatever directory the shell happens to be sitting in.
-$packDir = if ($Pack -match '[\\/]' -and (Test-Path $Pack)) { (Resolve-Path $Pack).Path }
-           else { Join-Path $repo "packs\$Pack" }
-
 if (-not (Test-Path $packDir)) {
-    throw "Pack directory not found: $packDir"
+    $available = (Get-ChildItem (Join-Path $repo "packs") -Directory |
+                  Where-Object { $_.Name -ne "_source" } |
+                  Select-Object -ExpandProperty Name) -join ", "
+    throw "Pack '$Pack' introuvable. Packs disponibles : $available"
+}
+if (Get-Process -Name "Foundry*" -ErrorAction SilentlyContinue) {
+    throw "Foundry est ouvert. Ferme-le d'abord : le pack est verrouille tant qu'il tourne."
 }
 
-if (-not $Out) {
-    $Out = Join-Path $repo "packs\_source\$(Split-Path $packDir -Leaf)"
+# Link the CLI's missing dependencies to the copies inside Foundry, rather than shipping
+# a native binary in the repo. Junctions are used because they need no admin rights.
+$cliModules     = Join-Path $cliDir "node_modules"
+
+# The CLI's dependencies are real copies under fvtt-cli/node_modules, committed with the
+# repo.
+#
+# They were originally junctions into the Foundry install, to avoid duplicating a native
+# binary. That was a mistake: a junction is a real path, not a shortcut, so a "discard
+# changes" in a Git client deleted files *through* it and damaged the Foundry
+# installation. Nothing in this repo may point outside it.
+foreach ($dep in @("classic-level", "nedb-promises", "@seald-io")) {
+    $target = Join-Path $cliModules $dep
+    if (-not (Test-Path $target)) {
+        throw "Dependance '$dep' manquante dans fvtt-cli\node_modules. Le depot est incomplet ?"
+    }
+
+    # A leftover junction from the old approach is actively dangerous - refuse to run.
+    $item = Get-Item $target -Force
+    if ($item.LinkType -eq "Junction") {
+        throw "'$dep' est une jonction vers '$($item.Target)'. Supprime-la (rmdir) : un discard Git effacerait les fichiers cibles."
+    }
 }
 
 $env:ELECTRON_RUN_AS_NODE = "1"
 
 switch ($Command) {
-    "list"    { & $FoundryExe $tool list $packDir }
-    "extract" { & $FoundryExe $tool extract $packDir $Out }
-    "compile" { & $FoundryExe $tool compile $Out $packDir }
+    "extract" {
+        New-Item -ItemType Directory -Path $srcDir -Force | Out-Null
+        & $FoundryExe $runner extract $packDir $srcDir
+        Write-Host ""
+        Write-Host "Fichiers ecrits dans : packs\_source\$Pack" -ForegroundColor Green
+    }
+    "compile" {
+        if (-not (Test-Path $srcDir)) {
+            throw "Rien a compiler : lance d'abord '.\pack.ps1 extract $Pack'."
+        }
+        & $FoundryExe $runner compile $srcDir $packDir
+        Write-Host ""
+        Write-Host "Pack mis a jour : packs\$Pack" -ForegroundColor Green
+        Write-Host "Pense a commiter les fichiers .ldb pour partager tes modifications." -ForegroundColor Yellow
+    }
 }
