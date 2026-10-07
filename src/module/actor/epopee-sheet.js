@@ -121,4 +121,26 @@ function prepareEpopeeSheetData(actor, { includeFlavours = false } = {}) {
     return data;
 }
 
-export { prepareEpopeeSheetData, prepareStatDisplay, prepareSkillGroups };
+/**
+ * Keep the copies of a field shown on several tabs (HP, name, gender...) in step with
+ * the named field.
+ *
+ * Only one copy keeps its `name`; the others carry `data-link` instead. Two inputs
+ * sharing a name make FormDataExtended submit an array ([45, 45]) rather than a number,
+ * so a copy stays unnamed and hands its edit to the named field. Capture phase, so this
+ * runs before submitOnChange reads the form.
+ */
+function bindLinkedFields(sheet) {
+    const form = sheet.form;
+    if (!form) return;
+    form.addEventListener("change", (event) => {
+        const path = event.target?.dataset?.link;
+        if (!path) return;
+        const field = form.querySelector(`[name="${CSS.escape(path)}"]`);
+        if (!field) return;
+        if (field.type === "checkbox") field.checked = event.target.checked;
+        else field.value = event.target.value;
+    }, true);
+}
+
+export { prepareEpopeeSheetData, prepareStatDisplay, prepareSkillGroups, bindLinkedFields };

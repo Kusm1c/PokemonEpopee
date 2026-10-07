@@ -59,8 +59,8 @@ function skillRankBonus(rank) {
  */
 const SKILL_GROUPS = [
     { id: "body", labelKey: "PTU.Epopee.SkillGroupBody", colour: "#c0392b" },
-    { id: "mind", labelKey: "PTU.Epopee.SkillGroupMind", colour: "#2980b9" },
-    { id: "spirit", labelKey: "PTU.Epopee.SkillGroupSpirit", colour: "#27ae60" }
+    { id: "mind", labelKey: "PTU.Epopee.SkillGroupMind", colour: "#27ae60" },
+    { id: "spirit", labelKey: "PTU.Epopee.SkillGroupSpirit", colour: "#2980b9" }
 ];
 
 /**

@@ -4,7 +4,7 @@ import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { Statistic } from "../../system/statistic/index.js";
 import { PTUDexSheet } from "../../apps/dex/sheet.js";
 import { PTUActorSheet } from "../sheet.js";
-import { prepareEpopeeSheetData } from "../epopee-sheet.js";
+import { bindLinkedFields, prepareEpopeeSheetData } from "../epopee-sheet.js";
 import { runOriginWizard } from "./origin-wizard.js";
 import { PERIODS, resetUses } from "../../usage/engine.js";
 import { clampStages } from "../../combat-math/formula.js";
@@ -25,7 +25,10 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			}],
 			submitOnClose: true,
 			submitOnChange: true,
-			scrollY: [".sheet-body"]
+			// Each tab scrolls on its own since the merge, so remembering the scroll of
+			// `.sheet-body` restored a position nothing uses: with submitOnChange, every
+			// combat-stage click or item drop re-rendered and jumped back to the top.
+			scrollY: [".sheet-body", ".tab.details"]
 		});
 
 		// If compact style is enabled
@@ -124,6 +127,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			maxControlLevel,
 			maxControlOverridden: override !== null && override !== undefined && override !== "",
 			hideExperience: ep.hideExperience === true,
+			listOrder: this._prepareListOrder(),
 			slotsUsed,
 			slotsMax,
 			slotsOver: slotsUsed > slotsMax,
@@ -307,11 +311,28 @@ export class PTUCharacterSheet extends PTUActorSheet {
 	/* -------------------------------------------- */
 
 	/** @override */
+	/**
+	 * CSS `order` of the three lists on the Actions tab. The button rotates them: each
+	 * click sends the top list to the bottom, so three clicks come back to the start.
+	 */
+	_prepareListOrder() {
+		const lists = ["moves", "skills", "items"];
+		const rotation = Number(this.actor.getFlag("pe", "listOrder")) || 0;
+		return Object.fromEntries(lists.map((key, i) => [key, ((i - rotation) % 3 + 3) % 3 + 1]));
+	}
+
 	activateListeners(html) {
 		super.activateListeners(html);
 
 		this._itemSummaryRenderer = new ItemSummaryRenderer(this);
 		this._itemSummaryRenderer.activateListeners(html);
+
+		bindLinkedFields(this);
+
+		html.find('.list-order-toggle').click(async () => {
+			const rotation = Number(this.actor.getFlag("pe", "listOrder")) || 0;
+			await this.actor.setFlag("pe", "listOrder", (rotation + 1) % 3);
+		});
 
 		// --- Epopee ---------------------------------------------------------------
 

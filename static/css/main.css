@@ -8522,3 +8522,233 @@ a.content-link img {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+/*
+ * Epopee: text that breaks mid-word.
+ *
+ * Narrative fields were splitting words at the line end ("l'impression que je suis pas
+ * de confiance" became "l'im-pression"), which is what makes the blocks hard to read.
+ * `break-word` only breaks a word that cannot fit on a line of its own; ordinary words
+ * wrap at spaces as they should.
+ */
+.sheet.actor textarea,
+.sheet.actor .swsh-body p,
+.sheet.actor .item-name h4 {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+
+/*
+ * Epopee: PRE and EVA styled like the six main stats.
+ *
+ * Row striping comes from per-stat classes (.flex-row.hp, .flex-row.atk, ...), so the
+ * two secondary stats - keyed `precision` and `esquive` - matched nothing and rendered
+ * on plain white, which is what made them look bolted on. Same two alternating tones as
+ * the rows above them, and the same uppercase key styling.
+ */
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box .flex-row.precision {
+  background: #fefefe;
+}
+
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box .flex-row.esquive {
+  background: #e1ecf2;
+}
+
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box .flex-row.precision .stats.key,
+.pe.sheet.gen8.actor.compact main.sheet-body .stats .swsh-box.stats-box .flex-row.esquive .stats.key {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/*
+ * Epopee: the Nature dropdown showed "Ad..." because its *container* is fb-45
+ * (flex-basis: 45%), not the select itself - so widening the select changed nothing.
+ * The row has nothing else in it, so the container can take the full width.
+ */
+.sheet.actor select[name="system.nature.value"] {
+  width: 100%;
+  min-width: 0;
+}
+
+.sheet.actor .swsh-body > .d-flex:has(> .fb-45 > select[name="system.nature.value"]) > .fb-45 {
+  flex-basis: 92%;
+}
+
+/*
+ * Epopee: Pokemon sheet tab layout.
+ *
+ * Every tab is the two-column grid the sheet mockups draw: a wide main column and a
+ * narrow side column, each a plain vertical stack of panels. The old tabs nested flex
+ * rows inside flex columns with percentage widths, so moving one panel reflowed
+ * everything around it, and narrowing the window crushed whichever column had no width
+ * of its own.
+ *
+ * Foundry windows resize freely, so the grid answers to the width of the tab rather
+ * than the screen: below 700px the side column drops under the main one.
+ */
+.pe.sheet.gen8.actor.compact .pe-tab {
+  container-type: inline-size;
+}
+
+.pe.sheet.gen8.actor.compact .pe-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(240px, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.pe.sheet.gen8.actor.compact .pe-layout.pe-halves {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@container (max-width: 700px) {
+  .pe.sheet.gen8.actor.compact .pe-layout,
+  .pe.sheet.gen8.actor.compact .pe-layout.pe-halves {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pe.sheet.gen8.actor.compact .pe-col,
+.pe.sheet.gen8.actor.compact .pe-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Spacing comes from the gap; the margins the panels carry would double it. */
+.pe.sheet.gen8.actor.compact .pe-col > *,
+.pe.sheet.gen8.actor.compact .pe-group > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* `.swsh-box` breaks words anywhere (`break-all`), which is what split headings into
+   "Weaknes / ses". Here words wrap at spaces; only one too long for its line breaks. */
+.pe.sheet.gen8.actor.compact .pe-layout .swsh-box {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Name and gender share the HP panel's header, as in the mockup. */
+.pe.sheet.gen8.actor.compact .pe-name-row {
+  gap: 6px;
+}
+
+.pe.sheet.gen8.actor.compact .pe-name-row .pe-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: unset;
+}
+
+.pe.sheet.gen8.actor.compact .pe-name-row .pe-gender {
+  flex: 0 0 72px;
+  min-width: 0;
+  text-align: center;
+}
+
+.pe.sheet.gen8.actor.compact .pe-portrait {
+  display: flex;
+  justify-content: center;
+}
+
+.pe.sheet.gen8.actor.compact .pe-portrait .profile-img {
+  width: 180px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: whitesmoke;
+  border: 2px solid whitesmoke;
+  border-radius: 50%;
+}
+
+.pe.sheet.gen8.actor.compact .pe-level {
+  flex: 0 0 40px;
+  width: 40px;
+  text-align: center;
+}
+
+/* Two panels or buttons side by side, equal width: STAB / Training DC, and the list
+   order / Contest Mode buttons. */
+.pe.sheet.gen8.actor.compact .pe-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.pe.sheet.gen8.actor.compact .pe-training {
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+.pe.sheet.gen8.actor.compact .pe-training input {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+}
+
+.pe.sheet.gen8.actor.compact .pe-training button {
+  flex: 0 0 34px;
+  width: 34px;
+  margin: 0;
+}
+
+.pe.sheet.gen8.actor.compact .pe-big-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  margin: 0;
+  padding: 4px 8px;
+  background: #d32f2f;
+  color: #fff;
+  border: 2px solid #7a1414;
+  border-radius: 0;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.6);
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: normal;
+}
+
+.pe.sheet.gen8.actor.compact .pe-big-button:hover {
+  background: #b71c1c;
+}
+
+/* Trainer sheet: Level / Milestones / Experience / STAB as equal columns. */
+.pe.sheet.gen8.actor.compact .pe-cell {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 6px;
+}
+
+/* A value and its input on one line: Inventory Space, Contrôle max. */
+.pe.sheet.gen8.actor.compact .pe-inline {
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pe.sheet.gen8.actor.compact .pe-inline input {
+  flex: 0 1 64px;
+  min-width: 0;
+  text-align: center;
+}
+
+/* Identity: each label above its field, as in the mockup. */
+.pe.sheet.gen8.actor.compact .pe-identity {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 2px;
+}
+
+.pe.sheet.gen8.actor.compact .pe-identity input {
+  width: 65%;
+  margin-bottom: 4px;
+  text-align: center;
+}

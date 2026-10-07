@@ -1,7 +1,7 @@
 import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND, MAX_STATUSES } from "./config.js";
 import { STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { PERIODS, itemUsage, resetUses } from "../../usage/engine.js";
-import { prepareEpopeeSheetData } from "../epopee-sheet.js";
+import { bindLinkedFields, prepareEpopeeSheetData } from "../epopee-sheet.js";
 import { natureOptions } from "../../natures/flavors.js";
 import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { clampStages } from "../../combat-math/formula.js";
@@ -24,7 +24,10 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			}],
 			submitOnClose: true,
 			submitOnChange: true,
-			scrollY: [".sheet-body"]
+			// Each tab scrolls on its own since the merge, so remembering the scroll of
+			// `.sheet-body` restored a position nothing uses: with submitOnChange, every
+			// combat-stage click or item drop re-rendered and jumped back to the top.
+			scrollY: [".sheet-body", ".tab.details"]
 		});
 
 		// If compact style is enabled
@@ -106,6 +109,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			moves: this._prepareMoveSplit(),
 			heldItems: this._prepareHeldItemSplit(),
 			loyaltyChecked: this.actor.system.loyalty?.checked ?? 0,
+			// Actions tab: Compétences above Capacités when set (the list order button).
+			skillsFirst: this.actor.getFlag("pe", "skillsFirst") === true,
 			reactionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_REACTION,
 			protectionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_PROTECTION,
 			// Exposed so the template can name the threshold in a localised string rather
@@ -384,6 +389,13 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		this._itemSummaryRenderer = new ItemSummaryRenderer(this);
 		this._itemSummaryRenderer.activateListeners(html);
+
+		bindLinkedFields(this);
+
+		html.find('.list-order-toggle').click(async () => {
+			const current = this.actor.getFlag("pe", "skillsFirst") === true;
+			await this.actor.setFlag("pe", "skillsFirst", !current);
+		});
 
 		html.find('.loyalty-cell').click((ev) => {
 			const index = Number(ev.currentTarget.dataset.index);
