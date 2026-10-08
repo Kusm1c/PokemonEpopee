@@ -60,6 +60,20 @@ const EPOPEE_MACROS = [
         img: "icons/svg/mystery-man.svg",
         gmOnly: false,
         command: "game.pe.epopee.sharedInventory();"
+    },
+    {
+        key: "navigation",
+        name: "Navigator Roll",
+        img: "icons/svg/direction.svg",
+        gmOnly: true,
+        command: "game.pe.epopee.navigation();"
+    },
+    {
+        key: "journey",
+        name: "Travel",
+        img: "icons/svg/wingfoot.svg",
+        gmOnly: true,
+        command: "game.pe.epopee.journey();"
     }
 ];
 

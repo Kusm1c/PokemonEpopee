@@ -190,6 +190,14 @@ test("multi-hit: Power is computed once, applied per hit", () => {
     assert.deepEqual(hits, [hits[0], hits[0], hits[0]], "every hit applies the same Power");
 });
 
+test("STAB only applies to a move of the attacker's type", () => {
+    const same = computePower({ jet: 20, level: 30, attackStat: 25 });
+    const other = computePower({ jet: 20, level: 30, attackStat: 25, sameType: false });
+    assert.equal(same.breakdown.stab, 11);
+    assert.equal(other.breakdown.stab, 0);
+    assert.equal(same.total - other.total, 11);
+});
+
 if (failures > 0) {
     console.error(`\n${failures} test(s) failed.`);
     process.exit(1);

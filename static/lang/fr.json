@@ -216,6 +216,113 @@
         "Serious": "tradFR",
         "Composed": "tradFR"
       },
+      "Travel": {
+        "GmOnly": "tradFR",
+        "Terrain": {
+          "desert": "tradFR",
+          "forestSparse": "tradFR",
+          "forestMedium": "tradFR",
+          "forestDense": "tradFR",
+          "hills": "tradFR",
+          "jungle": "tradFR",
+          "peatBog": "tradFR",
+          "mountain": "tradFR",
+          "plains": "tradFR",
+          "marsh": "tradFR",
+          "tundraIce": "tradFR"
+        },
+        "Path": {
+          "road": "tradFR",
+          "trail": "tradFR",
+          "trackless": "tradFR"
+        },
+        "Condition": {
+          "none": "tradFR",
+          "hotCold": "tradFR",
+          "giantTerrain": "tradFR",
+          "hurricane": "tradFR",
+          "ledMount": "tradFR",
+          "lowVisibility": "tradFR",
+          "riverCrossing": "tradFR",
+          "snow": "tradFR",
+          "deepSnow": "tradFR",
+          "storm": "tradFR",
+          "strongStorm": "tradFR"
+        },
+        "Mode": {},
+        "Reference": {
+          "Title": "tradFR",
+          "TerrainTitle": "tradFR",
+          "ConditionTitle": "tradFR",
+          "BaseSpeedTitle": "tradFR",
+          "Terrain": "tradFR",
+          "NavigationDC": "tradFR",
+          "ForageDC": "tradFR",
+          "Condition": "tradFR",
+          "Modifier": "tradFR",
+          "OnFoot": "tradFR",
+          "Metres": "tradFR",
+          "Row": {
+            "hourMarch": "tradFR",
+            "hourHaste": "tradFR",
+            "quarter": "tradFR",
+            "day": "tradFR"
+          }
+        },
+        "Navigation": {
+          "Title": "tradFR",
+          "Actor": "tradFR",
+          "Terrain": "tradFR",
+          "DC": "tradFR",
+          "Equipment": "tradFR",
+          "Bonus": {
+            "compass": "tradFR",
+            "reconReport": "tradFR"
+          },
+          "Hint": "tradFR",
+          "Roll": "tradFR",
+          "RollTitle": "tradFR",
+          "NoActor": "tradFR",
+          "NoFolder": "tradFR",
+          "NoTrainers": "tradFR",
+          "NoSkill": "tradFR",
+          "Requested": "tradFR",
+          "RollingSelf": "tradFR",
+          "PromptBody": "tradFR",
+          "Declined": "tradFR",
+          "ResultTitle": "tradFR",
+          "Total": "tradFR",
+          "Deviation": "tradFR",
+          "Success": "tradFR",
+          "Failure": "tradFR"
+        },
+        "Journey": {
+          "Title": "tradFR",
+          "Party": "tradFR",
+          "Speed": "tradFR",
+          "Slot": "tradFR",
+          "Slowest": "tradFR",
+          "SlowestShort": "tradFR",
+          "NoMembers": "tradFR",
+          "NoFolder": "tradFR",
+          "Terrain": "tradFR",
+          "Path": "tradFR",
+          "Condition": "tradFR",
+          "Duration": "tradFR",
+          "Haste": "tradFR",
+          "Modes": "tradFR",
+          "BasePace": "tradFR",
+          "Pace": "tradFR",
+          "Distance": "tradFR",
+          "KmPerHour": "tradFR",
+          "HoursWithHaste": "tradFR",
+          "Confirm": "tradFR",
+          "CardTitle": "tradFR",
+          "CardDistance": "tradFR",
+          "ProgressKm": "tradFR",
+          "ProgressHours": "tradFR"
+        }
+      },
       "Always": "Toujours",
       "Item": {
         "Condition": {

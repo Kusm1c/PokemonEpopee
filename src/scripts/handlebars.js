@@ -1,6 +1,7 @@
 import { usageState } from "../module/usage/frequency.js";
 import { pokeballStyles, pokeballShapes } from "./config/data/pokeball-themes.js";
 import { capitalize, formatSlug } from "../util/misc.js";
+import { localize } from "../module/i18n.js";
 
 export function registerHandlebarsHelpers() {
     _registerBasicHelpers();
@@ -11,6 +12,8 @@ export function registerHandlebarsHelpers() {
 function _registerPTUHelpers() {
 
     Handlebars.registerHelper("getGameSetting", function (key) { return game.settings.get("pe", key) });
+    // Like `localize`, but a string the translators left as "tradFR" shows in English.
+    Handlebars.registerHelper("peLocalize", function (key, options) { return localize(key, options?.hash); });
     Handlebars.registerHelper("getProperty", foundry.utils.getProperty); // native foundry function
 
     Handlebars.registerHelper("range", function (start, end) {

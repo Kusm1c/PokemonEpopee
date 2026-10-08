@@ -17,6 +17,8 @@ import { startWeather, startField, clearWeather, clearField, toggleZone } from "
 import { placeHazard } from "../environment/hazards.js";
 import { placeWall } from "../environment/walls.js";
 import { advanceProgression } from "../travel/engine.js";
+import { openNavigationRoll } from "../travel/navigation.js";
+import { openJourney } from "../travel/journey.js";
 import { purgeOnRecall } from "../statuses/engine.js";
 
 /* ------------------------------------------------------------------ */
@@ -249,4 +251,16 @@ function sharedInventory() {
     new CONFIG.PTU.ui.sharedInventory.sheetClass().render(true);
 }
 
-export { environment, hazard, wall, travel, recall, narrativeBlock, sharedInventory };
+/* ------------------------------------------------------------------ */
+/* Travel: Navigator roll and journey planner                          */
+/* ------------------------------------------------------------------ */
+
+function navigation() {
+    openNavigationRoll();
+}
+
+function journey() {
+    openJourney();
+}
+
+export { environment, hazard, wall, travel, recall, narrativeBlock, sharedInventory, navigation, journey };

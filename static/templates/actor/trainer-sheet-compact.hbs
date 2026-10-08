@@ -670,6 +670,13 @@
                     </div>
                 </div>
 
+                <div class="swsh-box abilities">
+                    <div class="swsh-body w-100" style="display: block;">
+                        {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(localize
+                        "ITEM.TypeAbilityPlural") type="ability" items=abilities}}
+                    </div>
+                </div>
+
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
                         <b>{{localize "ITEM.TypeCapabilityPlural"}}</b>

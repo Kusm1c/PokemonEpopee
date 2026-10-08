@@ -205,6 +205,8 @@ export class CheckDiceModifiersDialog extends Application {
             totalModifier: this.check.totalModifier,
             rollModes: CONFIG.Dice.rollModes,
             rollMode,
+            // A caller that fixes the roll mode (the Navigator's secret roll) locks the select.
+            rollModeLocked: this.context.lockRollMode === true,
             showRollDialogs: true,
             substitutions: this.substitutions,
             fortune,

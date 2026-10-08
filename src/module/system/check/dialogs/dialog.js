@@ -212,6 +212,8 @@ export class CheckModifiersDialog extends Application {
             totalModifier: this.check.totalModifier,
             rollModes: CONFIG.Dice.rollModes,
             rollMode,
+            // A caller that fixes the roll mode (the Navigator's secret roll) locks the select.
+            rollModeLocked: this.context.lockRollMode === true,
             showRollDialogs: true,
             substitutions: this.substitutions,
             fortune,
@@ -291,6 +293,7 @@ export class CheckModifiersDialog extends Application {
 
         const rollModeInput = $html.find("select[name=rollmode]")[0];
         rollModeInput?.addEventListener("change", () => {
+            if (this.context.lockRollMode) return;
             const rollMode = rollModeInput.value;
             if (!Object.values(CONST.DICE_ROLL_MODES).includes(rollMode)) {
                 throw Error("Unexpected roll mode");

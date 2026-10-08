@@ -210,11 +210,13 @@ function defenseTerm(statTotal, useFullStat = false) {
  * @param {number} params.attackStat     Attacker's ATK or SPATK total
  * @param {boolean} params.moderate      Move carries the Modere tag
  * @param {number} params.offensiveStageDice Already-rolled total of the offensive MdS dice
+ * @param {boolean} [params.sameType=true] Move shares one of the attacker's types; STAB
+ *                                         only applies when it does
  * @returns {{total: number, breakdown: object}}
  */
-function computePower({ jet, level, attackStat, moderate = false, offensiveStageDice = 0 }) {
+function computePower({ jet, level, attackStat, moderate = false, offensiveStageDice = 0, sameType = true }) {
     const jetValue = Number.isFinite(Number(jet)) ? Number(jet) : 0;
-    const stab = stabValue(level);
+    const stab = sameType ? stabValue(level) : 0;
     const attack = attackTerm(attackStat, moderate);
     const stageDice = Number.isFinite(Number(offensiveStageDice)) ? Number(offensiveStageDice) : 0;
 

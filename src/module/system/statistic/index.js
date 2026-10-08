@@ -298,6 +298,8 @@ class StatisticCheck {
             options,
             type: this.type,
             rollMode,
+            // The roll dialogs disable their roll-mode select when this is set.
+            lockRollMode: args.lockRollMode === true,
             skipDialog,
             substitutions: extractRollSubstitutions(actor.synthetics.rollSubstitutions, domains, options),
             title: args.title ?? this.label,

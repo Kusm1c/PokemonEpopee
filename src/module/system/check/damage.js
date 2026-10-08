@@ -70,11 +70,9 @@ class PTUDamageCheck extends PTUDiceCheck {
             })
         ]
         // Stock PTR's STAB bumped the *damage base* when the move's type matched the
-        // actor's. Epopee replaces it with a flat STAB stat (5 + level/5) added to
-        // Puissance unconditionally - see the epopee-stab modifier below. Keeping both
-        // would double-count, so the damage-base bump is intentionally not applied.
-        // CHECKLIST.md 11.1 tracks this as a decision to confirm.
-        void this.item.damageBase.isStab;
+        // actor's. Epopee replaces that bump with a flat STAB stat (5 + level/5) added to
+        // Puissance - see the epopee-stab modifier below. Keeping both would double-count,
+        // so the damage-base bump is intentionally not applied.
 
         const modifiers = []
         const diceModifiers = []
@@ -84,11 +82,17 @@ class PTUDamageCheck extends PTUDiceCheck {
         const epopeeLevel = this.actor.system.level?.current ?? 1;
         const epopeeModerate = isModerate(this.item.system.keywords ?? [], this.item.isDamaging);
 
-        modifiers.push(new PTUModifier({
-            slug: "epopee-stab",
-            label: "STAB",
-            modifier: stabValue(epopeeLevel),
-        }));
+        // Same Type Attack Bonus: only a move sharing one of the user's types gets it.
+        // `damageBase.isStab` is PTR's own type match (move type among the actor's
+        // types). Struggle is the exception - "STAB + 1d20" is its whole formula, and
+        // PTR never marks a Struggle as same-type, so it keeps its STAB here.
+        if (this.item.system.isStruggle || this.item.damageBase?.isStab) {
+            modifiers.push(new PTUModifier({
+                slug: "epopee-stab",
+                label: "STAB",
+                modifier: stabValue(epopeeLevel),
+            }));
+        }
 
         const damageBonus = isNaN(Number(this.item.system.damageBonus)) ? 0 : Number(this.item.system.damageBonus);
         if (damageBonus != 0) {

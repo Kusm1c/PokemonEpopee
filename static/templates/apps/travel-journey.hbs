@@ -1,0 +1,93 @@
+<div class="pe-travel">
+    {{#unless folderFound}}
+    <p class="pe-travel-warning">{{folderWarning}}</p>
+    {{/unless}}
+
+    <h3>{{peLocalize "PTU.Epopee.Travel.Journey.Party"}}</h3>
+    <div class="pe-journey-party">
+        {{#each slots}}
+        <div class="pe-journey-slot {{#if slowest}}slowest{{/if}}">
+            <span class="pe-journey-slot-number">{{number}}</span>
+            <select name="slot-{{index}}-actor">
+                {{#each actors}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+                {{/each}}
+            </select>
+            <select name="slot-{{index}}-speed" title="{{peLocalize "PTU.Epopee.Travel.Journey.Speed"}}">
+                {{#each speeds}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+                {{/each}}
+            </select>
+        </div>
+        {{/each}}
+    </div>
+    <p class="pe-journey-slowest {{#if hasSlowest}}active{{/if}}">{{slowest}}</p>
+
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Travel.Journey.Terrain"}}</label>
+        <select name="terrainId">
+            {{#each terrains}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Travel.Journey.Path"}}</label>
+        <select name="pathId">
+            {{#each paths}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Travel.Journey.Condition"}}</label>
+        <select name="conditionId">
+            {{#each conditions}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Travel.Journey.Duration"}}</label>
+        <select name="hours">
+            {{#each hours}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Travel.Journey.Haste"}}</label>
+        <select name="hasteHours">
+            {{#each haste}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    {{#if hasModes}}
+    <div class="form-group stacked">
+        <label>{{peLocalize "PTU.Epopee.Travel.Journey.Modes"}}</label>
+        {{#each modes}}
+        <label class="checkbox">
+            <input type="checkbox" name="mode" value="{{id}}" data-group="{{group}}"
+                {{#if checked}}checked{{/if}} {{#if disabled}}disabled{{/if}} />
+            {{label}}
+        </label>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    <table class="pe-journey-preview">
+        <tr><th>{{peLocalize "PTU.Epopee.Travel.Journey.BasePace"}}</th><td>{{peLocalize "PTU.Epopee.Travel.Journey.KmPerHour" value=preview.base}}</td></tr>
+        <tr><th>{{peLocalize "PTU.Epopee.Travel.Journey.Terrain"}}</th><td>{{preview.terrain}}</td></tr>
+        <tr><th>{{peLocalize "PTU.Epopee.Travel.Journey.Condition"}}</th><td>{{preview.condition}}</td></tr>
+        {{#if hasModes}}<tr><th>{{peLocalize "PTU.Epopee.Travel.Journey.Modes"}}</th><td>{{preview.modes}}</td></tr>{{/if}}
+        <tr><th>{{peLocalize "PTU.Epopee.Travel.Journey.Pace"}}</th><td>{{peLocalize "PTU.Epopee.Travel.Journey.KmPerHour" value=preview.pace}}</td></tr>
+        <tr><th>{{peLocalize "PTU.Epopee.Travel.Journey.Duration"}}</th><td>{{peLocalize "PTU.Epopee.Travel.Journey.HoursWithHaste" hours=preview.hours haste=preview.haste}}</td></tr>
+        <tr class="pe-journey-total"><th>{{peLocalize "PTU.Epopee.Travel.Journey.Distance"}}</th><td>{{preview.km}} km</td></tr>
+    </table>
+
+    <button type="button" class="pe-journey-confirm" {{#unless canConfirm}}disabled{{/unless}}>
+        <i class="fas fa-route"></i> {{peLocalize "PTU.Epopee.Travel.Journey.Confirm"}}
+    </button>
+</div>

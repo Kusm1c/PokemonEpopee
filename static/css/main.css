@@ -8752,3 +8752,159 @@ a.content-link img {
   margin-bottom: 4px;
   text-align: center;
 }
+
+/*
+ * Epopee: travel macros (Navigator roll, Travel) and their chat cards.
+ */
+.pe.travel-app .pe-travel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pe.travel-app .pe-travel h3 {
+  margin: 4px 0 0;
+  border-bottom: 1px solid var(--color-border-light-primary, #b5b3a4);
+}
+
+.pe-travel-warning {
+  margin: 0;
+  padding: 4px 6px;
+  background: #e8b923;
+  color: #000;
+  font-weight: bold;
+}
+
+.pe-muted {
+  opacity: 0.7;
+  font-size: 11px;
+}
+
+.pe.travel-app .pe-travel-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  border: 1px solid #c0392b;
+  font-size: 14px;
+}
+
+.pe.travel-app .pe-travel-result b {
+  font-size: 18px;
+}
+
+.pe.travel-app .form-group.stacked label.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: normal;
+}
+
+/* Party: number, character, Movement. The pace-setter is highlighted live. */
+.pe.travel-app .pe-journey-party {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pe.travel-app .pe-journey-slot {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) 64px;
+  gap: 4px;
+  align-items: center;
+  padding: 1px 2px;
+  border-left: 3px solid transparent;
+}
+
+.pe.travel-app .pe-journey-slot.slowest {
+  background: rgba(192, 57, 43, 0.15);
+  border-left-color: #c0392b;
+}
+
+.pe.travel-app .pe-journey-slot-number {
+  text-align: center;
+  opacity: 0.6;
+}
+
+.pe.travel-app .pe-journey-slowest {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.pe.travel-app .pe-journey-slowest.active {
+  color: #c0392b;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.pe.travel-app .pe-journey-preview,
+.pe-travel-card table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+.pe.travel-app .pe-journey-preview th,
+.pe-travel-card table th {
+  text-align: left;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+.pe.travel-app .pe-journey-preview td,
+.pe-travel-card table td {
+  text-align: right;
+}
+
+.pe.travel-app .pe-journey-total {
+  font-size: 15px;
+  font-weight: bold;
+  border-top: 1px solid currentColor;
+}
+
+.pe-travel-card h3 {
+  margin: 0 0 4px;
+}
+
+.pe-travel-outcome {
+  margin: 0 0 4px;
+  font-weight: bold;
+}
+
+.pe-travel-outcome.success {
+  color: #27ae60;
+}
+
+.pe-travel-outcome.failure {
+  color: #c0392b;
+}
+
+/* One square per km, ticked like the Loyalty row. */
+.pe-journey-cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 6px 0 4px;
+}
+
+.pe-journey-cell {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #666;
+  background: #fff;
+}
+
+.pe-journey-cell.checked {
+  background: #e8b923;
+}
+
+.pe-journey-cells.editable .pe-journey-cell {
+  cursor: pointer;
+}
+
+.pe-journey-progress {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}

@@ -226,6 +226,113 @@
         "Serious": "Serious",
         "Composed": "Composed"
       },
+      "Travel": {
+        "GmOnly": "Only the GM can run this macro.",
+        "Terrain": {
+          "desert": "Desert",
+          "forestSparse": "Forest (sparse)",
+          "forestMedium": "Forest (medium)",
+          "forestDense": "Forest (dense)",
+          "hills": "Hills",
+          "jungle": "Jungle",
+          "peatBog": "Peat Bog",
+          "mountain": "Mountain",
+          "plains": "Plains",
+          "marsh": "Marsh",
+          "tundraIce": "Tundra, Ice"
+        },
+        "Path": {
+          "road": "Road",
+          "trail": "Trail / Path",
+          "trackless": "Trackless"
+        },
+        "Condition": {
+          "none": "None",
+          "hotCold": "Hot or Cold Climate",
+          "giantTerrain": "Giant Terrain",
+          "hurricane": "Hurricane",
+          "ledMount": "Mount on a Lead",
+          "lowVisibility": "Low Visibility (mist, darkness)",
+          "riverCrossing": "River Crossing",
+          "snow": "Snow",
+          "deepSnow": "A Metre of Snow",
+          "storm": "Storm",
+          "strongStorm": "Strong Storm"
+        },
+        "Mode": {},
+        "Reference": {
+          "Title": "Travel Reference",
+          "TerrainTitle": "Terrain Modifiers",
+          "ConditionTitle": "Condition Modifiers",
+          "BaseSpeedTitle": "Base Movement Speed",
+          "Terrain": "Terrain",
+          "NavigationDC": "Navigation DC",
+          "ForageDC": "Forage DC",
+          "Condition": "Condition",
+          "Modifier": "Modifier",
+          "OnFoot": "On Foot",
+          "Metres": "{metres} metres",
+          "Row": {
+            "hourMarch": "1 Hour (March)",
+            "hourHaste": "1 Hour (Haste)",
+            "quarter": "1 Quarter (4 Hours)",
+            "day": "1 Day (8 Hours)"
+          }
+        },
+        "Navigation": {
+          "Title": "Navigator Roll",
+          "Actor": "Navigator",
+          "Terrain": "Terrain",
+          "DC": "Navigation DC",
+          "Equipment": "Equipment",
+          "Bonus": {
+            "compass": "Compass",
+            "reconReport": "Recon Report"
+          },
+          "Hint": "The owning player makes a secret Survival roll; only the GM sees the result.",
+          "Roll": "Roll",
+          "RollTitle": "Navigation ({terrain})",
+          "NoActor": "Choose a Navigator first.",
+          "NoFolder": "No Actor folder named \"{folder}\" was found.",
+          "NoTrainers": "No Trainer in \"{folder}\" or its subfolders.",
+          "NoSkill": "{actor} has no Survival skill.",
+          "Requested": "Navigation roll requested from {user} ({actor}).",
+          "RollingSelf": "No player owning {actor} is connected: the roll is made from your client.",
+          "PromptBody": "The GM asks {actor} for a Navigation roll (Survival). The result stays hidden.",
+          "Declined": "{user} cancelled the Navigation roll.",
+          "ResultTitle": "Navigation — {actor}",
+          "Total": "Total",
+          "Deviation": "Deviation",
+          "Success": "Success: the party keeps its heading.",
+          "Failure": "Failure: the party is lost."
+        },
+        "Journey": {
+          "Title": "Travel",
+          "Party": "Party",
+          "Speed": "Movement (metres)",
+          "Slot": "Slot {n}",
+          "Slowest": "Slowest: {names} ({speed})",
+          "SlowestShort": "Slowest",
+          "NoMembers": "Give at least one character a Movement.",
+          "NoFolder": "No Actor folder named \"{folder}\" was found.",
+          "Terrain": "Terrain",
+          "Path": "Path",
+          "Condition": "Condition",
+          "Duration": "Duration (hours)",
+          "Haste": "Hours in haste",
+          "Modes": "Movement modes",
+          "BasePace": "Base pace",
+          "Pace": "Final pace",
+          "Distance": "Distance",
+          "KmPerHour": "{value} km/h",
+          "HoursWithHaste": "{hours} h, {haste} in haste",
+          "Confirm": "Confirm",
+          "CardTitle": "Travel",
+          "CardDistance": "Distance covered: {km} km",
+          "ProgressKm": "{done} / {planned} km",
+          "ProgressHours": "{done} / {planned} h"
+        }
+      },
       "Always": "Always",
       "Item": {
         "Condition": {
