@@ -167,7 +167,7 @@
       "HpFragment": "Frag. PV 5%",
       "HpFragmentHint": "Fragment de PV : 5 % des PV max ({max}), arrondi au supérieur",
       "StatusesOver": "{count} / {max} États — limite dépassée",
-      "CommonCapabilities": "Aptitudes Communes",
+      "CommonCapabilities": "Capacités Communes",
       "Struggle": "Lutte",
       "StruggleHint": "Toujours disponible. Ignore les défenses de l'attaquant et de la cible, et inflige un contrecoup égal aux dégâts infligés.",
       "ReactionAction": "Action de réaction",
@@ -1051,7 +1051,7 @@
       "Combined": "Efficacité totale",
       "ItemOverwrite": {
         "hp": "Défense PV",
-        "atk": "Défense ATK",
+        "atk": "Défense ATQ",
         "def": "Défense DEF",
         "spatk": "Défense ATQSP",
         "spdef": "Défense DEFSP",
@@ -1525,7 +1525,7 @@
   "power": "Puissance",
   "naturewalk": "Aisance",
   "weightClass": "Classe de poids",
-  "throwingRange": "Portée de Lancé",
+  "throwingRange": "Portée de Lancer",
   "party": "Groupe",
   "neutral": "Neutre",
   "opposition": "Opposition"
