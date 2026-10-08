@@ -102,8 +102,11 @@ const STAT_ABBREVIATIONS = {
  * A Nature that raises and lowers the same stat is the series' way of writing "no
  * change", so it is labelled as neutral rather than showing `+ATQ / -ATQ`.
  *
+ * The option *value* stays the English name: it is what `system.nature.value` stores and
+ * what the stat calculation looks up in `natureData`, so only the label is translated.
+ *
  * @param {Record<string, [string, string]>} natureData Usually CONFIG.PTU.data.natureData
- * @returns {{value: string, label: string}[]} sorted by name
+ * @returns {{value: string, label: string}[]} sorted by displayed name
  */
 function natureOptions(natureData) {
     if (!natureData || typeof natureData !== "object") return [];
@@ -112,20 +115,44 @@ function natureOptions(natureData) {
 
     return Object.entries(natureData)
         .map(([name, entry]) => {
-            if (!Array.isArray(entry) || entry.length < 2) return { value: name, label: name };
+            const nature = natureLabel(name);
+            if (!Array.isArray(entry) || entry.length < 2) return { value: name, label: nature, nature };
 
             const [raised, lowered] = entry;
             const label = raised === lowered
-                ? game.i18n.format("PTU.Epopee.NatureNeutral", { nature: name })
+                ? game.i18n.format("PTU.Epopee.NatureNeutral", { nature })
                 : game.i18n.format("PTU.Epopee.NatureChange", {
-                    nature: name,
+                    nature,
                     raised: abbr(raised),
                     lowered: abbr(lowered)
                 });
 
-            return { value: name, label };
+            return { value: name, label, nature };
         })
-        .sort((a, b) => a.value.localeCompare(b.value));
+        // Sorted on the displayed name, so the list stays alphabetical once translated.
+        .sort((a, b) => a.nature.localeCompare(b.nature, game.i18n.lang))
+        .map(({ value, label }) => ({ value, label }));
+}
+
+/**
+ * Marks a string the translators have yet to fill in. Shown as is, it would make the
+ * six neutral Natures indistinguishable ("tradFR (Neutre)"), so it counts as missing.
+ */
+const UNTRANSLATED = "tradFR";
+
+/**
+ * A Nature's name in the current language, from `PTU.Epopee.Natures.<English name>`.
+ * Falls back to the English name when there is no translation yet, so a Nature added
+ * to `natureData` still shows up rather than as a raw key or a placeholder.
+ *
+ * @param {string} name English name, as stored on the actor
+ * @returns {string}
+ */
+function natureLabel(name) {
+    const key = `PTU.Epopee.Natures.${name}`;
+    if (!game.i18n.has(key)) return name;
+    const label = game.i18n.localize(key);
+    return label && label !== UNTRANSLATED ? label : name;
 }
 
 export {
@@ -134,5 +161,6 @@ export {
     STAT_ABBREVIATIONS,
     flavourForStat,
     flavoursForNature,
+    natureLabel,
     natureOptions
 };

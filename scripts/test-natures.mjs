@@ -22,7 +22,7 @@ test("Adamant: +Attack / -Special Attack", () => {
     const f = flavoursForNature("Adamant", natureData);
     assert.equal(f.liked, "Spicy");
     assert.equal(f.disliked, "Dry");
-    assert.equal(f.likedLabel, "Épicé");
+    assert.equal(f.likedLabel, "Spicy");
     assert.equal(f.neutral, false);
 });
 
