@@ -241,8 +241,9 @@ const combat = {
     confusedNormal: 15,
   },
   initiative: {
-    formula: "@initiative.value + (1d20 * 0.01)",
-    decimals: 2
+    // Epopee: flat Speed, no die (actor initiative does the same, see prepareInitiative).
+    formula: "@initiative.value",
+    decimals: 0
   }
 };
 

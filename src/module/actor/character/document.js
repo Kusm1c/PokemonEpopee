@@ -3,6 +3,7 @@ import { calculateEvasions, calculatePTStatTotal, calculateOldStatTotal, calcula
 import { calculateTrainerCapabilities } from "./capabilities.js";
 import { PTUModifier } from "../modifiers.js";
 import { sluggify } from "../../../util/misc.js";
+import { TRAINER_INITIATIVE_BONUS } from "../../combat-math/config.js";
 
 class PTUTrainerActor extends PTUActor {
 
@@ -294,7 +295,8 @@ class PTUTrainerActor extends PTUActor {
         system.ap.drained = Number(this.synthetics.apAdjustments.drained.map(d => d.value).reduce((a, b) => a + b, 0)) || 0
         system.ap.max = this.baseMaxAp - system.ap.bound - system.ap.drained
 
-        system.initiative = { value: system.stats.spd.total + system.modifiers.initiative.total };
+        // Epopee: Trainers get +1000, the same bonus their initiative roll adds.
+        system.initiative = { value: system.stats.spd.total + system.modifiers.initiative.total + TRAINER_INITIATIVE_BONUS };
 
         // Contests
         // This is to force the order of the stats to be the same as the order in the sheet

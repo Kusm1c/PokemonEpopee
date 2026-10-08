@@ -13,6 +13,7 @@ import { PTUDamage } from "../system/damage/damage.js";
 import { PTUMoveDamage } from "../system/damage/move.js";
 import { combatStages, statForFormula } from "../combat-math/actor.js";
 import { defenseTerm, mdsTerm } from "../combat-math/formula.js";
+import { TRAINER_INITIATIVE_BONUS } from "../combat-math/config.js";
 import { ActorConditions } from "./conditions.js";
 import { prepareSecondaryStats } from "../stats/secondary.js";
 import { IWRData, ImmunityData, ResistanceData, WeaknessData, scaleTypeEffectiveness } from "./iwr.js";
@@ -1361,6 +1362,14 @@ class PTUActor extends Actor {
                     modifier: this.system.modifiers.initiative.total,
                 }))
             }
+            // Epopee: "Quand un dresseur jette son initiative, ça doit faire +1000."
+            if (this.type === "character") {
+                check.modifiers.push(new PTUModifier({
+                    slug: "trainer-initiative",
+                    label: "Trainer",
+                    modifier: TRAINER_INITIATIVE_BONUS,
+                }))
+            }
 
             check.prepareStatistic("initiative")
 
@@ -1377,40 +1386,26 @@ class PTUActor extends Actor {
             return check;
         }
 
+        // Epopee: initiative is flat - "Définie par la vitesse du Pokémon ou du Dresseur
+        // (+1000 si c'est un dresseur). Flat entière, y'a pas de roll." The value is the
+        // total prepareRoll builds (Speed, the sheet's Initiative Bonus, +1000 for a
+        // Trainer, Paralysis), with no die - not even PTR's 1d20 x 0.01 tiebreaker - and
+        // no chat message.
         action.roll = async (params = {}) => {
             const combatant = await PTUCombatant.fromActor(this, false);
-            if (!combatant) return;
-
-            if (combatant.hidden) {
-                params.rollMode = CONST.DICE_ROLL_MODES.PRIVATE;
-            }
+            if (!combatant) return null;
 
             /** @type {PTUDiceCheck} */
             const check = await action.prepareRoll(params);
-
-            const result = await check.execute({
-                diceSize: 20,
-                rollModeArg: params.rollMode ?? null,
-                isReroll: false,
-                title: game.i18n.format("PTU.InitiativeRoll", { name: combatant.actor.name }),
-                skipDialogArg: true,
-                type: "initiative"
-            });
-            await check.afterRoll();
-
-            if (!result) {
-                // Render combat sidebar in case a combatant was created but the roll was not completed
-                game.combats.render(false);
-                return null;
-            }
+            const value = Math.trunc(check.statistic.totalModifier);
 
             // Update the tracker unless requested not to
             const updateTracker = params.updateTracker ?? true;
             if (updateTracker) {
-                await combatant.combat.setInitiative(combatant.id, result.rolls.at(0).total);
+                await combatant.combat.setInitiative(combatant.id, value);
             }
 
-            return { combatant, roll: result.rolls.at(0) };
+            return { combatant, value };
         }
 
         return action;

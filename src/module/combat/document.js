@@ -86,23 +86,15 @@ class PTUCombat extends Combat {
 
     /** @override */
     async rollInitiative(ids, options = {}) {
-        const extraRollOptions = options.extraRollOptions ?? [];
-        const rollMode = options.messageOptions?.rollMode ?? options.rollMode ?? game.settings.get("core", "rollMode");
-        if (options.secret) extraRollOptions.push("secret");
-
         const combatants = ids.flatMap(
             (id) => this.combatants.get(id) ?? []
         );
         const fightyCombatants = combatants.filter((c) => !!c.actor?.initiative);
+        // Flat values (see PTUActor#prepareInitiative): nothing is rolled.
         const rollResults = await Promise.all(
             fightyCombatants.map(async (combatant) => {
                 return (
-                    combatant.actor.initiative?.roll({
-                        ...options,
-                        extraRollOptions,
-                        updateTracker: false,
-                        rollMode,
-                    }) ?? null
+                    combatant.actor.initiative?.roll({ ...options, updateTracker: false }) ?? null
                 );
             })
         );
@@ -110,13 +102,13 @@ class PTUCombat extends Combat {
         const initiatives = rollResults.flatMap((result) => {
             if (result?.combatant?.isPrimaryBossCombatant) {
                 const { otherTurns } = result.combatant.bossTurns;
-                const results = [{ id: result.combatant.id, value: result.roll.total }];
+                const results = [{ id: result.combatant.id, value: result.value }];
 
                 // For each other turn, add an initiative value that is 5 less than the previous
                 // If the value is less than 0, instead start adding 5 more than the previous, restarting from 5 + base value
                 for (let i = 1; i <= otherTurns.length; i++) {
-                    const init = result.roll.total - 5 * i;
-                    const actualInit = init >= 0 ? init : result.roll.total + -5 * (Math.ceil(init / 5) - 1)
+                    const init = result.value - 5 * i;
+                    const actualInit = init >= 0 ? init : result.value + -5 * (Math.ceil(init / 5) - 1)
                     results.push({
                         id: otherTurns[i - 1].id,
                         value: actualInit
@@ -127,7 +119,7 @@ class PTUCombat extends Combat {
             return result
                 ? {
                     id: result.combatant.id,
-                    value: result.roll.total,
+                    value: result.value,
                 }
                 : []
         }
@@ -138,6 +130,28 @@ class PTUCombat extends Combat {
         // Roll the rest with the parent method
         const remainingIds = ids.filter((id) => !fightyCombatants.some((c) => c.id === id));
         return super.rollInitiative(remainingIds, options);
+    }
+
+    /**
+     * Epopee: "Roll All" sets every combatant, not only those without an initiative.
+     * Initiative is a flat Speed value, so re-applying it is harmless and brings anyone
+     * whose Speed changed since back in line.
+     *
+     * @override
+     */
+    async rollAll(options) {
+        const ids = this.combatants.filter((c) => c.isOwner).map((c) => c.id);
+        return this.rollInitiative(ids, options);
+    }
+
+    /**
+     * Same for "Roll NPCs": every non-player combatant.
+     *
+     * @override
+     */
+    async rollNPC(options = {}) {
+        const ids = this.combatants.filter((c) => c.isOwner && c.isNPC).map((c) => c.id);
+        return this.rollInitiative(ids, options);
     }
 
     async setMultipleInitiatives(initiatives) {

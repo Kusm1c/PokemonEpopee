@@ -18,6 +18,9 @@ const STAB_LEVEL_DIVISOR = 5;
 /** A stat can be raised or lowered at most this many times. */
 const MAX_COMBAT_STAGES = 6;
 
+/** Added to a Trainer's initiative, so Trainers always act before Pokemon. */
+const TRAINER_INITIATIVE_BONUS = 1000;
+
 /**
  * MdS die size by level bracket. Each combat stage contributes one die of this size,
  * so N stages at level 35 is "Nd6".
@@ -63,6 +66,7 @@ export {
     STAB_BASE,
     STAB_LEVEL_DIVISOR,
     MAX_COMBAT_STAGES,
+    TRAINER_INITIATIVE_BONUS,
     MDS_DIE_BY_LEVEL,
     MDS_DIE_ABOVE_TABLE,
     DEFAULT_IS_MODERATE,
