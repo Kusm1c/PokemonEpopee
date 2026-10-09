@@ -144,6 +144,9 @@ const UNTRANSLATED = "tradFR";
  * A Nature's name in the current language, from `PTU.Epopee.Natures.<English name>`.
  * Falls back to the English name when there is no translation yet, so a Nature added
  * to `natureData` still shows up rather than as a raw key or a placeholder.
+ * A Nature's name in the current language, from `PTU.Epopee.Natures.<English name>`.
+ * Falls back to the English name, so a Nature added to `natureData` without a
+ * translation still shows up rather than as a raw key.
  *
  * @param {string} name English name, as stored on the actor
  * @returns {string}
@@ -153,6 +156,7 @@ function natureLabel(name) {
     if (!game.i18n.has(key)) return name;
     const label = game.i18n.localize(key);
     return label && label !== UNTRANSLATED ? label : name;
+    return game.i18n.has(key) ? game.i18n.localize(key) : name;
 }
 
 export {
