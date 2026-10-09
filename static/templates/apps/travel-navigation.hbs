@@ -31,16 +31,6 @@
         <b>{{dc}}</b>
     </div>
 
-    <div class="form-group stacked">
-        <label>{{peLocalize "PTU.Epopee.Travel.Navigation.Equipment"}}</label>
-        {{#each bonuses}}
-        <label class="checkbox">
-            <input type="checkbox" name="bonus" value="{{id}}" {{#if checked}}checked{{/if}} />
-            {{label}} (+{{value}})
-        </label>
-        {{/each}}
-    </div>
-
     <p class="pe-muted">{{peLocalize "PTU.Epopee.Travel.Navigation.Hint"}}</p>
 
     <button type="button" class="pe-navigation-roll" {{#unless canRoll}}disabled{{/unless}}>

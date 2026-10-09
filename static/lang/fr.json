@@ -319,7 +319,7 @@
           "Pace": "Rythme final",
           "Distance": "Distance",
           "KmPerHour": "{value} km/h",
-          "HoursWithHaste": "{hours} h, {hâte} avec hâte",
+          "HoursWithHaste": "{hours} h, {haste} avec hâte",
           "Confirm": "Confirmer",
           "CardTitle": "Voyager",
           "CardDistance": "Distance traversée : {km} km",

@@ -191,9 +191,11 @@ class JourneyApp extends Application {
             slowest: plan.slowest ? { names, speed: plan.slowest.speed } : null
         };
 
+        // GM only: the travel card is for planning, the players do not see it.
         await ChatMessage.create({
             content: journeyCardHTML(card),
             speaker: { alias: localize(`${K}.Title`) },
+            whisper: ChatMessage.getWhisperRecipients("GM").map((u) => u.id),
             flags: { pe: { [CARD_FLAG]: card } }
         });
     }

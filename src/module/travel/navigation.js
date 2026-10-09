@@ -24,10 +24,9 @@ class NavigationRollApp extends Application {
     constructor(options) {
         super(options);
         // "Garder en mémoire tous les choix faits lors de la config de la macro. (Acteur
-        // choisi, Terrain)". Equipment is picked per roll, so it is not remembered.
+        // choisi, Terrain)". The equipment is the roller's to declare, not the GM's.
         const saved = game.user.getFlag("pe", CONFIG_FLAG) ?? {};
         this.config = { actorId: saved.actorId ?? "", terrainId: saved.terrainId ?? TERRAINS[0].id };
-        this.bonusIds = [];
     }
 
     static get defaultOptions() {
@@ -52,11 +51,6 @@ class NavigationRollApp extends Application {
             trainers: actors.map((a) => ({ id: a.id, name: a.name, selected: a.id === this.config.actorId })),
             terrains: TERRAINS.map((t) => ({ id: t.id, name: terrainName(t), selected: t.id === terrain.id })),
             dc: terrain.navigationDC,
-            bonuses: NAVIGATION_BONUSES.map((b) => ({
-                id: b.id, value: b.value,
-                label: localize(`${K}.Bonus.${b.id}`),
-                checked: this.bonusIds.includes(b.id)
-            })),
             canRoll: actors.some((a) => a.id === this.config.actorId),
             folder: localize(`${K}.NoFolder`, { folder: PARTY_FOLDER }),
             noTrainers: localize(`${K}.NoTrainers`, { folder: PARTY_FOLDER })
@@ -75,7 +69,6 @@ class NavigationRollApp extends Application {
     async _read(html) {
         this.config.actorId = html.find("select[name=actorId]").val() ?? "";
         this.config.terrainId = html.find("select[name=terrainId]").val() ?? TERRAINS[0].id;
-        this.bonusIds = html.find("input[name=bonus]:checked").map((_, el) => el.value).get();
         await game.user.setFlag("pe", CONFIG_FLAG, this.config);
         this.render(false);
     }
@@ -84,7 +77,7 @@ class NavigationRollApp extends Application {
         const actor = game.actors.get(this.config.actorId);
         if (!actor) return ui.notifications.warn(localize(`${K}.NoActor`));
         const terrain = TERRAINS.find((t) => t.id === this.config.terrainId) ?? TERRAINS[0];
-        await requestNavigationRoll({ actor, terrain, bonusIds: [...this.bonusIds] });
+        await requestNavigationRoll({ actor, terrain });
     }
 }
 
@@ -95,22 +88,23 @@ function navigatorPlayer(actor) {
 }
 
 /** GM side: hand the roll to the owning player, or make it here if none is connected. */
-async function requestNavigationRoll({ actor, terrain, bonusIds }) {
+async function requestNavigationRoll({ actor, terrain }) {
     const request = {
         requestId: foundry.utils.randomID(),
         gmId: game.user.id,
         actorUuid: actor.uuid,
         terrainId: terrain.id,
-        dc: terrain.navigationDC,
-        bonusIds
+        dc: terrain.navigationDC
     };
 
     const player = navigatorPlayer(actor);
     if (!player) {
         ui.notifications.info(localize(`${K}.RollingSelf`, { actor: actor.name }));
-        const total = await performNavigationRoll(request);
+        const bonusIds = await askNavigator(actor);
+        if (!bonusIds) return;
+        const total = await performNavigationRoll({ ...request, bonusIds });
         if (total === null) return;
-        return postNavigationResult({ ...request, total });
+        return postNavigationResult({ ...request, bonusIds, total });
     }
 
     emitSocket("navigation.request", { ...request, userId: player.id });
@@ -118,11 +112,31 @@ async function requestNavigationRoll({ actor, terrain, bonusIds }) {
 }
 
 /**
+ * Ask whoever rolls for the Navigator to go ahead, and which equipment they use. Both
+ * boxes start unticked: the roller declares them.
+ *
+ * @returns {Promise<string[]|null>} the bonus ids ticked, or null if the prompt was closed
+ */
+async function askNavigator(actor) {
+    const boxes = NAVIGATION_BONUSES.map((b) => `<label class="checkbox" style="display:flex;align-items:center;gap:4px;">
+            <input type="checkbox" name="bonus" value="${b.id}" /> ${escape(localize(`${K}.Bonus.${b.id}`))} (+${b.value})
+        </label>`).join("");
+    return Dialog.prompt({
+        title: localize(`${K}.Title`),
+        content: `<p>${escape(localize(`${K}.PromptBody`, { actor: actor?.name ?? "?" }))}</p>
+            <div class="form-group stacked"><label>${localize(`${K}.Equipment`)}</label>${boxes}</div>`,
+        label: localize(`${K}.Roll`),
+        rejectClose: true,
+        callback: (html) => html.find("input[name=bonus]:checked").map((_, el) => el.value).get()
+    }).catch(() => null);
+}
+
+/**
  * Roll the Trainer's Survival check, blind and locked. Runs on whichever client rolls.
  *
  * @returns {Promise<number|null>} the total, or null if the roll did not happen
  */
-async function performNavigationRoll({ actorUuid, terrainId, bonusIds }) {
+async function performNavigationRoll({ actorUuid, terrainId, bonusIds = [] }) {
     const actor = await fromUuid(actorUuid);
     const skill = actor?.attributes?.skills?.[NAVIGATION_SKILL];
     if (!skill) {
@@ -147,7 +161,7 @@ async function performNavigationRoll({ actorUuid, terrainId, bonusIds }) {
 }
 
 /** GM side: whisper the outcome to the GMs, with the deviation on a failure. */
-async function postNavigationResult({ actorUuid, terrainId, dc, total }) {
+async function postNavigationResult({ actorUuid, terrainId, dc, total, bonusIds = [] }) {
     const actor = await fromUuid(actorUuid);
     const terrain = TERRAINS.find((t) => t.id === terrainId) ?? TERRAINS[0];
     const success = total >= dc;
@@ -156,6 +170,8 @@ async function postNavigationResult({ actorUuid, terrainId, dc, total }) {
     const rows = [
         [localize(`${K}.Terrain`), escape(terrainName(terrain))],
         [localize(`${K}.DC`), dc],
+        [localize(`${K}.Equipment`), NAVIGATION_BONUSES.filter((b) => bonusIds.includes(b.id))
+            .map((b) => `${escape(localize(`${K}.Bonus.${b.id}`))} (+${b.value})`).join(", ") || "—"],
         [localize(`${K}.Total`), total]
     ];
     if (deviation) rows.push([localize(`${K}.Deviation`), `${deviation.total} <span class="pe-muted">(${DEVIATION_FORMULA})</span>`]);
@@ -180,16 +196,9 @@ onSocket("navigation.request", async (data) => {
     if (data.userId !== game.user.id) return;
     const actor = await fromUuid(data.actorUuid);
 
-    const accepted = await Dialog.prompt({
-        title: localize(`${K}.Title`),
-        content: `<p>${escape(localize(`${K}.PromptBody`, { actor: actor?.name ?? "?" }))}</p>`,
-        label: localize(`${K}.Roll`),
-        rejectClose: true,
-        callback: () => true
-    }).catch(() => false);
-
-    const total = accepted ? await performNavigationRoll(data) : null;
-    emitSocket("navigation.result", { ...data, total, userName: game.user.name });
+    const bonusIds = await askNavigator(actor);
+    const total = bonusIds ? await performNavigationRoll({ ...data, bonusIds }) : null;
+    emitSocket("navigation.result", { ...data, bonusIds: bonusIds ?? [], total, userName: game.user.name });
 });
 
 // GM side: only the GM who asked resolves it, so two GMs do not post it twice.
