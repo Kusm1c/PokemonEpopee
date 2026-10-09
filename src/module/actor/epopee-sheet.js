@@ -41,7 +41,21 @@ function prepareStatDisplay(actor) {
         };
     }
 
-    return { fragments, gauges };
+    // PRE and ESQ get the same gauge. Their stages are a flat +-1 each rather than MdS
+    // dice (see stats/secondary.js), so the gauge's label is that flat value.
+    const secondaryGauges = {};
+    for (const [key, stat] of Object.entries(actor.system.secondaryStats ?? {})) {
+        const current = clampStages((Number(stat?.stage?.value) || 0) + (Number(stat?.stage?.mod) || 0));
+        secondaryGauges[key] = {
+            current,
+            positive: Array.from({ length: MAX_COMBAT_STAGES }, (_, i) => ({ index: i + 1, filled: current > i })),
+            negative: Array.from({ length: MAX_COMBAT_STAGES }, (_, i) => ({ index: -(i + 1), filled: current < -i })),
+            dice: current ? `${current > 0 ? "+" : ""}${current}` : "-",
+            formula: ""
+        };
+    }
+
+    return { fragments, gauges, secondaryGauges };
 }
 
 /**
@@ -102,11 +116,12 @@ function prepareSkillGroups(actor) {
  */
 function prepareEpopeeSheetData(actor, { includeFlavours = false } = {}) {
     const level = actor.system.level?.current ?? 1;
-    const { fragments, gauges } = prepareStatDisplay(actor);
+    const { fragments, gauges, secondaryGauges } = prepareStatDisplay(actor);
 
     const data = {
         fragments,
         gauges,
+        secondaryGauges,
         hpFragment: hpFragment(actor.system.health?.max ?? 0),
         stab: stabValue(level),
         skillDieSize: SKILL_DIE_SIZE,

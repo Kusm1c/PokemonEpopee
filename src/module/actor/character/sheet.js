@@ -9,6 +9,9 @@ import { runOriginWizard } from "./origin-wizard.js";
 import { PERIODS, resetUses } from "../../usage/engine.js";
 import { clampStages } from "../../combat-math/formula.js";
 
+/** Inventory category a dropped item lands in when it is not dropped on one. */
+const DROP_CATEGORY = "Temporaire";
+
 export class PTUCharacterSheet extends PTUActorSheet {
 
 	/** @override */
@@ -65,11 +68,20 @@ export class PTUCharacterSheet extends PTUActorSheet {
 
 		// Setup Item Columns
 		if (this.actor.getFlag("pe", "itemColumns") === undefined) {
-			const columns = { one: ["Key", "Medical", "Misc"], two: ["Pokemon Items", "PokeBalls", "TMs", "Money"], available: ["Equipment", "Food"] };
+			const columns = { one: [DROP_CATEGORY, "Key", "Medical", "Misc"], two: ["Pokemon Items", "PokeBalls", "TMs", "Money"], available: ["Equipment", "Food"] };
 			this.actor.setFlag("pe", "itemColumns", columns)
 			data.columns = columns;
 		}
 		else data.columns = this.actor.getFlag("pe", "itemColumns");
+
+		// Epopee: dropped items land in "Temporaire", so an existing layout needs a place
+		// for it. Top of the left column, once - if it was moved or disabled since, that
+		// choice stands.
+		const { one = [], two = [], available = [] } = data.columns ?? {};
+		if (![...one, ...two, ...available].includes(DROP_CATEGORY)) {
+			data.columns = { ...data.columns, one: [DROP_CATEGORY, ...one] };
+			if (this.actor.isOwner) this.actor.setFlag("pe", "itemColumns", data.columns);
+		}
 
 		const IWR = this.actor.iwr;
 		data.effectiveness = {
@@ -232,6 +244,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		const edges = [];
 		const items = [];
 		const items_categorized = {
+			[DROP_CATEGORY]: [],
 			"Key": [],
 			"Medical": [],
 			"Food": [],
@@ -339,11 +352,12 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		// MdS gauges: cell N sets the stage to N, re-clicking the current value clears it.
 		html.find('.mds-cell').click((ev) => {
 			const { stat, index } = ev.currentTarget.dataset;
+			// PRE and ESQ cells carry data-group="secondaryStats"; the six stats have none.
+			const group = ev.currentTarget.dataset.group || "stats";
 			const target = Number(index);
-			const current = clampStages(
-				(this.actor.system.stats[stat]?.stage?.value ?? 0) + (this.actor.system.stats[stat]?.stage?.mod ?? 0)
-			);
-			this.actor.update({ [`system.stats.${stat}.stage.value`]: current === target ? 0 : target });
+			const entry = this.actor.system[group]?.[stat];
+			const current = clampStages((entry?.stage?.value ?? 0) + (entry?.stage?.mod ?? 0));
+			this.actor.update({ [`system.${group}.${stat}.stage.value`]: current === target ? 0 : target });
 		});
 
 		html.find('.origin-wizard').click(() => runOriginWizard(this.actor));
@@ -628,10 +642,11 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			return false;
 		}
 
-		if (category) {
-			if (itemData.type == "item" && itemData.system.category != category) {
-				itemData.system.category = category;
-			}
+		// Epopee: a new item dropped anywhere but on a category goes to "Temporaire",
+		// rather than the category it carried (often one this inventory hides).
+		const targetCategory = category || (itemData.type == "item" ? DROP_CATEGORY : null);
+		if (targetCategory && itemData.type == "item" && itemData.system.category != targetCategory) {
+			itemData.system.category = targetCategory;
 		}
 
 		// Create the owned item

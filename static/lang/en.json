@@ -226,6 +226,10 @@
         "Serious": "Serious",
         "Composed": "Composed"
       },
+      "Usage": {
+        "Exhausted": "{name} has no uses left ({frequency}).",
+        "ExhaustedGm": "{name} has no uses left ({frequency}). Rolled anyway: you are the GM."
+      },
       "Travel": {
         "GmOnly": "Only the GM can run this macro.",
         "Terrain": {

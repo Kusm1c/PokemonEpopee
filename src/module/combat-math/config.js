@@ -18,6 +18,9 @@ const STAB_LEVEL_DIVISOR = 5;
 /** A stat can be raised or lowered at most this many times. */
 const MAX_COMBAT_STAGES = 6;
 
+/** Accuracy rolls use a d100 ("Faire passer le jet en de 100"). */
+const ACCURACY_DIE = 100;
+
 /** Added to a Trainer's initiative, so Trainers always act before Pokemon. */
 const TRAINER_INITIATIVE_BONUS = 1000;
 
@@ -66,6 +69,7 @@ export {
     STAB_BASE,
     STAB_LEVEL_DIVISOR,
     MAX_COMBAT_STAGES,
+    ACCURACY_DIE,
     TRAINER_INITIATIVE_BONUS,
     MDS_DIE_BY_LEVEL,
     MDS_DIE_ABOVE_TABLE,

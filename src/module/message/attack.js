@@ -61,7 +61,8 @@ class AttackMessagePTU extends ChatMessagePTU {
                             $("<i></i>")
                                 .addClass("fas fa-sparkles")
                         )
-                        .click(() => this.attack.item.use({targets: this.targets}))
+                        // The accuracy d20 goes along, for effects that need "18+".
+                        .click(() => this.attack.item.use({ targets: this.targets, rollResult: this.context?.rollResult ?? null }))
                 )
             );
 

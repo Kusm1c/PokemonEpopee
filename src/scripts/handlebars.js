@@ -378,6 +378,8 @@ function _registerBasicHelpers() {
     Handlebars.registerHelper("usageLabel", function (item) {
         const state = usageState(item?.system?.frequency ?? "", item?.system?.uses?.spent ?? 0);
         if (state.unlimited) return item?.system?.frequency || "At-Will";
+        // EOT is available or not, not a count: the greyed row says which.
+        if (state.period === "eot") return item?.system?.frequency || "EOT";
         return `${state.remaining} / ${state.max}`;
     });
     Handlebars.registerHelper("usageUnlimited", function (item) {

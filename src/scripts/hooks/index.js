@@ -15,6 +15,7 @@ import { TrainerPokemonSync } from "./trainer-pokemon-sync.js";
 import { Environment } from "./environment.js";
 import { EpopeeSetup } from "./epopee-setup.js";
 import { Travel } from "./travel.js";
+import { UsageHooks } from "./usage.js";
 
 export const PtuHooks = {
     listen() {
@@ -36,7 +37,8 @@ export const PtuHooks = {
             TrainerPokemonSync,
             Environment,
             EpopeeSetup,
-            Travel
+            Travel,
+            UsageHooks
         ]
         for(const listener of listeners) listener.listen();
     }

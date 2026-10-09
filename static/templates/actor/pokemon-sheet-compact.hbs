@@ -155,7 +155,25 @@
                             {{!-- No Fragment: PRE/ESQ are accuracy modifiers, not
                                   values a Fragment is ever taken of. --}}
                             <div class="fb-10 center-text"><span style="opacity:.3;">&mdash;</span></div>
-                            <div class="fb-25"></div>
+                            <div class="stats {{key}} mds fb-25">
+                                {{!-- Epopee: same gauge as the six stats; a click sets secondaryStats.<key>.stage. --}}
+                                {{#with (lookup ../epopee.secondaryGauges key) as |gauge|}}
+                                <div class="d-flex flex-column" style="gap:1px;" title="MdS: {{gauge.current}} ({{gauge.dice}})">
+                                    <div class="d-flex" style="gap:1px;">
+                                        {{#each gauge.positive as |cell|}}
+                                        <span class="mds-cell" data-group="secondaryStats" data-stat="{{key}}" data-index="{{cell.index}}"
+                                            style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#4caf50{{else}}#fff{{/if}};"></span>
+                                        {{/each}}
+                                    </div>
+                                    <div class="d-flex" style="gap:1px;">
+                                        {{#each gauge.negative as |cell|}}
+                                        <span class="mds-cell" data-group="secondaryStats" data-stat="{{key}}" data-index="{{cell.index}}"
+                                            style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#e05555{{else}}#fff{{/if}};"></span>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                {{/with}}
+                            </div>
                         </div>
                         {{/each}}
                     </div>
@@ -703,20 +721,27 @@
                             {{epopee.heldItems.held.length}} Objets Tenus &mdash; 1 maximum
                         </div>
                         {{/if}}
+                        {{!-- Epopee: each list is a drop zone; data-held-slot is the heldSlot a dropped item takes. --}}
+                        <div data-held-slot="held">
                         {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                         title="Objet Tenu" type="item" items=epopee.heldItems.held ballStyle=ballStyle}}
+                        </div>
 
                         {{#if epopee.heldItems.foundOver}}
                         <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
                             {{epopee.heldItems.found.length}} Objets Trouvés &mdash; 1 maximum
                         </div>
                         {{/if}}
+                        <div data-held-slot="found">
                         {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                         title="Objet Trouvé (part au dresseur en fin de scène)" type="item"
                         items=epopee.heldItems.found ballStyle=ballStyle}}
+                        </div>
 
+                        <div data-held-slot="">
                         {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
                         title="Porté (aucun effet)" type="item" items=epopee.heldItems.carried ballStyle=ballStyle}}
+                        </div>
                     </div>
                 </div>
 

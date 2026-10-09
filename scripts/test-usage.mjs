@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { parseFrequency, usageState, resetsOn } from "../src/module/usage/frequency.js";
+import { parseFrequency, usageState, resetsOn, eotRecharged } from "../src/module/usage/frequency.js";
 
 let failures = 0;
 function test(name, fn) {
@@ -69,6 +69,20 @@ test("junk frequencies degrade to unlimited rather than throwing", () => {
     assert.equal(parseFrequency("Whenever the GM feels like it").unlimited, true);
     assert.equal(parseFrequency(null).unlimited, true);
     assert.equal(parseFrequency(42).unlimited, true);
+});
+
+test("EOT: used in round R, back in round R + 2", () => {
+    assert.equal(eotRecharged(3, 3), false);
+    assert.equal(eotRecharged(3, 4), false);
+    assert.equal(eotRecharged(3, 5), true);
+    assert.equal(eotRecharged(3, 9), true);
+    assert.equal(eotRecharged(null, 1), true, "a use outside combat recharges on the next turn");
+});
+
+test("EOT is a one-use pool that resets on EOT", () => {
+    assert.equal(usageState("EOT", 1).exhausted, true);
+    assert.equal(usageState("EOT", 0).exhausted, false);
+    assert.equal(resetsOn("EOT", "eot"), true);
 });
 
 if (failures > 0) { console.error(`\n${failures} test(s) failed.`); process.exit(1); }

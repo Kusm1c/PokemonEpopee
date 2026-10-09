@@ -218,7 +218,25 @@
                                     {{!-- No Fragment: PRE/ESQ are accuracy modifiers, not
                                           values a Fragment is ever taken of. --}}
                                     <div class="fb-10 center-text"><span style="opacity:.3;">&mdash;</span></div>
-                                    <div class="fb-25"></div>
+                                    <div class="stats {{key}} mds fb-25">
+                                        {{!-- Epopee: same gauge as the six stats; a click sets secondaryStats.<key>.stage. --}}
+                                        {{#with (lookup ../epopee.secondaryGauges key) as |gauge|}}
+                                        <div class="d-flex flex-column" style="gap:1px;" title="MdS: {{gauge.current}} ({{gauge.dice}})">
+                                            <div class="d-flex" style="gap:1px;">
+                                                {{#each gauge.positive as |cell|}}
+                                                <span class="mds-cell" data-group="secondaryStats" data-stat="{{key}}" data-index="{{cell.index}}"
+                                                    style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#4caf50{{else}}#fff{{/if}};"></span>
+                                                {{/each}}
+                                            </div>
+                                            <div class="d-flex" style="gap:1px;">
+                                                {{#each gauge.negative as |cell|}}
+                                                <span class="mds-cell" data-group="secondaryStats" data-stat="{{key}}" data-index="{{cell.index}}"
+                                                    style="width:10px;height:10px;border:1px solid #666;display:inline-block;cursor:pointer;background:{{#if cell.filled}}#e05555{{else}}#fff{{/if}};"></span>
+                                                {{/each}}
+                                            </div>
+                                        </div>
+                                        {{/with}}
+                                    </div>
                                 </div>
                             {{/each}}
                         </div>

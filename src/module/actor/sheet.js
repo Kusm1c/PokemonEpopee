@@ -187,10 +187,31 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
             }
             
             // For other items, use the standard drop handling
-            return super._onDrop(event);
+            return this._dispatchDrop(event, data);
         }
         else {
-            return super._onDrop(event);
+            return this._dispatchDrop(event, data);
+        }
+    }
+
+    /**
+     * Hand an already-read drop to its handler - what ActorSheet#_onDrop does once it has
+     * the data.
+     *
+     * Epopee: calling super._onDrop here instead made drops need two tries. It reads the
+     * drag data again from the event, and a browser only lets that data be read while
+     * the drop event is being handled. The Item branch above first awaits `fromUuid`:
+     * for an item not yet loaded (a compendium entry, the first time) that wait outlives
+     * the event, the second read comes back empty and nothing is dropped. The second try
+     * found the item cached, answered fast enough, and worked. Reusing the data read at
+     * the start avoids the second read - and the dropActorSheetData hook firing twice.
+     */
+    _dispatchDrop(event, data) {
+        switch (data.type) {
+            case "ActiveEffect": return this._onDropActiveEffect(event, data);
+            case "Actor": return this._onDropActor(event, data);
+            case "Item": return this._onDropItem(event, data);
+            case "Folder": return this._onDropFolder(event, data);
         }
     }
 }

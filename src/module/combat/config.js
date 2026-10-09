@@ -6,7 +6,10 @@ export class PTUCombatTrackerConfig {
   /**
    * Register hooks to handle League Battle setting
    */
-  static registerHooks() {  
+  static registerHooks() {
+    // Epopee: the League Battle split is disabled (see PTUCombat#_sortCombatants), so
+    // its checkbox is no longer added to the Combat Tracker settings.
+    return;
     // Hook to inject our custom field into the rendered dialog
     // Foundry is not accepting the custom .hbs for now.
     Hooks.on("renderCombatTrackerConfig", (app, element, data) => {

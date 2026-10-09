@@ -254,7 +254,9 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
                 roll: Number(message.flags.pe.context.accuracyRollResult ?? 0)
             }),
         ].reduce((a, b) => {
-            if (!a[b.slug]) a[b.slug] = b;
+            // See the origin effects below: keyed on `system.slug`, not a missing `slug`.
+            const key = b.system?.slug || b.name;
+            if (!a[key]) a[key] = b;
             return a;
         }, {}));
 
@@ -296,7 +298,11 @@ async function applyDamageFromMessage({ message, targets, mode = "full", addend 
             roll: Number(message.flags.pe.context.accuracyRollResult ?? 0)
         }),
     ].reduce((a, b) => {
-        if (!a[b.slug]) a[b.slug] = b;
+        // Epopee: keyed on `system.slug`. These are item data objects, which have no
+        // top-level `slug`, so keying on it filed every effect under "undefined" and kept
+        // only the first - Fire Fang burned but never flinched.
+        const key = b.system?.slug || b.name;
+        if (!a[key]) a[key] = b;
         return a;
     }, {}));
 

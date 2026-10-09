@@ -16,6 +16,7 @@ import { defenseTerm, mdsTerm } from "../combat-math/formula.js";
 import { TRAINER_INITIATIVE_BONUS } from "../combat-math/config.js";
 import { ActorConditions } from "./conditions.js";
 import { prepareSecondaryStats } from "../stats/secondary.js";
+import { canUse, spendUse } from "../usage/engine.js";
 import { IWRData, ImmunityData, ResistanceData, WeaknessData, scaleTypeEffectiveness } from "./iwr.js";
 import { PTUModifier, StatisticModifier } from "./modifiers.js";
 
@@ -1161,6 +1162,10 @@ class PTUActor extends Actor {
         if (!move.rollable) return action
 
         action.roll = async (params = {}) => {
+            // Epopee: a move with a limited frequency spends a use when it is rolled. An
+            // empty pool stops the roll (a GM is only warned, see canUse).
+            if (!canUse(move)) return null;
+
             const check = new PTUAttackCheck({
                 source: {
                     actor: this,
@@ -1173,7 +1178,11 @@ class PTUActor extends Actor {
                 event: params.event,
             })
 
-            return await check.executeAttack(params.callback, action);
+            const result = await check.executeAttack(params.callback, action);
+            // Only a roll that happened costs a use: no target, out of range or a closed
+            // dialog all come back empty.
+            if (result && move.isOwner) await spendUse(move);
+            return result;
         };
 
         action.damage = async (params = {}) => {

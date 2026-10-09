@@ -16,7 +16,11 @@ class PTUCombat extends Combat {
 
     /** @override */
     _sortCombatants(a, b) {
-        const leagueBattle = game.settings.get("pe", "leagueBattle");
+        // Epopee: one initiative order for everyone. PTR's "League Battle" mode put every
+        // Trainer before every Pokemon, slowest Trainer first; Epopee's flat initiative
+        // (+1000 for a Trainer) already orders them, so the split is switched off whatever
+        // the world setting says.
+        const leagueBattle = false;
         
         const resolveTie = () => {
             const [priorityA, priorityB] = [a, b].map(

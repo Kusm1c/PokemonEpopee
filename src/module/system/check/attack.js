@@ -3,6 +3,7 @@ import { CheckModifier, PTUModifier, StatisticModifier } from "../../actor/modif
 import { PTUCondition } from "../../item/index.js";
 import { ALL_STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { esquiveValue, precisionBonus } from "../../stats/secondary.js";
+import { ACCURACY_DIE } from "../../combat-math/config.js";
 import { PTUDiceCheck } from "./check.js";
 import { AttackRoll } from "./rolls/attack-roll.js";
 
@@ -45,12 +46,16 @@ class PTUAttackCheck extends PTUDiceCheck {
     prepareModifiers() {
         super.prepareModifiers();
 
-        // Add accuracy check modifier to the existing modifiers
-        this.modifiers.unshift(new PTUModifier({
-            slug: "accuracy-check",
-            label: "Accuracy Check",
-            modifier: isNaN(Number(this.item.system.ac)) ? Infinity : -Number(this.item.system.ac)
-        }));
+        // Epopee: the AC is no longer a penalty on the roll - it is part of the number to
+        // beat, with the target's Esquive (see execute). A move with no AC still cannot
+        // miss, which is what the Infinity modifier means to the outcome check.
+        if (isNaN(Number(this.item.system.ac))) {
+            this.modifiers.unshift(new PTUModifier({
+                slug: "accuracy-check",
+                label: "Accuracy Check",
+                modifier: Infinity
+            }));
+        }
 
         // Add accuracy bonus modifier if it exists
         if (this.actor.system.modifiers.acBonus.total != 0) {
@@ -125,7 +130,8 @@ class PTUAttackCheck extends PTUDiceCheck {
     */
     async execute(callback, isReroll = false) {
         const title = game.i18n.format("PTU.Action.AttackRoll", { move: this.item.name });
-        const diceSize = 20;
+        // Epopee: accuracy is rolled on a d100.
+        const diceSize = ACCURACY_DIE;
 
         const attack = (() => {
             if (!this.item || !this.actor) return null;
@@ -161,7 +167,8 @@ class PTUAttackCheck extends PTUDiceCheck {
                 const target = {
                     uuid: context.actor.uuid,
                     critRange,
-                    slug: "Evasion",
+                    // Shown as "<target>'s <slug>": one Esquive, no evasion type any more.
+                    slug: "PTU.Epopee.Esquive",
                     statistic: CheckModifier.create({
                         slug: "evasion",
                         modifiers: [],
@@ -172,6 +179,20 @@ class PTUAttackCheck extends PTUDiceCheck {
                     }
                 }
 
+                // Epopee: "le check de difficulte = AC + Esquive de l'adversaire", where
+                // Esquive is the target's base + mod + combat stages (stats/secondary.js).
+                // It replaces PTR's Physical / Special / Speed Evasion, which scaled on its
+                // own from the defence stats and was picked by the move's category.
+                const ac = Number(this.item?.system.ac);
+                if (Number.isFinite(ac)) {
+                    target.statistic.push(new PTUModifier({
+                        slug: "ac",
+                        label: "AC",
+                        modifier: ac
+                    }));
+                }
+
+                // A Vulnerable target cannot dodge: only the AC remains.
                 if (context.options.has("target:condition:vulnerable")) {
                     target.statistic.push(new PTUModifier({
                         slug: "vulnerable",
@@ -180,68 +201,10 @@ class PTUAttackCheck extends PTUDiceCheck {
                     }));
                 }
                 else {
-                    const stuck = (context.options.has("target:condition:stuck") && !context.options.has("target:types:ghost"));
-                    switch (this.item?.system.category) {
-                        case "Status": {
-                            target.statistic.push(new PTUModifier({
-                                slug: "speed-evasion",
-                                label: "Speed Evasion",
-                                modifier: stuck ? 0 : (context.actor.system.evasion.speed ?? 0)
-                            }));
-                            break;
-                        }
-                        case "Physical": {
-                            const { physical, speed } = context.actor.system.evasion;
-                            if (stuck ? true : physical > speed) {
-                                target.statistic.push(new PTUModifier({
-                                    slug: "physical-evasion",
-                                    label: "Physical Evasion",
-                                    modifier: physical
-                                }));
-                            }
-                            else {
-                                target.statistic.push(new PTUModifier({
-                                    slug: "speed-evasion",
-                                    label: "Speed Evasion",
-                                    modifier: speed
-                                }));
-                            }
-                            break;
-                        }
-                        case "Special": {
-                            const { special, speed } = context.actor.system.evasion;
-                            if (stuck ? true : special > speed) {
-                                target.statistic.push(new PTUModifier({
-                                    slug: "special-evasion",
-                                    label: "Special Evasion",
-                                    modifier: special
-                                }));
-                            }
-                            else {
-                                target.statistic.push(new PTUModifier({
-                                    slug: "speed-evasion",
-                                    label: "Speed Evasion",
-                                    modifier: speed
-                                }));
-                            }
-                            break;
-                        }
-                    }
-                }
-
-                // Epopee: Esquive raises the number the attacker has to beat.
-                //
-                // Added on top of the evasion chosen above rather than competing with it:
-                // that switch picks whichever of Physical/Special/Speed evasion applies to
-                // the move's category, while ESQ is a stat of its own that applies to
-                // every incoming accuracy roll. Skipped when zero so it does not clutter
-                // the breakdown of a Pokemon that has none.
-                const esquive = esquiveValue(context.actor);
-                if (esquive !== 0) {
                     target.statistic.push(new PTUModifier({
                         slug: "esquive",
                         label: game.i18n.localize("PTU.Epopee.Esquive"),
-                        modifier: esquive
+                        modifier: esquiveValue(context.actor)
                     }));
                 }
 

@@ -409,11 +409,12 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		// clears it back to 0, so one control both sets and unsets.
 		html.find('.mds-cell').click((ev) => {
 			const { stat, index } = ev.currentTarget.dataset;
+			// PRE and ESQ cells carry data-group="secondaryStats"; the six stats have none.
+			const group = ev.currentTarget.dataset.group || "stats";
 			const target = Number(index);
-			const current = clampStages(
-				(this.actor.system.stats[stat]?.stage?.value ?? 0) + (this.actor.system.stats[stat]?.stage?.mod ?? 0)
-			);
-			this.actor.update({ [`system.stats.${stat}.stage.value`]: current === target ? 0 : target });
+			const entry = this.actor.system[group]?.[stat];
+			const current = clampStages((entry?.stage?.value ?? 0) + (entry?.stage?.mod ?? 0));
+			this.actor.update({ [`system.${group}.${stat}.stage.value`]: current === target ? 0 : target });
 		});
 
 		// "Lors d'un Entrainement, chaque joueur lance 1d100, dont le but est de depasser
@@ -633,6 +634,24 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	 */
 	async _onDropItem(event, data) {
 		if (!this.actor.isOwner) return false;
+
+		// Epopee: an item dropped on Objet Tenu / Objet Trouvé / Porté takes that slot.
+		// Anywhere else it keeps its own slot, which for a new item is Porté.
+		const slotZone = event.target?.closest?.("[data-held-slot]");
+		if (slotZone) {
+			const item = await Item.implementation.fromDropData(data);
+			if (item?.type === "item") {
+				const heldSlot = slotZone.dataset.heldSlot ?? "";
+				if (this.actor.items.has(item.id)) {
+					const existing = this.actor.items.get(item.id);
+					if ((existing.system.heldSlot ?? "") !== heldSlot) await existing.update({ "system.heldSlot": heldSlot });
+					return false;
+				}
+				const itemData = item.toObject();
+				itemData.system = { ...itemData.system, heldSlot };
+				return this._onDropItemCreate(itemData);
+			}
+		}
 
 		const zone = event.target?.closest?.("[data-acquisition]");
 		const acquisition = zone?.dataset?.acquisition;

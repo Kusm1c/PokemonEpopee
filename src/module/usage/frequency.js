@@ -97,4 +97,20 @@ function resetsOn(frequency, period) {
     return parsed.period === period;
 }
 
-export { PERIODS, parseFrequency, usageState, resetsOn };
+/**
+ * "Every Other Turn": a move used in round R cannot be used in round R + 1 and is
+ * available again from round R + 2.
+ *
+ * A use made outside combat has no round (null), so the next turn that comes around
+ * recharges it.
+ *
+ * @param {number|null} usedRound round the move was used in
+ * @param {number} round current round
+ * @returns {boolean}
+ */
+function eotRecharged(usedRound, round) {
+    if (usedRound === null || usedRound === undefined) return true;
+    return Number(round) >= Number(usedRound) + 2;
+}
+
+export { PERIODS, parseFrequency, usageState, resetsOn, eotRecharged };

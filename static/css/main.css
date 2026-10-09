@@ -8908,3 +8908,21 @@ a.content-link img {
   justify-content: space-between;
   font-weight: bold;
 }
+
+/*
+ * Epopee: an action with no use left (an EOT move waiting a turn, a spent Scene x1) is
+ * greyed out, so the sheet shows at a glance what can still be used. The controls stay
+ * clickable - editing or sending it to chat is still possible.
+ */
+.pe.sheet .move-list .item.usage-exhausted .item-icon,
+.pe.sheet .move-list .item.usage-exhausted .move-info .item-name,
+.pe.sheet .move-list .item.usage-exhausted .move-tags,
+.pe.sheet .move-list .item.usage-exhausted .move-effect,
+.pe.sheet .move-list .item.usage-exhausted > :not(.move-info) {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.pe.sheet .move-tags .tag.exhausted {
+  text-decoration: line-through;
+}

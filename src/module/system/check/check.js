@@ -224,7 +224,13 @@ class PTUDiceCheck {
                 : rollResult.dice.find(d => d instanceof foundry.dice.terms.Die && d.faces === diceSize
                 ))?.total ?? 1;
 
-        options.rollResult = result;
+        // Epopee: crits, fumbles and "on 18+" move effects are all written for a d20. On a
+        // bigger die (accuracy is a d100) they read the d20 face the result corresponds
+        // to - 96-100 is a natural 20, 1-5 a natural 1 - so each keeps its odds: a crit
+        // stays 5%, "Burns on 18+" stays 15%. `rollResult` carries that d20 face on to
+        // the damage message and the move effects.
+        const natural = diceSize > 20 ? Math.ceil((result * 20) / diceSize) : result;
+        options.rollResult = natural;
 
         const total = rollResult.total;
         const targets = [];
@@ -234,8 +240,8 @@ class PTUDiceCheck {
                 const degree = (() => {
                     if (!context) return null;
 
-                    if (result === 1 && !isInfinity) return "crit-miss"
-                    if (dcTarget.critRange.includes(result)) return "crit-hit";
+                    if (natural === 1 && !isInfinity) return "crit-miss"
+                    if (dcTarget.critRange.includes(natural)) return "crit-hit";
                     if (isInfinity || total >= dcTarget.value) return "hit";
                     return "miss";
                 })();
@@ -255,8 +261,8 @@ class PTUDiceCheck {
         else {
             const degree = (() => {
                 if (type === "initiative") return null;
-                if (result === 1 && !isInfinity) return "crit-miss"
-                if (options.dcs?.baseCritRange.includes(result)) return "crit-hit";
+                if (natural === 1 && !isInfinity) return "crit-miss"
+                if (options.dcs?.baseCritRange.includes(natural)) return "crit-hit";
                 if (isInfinity || total >= options.dcs?.base) return "hit";
                 return null;
             })();
