@@ -126,10 +126,12 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			: level;
 
 		// "Systeme de limite de place ... Une instance d'un objet peut etre configuree
-		// Free Slot pour ne pas prendre de place."
+		// Free Slot pour ne pas prendre de place." Whether a stack counts per copy or as
+		// one slot is the world's "inventoryCountMode" setting.
 		const items = this.actor.itemTypes.item ?? [];
+		const perItem = game.settings.get("pe", "inventoryCountMode") === "types";
 		const slotsUsed = items.reduce(
-			(n, i) => n + (i.system.free ? 0 : (Number(i.system.quantity) || 1)),
+			(n, i) => n + (i.system.free ? 0 : (perItem ? 1 : (Number(i.system.quantity) || 1))),
 			0
 		);
 		const slotsMax = Number(ep.itemSlots ?? 20);

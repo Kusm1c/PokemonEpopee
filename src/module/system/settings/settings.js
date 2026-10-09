@@ -99,6 +99,27 @@ export function registerSettings() {
         }
     });
 
+    // Epopee: what fills a Trainer's Inventory Space. One rule for the whole table, so it
+    // lives with the world rather than on each sheet.
+    game.settings.register("pe", "inventoryCountMode", {
+        name: "Inventory Space: counting",
+        hint: "Per copy: 10 Potions take 10 slots. Per item: 10 Potions take 1 slot. Items marked Free Slot never count.",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            copies: "Per copy (quantity)",
+            types: "Per item (one slot per line)"
+        },
+        default: "types",
+        // Inventory Space is worked out when a sheet renders, so redraw the open ones.
+        onChange: () => {
+            for (const app of Object.values(ui.windows)) {
+                if (app instanceof foundry.appv1.sheets.ActorSheet) app.render(false);
+            }
+        }
+    });
+
     game.settings.register("pe", "skipRollDialog", {
         name: "Skip roll dialog",
         hint: "Skip the roll dialog and automatically roll the dice.",
