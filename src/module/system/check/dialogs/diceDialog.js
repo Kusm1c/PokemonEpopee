@@ -11,7 +11,7 @@ export class DiceCheckDialog extends Application {
      * @param {StatisticDiceModifier} context.statistic
      * @returns {Promise<{fortuneType: String, rollMode: String, statistic: StatisticDiceModifier}>}
      */
-    static async DisplayDialog({title, fortuneType, rollMode, statistic, type}) {
+    static async DisplayDialog({title, fortuneType, rollMode, statistic, type, rollModeLocked = false}) {
         return new Promise((resolve) => {
             const dialog = new DiceCheckDialog({
                 resolve,
@@ -19,18 +19,21 @@ export class DiceCheckDialog extends Application {
                 fortuneType, 
                 rollMode,
                 statistic,
-                type
+                type,
+                rollModeLocked
             });
             dialog.render(true);
         });
     }
 
-    constructor({resolve, title, fortuneType, rollMode, statistic, type}) {
+    constructor({resolve, title, fortuneType, rollMode, statistic, type, rollModeLocked = false}) {
         super({title});
 
         this.resolve = resolve;
         this.fortuneType = fortuneType;
         this.rollMode = rollMode;
+        // A caller that fixes the roll mode (the Navigator's secret roll) locks the select.
+        this.rollModeLocked = rollModeLocked === true;
         this.check = statistic;
         this.substitutions = [];
 
@@ -70,6 +73,7 @@ export class DiceCheckDialog extends Application {
             totalModifier: this.check.totalModifier,
             rollModes: CONFIG.Dice.rollModes,
             rollMode,
+            rollModeLocked: this.rollModeLocked,
             showRollDialogs: true,
             substitutions: this.substitutions,
             fortune,

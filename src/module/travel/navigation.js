@@ -141,7 +141,9 @@ async function performNavigationRoll({ actorUuid, terrainId, bonusIds }) {
         modifiers,
         title: localize(`${K}.RollTitle`, { terrain: terrainName(terrain) })
     });
-    return Number.isFinite(roll?.total) ? roll.total : null;
+    // A skill check resolves to { rolls, targets }, not to the roll itself.
+    const total = roll?.rolls?.[0]?.total;
+    return Number.isFinite(total) ? total : null;
 }
 
 /** GM side: whisper the outcome to the GMs, with the deviation on a failure. */

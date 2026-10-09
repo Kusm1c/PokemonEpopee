@@ -1309,7 +1309,13 @@ class PTUActor extends Actor {
                 selectors,
                 event: params.event,
                 action,
-                dc: params.dc ?? null
+                dc: params.dc ?? null,
+                // Epopee: the Navigator macro fixes a blind roll, locks it, and adds its
+                // equipment bonuses; a roll from the sheet passes none of these.
+                rollMode: params.rollMode ?? null,
+                lockRollMode: params.lockRollMode === true,
+                extraModifiers: params.modifiers ?? [],
+                title: params.title ?? null
             })
 
             return await check.executeCheck(params.callback, action);

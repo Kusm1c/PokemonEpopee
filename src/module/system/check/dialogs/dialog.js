@@ -12,7 +12,7 @@ export class CheckDialog extends Application {
      * @param {StatisticModifier} context.statistic
      * @returns {Promise<{fortuneType: String, rollMode: String, statistic: StatisticModifier}>}
      */
-    static async DisplayDialog({title, fortuneType, rollMode, statistic, type}) {
+    static async DisplayDialog({title, fortuneType, rollMode, statistic, type, rollModeLocked = false}) {
         return new Promise((resolve) => {
             const dialog = new CheckDialog({
                 resolve,
@@ -20,18 +20,21 @@ export class CheckDialog extends Application {
                 fortuneType, 
                 rollMode,
                 statistic,
-                type
+                type,
+                rollModeLocked
             });
             dialog.render(true);
         });
     }
 
-    constructor({resolve, title, fortuneType, rollMode, statistic, type}) {
+    constructor({resolve, title, fortuneType, rollMode, statistic, type, rollModeLocked = false}) {
         super({title});
 
         this.resolve = resolve;
         this.fortuneType = fortuneType;
         this.rollMode = rollMode;
+        // A caller that fixes the roll mode (the Navigator's secret roll) locks the select.
+        this.rollModeLocked = rollModeLocked === true;
         this.check = statistic;
         this.substitutions = [];
 
@@ -71,6 +74,7 @@ export class CheckDialog extends Application {
             totalModifier: this.check.totalModifier,
             rollModes: CONFIG.Dice.rollModes,
             rollMode,
+            rollModeLocked: this.rollModeLocked,
             showRollDialogs: true,
             substitutions: this.substitutions,
             fortune,
@@ -155,6 +159,7 @@ export class CheckDialog extends Application {
 
         const rollModeInput = $html.find("select[name=rollmode]")[0];
         rollModeInput?.addEventListener("change", () => {
+            if (this.rollModeLocked) return;
             const rollMode = rollModeInput.value;
             if (!Object.values(CONST.DICE_ROLL_MODES).includes(rollMode)) {
                 throw Error("Unexpected roll mode");

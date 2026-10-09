@@ -9,10 +9,21 @@ import { CheckRoll } from "./rolls/roll.js";
 class PTUSkillCheck extends PTUDiceCheck {
 
     /** @override */
-    constructor({ source, targets, selectors, event, action, dc }) {
+    /**
+     * @param {object} params
+     * @param {string} [params.rollMode]  Fixed roll mode; otherwise "secret" or public
+     * @param {boolean} [params.lockRollMode] The dialogs cannot change the roll mode
+     * @param {PTUModifier[]} [params.extraModifiers] Added to the roll (a Compass, say)
+     * @param {string} [params.title] Dialog and message title instead of the skill's
+     */
+    constructor({ source, targets, selectors, event, action, dc, rollMode = null, lockRollMode = false, extraModifiers = [], title = null }) {
         super({ source, targets, selectors, event });
         this.action = action;
         this.dc = dc;
+        this.rollModeOverride = rollMode;
+        this.lockRollMode = lockRollMode === true;
+        this.extraModifiers = extraModifiers;
+        this.titleOverride = title;
     }
 
     get rollCls() {
@@ -62,7 +73,9 @@ class PTUSkillCheck extends PTUDiceCheck {
                 label: game.i18n.format("PTU.Check.SkillMod", { skill: this.skillLabel }),
                 modifier: this.actor.system.skills[this.skill]?.modifier?.total ?? 0
             }),
-            ...this.modifiers
+            ...this.modifiers,
+            // From the caller: the Navigator's Compass or Recon Report.
+            ...this.extraModifiers
         ]
 
         diceModifiers.push(
@@ -124,10 +137,12 @@ class PTUSkillCheck extends PTUDiceCheck {
      * @param {CheckCallback?} callback
     */
     async execute(callback, isReroll = false) {
-        const title = this.action.label;
+        const title = this.titleOverride ?? this.action.label;
         const { skipDialog } = eventToRollParams(this.event);;
 
-        const rollMode = this.options.has("secret") ? (game.user.isGM ? "gmroll" : "blindroll") : "roll";
+        const rollMode = this.rollModeOverride
+            ?? (this.options.has("secret") ? (game.user.isGM ? "gmroll" : "blindroll") : "roll");
+        const rollModeLocked = this.lockRollMode;
 
         const dialogContext = await (async () => {
             if (skipDialog) return {
@@ -140,7 +155,8 @@ class PTUSkillCheck extends PTUDiceCheck {
                 title,
                 rollMode,
                 statistic: this.statistic,
-                type: "skill"
+                type: "skill",
+                rollModeLocked
             });
         })();
         if (!dialogContext) return null;
@@ -156,7 +172,8 @@ class PTUSkillCheck extends PTUDiceCheck {
                 title,
                 rollMode,
                 statistic: this.diceStatistic,
-                type: "check"
+                type: "check",
+                rollModeLocked
             });
         })();
         if (!diceDialogContext) return null;
@@ -251,7 +268,10 @@ class PTUSkillCheck extends PTUDiceCheck {
             }
         }
 
-        const message = await this.createMessage({roll, rollMode, flags, extraTags: diceDialogContext.statistic.tags, inverse: true});
+        // The mode picked in the dialog - it used to be read and then dropped, so every
+        // skill roll went out in the starting mode. A locked mode stays as given.
+        const messageRollMode = rollModeLocked ? rollMode : (dialogContext.rollMode ?? rollMode);
+        const message = await this.createMessage({roll, rollMode: messageRollMode, flags, extraTags: diceDialogContext.statistic.tags, inverse: true});
 
         if (callback) {
             const msg = message instanceof ChatMessage ? message : new ChatMessage(message);
