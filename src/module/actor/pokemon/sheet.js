@@ -463,7 +463,15 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		html.find('.moment-delete').click((ev) => {
 			const index = Number(ev.currentTarget.dataset.index);
 			const moments = this.actor.system.narrative.momentsOfBrilliance.filter((_, i) => i !== index);
-			this.actor.update({ "system.narrative.momentsOfBrilliance": moments });
+			// Undo what creating it did: lock the cell it opened (never below the 10 base
+			// cells), and drop a tick that now sits on a locked cell.
+			const { checked, unlocked } = this.actor.system.loyalty;
+			const newUnlocked = Math.max(10, unlocked - 1);
+			this.actor.update({
+				"system.narrative.momentsOfBrilliance": moments,
+				"system.loyalty.unlocked": newUnlocked,
+				"system.loyalty.checked": Math.min(checked, newUnlocked)
+			});
 		});
 
 		html.find('.moment-text').change((ev) => {

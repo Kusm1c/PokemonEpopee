@@ -149,6 +149,10 @@
                 <input class="ml-1 mr-1" name="system.container" type="checkbox" {{checked item.system.container}}/>
             </div>
             <div class="item-row" style="justify-content: flex-start;">
+                <label for="system.free" title="{{localize "ITEM.FreeSlotHint"}}">{{localize "ITEM.FreeSlot"}}</label>
+                <input class="ml-1 mr-1" name="system.free" type="checkbox" {{checked item.system.free}}/>
+            </div>
+            <div class="item-row" style="justify-content: flex-start;">
                 <label for="flags.pe.showInTokenPanel">{{localize "ITEM.ShowInTokenPanel"}}</label>
                 <input class="ml-1 mr-1" name="flags.pe.showInTokenPanel" type="checkbox" {{checked item.flags.pe.showInTokenPanel}}/>
             </div>

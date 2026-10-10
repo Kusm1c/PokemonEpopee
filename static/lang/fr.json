@@ -64,6 +64,8 @@
     "TypeSpiritActionPlural": "Esprit Actions",
     "Modifier": "Modificateur",
     "ShowInTokenPanel": "Afficher dans le panneau du Jeton",
+    "FreeSlot": "tradFR",
+    "FreeSlotHint": "tradFR",
     "Dice": "Dés De Base",
     "Snippet": "Extrait d'effet",
     "Keywords": "Mots-clés",

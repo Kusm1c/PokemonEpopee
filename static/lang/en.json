@@ -64,6 +64,8 @@
     "TypeSpiritActionPlural": "Spirit Actions",
     "Modifier": "Modifier",
     "ShowInTokenPanel": "Show in Token Panel",
+    "FreeSlot": "Free Slot",
+    "FreeSlotHint": "Does not count toward the Trainer's Inventory Space.",
     "Dice": "Base Dice",
     "Snippet": "Effect Snippet",
     "Keywords": "Keywords",
