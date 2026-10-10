@@ -9,7 +9,8 @@ import { PARTY_FOLDER } from "./tables.js";
 const terrainName = (terrain) => localize(`PTU.Epopee.Travel.Terrain.${terrain.id}`);
 const pathName = (path) => localize(`PTU.Epopee.Travel.Path.${path}`);
 const conditionName = (condition) => localize(`PTU.Epopee.Travel.Condition.${condition.id}`);
-const modeName = (mode) => localize(`PTU.Epopee.Travel.Mode.${mode.id}`);
+const paceName = (pace) => localize(`PTU.Epopee.Travel.Pace.${pace.id}.Name`);
+const paceEffect = (pace) => localize(`PTU.Epopee.Travel.Pace.${pace.id}.Effect`);
 
 /** "3/4" -> "x3/4", as the tables write it. */
 const multiplier = (text) => `x${text}`;
@@ -39,4 +40,4 @@ function partyTrainers() {
 /** Escape text going into chat HTML: actor names are free text. */
 const escape = (text) => foundry.utils.escapeHTML(String(text ?? ""));
 
-export { terrainName, pathName, conditionName, modeName, multiplier, formatNumber, partyTrainers, escape };
+export { terrainName, pathName, conditionName, paceName, paceEffect, multiplier, formatNumber, partyTrainers, escape };

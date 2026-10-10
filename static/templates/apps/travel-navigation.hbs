@@ -31,6 +31,16 @@
         <b>{{dc}}</b>
     </div>
 
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Travel.Navigation.Pace"}}</label>
+        <select name="paceId">
+            {{#each paces}}
+            <option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <p class="pe-muted">{{paceNavigation}}</p>
+
     <p class="pe-muted">{{peLocalize "PTU.Epopee.Travel.Navigation.Hint"}}</p>
 
     <button type="button" class="pe-navigation-roll" {{#unless canRoll}}disabled{{/unless}}>

@@ -1,6 +1,6 @@
 /**
  * Travel tables: terrain and condition speed modifiers, navigation and foraging DCs, and
- * the movement options of the Travel macro.
+ * the movement modes (paces) of the Travel macro.
  *
  * One source for everything travel reads: the Travel and Navigator macros take their
  * choices from here, and the in-game reference journal is generated from it, so a value
@@ -44,40 +44,25 @@ const CONDITIONS = [
 ];
 
 /**
- * Movement modes of the Travel macro, each multiplying the speed.
+ * "Mode de Déplacement", which the party can change each Quart. It sets the group's
+ * speed, replacing the per-character Movement the macro used to ask for.
  *
- * Shape: `{ id, speed: "3/4", group?: "mount", forbiddenTerrains?: ["jungle"],
- * forbiddenPaths?: ["trackless"] }`. Modes sharing a `group` are exclusive - picking one
- * drops the others - while modes in different groups stack. A mode is unavailable on a
- * forbidden terrain or path.
- *
- * Empty until the rules for them are settled; the macro shows the section once there is
- * something in it.
+ * `navigation` is what the Navigator macro applies to the Survival roll: a flat
+ * modifier, and whether the roll is made twice with the best kept. The other effects
+ * (Stealth, Perception, encounter odds) are for the GM and shown as text.
  */
-const TRAVEL_MODES = [];
-
-/** "Vitesse de Déplacement de Base": the Movement values the reference table lists. */
-const BASE_SPEED_METRES = [2, 4, 5, 6, 8];
-
-/**
- * Rows of that table, in km for each Movement above, copied as printed - the reference
- * shows these values, not ones recomputed from a formula.
- */
-const BASE_SPEED_ROWS = [
-    { id: "hourMarch", km: [1, 2, 2.5, 3, 4] },
-    { id: "hourHaste", km: [2, 4, 5, 6, 8] },
-    { id: "quarter", km: [4, 8, 10, 12, 16] },
-    { id: "day", km: [8, 16, 20, 24, 32] }
+const TRAVEL_PACES = [
+    { id: "exploration", kmPerHour: 1, navigation: { modifier: 0, rollTwice: true } },
+    { id: "slow", kmPerHour: 2, navigation: { modifier: 0, rollTwice: true } },
+    { id: "normal", kmPerHour: 3, navigation: { modifier: 0, rollTwice: false } },
+    { id: "fast", kmPerHour: 4, navigation: { modifier: -20, rollTwice: false } }
 ];
 
-/** Movement choices of the Travel macro: "menu déroulant de 1 à 20". */
-const SPEED_CHOICES = Array.from({ length: 20 }, (_, i) => i + 1);
+/** The mode a new journey starts on. */
+const DEFAULT_PACE = "normal";
 
-/** Duration and haste choices: "menu déroulant de 1 à 30". */
+/** Duration choices: "menu déroulant de 1 à 30". */
 const MAX_HOURS = 30;
-
-/** Party slots of the Travel macro: "Prévoir 6 slots". */
-const PARTY_SLOTS = 6;
 
 /** The Navigator's roll: a Survival check against the terrain's Navigation DC. */
 const NAVIGATION_SKILL = "survival";
@@ -107,9 +92,13 @@ function fraction(text) {
     return Number.isFinite(value) && value > 0 ? value : 1;
 }
 
+/** @param {string} id @returns {object} the pace, or the default one */
+function paceById(id) {
+    return TRAVEL_PACES.find((p) => p.id === id) ?? TRAVEL_PACES.find((p) => p.id === DEFAULT_PACE);
+}
+
 export {
-    PATHS, TERRAINS, CONDITIONS, TRAVEL_MODES,
-    BASE_SPEED_METRES, BASE_SPEED_ROWS, SPEED_CHOICES, MAX_HOURS, PARTY_SLOTS,
+    PATHS, TERRAINS, CONDITIONS, TRAVEL_PACES, DEFAULT_PACE, MAX_HOURS,
     NAVIGATION_SKILL, NAVIGATION_BONUSES, DEVIATION_FORMULA, PARTY_FOLDER,
-    fraction
+    fraction, paceById
 };

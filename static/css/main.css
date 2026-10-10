@@ -8800,44 +8800,6 @@ a.content-link img {
   font-weight: normal;
 }
 
-/* Party: number, character, Movement. The pace-setter is highlighted live. */
-.pe.travel-app .pe-journey-party {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.pe.travel-app .pe-journey-slot {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr) 64px;
-  gap: 4px;
-  align-items: center;
-  padding: 1px 2px;
-  border-left: 3px solid transparent;
-}
-
-.pe.travel-app .pe-journey-slot.slowest {
-  background: rgba(192, 57, 43, 0.15);
-  border-left-color: #c0392b;
-}
-
-.pe.travel-app .pe-journey-slot-number {
-  text-align: center;
-  opacity: 0.6;
-}
-
-.pe.travel-app .pe-journey-slowest {
-  margin: 0;
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.pe.travel-app .pe-journey-slowest.active {
-  color: #c0392b;
-  font-weight: bold;
-  opacity: 1;
-}
-
 .pe.travel-app .pe-journey-preview,
 .pe-travel-card table {
   width: 100%;

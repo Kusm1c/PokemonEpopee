@@ -1,6 +1,6 @@
 /**
  * The in-game travel reference: a Journal with the terrain modifiers, the condition
- * modifiers and the base movement speeds.
+ * modifiers and the movement modes.
  *
  * Generated from travel/tables.js, the same data the macros use, so the reference cannot
  * disagree with them. It resyncs on every GM load like the macros do, writing only a
@@ -12,8 +12,8 @@
  */
 
 import { localize } from "../i18n.js";
-import { conditionName, escape, formatNumber, multiplier, pathName, terrainName } from "./labels.js";
-import { BASE_SPEED_METRES, BASE_SPEED_ROWS, CONDITIONS, PATHS, TERRAINS } from "./tables.js";
+import { conditionName, escape, formatNumber, multiplier, paceEffect, paceName, pathName, terrainName } from "./labels.js";
+import { CONDITIONS, PATHS, TERRAINS, TRAVEL_PACES } from "./tables.js";
 
 const JOURNAL_FLAG = "travelReference";
 const PAGE_FLAG = "travelReferencePage";
@@ -40,10 +40,10 @@ function conditionPage() {
     );
 }
 
-function baseSpeedPage() {
+function pacePage() {
     return table(
-        [localize(`${K}.OnFoot`), ...BASE_SPEED_METRES.map((m) => localize(`${K}.Metres`, { metres: m }))],
-        BASE_SPEED_ROWS.map((row) => [localize(`${K}.Row.${row.id}`), ...row.km.map((km) => `${formatNumber(km)} km`)])
+        [localize(`${K}.Pace`), localize(`${K}.Speed`), localize(`${K}.Effects`)],
+        TRAVEL_PACES.map((p) => [paceName(p), `${formatNumber(p.kmPerHour)} km/h`, paceEffect(p)])
     );
 }
 
@@ -51,7 +51,7 @@ function pages() {
     return [
         { id: "terrain", name: localize(`${K}.TerrainTitle`), content: terrainPage() },
         { id: "condition", name: localize(`${K}.ConditionTitle`), content: conditionPage() },
-        { id: "baseSpeed", name: localize(`${K}.BaseSpeedTitle`), content: baseSpeedPage() }
+        { id: "paces", name: localize(`${K}.PacesTitle`), content: pacePage() }
     ];
 }
 
@@ -95,9 +95,17 @@ async function syncTravelReference(log) {
         }
     });
 
+    // Pages this code generated but no longer does (the old base speed table) go; pages
+    // a GM added by hand carry no flag and are left alone.
+    const wantedIds = new Set(wanted.map((p) => p.id));
+    const deletes = journal.pages
+        .filter((pg) => pg.getFlag("pe", PAGE_FLAG) && !wantedIds.has(pg.getFlag("pe", PAGE_FLAG)))
+        .map((pg) => pg.id);
+
     if (creates.length) await journal.createEmbeddedDocuments("JournalEntryPage", creates);
     if (updates.length) await journal.updateEmbeddedDocuments("JournalEntryPage", updates);
-    if (creates.length || updates.length) log.push("Référence de voyage mise à jour.");
+    if (deletes.length) await journal.deleteEmbeddedDocuments("JournalEntryPage", deletes);
+    if (creates.length || updates.length || deletes.length) log.push("Référence de voyage mise à jour.");
 }
 
 export { syncTravelReference };

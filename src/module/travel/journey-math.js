@@ -1,97 +1,40 @@
 /**
- * Travel macro arithmetic, kept free of Foundry globals so `scripts/test-travel.mjs` can
- * exercise it.
+ * Travel macro arithmetic, kept free of Foundry globals so `scripts/test-travel-journey.mjs`
+ * can exercise it.
  *
- * The group moves at its slowest member's pace. A Movement of N metres covers N/2 km in
- * an hour's march (the "Vitesse de Déplacement de Base" table), and an hour in haste
- * covers twice that, so a journey of H hours with h of them in haste is worth H + h
- * hours of march. Terrain, condition and movement modes then multiply the pace.
+ * The party moves at the speed of its Movement Mode (Exploration 1, Slow 2, Normal 3,
+ * Fast 4 km/h); terrain and condition then multiply it, and the duration gives the
+ * distance.
  */
 
-import { computeGroupSpeedKmH } from "./engine.js";
-import { CONDITIONS, MAX_HOURS, PATHS, TERRAINS, TRAVEL_MODES, fraction } from "./tables.js";
+import { CONDITIONS, MAX_HOURS, PATHS, TERRAINS, fraction, paceById } from "./tables.js";
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const round1 = (value) => Math.round(value * 10) / 10;
 
 /**
- * Party slots with a speed. "Si c'est blank ou 0, c'est ignoré."
- *
- * @param {{actorId?: string, speed?: number|string}[]} slots
- * @returns {{index: number, actorId: string, speed: number}[]}
- */
-function activeMembers(slots = []) {
-    return slots
-        .map((slot, index) => ({ index, actorId: slot?.actorId ?? "", speed: Number(slot?.speed) || 0 }))
-        .filter((member) => member.speed > 0);
-}
-
-/**
- * The pace-setter: the lowest speed, and every slot moving at it.
- *
- * @returns {{speed: number, indices: number[]}|null} null when no slot has a speed
- */
-function slowestOf(members) {
-    if (!members.length) return null;
-    const speed = Math.min(...members.map((m) => m.speed));
-    return { speed, indices: members.filter((m) => m.speed === speed).map((m) => m.index) };
-}
-
-/** Modes usable on this terrain and path. */
-function availableModes(terrainId, pathId, modes = TRAVEL_MODES) {
-    return modes.filter((mode) =>
-        !(mode.forbiddenTerrains ?? []).includes(terrainId)
-        && !(mode.forbiddenPaths ?? []).includes(pathId));
-}
-
-/**
- * The selected modes that actually apply: available here, and one per exclusive group
- * (the first one listed wins, as the macro only ever lets one through).
- */
-function effectiveModes(selectedIds = [], terrainId, pathId, modes = TRAVEL_MODES) {
-    const seenGroups = new Set();
-    return availableModes(terrainId, pathId, modes).filter((mode) => {
-        if (!selectedIds.includes(mode.id)) return false;
-        if (!mode.group) return true;
-        if (seenGroups.has(mode.group)) return false;
-        seenGroups.add(mode.group);
-        return true;
-    });
-}
-
-/**
  * Everything the Travel macro previews, from its saved configuration.
  *
- * @param {object} config
+ * @param {{terrainId?: string, pathId?: string, conditionId?: string, hours?: number, paceId?: string}} config
  * @returns {object}
  */
-function planJourney({ slots, terrainId, pathId, conditionId, hours, hasteHours, modes: selected } = {}, modeTable = TRAVEL_MODES) {
+function planJourney({ terrainId, pathId, conditionId, hours, paceId } = {}) {
     const terrain = TERRAINS.find((t) => t.id === terrainId) ?? TERRAINS[0];
     const path = PATHS.includes(pathId) ? pathId : PATHS[0];
     const condition = CONDITIONS.find((c) => c.id === conditionId) ?? CONDITIONS[0];
-
+    const pace = paceById(paceId);
     const totalHours = clamp(Math.round(Number(hours) || 1), 1, MAX_HOURS);
-    const haste = clamp(Math.round(Number(hasteHours) || 0), 0, totalHours);
-
-    const members = activeMembers(slots);
-    const slowest = slowestOf(members);
-    const baseKmPerHour = slowest ? computeGroupSpeedKmH(slowest.speed) : 0;
 
     const terrainMultiplier = fraction(terrain.speed[path]);
     const conditionMultiplier = fraction(condition.speed);
-    const modes = effectiveModes(selected, terrain.id, path, modeTable);
-    const modesMultiplier = modes.reduce((product, mode) => product * fraction(mode.speed), 1);
-
-    const kmPerHour = baseKmPerHour * terrainMultiplier * conditionMultiplier * modesMultiplier;
-    const km = kmPerHour * (totalHours + haste);
+    const kmPerHour = pace.kmPerHour * terrainMultiplier * conditionMultiplier;
+    const km = kmPerHour * totalHours;
 
     return {
-        terrain, path, condition, modes,
+        terrain, path, condition, pace,
         hours: totalHours,
-        hasteHours: haste,
-        members, slowest,
-        baseKmPerHour,
-        terrainMultiplier, conditionMultiplier, modesMultiplier,
+        baseKmPerHour: pace.kmPerHour,
+        terrainMultiplier, conditionMultiplier,
         kmPerHour: round1(kmPerHour),
         km: round1(km),
         // One square per km travelled; a journey that covers any ground gets at least one.
@@ -117,4 +60,4 @@ function journeyProgress({ km, hours, squares }, checked) {
     return { checked: done, kmDone: round1(kmDone), hoursUsed };
 }
 
-export { activeMembers, slowestOf, availableModes, effectiveModes, planJourney, journeyProgress };
+export { planJourney, journeyProgress };

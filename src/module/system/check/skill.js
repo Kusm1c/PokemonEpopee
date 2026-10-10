@@ -15,8 +15,9 @@ class PTUSkillCheck extends PTUDiceCheck {
      * @param {boolean} [params.lockRollMode] The dialogs cannot change the roll mode
      * @param {PTUModifier[]} [params.extraModifiers] Added to the roll (a Compass, say)
      * @param {string} [params.title] Dialog and message title instead of the skill's
+     * @param {boolean} [params.skipDialog] Roll without the dialogs (a repeat roll)
      */
-    constructor({ source, targets, selectors, event, action, dc, rollMode = null, lockRollMode = false, extraModifiers = [], title = null }) {
+    constructor({ source, targets, selectors, event, action, dc, rollMode = null, lockRollMode = false, extraModifiers = [], title = null, skipDialog = null }) {
         super({ source, targets, selectors, event });
         this.action = action;
         this.dc = dc;
@@ -24,6 +25,7 @@ class PTUSkillCheck extends PTUDiceCheck {
         this.lockRollMode = lockRollMode === true;
         this.extraModifiers = extraModifiers;
         this.titleOverride = title;
+        this.skipDialogOverride = skipDialog;
     }
 
     get rollCls() {
@@ -138,7 +140,7 @@ class PTUSkillCheck extends PTUDiceCheck {
     */
     async execute(callback, isReroll = false) {
         const title = this.titleOverride ?? this.action.label;
-        const { skipDialog } = eventToRollParams(this.event);;
+        const skipDialog = this.skipDialogOverride ?? eventToRollParams(this.event).skipDialog;
 
         const rollMode = this.rollModeOverride
             ?? (this.options.has("secret") ? (game.user.isGM ? "gmroll" : "blindroll") : "roll");

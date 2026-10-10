@@ -1315,7 +1315,8 @@ class PTUActor extends Actor {
                 rollMode: params.rollMode ?? null,
                 lockRollMode: params.lockRollMode === true,
                 extraModifiers: params.modifiers ?? [],
-                title: params.title ?? null
+                title: params.title ?? null,
+                skipDialog: params.skipDialog ?? null
             })
 
             return await check.executeCheck(params.callback, action);

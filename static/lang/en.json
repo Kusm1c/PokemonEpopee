@@ -263,25 +263,19 @@
           "storm": "Storm",
           "strongStorm": "Strong Storm"
         },
-        "Mode": {},
         "Reference": {
           "Title": "Travel Reference",
           "TerrainTitle": "Terrain Modifiers",
           "ConditionTitle": "Condition Modifiers",
-          "BaseSpeedTitle": "Base Movement Speed",
           "Terrain": "Terrain",
           "NavigationDC": "Navigation DC",
           "ForageDC": "Forage DC",
           "Condition": "Condition",
           "Modifier": "Modifier",
-          "OnFoot": "On Foot",
-          "Metres": "{metres} metres",
-          "Row": {
-            "hourMarch": "1 Hour (March)",
-            "hourHaste": "1 Hour (Haste)",
-            "quarter": "1 Quarter (4 Hours)",
-            "day": "1 Day (8 Hours)"
-          }
+          "PacesTitle": "Movement Modes",
+          "Pace": "Mode",
+          "Speed": "Speed",
+          "Effects": "Effects"
         },
         "Navigation": {
           "Title": "Navigator Roll",
@@ -308,33 +302,49 @@
           "Total": "Total",
           "Deviation": "Deviation",
           "Success": "Success: the party keeps its heading.",
-          "Failure": "Failure: the party is lost."
+          "Failure": "Failure: the party is lost.",
+          "Pace": "Movement mode",
+          "PaceModifier": "{value} to the roll.",
+          "PaceRollTwice": "Rolled twice, best kept.",
+          "PaceNoEffect": "No effect on the roll.",
+          "Rolls": "Rolls",
+          "RollsBest": "{rolls} (best kept)"
         },
         "Journey": {
           "Title": "Travel",
-          "Party": "Party",
-          "Speed": "Movement (metres)",
-          "Slot": "Slot {n}",
-          "Slowest": "Slowest: {names} ({speed})",
-          "SlowestShort": "Slowest",
-          "NoMembers": "Give at least one character a Movement.",
-          "NoFolder": "No Actor folder named \"{folder}\" was found.",
           "Terrain": "Terrain",
           "Path": "Path",
           "Condition": "Condition",
           "Duration": "Duration (hours)",
-          "Haste": "Hours in haste",
-          "Modes": "Movement modes",
-          "BasePace": "Base pace",
-          "Pace": "Final pace",
+          "Pace": "Movement mode",
           "Distance": "Distance",
           "KmPerHour": "{value} km/h",
-          "HoursWithHaste": "{hours} h, {haste} in haste",
           "Confirm": "Confirm",
           "CardTitle": "Travel",
           "CardDistance": "Distance covered: {km} km",
           "ProgressKm": "{done} / {planned} km",
-          "ProgressHours": "{done} / {planned} h"
+          "ProgressHours": "{done} / {planned} h",
+          "PaceOption": "{name} ({value} km/h)",
+          "FinalPace": "Final pace",
+          "Hours": "{hours} h"
+        },
+        "Pace": {
+          "exploration": {
+            "Name": "Exploration",
+            "Effect": "Very slow. Navigation rolled twice, best kept. Twice the chance of encounters. No Stealth rolls to avoid being detected."
+          },
+          "slow": {
+            "Name": "Slow",
+            "Effect": "Slow. Navigation rolled twice, best kept. Stealth rolls allowed to avoid being detected. -50% chance of non-exploratory encounters."
+          },
+          "normal": {
+            "Name": "Normal",
+            "Effect": "Normal speed. No Stealth rolls to avoid being detected."
+          },
+          "fast": {
+            "Name": "Fast",
+            "Effect": "Fast. -20 to Navigation and Perception rolls. No Stealth rolls to avoid being detected."
+          }
         }
       },
       "Always": "Always",

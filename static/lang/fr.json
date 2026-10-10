@@ -253,25 +253,19 @@
           "storm": "Orage",
           "strongStorm": "Puissant Orage"
         },
-        "Mode": {},
         "Reference": {
           "Title": "Référence de voyage",
           "TerrainTitle": "Modificateur de Terrain",
           "ConditionTitle": "Modificateur de Condition",
-          "BaseSpeedTitle": "Vitesse de Base",
           "Terrain": "Terrain",
           "NavigationDC": "DD de Navigation",
           "ForageDC": "DD de Forage",
           "Condition": "Condition",
           "Modifier": "Modifier",
-          "OnFoot": "À pied",
-          "Metres": "{metres} mètres",
-          "Row": {
-            "hourMarch": "1 Heures (Marche)",
-            "hourHaste": "1 Heures (Hâte)",
-            "quarter": "1 Quart (4 heures)",
-            "day": "1 Jour (8 heures)"
-          }
+          "PacesTitle": "tradFR",
+          "Pace": "tradFR",
+          "Speed": "tradFR",
+          "Effects": "tradFR"
         },
         "Navigation": {
           "Title": "Jet de Navigation",
@@ -298,33 +292,49 @@
           "Total": "Total",
           "Deviation": "Déviation",
           "Success": "Réussite : le groupe continue son chemin",
-          "Failure": "Échec : le groupe est perdu :cccccccc"
+          "Failure": "Échec : le groupe est perdu :cccccccc",
+          "Pace": "tradFR",
+          "PaceModifier": "tradFR",
+          "PaceRollTwice": "tradFR",
+          "PaceNoEffect": "tradFR",
+          "Rolls": "tradFR",
+          "RollsBest": "tradFR"
         },
         "Journey": {
           "Title": "Voyage",
-          "Party": "Groupe",
-          "Speed": "Déplacement (mètres)",
-          "Slot": "Emplacement {n}",
-          "Slowest": "Plus lent : {names} ({speed})",
-          "SlowestShort": "Plus lent",
-          "NoMembers": "Donnez à au moins un personnage du Mouvement",
-          "NoFolder": "Aucun dossier d'acteur nommé \"{folder}\" n'a été trouvé",
           "Terrain": "Terrain",
           "Path": "Trajet",
           "Condition": "Condition",
           "Duration": "Durée (heures)",
-          "Haste": "Heure en Hâte",
-          "Modes": "Modes de Mouvement",
-          "BasePace": "Rythme de base",
-          "Pace": "Rythme final",
+          "Pace": "tradFR",
           "Distance": "Distance",
           "KmPerHour": "{value} km/h",
-          "HoursWithHaste": "{hours} h, {haste} avec hâte",
           "Confirm": "Confirmer",
           "CardTitle": "Voyager",
           "CardDistance": "Distance traversée : {km} km",
           "ProgressKm": "{done} / {planned} km",
-          "ProgressHours": "{done} / {planned} h"
+          "ProgressHours": "{done} / {planned} h",
+          "PaceOption": "tradFR",
+          "FinalPace": "tradFR",
+          "Hours": "tradFR"
+        },
+        "Pace": {
+          "exploration": {
+            "Name": "tradFR",
+            "Effect": "tradFR"
+          },
+          "slow": {
+            "Name": "tradFR",
+            "Effect": "tradFR"
+          },
+          "normal": {
+            "Name": "tradFR",
+            "Effect": "tradFR"
+          },
+          "fast": {
+            "Name": "tradFR",
+            "Effect": "tradFR"
+          }
         }
       },
       "Always": "Toujours",

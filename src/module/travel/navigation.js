@@ -8,14 +8,18 @@
  * public. The total comes back to the GM, who alone sees whether the party is lost and,
  * on a failure, the 1d10 deviation.
  *
+ * The party's Movement Mode, shared with the Travel macro, shapes the roll: Fast takes
+ * -20, Slow and Exploration roll twice and keep the best.
+ *
  * With no owning player connected, the GM's client makes the same roll.
  */
 
 import { PTUModifier } from "../actor/modifiers.js";
 import { localize } from "../i18n.js";
-import { escape, partyTrainers, terrainName } from "./labels.js";
+import { escape, paceName, partyTrainers, terrainName } from "./labels.js";
+import { currentPace, setCurrentPace } from "./journey.js";
 import { emitSocket, onSocket } from "./socket.js";
-import { DEVIATION_FORMULA, NAVIGATION_BONUSES, NAVIGATION_SKILL, PARTY_FOLDER, TERRAINS } from "./tables.js";
+import { DEVIATION_FORMULA, NAVIGATION_BONUSES, NAVIGATION_SKILL, PARTY_FOLDER, TERRAINS, TRAVEL_PACES, paceById } from "./tables.js";
 
 const CONFIG_FLAG = "navigationConfig";
 const K = "PTU.Epopee.Travel.Navigation";
@@ -51,6 +55,8 @@ class NavigationRollApp extends Application {
             trainers: actors.map((a) => ({ id: a.id, name: a.name, selected: a.id === this.config.actorId })),
             terrains: TERRAINS.map((t) => ({ id: t.id, name: terrainName(t), selected: t.id === terrain.id })),
             dc: terrain.navigationDC,
+            paces: TRAVEL_PACES.map((p) => ({ id: p.id, name: paceName(p), selected: p.id === currentPace().id })),
+            paceNavigation: paceNavigationText(currentPace()),
             canRoll: actors.some((a) => a.id === this.config.actorId),
             folder: localize(`${K}.NoFolder`, { folder: PARTY_FOLDER }),
             noTrainers: localize(`${K}.NoTrainers`, { folder: PARTY_FOLDER })
@@ -70,6 +76,9 @@ class NavigationRollApp extends Application {
         this.config.actorId = html.find("select[name=actorId]").val() ?? "";
         this.config.terrainId = html.find("select[name=terrainId]").val() ?? TERRAINS[0].id;
         await game.user.setFlag("pe", CONFIG_FLAG, this.config);
+        // The mode lives with the Travel macro's settings, so both macros show the same one.
+        const paceId = html.find("select[name=paceId]").val();
+        if (paceId && paceId !== currentPace().id) await setCurrentPace(paceId);
         this.render(false);
     }
 
@@ -94,7 +103,8 @@ async function requestNavigationRoll({ actor, terrain }) {
         gmId: game.user.id,
         actorUuid: actor.uuid,
         terrainId: terrain.id,
-        dc: terrain.navigationDC
+        dc: terrain.navigationDC,
+        paceId: currentPace().id
     };
 
     const player = navigatorPlayer(actor);
@@ -102,9 +112,9 @@ async function requestNavigationRoll({ actor, terrain }) {
         ui.notifications.info(localize(`${K}.RollingSelf`, { actor: actor.name }));
         const bonusIds = await askNavigator(actor);
         if (!bonusIds) return;
-        const total = await performNavigationRoll({ ...request, bonusIds });
-        if (total === null) return;
-        return postNavigationResult({ ...request, bonusIds, total });
+        const result = await performNavigationRoll({ ...request, bonusIds });
+        if (!result) return;
+        return postNavigationResult({ ...request, bonusIds, ...result });
     }
 
     emitSocket("navigation.request", { ...request, userId: player.id });
@@ -131,12 +141,23 @@ async function askNavigator(actor) {
     }).catch(() => null);
 }
 
+/** What the Movement Mode does to the Navigation roll, in a line. */
+function paceNavigationText(pace) {
+    const parts = [];
+    if (pace.navigation.modifier) parts.push(localize(`${K}.PaceModifier`, { value: pace.navigation.modifier }));
+    if (pace.navigation.rollTwice) parts.push(localize(`${K}.PaceRollTwice`));
+    return parts.join(" ") || localize(`${K}.PaceNoEffect`);
+}
+
 /**
  * Roll the Trainer's Survival check, blind and locked. Runs on whichever client rolls.
  *
- * @returns {Promise<number|null>} the total, or null if the roll did not happen
+ * A Slow or Exploration pace rolls twice and keeps the best: the first roll opens the
+ * usual dialog, the second repeats it with the same bonuses and no dialog.
+ *
+ * @returns {Promise<{total: number, totals: number[]}|null>} null if the roll did not happen
  */
-async function performNavigationRoll({ actorUuid, terrainId, bonusIds = [] }) {
+async function performNavigationRoll({ actorUuid, terrainId, bonusIds = [], paceId }) {
     const actor = await fromUuid(actorUuid);
     const skill = actor?.attributes?.skills?.[NAVIGATION_SKILL];
     if (!skill) {
@@ -145,23 +166,39 @@ async function performNavigationRoll({ actorUuid, terrainId, bonusIds = [] }) {
     }
 
     const terrain = TERRAINS.find((t) => t.id === terrainId) ?? TERRAINS[0];
-    const modifiers = NAVIGATION_BONUSES
-        .filter((b) => bonusIds.includes(b.id))
-        .map((b) => new PTUModifier({ slug: `navigation-${b.id}`, label: localize(`${K}.Bonus.${b.id}`), modifier: b.value }));
+    const pace = paceById(paceId);
+    const modifiers = () => [
+        ...NAVIGATION_BONUSES
+            .filter((b) => bonusIds.includes(b.id))
+            .map((b) => new PTUModifier({ slug: `navigation-${b.id}`, label: localize(`${K}.Bonus.${b.id}`), modifier: b.value })),
+        ...(pace.navigation.modifier
+            ? [new PTUModifier({ slug: `navigation-pace-${pace.id}`, label: paceName(pace), modifier: pace.navigation.modifier })]
+            : [])
+    ];
+    const rollOnce = async (skipDialog) => {
+        const result = await skill.roll({
+            rollMode: CONST.DICE_ROLL_MODES.BLIND,
+            lockRollMode: true,
+            modifiers: modifiers(),
+            title: localize(`${K}.RollTitle`, { terrain: terrainName(terrain) }),
+            skipDialog
+        });
+        // A skill check resolves to { rolls, targets }, not to the roll itself.
+        const total = result?.rolls?.[0]?.total;
+        return Number.isFinite(total) ? total : null;
+    };
 
-    const roll = await skill.roll({
-        rollMode: CONST.DICE_ROLL_MODES.BLIND,
-        lockRollMode: true,
-        modifiers,
-        title: localize(`${K}.RollTitle`, { terrain: terrainName(terrain) })
-    });
-    // A skill check resolves to { rolls, targets }, not to the roll itself.
-    const total = roll?.rolls?.[0]?.total;
-    return Number.isFinite(total) ? total : null;
+    const first = await rollOnce(null);
+    if (first === null) return null;
+    if (!pace.navigation.rollTwice) return { total: first, totals: [first] };
+
+    const second = await rollOnce(true);
+    const totals = second === null ? [first] : [first, second];
+    return { total: Math.max(...totals), totals };
 }
 
 /** GM side: whisper the outcome to the GMs, with the deviation on a failure. */
-async function postNavigationResult({ actorUuid, terrainId, dc, total, bonusIds = [] }) {
+async function postNavigationResult({ actorUuid, terrainId, dc, total, totals = [], bonusIds = [], paceId }) {
     const actor = await fromUuid(actorUuid);
     const terrain = TERRAINS.find((t) => t.id === terrainId) ?? TERRAINS[0];
     const success = total >= dc;
@@ -170,10 +207,12 @@ async function postNavigationResult({ actorUuid, terrainId, dc, total, bonusIds 
     const rows = [
         [localize(`${K}.Terrain`), escape(terrainName(terrain))],
         [localize(`${K}.DC`), dc],
+        [localize(`${K}.Pace`), escape(paceName(paceById(paceId)))],
         [localize(`${K}.Equipment`), NAVIGATION_BONUSES.filter((b) => bonusIds.includes(b.id))
             .map((b) => `${escape(localize(`${K}.Bonus.${b.id}`))} (+${b.value})`).join(", ") || "—"],
         [localize(`${K}.Total`), total]
     ];
+    if (totals.length > 1) rows.push([localize(`${K}.Rolls`), localize(`${K}.RollsBest`, { rolls: totals.join(", ") })]);
     if (deviation) rows.push([localize(`${K}.Deviation`), `${deviation.total} <span class="pe-muted">(${DEVIATION_FORMULA})</span>`]);
 
     const content = `<div class="pe-travel-card">
@@ -197,8 +236,10 @@ onSocket("navigation.request", async (data) => {
     const actor = await fromUuid(data.actorUuid);
 
     const bonusIds = await askNavigator(actor);
-    const total = bonusIds ? await performNavigationRoll({ ...data, bonusIds }) : null;
-    emitSocket("navigation.result", { ...data, bonusIds: bonusIds ?? [], total, userName: game.user.name });
+    const result = bonusIds ? await performNavigationRoll({ ...data, bonusIds }) : null;
+    emitSocket("navigation.result", {
+        ...data, bonusIds: bonusIds ?? [], total: result?.total ?? null, totals: result?.totals ?? [], userName: game.user.name
+    });
 });
 
 // GM side: only the GM who asked resolves it, so two GMs do not post it twice.
