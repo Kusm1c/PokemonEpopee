@@ -238,8 +238,8 @@
           "tundraIce": "Tundra, Banquise"
         },
         "Path": {
-          "road": "Route",
-          "trail": "Sentier",
+          "road": "Voie",
+          "trail": "Route / Sentier",
           "trackless": "Sans trace"
         },
         "Condition": {
