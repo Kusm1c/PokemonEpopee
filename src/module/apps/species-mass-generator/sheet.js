@@ -1,5 +1,49 @@
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
 import { SpeciesGeneratorData } from "./document.js";
+import { sluggify } from "../../../util/misc.js";
+
+/** `fromUuid`, but a malformed or dead UUID gives null instead of throwing. */
+async function safeFromUuid(uuid) {
+    if (!uuid) return null;
+    try {
+        return (await fromUuid(uuid)) ?? null;
+    } catch {
+        return null;
+    }
+}
+
+/**
+ * The species a roll table result points at.
+ *
+ * Tried in order: the result's UUID; the same UUID under the current system id (tables
+ * made before the `ptu` -> `pe` rename still say `Compendium.ptu.`, and the id migration
+ * does not rewrite world roll tables); and last the species'
+ * name in the species compendium. The name is what catches a table whose UUIDs point at
+ * species ids that no longer exist - "Ninetales-Alolan", "Obstagoon" and "Yamper" were
+ * drawn with an image but no reachable document.
+ *
+ * @param {TableResult} result
+ * @returns {Promise<Item|null>}
+ */
+async function speciesFromTableResult(result) {
+    const uuid = result.documentUuid ?? null;
+    let species = await safeFromUuid(uuid);
+
+    if (!species && uuid?.includes("Compendium.ptu.")) {
+        species = await safeFromUuid(uuid.replace("Compendium.ptu.", "Compendium.pe."));
+    }
+
+    // No pre-v13 documentId / documentCollection fallback: Foundry already folded those
+    // into documentUuid, and reading them only raises a deprecation warning.
+    if (!species) {
+        const name = result.name;
+        const pack = game.packs.get("pe.species");
+        const entry = name && pack?.index.find((e) => sluggify(e.name) === sluggify(name));
+        if (entry) species = await pack.getDocument(entry._id);
+    }
+
+    return species?.type === "species" ? species : null;
+}
 
 export class PTUSpeciesMassGenerator extends FormApplication {
     /** @override */
@@ -156,33 +200,10 @@ export class PTUSpeciesMassGenerator extends FormApplication {
         else if (table) {
             const { results } = await table.drawMany(amount, { displayChat: false });
             for (const result of results) {
-                let species = null;
-                
-                // Handle Foundry VTT v13 table result structure
-                if (result.type === "document" || result.type === "compendium") {
-                    // Use documentUuid for both document and compendium types in v13
-                    if (result.documentUuid) {
-                        species = await fromUuid(result.documentUuid);
-                    }
-                }
-                
-                // Fallback for older table result structures
+                const species = await speciesFromTableResult(result);
                 if (!species) {
-                    switch (result.type) {
-                        case CONST.TABLE_RESULT_TYPES?.DOCUMENT: {
-                            species = game.items.get(result.documentId);
-                            break;
-                        }
-                        case CONST.TABLE_RESULT_TYPES?.COMPENDIUM: {
-                            species = await game.packs.get(result.documentCollection).getDocument(result.documentId);
-                            break;
-                        }
-                    }
-                }
-                
-                // Check if species was found
-                if (!species) {
-                    console.error("Species not found for result:", result);
+                    console.error(`Species not found for table result "${result.name ?? result.id}":`, result);
+                    ui.notifications.warn(`Espèce introuvable pour le résultat « ${result.name ?? "?"} » de la table : ignoré.`);
                     continue;
                 }
                 

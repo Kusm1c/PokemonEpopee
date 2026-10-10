@@ -2,6 +2,51 @@ import { natureData } from "../../../scripts/config/data/nature.js";
 import { levelProgression } from "../../../scripts/config/data/level-progression.js";
 import { PTUSpecies } from "../../item/index.js";
 
+/**
+ * Answers for an ability's ChoiceSet questions, so a generated Pokemon carries none left
+ * open.
+ *
+ * Nothing asks them while a Pokemon is generated, and an unanswered question leaves its
+ * dependent rule broken: Levitate's "{item|flags.pe.rulesSelections.levitate}" never
+ * resolved, so the ability gave no Levitate Speed and filled the console with errors.
+ * Each answer here is one the species already implies:
+ *   - Levitate: "already has a Levitate Speed?" is read off the species' capabilities;
+ *   - a list of types (Last Chance, Type Strategist): the species' own type;
+ *   - a list of abilities (Leafy Cloak, twice): distinct ones it does not already have.
+ * A question with no derivable answer is left alone, as before.
+ *
+ * @param {object} abilityData the ability's source data
+ * @param {PTUSpecies} species
+ * @param {{data: {uuid: string}}[]} chosenAbilities the abilities the generator picked
+ * @returns {Record<string, string>} flag -> chosen value
+ */
+function autoRuleSelections(abilityData, species, chosenAbilities = []) {
+    const selections = {};
+    const types = (species.system?.types ?? []).map((t) => String(t).toLowerCase());
+    const owned = new Set(chosenAbilities.map((a) => a.data?.uuid).filter(Boolean));
+
+    for (const rule of abilityData.system?.rules ?? []) {
+        if (rule.key !== "ChoiceSet" || !rule.flag || !Array.isArray(rule.choices)) continue;
+        const values = rule.choices.map((c) => c?.value).filter((v) => typeof v === "string");
+        if (!values.length) continue;
+
+        let pick = null;
+        if (rule.flag === "levitate") {
+            pick = (Number(species.system?.capabilities?.levitate) || 0) > 0 ? "2" : "4";
+        } else if (values.every((v) => v.startsWith("Compendium."))) {
+            const taken = new Set(Object.values(selections));
+            const free = values.filter((v) => !owned.has(v) && !taken.has(v));
+            if (free.length) pick = free[Math.floor(Math.random() * free.length)];
+        } else {
+            // The species' primary type first: the choice list itself is alphabetical.
+            pick = types.map((t) => values.find((v) => v.toLowerCase() === t)).find(Boolean) ?? null;
+        }
+
+        if (pick !== null && values.includes(pick)) selections[rule.flag] = pick;
+    }
+    return selections;
+}
+
 export class PokemonGenerator {
     constructor(species, { x, y } = {}) {
         if (!(species instanceof PTUSpecies)) throw new Error("Species must be a valid PTUSPecies instance");
@@ -176,6 +221,8 @@ export class PokemonGenerator {
             abilityData.flags.pe = {
                 abilityChosen: speciesAbility.tier
             }
+            const rulesSelections = autoRuleSelections(abilityData, this.species, this.abilities);
+            if (Object.keys(rulesSelections).length) abilityData.flags.pe.rulesSelections = rulesSelections;
 
             itemsData.push(abilityData);
         }

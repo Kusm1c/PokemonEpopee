@@ -90,10 +90,22 @@ foreach ($dep in @("classic-level", "nedb-promises", "@seald-io")) {
 
 $env:ELECTRON_RUN_AS_NODE = "1"
 
+# Run the CLI with Foundry's Node and return its exit code.
+#
+# Foundry's exe is a GUI-subsystem program. Called with "&", PowerShell neither waits for
+# it nor records its exit code: the script carried on while the CLI was still writing
+# (the next run then saw "Foundry" running and refused), and a failed compile was
+# reported as "Pack mis a jour". Start-Process -Wait does both.
+function Invoke-Cli([string[]]$CliArgs) {
+    $quoted = @($runner) + $CliArgs | ForEach-Object { '"' + $_ + '"' }
+    $process = Start-Process -FilePath $FoundryExe -ArgumentList $quoted -NoNewWindow -Wait -PassThru
+    return $process.ExitCode
+}
+
 switch ($Command) {
     "extract" {
         New-Item -ItemType Directory -Path $srcDir -Force | Out-Null
-        & $FoundryExe $runner extract $packDir $srcDir
+        if ((Invoke-Cli @("extract", $packDir, $srcDir)) -ne 0) { throw "Echec de l'extraction (voir l'erreur ci-dessus)." }
         Write-Host ""
         Write-Host "Fichiers ecrits dans : packs\_source\$Pack" -ForegroundColor Green
     }
@@ -101,7 +113,9 @@ switch ($Command) {
         if (-not (Test-Path $srcDir)) {
             throw "Rien a compiler : lance d'abord '.\pack.ps1 extract $Pack'."
         }
-        & $FoundryExe $runner compile $srcDir $packDir
+        if ((Invoke-Cli @("compile", $srcDir, $packDir)) -ne 0) {
+            throw "Echec de la compilation : le pack n'a PAS ete modifie (voir l'erreur ci-dessus)."
+        }
         Write-Host ""
         Write-Host "Pack mis a jour : packs\$Pack" -ForegroundColor Green
         Write-Host "Pense a commiter les fichiers .ldb pour partager tes modifications." -ForegroundColor Yellow
