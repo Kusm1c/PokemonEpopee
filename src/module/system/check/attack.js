@@ -1,3 +1,4 @@
+import { localizedTypeImage } from "../../types/images.js";
 import { sluggify } from "../../../util/misc.js";
 import { CheckModifier, PTUModifier, StatisticModifier } from "../../actor/modifiers.js";
 import { PTUCondition } from "../../item/index.js";
@@ -262,7 +263,7 @@ class PTUAttackCheck extends PTUDiceCheck {
             type.classList.add("type-img");
 
             const typeImg = document.createElement("img");
-            typeImg.src = CONFIG.PTU.data.typeEffectiveness[this.item.system.type].images.bar;
+            typeImg.src = localizedTypeImage(CONFIG.PTU.data.typeEffectiveness[this.item.system.type].images.bar);
             type.append(typeImg);
 
             const category = document.createElement("div");

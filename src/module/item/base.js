@@ -1,3 +1,4 @@
+import { localizedTypeImage } from "../types/images.js";
 import { RuleElements } from "../rules/index.js";
 import { localize } from "../i18n.js";
 import { processGrantDeletions } from "../rules/rule-element/grant-item/helper.js";
@@ -424,7 +425,7 @@ class PTUItem extends Item {
                 type.classList.add("type-img");
 
                 const typeImg = document.createElement("img");
-                typeImg.src = CONFIG.PTU.data.typeEffectiveness[this.system.type].images.bar;
+                typeImg.src = localizedTypeImage(CONFIG.PTU.data.typeEffectiveness[this.system.type].images.bar);
                 type.append(typeImg);
 
                 const category = document.createElement("div");

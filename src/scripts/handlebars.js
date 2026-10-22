@@ -2,6 +2,7 @@ import { usageState } from "../module/usage/frequency.js";
 import { pokeballStyles, pokeballShapes } from "./config/data/pokeball-themes.js";
 import { capitalize, formatSlug } from "../util/misc.js";
 import { localize } from "../module/i18n.js";
+import { localizedTypeImage } from "../module/types/images.js";
 
 export function registerHandlebarsHelpers() {
     _registerBasicHelpers();
@@ -226,14 +227,18 @@ function _registerPTUHelpers() {
         for (let type of types) {
             if (type == "null") type = "Untyped";
             if (CONFIG.PTU.data.typeEffectiveness[type]) {
-                html += `<img class="type-image" src="${CONFIG.PTU.data.typeEffectiveness[type].images.bar}">`;
+                html += `<img class="type-image" src="${localizedTypeImage(CONFIG.PTU.data.typeEffectiveness[type].images.bar)}">`;
             }
         }
         return html;
     });
 
     Handlebars.registerHelper("loadTypeImageBar", function (type) {
-        return CONFIG.PTU.data.typeEffectiveness[type]?.images.bar ?? CONFIG.PTU.data.typeEffectiveness["Untyped"].images.bar;
+        return localizedTypeImage(CONFIG.PTU.data.typeEffectiveness[type]?.images.bar ?? CONFIG.PTU.data.typeEffectiveness["Untyped"].images.bar);
+    });
+    // A type bar written as a path in a template, swapped for the player's language.
+    Handlebars.registerHelper("peTypeImage", function (...parts) {
+        return localizedTypeImage(parts.slice(0, -1).join(""));
     });
     Handlebars.registerHelper("loadTypeImageIcon", function (type) {
         return CONFIG.PTU.data.typeEffectiveness[type]?.images.icon ?? CONFIG.PTU.data.typeEffectiveness["Untyped"].images.icon;

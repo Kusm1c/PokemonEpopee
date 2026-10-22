@@ -44,7 +44,7 @@
                                     <div class="type-select" style="background: url('{{loadTypeImageBar item.system.type}}');"></div>
                                 </div>
                                 <div class="move-category">
-                                    <div class="type-select" style="background: url('/systems/pe/static/css/images/types2/{{item.system.category}}IC.png');"></div>
+                                    <div class="type-select" style="background: url('{{peTypeImage "/systems/pe/static/css/images/types2/" item.system.category "IC.png"}}');"></div>
                                 </div>
                             </div>
                             <div class="move-other-info mt-2">
@@ -141,7 +141,7 @@
             <div class="item-row">
                 <label for="system.category">{{localize "ITEM.Category"}}</label>
                 <div class="arrow-box">
-                    <select data-target="system.category" class="type-select" style="background: url('/systems/pe/static/css/images/types2/{{item.system.category}}IC.png');" {{#if editLocked}}disabled{{/if}}>
+                    <select data-target="system.category" class="type-select" style="background: url('{{peTypeImage "/systems/pe/static/css/images/types2/" item.system.category "IC.png"}}');" {{#if editLocked}}disabled{{/if}}>
                         {{selectOptions config.moves.categories selected=item.system.category localize=true}}
                     </select>
                 </div>

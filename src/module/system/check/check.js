@@ -1,3 +1,4 @@
+import { localizedTypeImage } from "../../types/images.js";
 import { AttackRoll } from "./rolls/attack-roll.js";
 import { CaptureRoll } from "./rolls/capture-roll.js";
 import { CheckModifiersDialog } from "./dialogs/dialog.js";
@@ -665,7 +666,7 @@ class PTUCheck {
                 type.classList.add("type-img");
 
                 const typeImg = document.createElement("img");
-                typeImg.src = CONFIG.PTU.data.typeEffectiveness[item.system.type].images.bar;
+                typeImg.src = localizedTypeImage(CONFIG.PTU.data.typeEffectiveness[item.system.type].images.bar);
                 type.append(typeImg);
 
                 const category = document.createElement("div");
