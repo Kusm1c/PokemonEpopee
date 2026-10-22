@@ -1,4 +1,5 @@
 import { PTUCondition } from "../item/index.js";
+import { localize } from "../i18n.js";
 import { ALL_STATUS_DEFINITIONS } from "../statuses/definitions.js";
 
 class PTUCombatant extends Combatant {
@@ -53,7 +54,7 @@ class PTUCombatant extends Combatant {
 
     static async fromActor(actor, render = true, options = {}) {
         if (!game.combat) {
-            ui.notifications.error("No combat active");
+            ui.notifications.error(localize("PTU.Epopee.Notify.NoCombat"));
             return null;
         }
         const token = actor.getActiveTokens().pop();
@@ -77,7 +78,7 @@ class PTUCombatant extends Combatant {
             )
             return combatants.at(0) ?? null;
         }
-        ui.notifications.error("No token found");
+        ui.notifications.error(localize("PTU.Epopee.Notify.NoToken"));
         return null;
     }
 

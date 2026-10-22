@@ -1,4 +1,5 @@
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
+import { localize } from "../../i18n.js";
 import { SpeciesGeneratorData } from "./document.js";
 import { sluggify } from "../../../util/misc.js";
 
@@ -53,7 +54,7 @@ export class PTUSpeciesMassGenerator extends FormApplication {
             template: "systems/pe/static/templates/apps/species-mass-generator-sheet.hbs",
             width: 350,
             height: "auto",
-            title: "Species Mass-Generator",
+            title: localize("PTU.Epopee.Apps.MassGenerator.Title"),
             submitOnChange: true,
             submitOnClose: true,
             closeOnSubmit: false,
@@ -203,7 +204,7 @@ export class PTUSpeciesMassGenerator extends FormApplication {
                 const species = await speciesFromTableResult(result);
                 if (!species) {
                     console.error(`Species not found for table result "${result.name ?? result.id}":`, result);
-                    ui.notifications.warn(`Espèce introuvable pour le résultat « ${result.name ?? "?"} » de la table : ignoré.`);
+                    ui.notifications.warn(localize("PTU.Epopee.Notify.SpeciesNotFound", { result: result.name ?? "?" }));
                     continue;
                 }
                 

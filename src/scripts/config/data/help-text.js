@@ -1,6 +1,8 @@
+import { localize } from "../../../module/i18n.js";
+
 export const helpText = {
-    "Range": (range) => `The range of the move is ${range}m.`,
-    "Target": (target) => `This move can target ${target} target${target > 1 ? "s" : ""} at once.`,
-    "DamageBase": (db) => `This move has a Damage Base of ${db} (${CONFIG.PTU.data.dbData[db]}).`,
-    "Priority": "This move has Priority"
+    "Range": (range) => localize("PTU.Epopee.HelpText.Range", { range }),
+    "Target": (target) => localize(target > 1 ? "PTU.Epopee.HelpText.Targets" : "PTU.Epopee.HelpText.Target", { target }),
+    "DamageBase": (db) => localize("PTU.Epopee.HelpText.DamageBase", { db, dice: CONFIG.PTU.data.dbData[db] }),
+    get "Priority"() { return localize("PTU.Epopee.HelpText.Priority"); }
 }

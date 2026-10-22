@@ -1,4 +1,5 @@
 import { PTUDiceModifier, PTUModifier, StatisticDiceModifier } from "../../../actor/modifiers.js";
+import { localize } from "../../../i18n.js";
 
 export class DiceCheckDialog extends Application {
     /**
@@ -137,19 +138,19 @@ export class DiceCheckDialog extends Application {
             let name = String(parent.querySelector(".add-modifier-name")?.value);
             const errors = [];
             if (Number.isNaN(diceNumber)) {
-                errors.push("Dice amount must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.DiceAmountNaN"));
             } 
             else if (diceNumber === 0) {
-                errors.push("Dice amount must not be zero.");
+                errors.push(localize("PTU.Epopee.Notify.DiceAmountZero"));
             }
             if (Number.isNaN(dieSize)) {
-                errors.push("Dice size must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.DiceSizeNaN"));
             }
             else if (dieSize <= 0) {
-                errors.push("Dice size must be greater than zero.");
+                errors.push(localize("PTU.Epopee.Notify.DiceSizeZero"));
             }
             if (!name || !name.trim()) {
-                name = "Unnamed Modifier"
+                name = localize("PTU.Epopee.Dialog.UnnamedModifier")
             }
             if (errors.length > 0) {
                 ui.notifications.error(errors.join(" "));
@@ -269,19 +270,19 @@ export class CheckDiceModifiersDialog extends Application {
             let name = String(parent.querySelector(".add-modifier-name")?.value);
             const errors = [];
             if (Number.isNaN(diceNumber)) {
-                errors.push("Dice amount must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.DiceAmountNaN"));
             } 
             else if (diceNumber === 0) {
-                errors.push("Dice amount must not be zero.");
+                errors.push(localize("PTU.Epopee.Notify.DiceAmountZero"));
             }
             if (Number.isNaN(dieSize)) {
-                errors.push("Dice size must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.DiceSizeNaN"));
             }
             else if (dieSize <= 0) {
-                errors.push("Dice size must be greater than zero.");
+                errors.push(localize("PTU.Epopee.Notify.DiceSizeZero"));
             }
             if (!name || !name.trim()) {
-                name = "Unnamed Modifier"
+                name = localize("PTU.Epopee.Dialog.UnnamedModifier")
             }
             if (errors.length > 0) {
                 ui.notifications.error(errors.join(" "));

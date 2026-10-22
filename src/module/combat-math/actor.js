@@ -4,6 +4,7 @@
  */
 
 import { mdsTerm, clampStages } from "./formula.js";
+import { localize } from "../i18n.js";
 
 /**
  * Current combat stage count for a stat, following the codebase's existing
@@ -38,7 +39,7 @@ function stageDiceModifier(actor, stat, level) {
     const term = mdsTerm(level, stages);
     return {
         slug: `epopee-mds-${stat}`,
-        label: `MdS ${stat.toUpperCase()} (${stages > 0 ? "+" : ""}${stages})`,
+        label: localize("PTU.Epopee.Modifiers.CombatStage", { stat: localize(`PTU.Epopee.StatShort.${stat}`), stages: `${stages > 0 ? "+" : ""}${stages}` }),
         value: term.formula,
         ignored: term.sign === 0
     };

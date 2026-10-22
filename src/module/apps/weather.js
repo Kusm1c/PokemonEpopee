@@ -1,3 +1,4 @@
+import { localize } from "../i18n.js";
 class Weather extends Application {
     /** @type {Map<string, CONFIG.PTU.Item.baseEffect>} */
     static globalEffects = new Map();
@@ -5,7 +6,7 @@ class Weather extends Application {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             classes: ["pe", "weather"],
-            title: "Weather",
+            title: localize("PTU.Epopee.Apps.Weather.Title"),
             template: "systems/pe/static/templates/apps/weather.hbs",
             width: 450,
             height: 300,
@@ -130,7 +131,7 @@ class Weather extends Application {
     static async updateGameState() {
         Weather._initializeGlobalEffects();
         game.actors.forEach(actor => actor.reset());
-        ui.notifications.info("Weather Effects Updated on all actors!");
+        ui.notifications.info(localize("PTU.Epopee.Notify.WeatherUpdated"));
     }
 
     static openWeatherMenu() {

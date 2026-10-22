@@ -1,4 +1,5 @@
 import { WALL_DEFINITIONS } from "./definitions.js";
+import { localize } from "../i18n.js";
 
 function wallTilesOnScene() {
     return canvas.scene?.tiles?.filter(t => t.flags.pe?.wallSlug) ?? [];
@@ -16,7 +17,7 @@ async function placeWall(x, y, slug, length = 1, extended = false) {
         flags: { pe: { wallSlug: slug, wallRemaining: extended ? definition.extendedDuration : definition.duration } }
     }]);
 
-    await ChatMessage.create({ content: `<p><strong>${definition.label}</strong> is placed on the field.</p>` });
+    await ChatMessage.create({ content: `<p>${localize("PTU.Epopee.Environment.Walls.Placed", { name: definition.label })}</p>` });
 }
 
 async function tickWalls() {
@@ -25,7 +26,7 @@ async function tickWalls() {
         const definition = WALL_DEFINITIONS[tile.flags.pe.wallSlug];
         if (remaining <= 0) {
             await tile.delete();
-            await ChatMessage.create({ content: `<p><strong>${definition?.label ?? tile.flags.pe.wallSlug}</strong> crumbles.</p>` });
+            await ChatMessage.create({ content: `<p>${localize("PTU.Epopee.Environment.Walls.Crumbles", { name: definition?.label ?? tile.flags.pe.wallSlug })}</p>` });
         } else {
             await tile.update({ "flags.pe.wallRemaining": remaining });
         }

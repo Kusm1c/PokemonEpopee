@@ -1,60 +1,58 @@
 <div class="shared-inventory-app" style="display:flex;flex-direction:column;height:100%;padding:6px;">
     {{#if missing}}
     <div style="text-align:center;padding:24px;">
-        <p><b>Aucun conteneur d'inventaire partagé dans ce monde.</b></p>
+        <p><b>{{peLocalize "PTU.Epopee.Apps.SharedInventory.Missing"}}</b></p>
         {{#if isGM}}
         <p style="font-size:11px;opacity:.75;">
-            Il est créé automatiquement au premier chargement du monde par un MJ.
-            S'il manque, mets le réglage <code>Epopee Setup Version</code> à <code>0</code> et recharge.
+            {{{peLocalize "PTU.Epopee.Apps.SharedInventory.MissingGm"}}}
         </p>
         {{else}}
-        <p style="font-size:11px;opacity:.75;">Demande au MJ de le créer.</p>
+        <p style="font-size:11px;opacity:.75;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.MissingPlayer"}}</p>
         {{/if}}
     </div>
     {{else}}
 
     <p style="font-size:11px;opacity:.7;margin:0 0 6px 0;">
-        Glisse des objets ou des Pokémon ici depuis une fiche, ou glisse-les d'ici vers une fiche.
-        Le bouton <i class="fas fa-hand-holding"></i> envoie directement au Dresseur que tu contrôles.
+        {{{peLocalize "PTU.Epopee.Apps.SharedInventory.Help"}}}
     </p>
 
     <div class="shared-drop" style="flex:1;overflow:auto;border:2px dashed #999;border-radius:4px;padding:6px;">
 
-        <h3 style="margin:0 0 4px 0;">Objets ({{items.length}})</h3>
+        <h3 style="margin:0 0 4px 0;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.Items" n=items.length}}</h3>
         {{#each items as |entry|}}
         <div class="shared-entry draggable" draggable="true"
              data-entry-type="item" data-entry-id="{{entry.id}}"
              style="display:flex;align-items:center;gap:6px;padding:3px;border-bottom:1px solid #ddd;">
             <img src="{{entry.img}}" width="24" height="24" style="flex:0 0 24px;" />
             <span style="flex:1;">{{entry.name}}{{#if entry.quantity}} <span style="opacity:.6;">×{{entry.quantity}}</span>{{/if}}</span>
-            <a class="shared-open" title="Ouvrir"><i class="fas fa-eye"></i></a>
-            {{#if ../canEdit}}<a class="shared-item-take" title="Prendre"><i class="fas fa-hand-holding"></i></a>{{/if}}
+            <a class="shared-open" title="{{peLocalize "PTU.Epopee.Apps.SharedInventory.Open"}}"><i class="fas fa-eye"></i></a>
+            {{#if ../canEdit}}<a class="shared-item-take" title="{{peLocalize "PTU.Epopee.Apps.SharedInventory.Take"}}"><i class="fas fa-hand-holding"></i></a>{{/if}}
         </div>
         {{else}}
-        <div style="opacity:.5;font-size:11px;padding:4px;">Aucun objet.</div>
+        <div style="opacity:.5;font-size:11px;padding:4px;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.NoItems"}}</div>
         {{/each}}
 
-        <h3 style="margin:10px 0 4px 0;">Pokémon ({{pokemon.length}})</h3>
+        <h3 style="margin:10px 0 4px 0;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.Pokemon" n=pokemon.length}}</h3>
         {{#each pokemon as |entry|}}
         <div class="shared-entry draggable" draggable="true"
              data-entry-type="pokemon" data-uuid="{{entry.uuid}}"
              style="display:flex;align-items:center;gap:6px;padding:3px;border-bottom:1px solid #ddd;">
             <img src="{{entry.img}}" width="24" height="24" style="flex:0 0 24px;" />
-            <span style="flex:1;">{{entry.name}} <span style="opacity:.6;">Niv. {{entry.level}}</span></span>
-            <a class="shared-open" title="Ouvrir"><i class="fas fa-eye"></i></a>
+            <span style="flex:1;">{{entry.name}} <span style="opacity:.6;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.Level" level=entry.level}}</span></span>
+            <a class="shared-open" title="{{peLocalize "PTU.Epopee.Apps.SharedInventory.Open"}}"><i class="fas fa-eye"></i></a>
             {{#if ../canEdit}}
-            <a class="shared-pokemon-take" title="Prendre"><i class="fas fa-hand-holding"></i></a>
-            <a class="shared-pokemon-remove" title="Retirer de la liste"><i class="fas fa-times"></i></a>
+            <a class="shared-pokemon-take" title="{{peLocalize "PTU.Epopee.Apps.SharedInventory.Take"}}"><i class="fas fa-hand-holding"></i></a>
+            <a class="shared-pokemon-remove" title="{{peLocalize "PTU.Epopee.Apps.SharedInventory.Remove"}}"><i class="fas fa-times"></i></a>
             {{/if}}
         </div>
         {{else}}
-        <div style="opacity:.5;font-size:11px;padding:4px;">Aucun Pokémon.</div>
+        <div style="opacity:.5;font-size:11px;padding:4px;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.NoPokemon"}}</div>
         {{/each}}
 
         {{#if stale.length}}
         <div style="margin-top:8px;background:#c0392b;color:#fff;padding:4px;font-size:11px;">
-            {{stale.length}} référence(s) vers des Pokémon supprimés.
-            <a class="shared-prune" style="color:#fff;text-decoration:underline;">Nettoyer</a>
+            {{peLocalize "PTU.Epopee.Apps.SharedInventory.Stale" n=stale.length}}
+            <a class="shared-prune" style="color:#fff;text-decoration:underline;">{{peLocalize "PTU.Epopee.Apps.SharedInventory.Prune"}}</a>
         </div>
         {{/if}}
     </div>

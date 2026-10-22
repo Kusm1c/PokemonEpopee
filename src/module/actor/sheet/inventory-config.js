@@ -1,9 +1,10 @@
+import { localize } from "../../i18n.js";
 class InventoryConfigSheet extends FormApplication {
 
     /** @override */
 	static get defaultOptions() {
 		return foundry.utils.mergeObject(super.defaultOptions, {
-            title: "Inventory Configuration",
+            title: localize("PTU.Epopee.Apps.InventoryConfig.Title"),
 			classes: ['pe', 'sheet', 'actor', 'gen8', "inventory", "config"],
 			template: 'systems/pe/static/templates/config/inventory-config-sheet.hbs',
 			width: 600,

@@ -38,7 +38,7 @@
                 <button type="button" class="attachment" data-action="toggle-brackets">
                     {{localize "PTU.RuleEditor.General.Brackets"}}
                 </button>
-                <input type="text" name="system.rules.{{index}}.value.field" value="{{rule.value.field}}" placeholder="Actor Level (Default)"/>
+                <input type="text" name="system.rules.{{index}}.value.field" value="{{rule.value.field}}" placeholder="{{peLocalize "PTU.Epopee.Rules.ActorLevelDefault"}}"/>
             </div>
         {{/if}}
 
@@ -77,7 +77,7 @@
     <label class="short">{{localize "PTU.RuleEditor.General.Predicate"}}</label>
     <div class="attached-input">
         <button type="button" class="attachment" data-action="toggle-predicate">
-            {{#if predicationIsMultiple}}Multiple{{else}}Complex{{/if}}
+            {{#if predicationIsMultiple}}{{peLocalize "PTU.Epopee.Rules.Multiple"}}{{else}}{{peLocalize "PTU.Epopee.Rules.Complex"}}{{/if}}
         </button>
         {{#if predicationIsMultiple}}
             <input type="text" class="pe-tagify predicate-list" name="system.rules.{{index}}.predicate" value="{{json rule.predicate}}" data-dtype="JSON"/>

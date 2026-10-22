@@ -2,6 +2,7 @@ import { PTUItem } from "../../../item/index.js";
 import { MigrationList } from "../../../migration/index.js";
 import { MigrationRunner } from "../../../migration/runner/index.js";
 import { RuleElementPTU } from "../base.js";
+import { localize } from "../../../i18n.js";
 
 class GrantItemRuleElement extends RuleElementPTU {
     constructor(source, item, options = {}) {
@@ -82,11 +83,11 @@ class GrantItemRuleElement extends RuleElementPTU {
             }
             //this.#setGrantFlags(itemSource, existingItem);
 
-            return args.reevaluation ? null : ui.notifications.warn(`Item ${grantedItem.name} is already granted to ${this.actor.name}.`);
+            return args.reevaluation ? null : ui.notifications.warn(localize("PTU.Epopee.Notify.AlreadyGranted", { item: grantedItem.name, actor: this.actor.name }));
         }
 
         if (!this.actor?.allowedItemTypes.includes(grantedItem.type)) {
-            ui.notifications.error(`PTU | ${source.type.capitalize()}s cannot be added to ${actor.name}`);
+            ui.notifications.error(localize("PTU.Epopee.Notify.CannotAdd", { type: game.i18n.localize(`TYPES.Item.${source.type}`), actor: actor.name }));
             return [];
         }
 

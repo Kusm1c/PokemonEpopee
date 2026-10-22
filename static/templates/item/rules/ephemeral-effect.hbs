@@ -16,7 +16,7 @@
     <label class="short">{{localize "PTU.RuleEditor.General.Selectors"}}</label>
     <div class="attached-input">
         <button type="button" class="attachment" data-action="toggle-selector">
-            {{#if selectorIsArray}}Multiple{{else}}Single{{/if}}
+            {{#if selectorIsArray}}{{peLocalize "PTU.Epopee.Rules.Multiple"}}{{else}}{{peLocalize "PTU.Epopee.Rules.Single"}}{{/if}}
         </button>
         {{#if selectorIsArray}}
             <input type="text" class="pe-tagify selectors-list" name="system.rules.{{index}}.selectors" value="{{json rule.selectors}}" data-dtype="JSON"/>
@@ -43,7 +43,7 @@
     <label class="short">{{localize "PTU.RuleEditor.General.Predicate"}}</label>
     <div class="attached-input">
         <button type="button" class="attachment" data-action="toggle-predicate">
-            {{#if predicationIsMultiple}}Multiple{{else}}Complex{{/if}}
+            {{#if predicationIsMultiple}}{{peLocalize "PTU.Epopee.Rules.Multiple"}}{{else}}{{peLocalize "PTU.Epopee.Rules.Complex"}}{{/if}}
         </button>
         {{#if predicationIsMultiple}}
             <input type="text" class="pe-tagify predicate-list" name="system.rules.{{index}}.predicate" value="{{json rule.predicate}}" data-dtype="JSON"/>

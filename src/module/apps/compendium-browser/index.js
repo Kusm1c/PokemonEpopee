@@ -1,4 +1,5 @@
 import { sluggify } from "../../../util/misc.js";
+import { localize } from "../../i18n.js";
 import { Progress } from "../../../util/progress.js";
 import * as browserTabs from "./tabs/index.js";
 import noUiSlider from "../../../../static/js/nouislider.mjs"
@@ -420,7 +421,7 @@ class CompendiumBrowser extends Application {
 
                     await this.#resetInitializedTabs();
                     this.render(true);
-                    ui.notifications.info("Settings saved");
+                    ui.notifications.info(localize("PTU.Epopee.Notify.SettingsSaved"));
                 });
 
                 // const sourceSearch = form.querySelector("input[data-element=setting-sources-search]");

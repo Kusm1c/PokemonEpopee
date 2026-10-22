@@ -1,4 +1,5 @@
 import { HAZARD_DEFINITIONS } from "./definitions.js";
+import { localize } from "../i18n.js";
 
 function gridDistanceBetween(a, b) {
     const size = canvas.grid.size;
@@ -19,7 +20,7 @@ async function placeHazard(x, y, slug) {
     if (existing) {
         const stacks = (existing.flags.pe?.hazardStacks ?? 1) + 1;
         if (stacks > definition.maxStacks) {
-            ui.notifications.warn(`${definition.label} is already at max stacks on this tile.`);
+            ui.notifications.warn(localize("PTU.Epopee.Environment.Hazards.MaxStacks", { name: definition.label }));
             return;
         }
         await existing.update({ "flags.pe.hazardStacks": stacks });
@@ -60,7 +61,7 @@ async function applyHazardEffect(token, tile) {
         const roll = await new Roll(definition.damageFormula).evaluate();
         await roll.toMessage({
             speaker: ChatMessage.getSpeaker({ actor }),
-            flavor: `${definition.label}: damage roll`
+            flavor: localize("PTU.Epopee.Environment.Hazards.DamageRoll", { name: definition.label })
         });
         updates["system.health.value"] = Math.max(0, (actor.system.health.value ?? 0) - roll.total);
     }
@@ -70,14 +71,14 @@ async function applyHazardEffect(token, tile) {
     if (definition.poisonIntensityPerStack) {
         const existingPoison = actor.conditions?.active?.find(c => c.slug === "poisoned");
         if (!existingPoison) {
-            ui.notifications.info(`${actor.name} should be given the Poisoned condition manually (Toxic Spikes: ${stacks * definition.poisonIntensityPerStack} intensity).`);
+            ui.notifications.info(localize("PTU.Epopee.Environment.Hazards.PoisonManual", { actor: actor.name, name: definition.label, n: stacks * definition.poisonIntensityPerStack }));
         } else {
             const current = existingPoison.value ?? 2;
             await existingPoison.update({ "system.value.value": current + (stacks * definition.poisonIntensityPerStack) });
         }
     }
 
-    await ChatMessage.create({ content: `<p><strong>${actor.name}</strong> triggers ${definition.label}.</p>` });
+    await ChatMessage.create({ content: `<p>${localize("PTU.Epopee.Environment.Hazards.Triggers", { actor: actor.name, name: definition.label })}</p>` });
 
     if (definition.selfDestructs) await tile.delete();
 }
@@ -90,8 +91,8 @@ async function checkHazardTrigger(token) {
         if (distance > definition.triggerRadius) continue;
 
         const confirmed = await Dialog.confirm({
-            title: "Hazard Triggered",
-            content: `<p>${token.name} is within range of <strong>${definition.label}</strong>. Activate its effect?</p>`
+            title: localize("PTU.Epopee.Environment.Hazards.TriggeredTitle"),
+            content: `<p>${localize("PTU.Epopee.Environment.Hazards.TriggeredContent", { token: token.name, name: definition.label })}</p>`
         });
         if (confirmed) await applyHazardEffect(token, tile);
     }

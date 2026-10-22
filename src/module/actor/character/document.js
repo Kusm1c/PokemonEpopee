@@ -3,6 +3,7 @@ import { calculateEvasions, calculatePTStatTotal, calculateOldStatTotal, calcula
 import { calculateTrainerCapabilities } from "./capabilities.js";
 import { PTUModifier } from "../modifiers.js";
 import { sluggify } from "../../../util/misc.js";
+import { localize } from "../../i18n.js";
 import { TRAINER_INITIATIVE_BONUS } from "../../combat-math/config.js";
 
 class PTUTrainerActor extends PTUActor {
@@ -152,7 +153,7 @@ class PTUTrainerActor extends PTUActor {
 
             if (system.modifiers.saveChecks.total != 0) {
                 const saveMods = (this.synthetics.statisticsModifiers["save-check"] ??= []);
-                saveMods.push(construct({ value: system.modifiers.saveChecks.total, label: "Save Check Mod" }));
+                saveMods.push(construct({ value: system.modifiers.saveChecks.total, label: localize("PTU.Epopee.Modifiers.SaveCheck") }));
             }
         }
 

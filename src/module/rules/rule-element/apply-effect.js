@@ -2,6 +2,7 @@ import { sluggify } from "../../../util/misc.js";
 import { PTUModifier } from "../../actor/modifiers.js";
 import { ResolvableValueField } from "../../system/schema-data-fields.js";
 import { RuleElementPTU } from "./base.js";
+import { localize } from "../../i18n.js";
 
 class ApplyEffectRuleElement extends RuleElementPTU {
     constructor(source, item, options) {
@@ -60,7 +61,7 @@ class ApplyEffectRuleElement extends RuleElementPTU {
                     const modifiers = [
                         new PTUModifier({
                             slug: "effect-range",
-                            label: "Effect Range",
+                            label: localize("PTU.Epopee.Modifiers.EffectRange"),
                             modifier: this.actor?.system?.modifiers?.effectRange?.total ?? 0,
                         })
                     ]

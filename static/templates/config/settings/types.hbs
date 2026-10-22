@@ -1,6 +1,6 @@
 <form autocomplete="off" onsubmit="event.preventDefault();">
     {{#unless readOnly}}
-        <p class="instructions">Double click a type to edit its settings, left click on an effectiveness to increase it, right click an effectiveness to decrease it.</p>
+        <p class="instructions">{{peLocalize "PTU.Epopee.Apps.TypeSettings.Instructions"}}</p>
     {{/unless}}
     <div class="type-grid" style="--grid-columns: {{typeLength}};">
         <div class="type" style="background: #222224;">

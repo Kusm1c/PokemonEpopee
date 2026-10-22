@@ -1,5 +1,6 @@
 import { sluggify } from "../../../../util/misc.js";
 import { PTUPredicate } from "../../../system/predication.js";
+import { localize } from "../../../i18n.js";
 
 
 export class ChoiceSetPrompt extends Application {
@@ -105,7 +106,7 @@ export class ChoiceSetPrompt extends Application {
         const dataString = event.dataTransfer?.getData("text/plain");
         const dropData = JSON.parse(dataString ?? "{}");
         if(dropData?.type !== "Item") {
-            ui.notifications.error("Only items can be dropped here");
+            ui.notifications.error(localize("PTU.Epopee.Notify.OnlyItems"));
             return;
         }
 

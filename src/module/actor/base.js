@@ -17,6 +17,7 @@ import { TRAINER_INITIATIVE_BONUS } from "../combat-math/config.js";
 import { ActorConditions } from "./conditions.js";
 import { prepareSecondaryStats } from "../stats/secondary.js";
 import { canUse, spendUse } from "../usage/engine.js";
+import { localize } from "../i18n.js";
 import { IWRData, ImmunityData, ResistanceData, WeaknessData, scaleTypeEffectiveness } from "./iwr.js";
 import { PTUModifier, StatisticModifier } from "./modifiers.js";
 
@@ -663,7 +664,7 @@ class PTUActor extends Actor {
                 await attacker.update({ "system.health.value": Math.max(0, attackerHp - hpDamage) });
                 await ChatMessage.create({
                     speaker: ChatMessage.getSpeaker({ actor: attacker }),
-                    content: `<p>${attacker.name} takes <b>${hpDamage}</b> recoil damage from Struggle.</p>`
+                    content: `<p>${localize("PTU.Epopee.Chat.StruggleRecoil", { name: attacker.name, damage: hpDamage })}</p>`
                 });
             }
         }
@@ -1021,7 +1022,7 @@ class PTUActor extends Actor {
 
             const constructStruggleItem = (type, category, range, ptuFlags, isRangedStruggle = false) => {
                 return new Item.implementation({
-                    name: `Struggle (${type})`,
+                    name: localize("PTU.Epopee.Chat.StruggleName", { type: game.i18n.localize(`PTU.Type.${type.toLowerCase()}`) }),
                     type: "move",
                     img: CONFIG.PTU.data.typeEffectiveness[type].images.icon,
                     system: {
@@ -1366,7 +1367,7 @@ class PTUActor extends Actor {
             check.modifiers = [
                 new PTUModifier({
                     slug: "speed-stat",
-                    label: "Speed Stat",
+                    label: localize("PTU.Epopee.Modifiers.SpeedStat"),
                     modifier: this.system.stats.spd.total
                 }),
                 ...check.modifiers,
@@ -1374,7 +1375,7 @@ class PTUActor extends Actor {
             if (this.system.modifiers.initiative.total !== 0) {
                 check.modifiers.push(new PTUModifier({
                     slug: "initiative-modifier",
-                    label: "Initiative Modifier",
+                    label: localize("PTU.Epopee.Modifiers.Initiative"),
                     modifier: this.system.modifiers.initiative.total,
                 }))
             }
@@ -1382,7 +1383,7 @@ class PTUActor extends Actor {
             if (this.type === "character") {
                 check.modifiers.push(new PTUModifier({
                     slug: "trainer-initiative",
-                    label: "Trainer",
+                    label: localize("PTU.Epopee.Modifiers.Trainer"),
                     modifier: TRAINER_INITIATIVE_BONUS,
                 }))
             }
@@ -1392,7 +1393,7 @@ class PTUActor extends Actor {
             if (check.conditionOptions.has("condition:paralysis")) {
                 check.statistic.push(new PTUModifier({
                     slug: "paralysis",
-                    label: "Paralysis",
+                    label: localize("PTU.Epopee.Modifiers.Paralysis"),
                     modifier: -Math.ceil(Math.abs(check.statistic.totalModifier * 0.5))
                 }))
             }

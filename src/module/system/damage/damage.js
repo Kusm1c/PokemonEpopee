@@ -1,5 +1,6 @@
 import { CheckModifier, PTUModifier } from "../../actor/modifiers.js";
 import { DamageRoll } from "./roll.js";
+import { localize } from "../../i18n.js";
 
 class PTUDamage {
     static async roll(data, context, event, callback) {
@@ -11,7 +12,7 @@ class PTUDamage {
 
         check.push(new PTUModifier({
             slug: "damage-base-modifier",
-            label: "Damage Base Modifier",
+            label: localize("PTU.Epopee.Modifiers.DamageBaseModifier"),
             type: context.item.system.category,
             category: context.item.system.category,
             modifier: damageBaseModifier,

@@ -1,4 +1,5 @@
 import { MigrationSummary } from "../../module/apps/migration-summary.js";
+import { localize } from "../../module/i18n.js";
 import { MigrationList } from "../../module/migration/index.js";
 import { MigrationRunner } from "../../module/migration/runner/index.js";
 import { GamePTU } from "../game-pe.js"
@@ -22,7 +23,7 @@ export const Ready = {
                 if (migrationRunner.needsMigration()) {
                     if (currentVersion && currentVersion < MigrationRunner.MINIMUM_SAFE_VERSION) {
                         ui.notifications.error(
-                            `Your PTU system data is from too old a Foundry version and cannot be reliably migrated to the latest version. The process will be attempted, but errors may occur.`,
+                            localize("PTU.Epopee.Notify.TooOldToMigrate"),
                             { permanent: true }
                         );
                     }

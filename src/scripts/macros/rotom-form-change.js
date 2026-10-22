@@ -1,9 +1,10 @@
+import { localize } from "../../module/i18n.js";
 export function changeRotomForm() {
     const actor = canvas.tokens.controlled[0]?.actor;
-    if (!actor?.species?.slug.startsWith("rotom")) return ui.notifications.error("Please select your Rotom on the canvas before running this macro.");
+    if (!actor?.species?.slug.startsWith("rotom")) return ui.notifications.error(localize("PTU.Epopee.Notify.Rotom.Select"));
 
     const change = async (forme) => {
-        const notifId = ui.notifications.info("Updating rotom...")
+        const notifId = ui.notifications.info(localize("PTU.Epopee.Notify.Rotom.Updating"))
         const [species, move] = await (async () => {
             switch (forme) {
                 case "normal": return [await game.pe.item.get("rotom-normal", "species"), null]
@@ -14,8 +15,8 @@ export function changeRotomForm() {
                 case "wash": return [await game.pe.item.get("rotom-wash", "species"), await game.pe.item.get("hydro-pump", "move")]
             }
         })();
-        if (!species) return ui.notifications.error("Could not find rotom species");
-        if (actor.species.slug === species.slug) return ui.notifications.warn("Cancelled update as no changes were detected.");
+        if (!species) return ui.notifications.error(localize("PTU.Epopee.Notify.Rotom.NoSpecies"));
+        if (actor.species.slug === species.slug) return ui.notifications.warn(localize("PTU.Epopee.Notify.Rotom.NoChange"));
         const image = species.getImagePath({ shiny: !!actor.system.shiny });
 
         const newSize = (() => {
@@ -69,15 +70,15 @@ export function changeRotomForm() {
     }
 
     const d = new Dialog({
-        title: "Rotom Form Change",
-        content: "What form should rotom change into?",
+        title: localize("PTU.Epopee.Notify.Rotom.Title"),
+        content: localize("PTU.Epopee.Notify.Rotom.Question"),
         buttons: {
-            normal: { label: "Normal", callback: () => change("normal") },
-            fan: { label: "Fan", callback: () => change("fan") },
-            frost: { label: "Frost", callback: () => change("frost") },
-            heat: { label: "Heat", callback: () => change("heat") },
-            mow: { label: "Mow", callback: () => change("mow") },
-            wash: { label: "Wash", callback: () => change("wash") }
+            normal: { label: localize("PTU.Epopee.Notify.Rotom.Form.normal"), callback: () => change("normal") },
+            fan: { label: localize("PTU.Epopee.Notify.Rotom.Form.fan"), callback: () => change("fan") },
+            frost: { label: localize("PTU.Epopee.Notify.Rotom.Form.frost"), callback: () => change("frost") },
+            heat: { label: localize("PTU.Epopee.Notify.Rotom.Form.heat"), callback: () => change("heat") },
+            mow: { label: localize("PTU.Epopee.Notify.Rotom.Form.mow"), callback: () => change("mow") },
+            wash: { label: localize("PTU.Epopee.Notify.Rotom.Form.wash"), callback: () => change("wash") }
         }
     })
     d.render(true);

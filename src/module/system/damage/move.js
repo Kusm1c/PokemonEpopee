@@ -1,6 +1,7 @@
 import { CheckModifier, PTUModifier } from "../../actor/modifiers.js";
 import { extractModifiers } from "../../rules/helpers.js";
 import { DamageModifiersDialog } from "./dialog.js";
+import { localize } from "../../i18n.js";
 
 class PTUMoveDamage {
     static async calculate({move, actor, context, modifiers = []}) {
@@ -10,7 +11,7 @@ class PTUMoveDamage {
         if(isNaN(Number(move.system.damageBase))) return null;
         damageBaseModifiers.push(new PTUModifier({
             slug: "damage-base",
-            label: "Damage Base",
+            label: localize("PTU.Epopee.Modifiers.DamageBase"),
             modifier: Number(move.system.damageBase),
         }));
 
@@ -28,7 +29,7 @@ class PTUMoveDamage {
         if(damageBonus != 0) {
             const modifier = new PTUModifier({
                 slug: "damage-bonus",
-                label: "Sheet Damage Bonus",
+                label: localize("PTU.Epopee.Modifiers.SheetDamageBonus"),
                 type: move.system.type,
                 category: move.system.category,
                 modifier: damageBonus,
@@ -42,7 +43,7 @@ class PTUMoveDamage {
             const value = actor.system.stats[stat]?.total ?? 0;
             const modifier = new PTUModifier({
                 slug: "attack-overwrite",
-                label: `Attack Overwrite (${stat})`,
+                label: localize("PTU.Epopee.Modifiers.AttackOverwrite", { stat }),
                 type: move.system.type,
                 category: move.system.category,
                 modifier: value,
@@ -54,7 +55,7 @@ class PTUMoveDamage {
                 const attackModValue = actor.system.stats.atk.total;
                 const modifier = new PTUModifier({
                     slug: "physical-damage",
-                    label: "Attack Stat",
+                    label: localize("PTU.Epopee.Modifiers.AttackStat"),
                     type: move.system.type,
                     category: "Physical",
                     modifier: attackModValue,
@@ -63,7 +64,7 @@ class PTUMoveDamage {
                 if(actor.system.modifiers.damageBonus.physical?.total != 0) {
                     const modifier = new PTUModifier({
                         slug: "physical-damage-bonus",
-                        label: "Damage Bonus",
+                        label: localize("PTU.Epopee.Modifiers.DamageBonus"),
                         type: move.system.type,
                         category: "Physical",
                         modifier: actor.system.modifiers.damageBonus.physical.total,
@@ -75,7 +76,7 @@ class PTUMoveDamage {
                 const specialAttackModValue = actor.system.stats.spatk.total;
                 const modifier = new PTUModifier({
                     slug: "special-damage",
-                    label: "Special Attack Stat",
+                    label: localize("PTU.Epopee.Modifiers.SpecialAttackStat"),
                     type: move.system.type,
                     category: "Special",
                     modifier: specialAttackModValue,
@@ -84,7 +85,7 @@ class PTUMoveDamage {
                 if(actor.system.modifiers.damageBonus.special?.total != 0) {
                     const modifier = new PTUModifier({
                         slug: "special-damage-bonus",
-                        label: "Damage Bonus",
+                        label: localize("PTU.Epopee.Modifiers.DamageBonus"),
                         type: move.system.type,
                         category: "Special",
                         modifier: actor.system.modifiers.damageBonus.special.total,
@@ -117,7 +118,7 @@ class PTUMoveDamage {
             if(!db) return null;
             return db;
         })();
-        if(!dice) return ui.notifications.error("Invalid DamageBase!");
+        if(!dice) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidDamageBase"));
 
         // Take all modifiers from dice string and turn them into modifiers
         const parts = /(\d+d\d+)(.*)/.exec(dice);

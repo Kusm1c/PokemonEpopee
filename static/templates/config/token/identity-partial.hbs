@@ -23,7 +23,7 @@
     {{/unless}}
 
     <div class="form-group">
-        <label>{{localize "TOKEN.CharLink"}}<span class='readable p10'>Unlinked actors are not supported by the system</span></label>
+        <label>{{localize "TOKEN.CharLink"}}<span class='readable p10'>{{peLocalize "PTU.Epopee.Apps.Token.UnlinkedUnsupported"}}</span></label>
         <input type="checkbox" name="actorLink" checked="true" disabled/>
     </div>
     {{#if isPrototype}}

@@ -1,4 +1,5 @@
 import { LevelUpData } from "./document.js";
+import { localize } from "../../i18n.js";
 
 class LevelUpForm extends FormApplication {
     /** @override */
@@ -8,7 +9,7 @@ class LevelUpForm extends FormApplication {
             template: "systems/pe/static/templates/apps/level-up-form.hbs",
             width: 560,
             height: "auto",
-            title: "Level-Up Menu!",
+            title: localize("PTU.Epopee.Apps.LevelUp.Title"),
             submitOnChange: true,
             submitOnClose : true,
             closeOnSubmit: false,

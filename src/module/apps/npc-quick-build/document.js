@@ -1,4 +1,5 @@
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
+import { localize } from "../../i18n.js";
 import { PTUSkills } from '../../actor/index.js';
 import { Mutex } from '../../../util/mutex.js';
 
@@ -156,7 +157,7 @@ export class NpcQuickBuildData {
             value: undefined,
             updated: false,
             options: [
-                { label: "Compendium Browser Settings", uuid: "" },
+                { label: localize("PTU.Epopee.Apps.NpcQuickBuild.BrowserSettings"), uuid: "" },
                 ...game.tables.map(t => ({ label: t.name, uuid: t.uuid, group: t.folder?.name }))
             ],
             link: {
@@ -1504,7 +1505,7 @@ export class NpcQuickBuildData {
         }
         if (monActorsToGenerate) {
             await CONFIG.PTU.Actor.documentClasses.pokemon.createDocuments(monActorsToGenerate).catch((err)=>{
-                ui.notifications.error("Error creating party Pokemon, some automations may not function properly; view console error log for details");
+                ui.notifications.error(localize("PTU.Epopee.Notify.NpcPartyFailed"));
             });
         }
     }

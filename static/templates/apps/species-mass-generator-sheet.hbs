@@ -34,7 +34,7 @@
             {{#if (is data.speciesTab "species")}}
                 <div class="d-flex flex-row justify-content-center mt-1">
                     <div class="d-flex flex-row justify-content-center m-1 center-text fb-60">
-                        <input class="fb-65" type="text" name="species" placeholder="Pokemon Species" value="{{data.speciesField.value}}">
+                        <input class="fb-65" type="text" name="species" placeholder="{{peLocalize "PTU.Epopee.Apps.MassGenerator.Species"}}" value="{{data.speciesField.value}}">
                     </div>
                 </div>
                 {{#if data.helpText.species}}
@@ -65,7 +65,7 @@
             <h3>{{localize "PTU.MassGenerator.Folder"}}</h3>
         </div>
         <div class="d-flex flex-row justify-content-center center-text mb-2">
-            <input class="fb-40" type="text" name="folder" placeholder="Folder Name" value="{{data.folderField.value}}">
+            <input class="fb-40" type="text" name="folder" placeholder="{{peLocalize "PTU.Epopee.Apps.MassGenerator.Folder"}}" value="{{data.folderField.value}}">
         </div>
         {{#if data.helpText.folder}}
             <div class="d-flex flex-row justify-content-center">

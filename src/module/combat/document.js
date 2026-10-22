@@ -1,3 +1,4 @@
+import { localize } from "../i18n.js";
 class PTUCombat extends Combat {
     get expBudget() {
         let budget = 0;
@@ -77,7 +78,7 @@ class PTUCombat extends Combat {
 
             const { actor } = token;
             if (!actor) {
-                ui.notifications.warn(`${token.name} has no associated actor.`);
+                ui.notifications.warn(localize("PTU.Epopee.Notify.NoActor", { name: token.name }));
                 return false;
             }
 

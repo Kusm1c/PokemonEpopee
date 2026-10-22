@@ -1,3 +1,4 @@
+import { localize } from "../../module/i18n.js";
 export const PokeDollarEnricher = {
     listen: () => {
         Hooks.on('setup', () => {
@@ -22,12 +23,12 @@ export const PokeDollarEnricher = {
 
                     if(!item) {
                         data.inner = `<span>${amount}</span>`;
-                        data.title = `${amount} Poké`;
+                        data.title = localize("PTU.Epopee.Chat.Poke", { amount });
                         data.dataset = {amount};
                     }
                     else {
-                        data.inner = `Purchase ${noname === undefined ? `${item.name} ` : ""}(<span>${item.system.cost}</span>)`;
-                        data.title = `Purchase ${item.name} (${item.system.cost} Poké)`;
+                        data.inner = `${localize("PTU.Epopee.Chat.Purchase")} ${noname === undefined ? `${item.name} ` : ""}(<span>${item.system.cost}</span>)`;
+                        data.title = localize("PTU.Epopee.Chat.PurchaseTitle", { name: item.name, cost: item.system.cost });
                         data.dataset = {amount: item.system.cost, item: item.uuid};
                         data.cls.push("cost")
                     }
@@ -73,10 +74,10 @@ export const PokeDollarEnricher = {
                 
                             return null;
                         })();
-                        if(!actor) return ui.notifications.error("No actor selected");
-                        if(isNaN(Number(amount))) return ui.notifications.error("Invalid amount");
+                        if(!actor) return ui.notifications.error(localize("PTU.Epopee.Notify.NoActorSelected"));
+                        if(isNaN(Number(amount))) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidAmount"));
                         await actor.update({"system.money": actor.system.money + Number(amount)});
-                        ui.notifications.info(`${actor.name} Gained ${amount} Poké (New Total: ${actor.system.money})`);
+                        ui.notifications.info(localize("PTU.Epopee.Notify.Gained", { actor: actor.name, amount, money: actor.system.money }));
                     });
                 }
             }

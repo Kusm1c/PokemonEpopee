@@ -1,5 +1,6 @@
 import { PTUModifier, StatisticModifier } from "../../../actor/modifiers.js";
 import { PTUDiceCheck } from "../check.js";
+import { localize } from "../../../i18n.js";
 
 export class CheckDialog extends Application {
     /**
@@ -136,12 +137,12 @@ export class CheckDialog extends Application {
             let name = String(parent.querySelector(".add-modifier-name")?.value);
             const errors = [];
             if (Number.isNaN(value)) {
-                errors.push("Modifier value must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.ModifierNaN"));
             } else if (value === 0) {
-                errors.push("Modifier value must not be zero.");
+                errors.push(localize("PTU.Epopee.Notify.ModifierZero"));
             }
             if (!name || !name.trim()) {
-                name = "Unnamed Modifier"
+                name = localize("PTU.Epopee.Dialog.UnnamedModifier")
             }
             if (errors.length > 0) {
                 ui.notifications.error(errors.join(" "));
@@ -275,12 +276,12 @@ export class CheckModifiersDialog extends Application {
             let name = String(parent.querySelector(".add-modifier-name")?.value);
             const errors = [];
             if (Number.isNaN(value)) {
-                errors.push("Modifier value must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.ModifierNaN"));
             } else if (value === 0) {
-                errors.push("Modifier value must not be zero.");
+                errors.push(localize("PTU.Epopee.Notify.ModifierZero"));
             }
             if (!name || !name.trim()) {
-                name = "Unnamed Modifier"
+                name = localize("PTU.Epopee.Dialog.UnnamedModifier")
             }
             if (errors.length > 0) {
                 ui.notifications.error(errors.join(" "));

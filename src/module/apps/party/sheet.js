@@ -1,4 +1,5 @@
 import { Progress } from "../../../util/progress.js";
+import { localize } from "../../i18n.js";
 
 class PTUPartySheet extends FormApplication {
     constructor({ actor, ...options } = {}) {
@@ -258,7 +259,7 @@ class PTUPartySheet extends FormApplication {
         let buttons = super._getHeaderButtons();
 
         buttons.unshift({
-            label: "Download Party",
+            label: localize("PTU.Epopee.Apps.Party.Download"),
             class: "party-download",
             icon: "fas fa-download",
             onclick: this.downloadParty.bind(this)
@@ -369,7 +370,7 @@ class PTUPartySheet extends FormApplication {
                     }
                     default: {
                         const folder = this.folders[partyStatus];
-                        if(!folder) return ui.notifications.error("Invalid folder");
+                        if(!folder) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidFolder"));
 
                         if (actor.folder?.id != folder.id) {
                             await actor.update({ folder: folder.id });
@@ -475,7 +476,7 @@ class PTUPartySheet extends FormApplication {
             }
             default: {
                 const folder = this.folders[partyStatus];
-                if(!folder) return ui.notifications.error("Invalid folder");
+                if(!folder) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidFolder"));
 
                 if (actor.folder?.id != folder.id) {
                     await actor.update({ folder: folder.id });
@@ -528,7 +529,7 @@ class PTUPartySheet extends FormApplication {
                 const [fileHandler] = await window.showOpenFilePicker({
                     types: [
                         {
-                            description: "JSON Files",
+                            description: localize("PTU.Epopee.Apps.JsonFiles"),
                             accept: {
                                 "text/json": [".json"]
                             }
@@ -540,7 +541,7 @@ class PTUPartySheet extends FormApplication {
                 const file = await fileHandler.getFile();
                 if (!file) return;
                 if (!file.name.startsWith("fvtt-ptuParty-")) {
-                    ui.notifications.error("Invalid file type. Please select a PTU Party file.");
+                    ui.notifications.error(localize("PTU.Epopee.Notify.InvalidPartyFile"));
                     return;
                 }
                 return await file.text();
@@ -574,8 +575,8 @@ class PTUPartySheet extends FormApplication {
             if (existingActor) {
                 // Prompt user to overwrite
                 const confirmed = await Dialog.confirm({
-                    title: "Overwrite Party",
-                    content: "It appears you're trying to import a party that already exists. Would you like to overwrite it?",
+                    title: localize("PTU.Epopee.Apps.Party.OverwriteTitle"),
+                    content: localize("PTU.Epopee.Apps.Party.OverwriteContent"),
                 });
                 if (!confirmed) return;
 
@@ -610,10 +611,10 @@ class PTUPartySheet extends FormApplication {
         const totalCount = party.length + boxed.length + 1;
         const progress = new Progress({ steps: totalCount });
 
-        progress.advance(`Importing Party: Trainer ${trainer.name}`)
+        progress.advance(localize("PTU.Epopee.Apps.Party.ImportTrainer", { name: trainer.name }))
         const newTrainer = await CONFIG.Actor.documentClass.create(trainer);
         for (const actor of party) {
-            progress.advance(`Importing Party: Party Pokemon ${actor.name}`)
+            progress.advance(localize("PTU.Epopee.Apps.Party.ImportParty", { name: actor.name }))
             if (actor.folder) {
                 let partyFolder = game.folders.get(actor.folder);
                 if (!partyFolder) {
@@ -628,7 +629,7 @@ class PTUPartySheet extends FormApplication {
             await CONFIG.Actor.documentClass.create(actor);
         }
         for (const actor of boxed) {
-            progress.advance(`Importing Party: Boxed Pokemon ${actor.name}`)
+            progress.advance(localize("PTU.Epopee.Apps.Party.ImportBox", { name: actor.name }))
             if (actor.folder) {
                 let boxFolder = game.folders.get(actor.folder);
                 if (!boxFolder) {
@@ -641,7 +642,7 @@ class PTUPartySheet extends FormApplication {
             }
             await CONFIG.Actor.documentClass.create(actor);
         }
-        progress.close("Importing Party: Completed!")
+        progress.close(localize("PTU.Epopee.Apps.Party.ImportDone"))
 
         const partySheet = new PTUPartySheet({ actor: newTrainer });
         partySheet.render(true);

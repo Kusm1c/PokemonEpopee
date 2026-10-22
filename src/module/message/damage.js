@@ -2,6 +2,7 @@ import { sluggify } from "../../util/misc.js";
 import { extractApplyEffects, extractEphemeralEffects } from "../rules/helpers.js";
 import { DamageRoll } from "../system/damage/roll.js";
 import { ChatMessagePTU } from "./base.js";
+import { localize } from "../i18n.js";
 
 class DamageMessagePTU extends ChatMessagePTU {
 
@@ -348,7 +349,7 @@ async function shiftAdjustDamage(message, targets, mode) {
                 </script>`,
         buttons: {
             ok: {
-                label: "Ok",
+                label: localize("PTU.Epopee.Dialog.Ok"),
                 callback: async ($dialog) => {
                     // In case of healing, multipler will have negative sign. The user will expect that positive
                     // modifier would increase healing value, while negative would decrease.

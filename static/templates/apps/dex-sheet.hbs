@@ -2,14 +2,14 @@
     <div class="header d-flex flex-row justify-content-center swsh-box">
         <div class="fb-48 d-flex flex-row">
             <div class="fb-40 swsh-header d-flex flex-column">
-                <div class="header-label"><span>Search</span></div>
-                <div class="header-label"><span>Hide Unknown</span></div>
-                <div class="header-label"><span>Hide Seen</span></div>
-                <div class="header-label"><span>Hide Owned</span></div>
+                <div class="header-label"><span>{{peLocalize "PTU.Epopee.Apps.Dex.Search"}}</span></div>
+                <div class="header-label"><span>{{peLocalize "PTU.Epopee.Apps.Dex.HideUnknown"}}</span></div>
+                <div class="header-label"><span>{{peLocalize "PTU.Epopee.Apps.Dex.HideSeen"}}</span></div>
+                <div class="header-label"><span>{{peLocalize "PTU.Epopee.Apps.Dex.HideOwned"}}</span></div>
             </div>
             <div class="fb-60 swsh-body d-flex flex-column">
                 <div class="header-item">
-                    <input type="text" class="form-control" placeholder="Search" name="search" value="{{search}}"/>
+                    <input type="text" class="form-control" placeholder="{{peLocalize "PTU.Epopee.Apps.Dex.Search"}}" name="search" value="{{search}}"/>
                 </div>
                 <div class="header-item">
                     <input type="checkbox" class="form-check-input" name="hideUnknown" id="hide-unknown" {{checked hideUnknown}}/>
@@ -23,8 +23,8 @@
             </div>
         </div>
         <div class="fb-48 help-text">
-            <span class="help-text mb-1">You can left click a Pokemon to mark it from Unknown to Seen, or Seen to Owned</span>
-            <span class="help-text">You can right click a Pokemon to mark it from Owned to Seen, or Seen to Unknown</span>
+            <span class="help-text mb-1">{{peLocalize "PTU.Epopee.Apps.Dex.LeftClickHelp"}}</span>
+            <span class="help-text">{{peLocalize "PTU.Epopee.Apps.Dex.RightClickHelp"}}</span>
         </div>
     {{!-- <div class="header d-flex flex-row justify-content-center swsh-box"> --}}
         {{!-- <div class="swsh-header d-flex justify-content-evenly flex-row center-text pt-1 pb-1 m-0">
@@ -35,7 +35,7 @@
         </div>
         <div class="swsh-body d-flex justify-content-evenly flex-row center-text">
             <div class="header-item" style="width: 30%;">
-                <input type="text" class="form-control" placeholder="Search" name="search" value="{{search}}"/>
+                <input type="text" class="form-control" placeholder="{{peLocalize "PTU.Epopee.Apps.Dex.Search"}}" name="search" value="{{search}}"/>
             </div>
             <div class="header-item">
                 <input type="checkbox" class="form-check-input" name="hideUnknown" id="hide-unknown" {{checked hideUnknown}}/>
@@ -61,9 +61,9 @@
         <div class="d-flex justify-content-center h-100">
             <div class="help-text" style="align-self: center;">
                 {{#if search}}
-                    <span class="help-text">No results found for "{{search}}"</span>
+                    <span class="help-text">{{peLocalize "PTU.Epopee.Apps.Dex.NoResults" search=search}}</span>
                 {{else}}
-                <span class="help-text">Loading dex...</span>
+                <span class="help-text">{{peLocalize "PTU.Epopee.Apps.Dex.Loading"}}</span>
                 {{/if}}
             </div>
         </div>

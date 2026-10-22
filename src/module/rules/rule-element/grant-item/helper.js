@@ -1,3 +1,5 @@
+import { localize } from "../../../i18n.js";
+
 async function processGrantDeletions(item, pendingItems) {
     const { actor } = item;
 
@@ -7,7 +9,7 @@ async function processGrantDeletions(item, pendingItems) {
 
     // Handle deletion restrictions, aborting early if found in either this item's granter or any of its grants
     if (granter && parentGrant?.onDelete === "restrict" && !pendingItems.includes(granter)) {
-        ui.notifications.warn(`Item ${item.name} cannot be deleted because it is granted to ${granter.name}`)
+        ui.notifications.warn(localize("PTU.Epopee.Notify.GrantedNoDelete", { item: item.name, granter: granter.name }))
         pendingItems.splice(pendingItems.indexOf(item), 1);
         return;
     }
@@ -17,7 +19,7 @@ async function processGrantDeletions(item, pendingItems) {
         if (grantee?.flags.pe.grantedBy?.id !== item.id) continue;
 
         if (grantee.flags.pe.grantedBy.onDelete === "restrict" && !pendingItems.includes(grantee)) {
-            ui.notifications.warn(`Item ${grantee.name} cannot be deleted because it is granted to ${item.name}`)
+            ui.notifications.warn(localize("PTU.Epopee.Notify.GrantedNoDelete", { item: grantee.name, granter: item.name }))
             pendingItems.splice(pendingItems.indexOf(item), 1);
             return;
         }

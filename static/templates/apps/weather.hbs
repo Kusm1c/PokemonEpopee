@@ -11,10 +11,10 @@
                 {{selectOptions ../modeOptions selected=mode localize=true}}
             </select>
             <div class="item-controls">
-                <a class="item-control effect-to-chat" title="Send Effect to chat"><i
+                <a class="item-control effect-to-chat" title="{{peLocalize "PTU.Epopee.Apps.Weather.SendToChat"}}"><i
                         class="fas fa-external-link-alt"></i></a>
                 {{#if (isGm)}}
-                    <a class="item-control effect-delete" title="Delete Effect"><i class="fas fa-trash"></i></a>
+                    <a class="item-control effect-delete" title="{{peLocalize "PTU.Epopee.Apps.Weather.Delete"}}"><i class="fas fa-trash"></i></a>
                 {{/if}}
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { localize } from "../../i18n.js";
 /**
  * Shared Inventory — "un système d'inventaire partagé accessible à tous, duquel les
  * joueurs peuvent drag'n'drop vers leur fiche ET inversement. Inclut à la fois
@@ -34,7 +35,7 @@ class PTUSharedInventory extends Application {
         return foundry.utils.mergeObject(super.defaultOptions, {
             id: "pe-shared-inventory",
             classes: ["pe", "sheet", "shared-inventory"],
-            title: "Inventaire Partagé",
+            title: localize("PTU.Epopee.Apps.SharedInventory.Title"),
             template: "systems/pe/static/templates/apps/shared-inventory.hbs",
             width: 640,
             height: 560,
@@ -126,8 +127,8 @@ class PTUSharedInventory extends Application {
     /** @override */
     async _onDrop(event) {
         const actor = this.actor;
-        if (!actor) return ui.notifications.warn("Aucun conteneur d'inventaire partagé dans ce monde.");
-        if (!actor.isOwner) return ui.notifications.warn("Tu n'as pas la permission d'écrire dans l'inventaire partagé.");
+        if (!actor) return ui.notifications.warn(localize("PTU.Epopee.Apps.SharedInventory.Missing"));
+        if (!actor.isOwner) return ui.notifications.warn(localize("PTU.Epopee.Apps.SharedInventory.NoPermission"));
 
         let data;
         try { data = JSON.parse(event.dataTransfer.getData("text/plain")); }
@@ -150,20 +151,20 @@ class PTUSharedInventory extends Application {
         // no parent actor, so nothing is removed in that case.
         if (source && source.isOwner) await source.deleteEmbeddedDocuments("Item", [item.id]);
 
-        ui.notifications.info(`${item.name} → inventaire partagé.`);
+        ui.notifications.info(localize("PTU.Epopee.Apps.SharedInventory.Stored", { name: item.name }));
         this.render(false);
     }
 
     async _dropActor(data) {
         const doc = await fromUuid(data.uuid).catch(() => null);
         if (!doc) return;
-        if (doc.type !== "pokemon") return ui.notifications.warn("Seuls les Pokémon peuvent aller dans l'inventaire partagé.");
+        if (doc.type !== "pokemon") return ui.notifications.warn(localize("PTU.Epopee.Apps.SharedInventory.OnlyPokemon"));
 
         const current = this.actor.getFlag("pe", POKEMON_FLAG) ?? [];
-        if (current.includes(doc.uuid)) return ui.notifications.info(`${doc.name} y est déjà.`);
+        if (current.includes(doc.uuid)) return ui.notifications.info(localize("PTU.Epopee.Apps.SharedInventory.AlreadyThere", { name: doc.name }));
 
         await this.actor.setFlag("pe", POKEMON_FLAG, [...current, doc.uuid]);
-        ui.notifications.info(`${doc.name} → inventaire partagé.`);
+        ui.notifications.info(localize("PTU.Epopee.Apps.SharedInventory.Stored", { name: doc.name }));
         this.render(false);
     }
 
@@ -177,14 +178,14 @@ class PTUSharedInventory extends Application {
      */
     async _resolveRecipient() {
         const owned = game.actors.filter(a => a.isOwner && a.type === "character");
-        if (!owned.length) return ui.notifications.warn("Tu ne contrôles aucun Dresseur."), null;
+        if (!owned.length) return ui.notifications.warn(localize("PTU.Epopee.Apps.SharedInventory.NoTrainer")), null;
         if (owned.length === 1) return owned[0];
 
         const options = owned.map(a => `<option value="${a.id}">${a.name}</option>`).join("");
         const id = await Dialog.prompt({
-            title: "Destinataire",
-            content: `<div class="form-group"><label>Envoyer vers</label><select id="pe-recipient">${options}</select></div>`,
-            label: "Confirmer",
+            title: localize("PTU.Epopee.Apps.SharedInventory.Recipient"),
+            content: `<div class="form-group"><label>${localize("PTU.Epopee.Apps.SharedInventory.SendTo")}</label><select id="pe-recipient">${options}</select></div>`,
+            label: localize("PTU.Epopee.Apps.SharedInventory.Confirm"),
             callback: html => html.find("#pe-recipient").val()
         }).catch(() => null);
 
@@ -201,7 +202,7 @@ class PTUSharedInventory extends Application {
 
         await target.createEmbeddedDocuments("Item", [item.toObject()]);
         await this.actor.deleteEmbeddedDocuments("Item", [id]);
-        ui.notifications.info(`${item.name} → ${target.name}.`);
+        ui.notifications.info(localize("PTU.Epopee.Apps.SharedInventory.Sent", { name: item.name, target: target.name }));
         this.render(false);
     }
 
@@ -217,7 +218,7 @@ class PTUSharedInventory extends Application {
         // `pokemon/document.js` already resolves a trainer, via flags.pe.party.trainer.
         await doc.update({ "flags.pe.party.trainer": target.id });
         await this._removeUuid(uuid);
-        ui.notifications.info(`${doc.name} → ${target.name}.`);
+        ui.notifications.info(localize("PTU.Epopee.Apps.SharedInventory.Sent", { name: doc.name, target: target.name }));
         this.render(false);
     }
 
@@ -239,7 +240,7 @@ class PTUSharedInventory extends Application {
             if (await fromUuid(uuid).catch(() => null)) alive.push(uuid);
         }
         await this.actor.setFlag("pe", POKEMON_FLAG, alive);
-        ui.notifications.info(`${current.length - alive.length} référence(s) morte(s) retirée(s).`);
+        ui.notifications.info(localize("PTU.Epopee.Apps.SharedInventory.Pruned", { n: current.length - alive.length }));
         this.render(false);
     }
 

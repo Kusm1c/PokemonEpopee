@@ -14,7 +14,7 @@
         {{!-- Warnings box  --}}
         {{#if (gt data.warnings.num 0)}}
         <div class="warning-box">
-            <h4 class="warning-title"><i class="fa-solid fa-triangle-exclamation"></i> Validation Warnings <span class="warning-num">({{data.warnings.num}})</span></h4>
+            <h4 class="warning-title"><i class="fa-solid fa-triangle-exclamation"></i> {{peLocalize "PTU.Epopee.Apps.NpcQuickBuild.Warnings"}} <span class="warning-num">({{data.warnings.num}})</span></h4>
             <div class="warnings">
             {{#each data.warnings.unmet as |warning|}}
                 <p class="unmet">{{warning}}</p>
@@ -30,7 +30,7 @@
         {{#if (eq data.page 1)}}
         <div class="trainer-info">
             <label class="profile-img-label">{{localize "PTU.NpcQuickBuild.Image"}}</label>
-            <img class="profile-img fb-40" src="{{data.trainer.img}}" data-edit="trainer.img" title="Trainer Image" />
+            <img class="profile-img fb-40" src="{{data.trainer.img}}" data-edit="trainer.img" title="{{peLocalize "PTU.Epopee.Apps.NpcQuickBuild.TrainerImage"}}" />
 
             <label>{{localize "PTU.NpcQuickBuild.Alliance"}}</label>
             <select name="alliance">
@@ -68,7 +68,7 @@
 
             <div class="computed-links computed-features">
                 {{#each data.trainer.features.computed as |feature|}}
-                    <a class="content-link{{#if feature.auto}} auto{{/if}}" draggable="true" data-link="" data-uuid="{{feature.uuid}}" data-id="{{feature._id}}" data-type="Item" data-tooltip="Feature Item"><i class="fas fa-suitcase"></i>{{feature.name}}</a>
+                    <a class="content-link{{#if feature.auto}} auto{{/if}}" draggable="true" data-link="" data-uuid="{{feature.uuid}}" data-id="{{feature._id}}" data-type="Item" data-tooltip="PTU.Epopee.Apps.NpcQuickBuild.FeatureItem"><i class="fas fa-suitcase"></i>{{feature.name}}</a>
                 {{/each}}
             </div>
 
@@ -79,7 +79,7 @@
 
             <div class="computed-links computed-edges">
                 {{#each data.trainer.edges.computed as |edge|}}
-                    <a class="content-link{{#if edge.auto}} auto{{/if}}" draggable="true" data-link="" data-uuid="{{edge.uuid}}" data-id="{{edge._id}}" data-type="Item" data-tooltip="Edge Item"><i class="fas fa-suitcase"></i>{{edge.name}}</a>
+                    <a class="content-link{{#if edge.auto}} auto{{/if}}" draggable="true" data-link="" data-uuid="{{edge.uuid}}" data-id="{{edge._id}}" data-type="Item" data-tooltip="PTU.Epopee.Apps.NpcQuickBuild.EdgeItem"><i class="fas fa-suitcase"></i>{{edge.name}}</a>
                 {{/each}}
             </div>
 
@@ -87,8 +87,8 @@
             {{#each data.trainer.subSelectables as | sub |}}
             {{#if sub.visible}}
             <div class="sub-choices">
-                {{!-- <a class="content-link{{#if edge.auto}} auto{{/if}}" draggable="true" data-link="" data-uuid="{{edge.uuid}}" data-id="{{edge._id}}" data-type="Item" data-tooltip="Edge Item"><i class="fas fa-suitcase"></i>{{edge.name}}</a> --}}
-                <h4>Selection for {{sub.label}}</h4>
+                {{!-- <a class="content-link{{#if edge.auto}} auto{{/if}}" draggable="true" data-link="" data-uuid="{{edge.uuid}}" data-id="{{edge._id}}" data-type="Item" data-tooltip="PTU.Epopee.Apps.NpcQuickBuild.EdgeItem"><i class="fas fa-suitcase"></i>{{edge.name}}</a> --}}
+                <h4>{{peLocalize "PTU.Epopee.Apps.NpcQuickBuild.SelectionFor" label=sub.label}}</h4>
                 <div class="options">
                 {{#each sub.choices as | choice |}}
                     <label class="sub-choice {{#if (eq sub.selected choice.value)}}checked{{/if}} {{#if choice.disabled}}disabled{{/if}}">{{choice.label}} <input type="radio" name="trainer.subSelectables.{{sub.key}}.selected" value="{{choice.value}}" {{#if (eq sub.selected choice.value)}}checked{{/if}} {{#if choice.disabled}}disabled{{/if}} /></label>
@@ -173,7 +173,7 @@
                         </select>
                         {{#if data.sourceSelect.link.uuid}}
                         <div>
-                            {{localize "PTU.MassGenerator.FoundTable"}} <a class="content-link" draggable="true" data-link="" data-uuid="{{data.sourceSelect.link.uuid}}" data-id="{{data.sourceSelect.link._id}}" data-type="RollTable" data-tooltip="Roll Table"><i class="fas fa-th-list"></i>{{data.sourceSelect.link.label}}</a>
+                            {{localize "PTU.MassGenerator.FoundTable"}} <a class="content-link" draggable="true" data-link="" data-uuid="{{data.sourceSelect.link.uuid}}" data-id="{{data.sourceSelect.link._id}}" data-type="RollTable" data-tooltip="PTU.Epopee.Apps.NpcQuickBuild.RollTable"><i class="fas fa-th-list"></i>{{data.sourceSelect.link.label}}</a>
                         </div>
                         {{/if}}
                     </div>

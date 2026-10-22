@@ -7,6 +7,7 @@ import { PTUActorSheet } from "../sheet.js";
 import { bindLinkedFields, prepareEpopeeSheetData } from "../epopee-sheet.js";
 import { runOriginWizard } from "./origin-wizard.js";
 import { PERIODS, resetUses } from "../../usage/engine.js";
+import { localize } from "../../i18n.js";
 import { clampStages } from "../../combat-math/formula.js";
 
 /** Inventory category a dropped item lands in when it is not dropped on one. */
@@ -181,7 +182,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 
 		if (this.actor.isOwner) {
 			buttons.unshift({
-				label: "Rest",
+				label: localize("PTU.Epopee.Sheet.Button.Rest"),
 				class: "rest-until-next-day",
 				icon: "fas fa-bed",
 				onclick: async () => {
@@ -191,35 +192,35 @@ export class PTUCharacterSheet extends PTUActorSheet {
 					await this.actor.update({ "system.health.value": Math.min(max, current + heal) });
 					const refilled = await resetUses(this.actor, PERIODS.DAILY);
 					ui.notifications.info(refilled.length
-						? `${this.actor.name}: healed ${heal} HP, refilled ${refilled.length} daily/scene use(s).`
-						: `${this.actor.name}: healed ${heal} HP. Nothing to refill.`);
+						? localize("PTU.Epopee.Notify.RestHealedRefilled", { name: this.actor.name, heal, n: refilled.length })
+						: localize("PTU.Epopee.Notify.RestHealed", { name: this.actor.name, heal }));
 				}
 			});
 			buttons.unshift({
-				label: "End of Scene",
+				label: localize("PTU.Epopee.Sheet.Button.EndOfScene"),
 				class: "end-of-scene",
 				icon: "fas fa-hourglass-end",
 				onclick: async () => {
 					const refilled = await resetUses(this.actor, PERIODS.SCENE);
 					ui.notifications.info(refilled.length
-						? `${this.actor.name}: refilled ${refilled.length} scene use(s) - ${refilled.join(", ")}.`
-						: `${this.actor.name}: no scene uses to refill.`);
+						? localize("PTU.Epopee.Notify.SceneRefilled", { name: this.actor.name, n: refilled.length, list: refilled.join(", ") })
+						: localize("PTU.Epopee.Notify.SceneNothing", { name: this.actor.name }));
 				}
 			});
 			buttons.unshift({
-				label: "Training",
+				label: localize("PTU.Epopee.Sheet.Button.Training"),
 				class: "training-screen",
 				icon: "fas fa-dumbbell",
 				onclick: () => new CONFIG.PTU.ui.pokemonTraining.sheetClass({ actor: this.actor }).render(true)
 			});
 			buttons.unshift({
-				label: "Party",
+				label: localize("PTU.Epopee.Sheet.Button.Party"),
 				class: "party-screen",
 				icon: "fas fa-users",
 				onclick: () => new PTUPartySheet({ actor: this.actor }).render(true)
 			});
 			buttons.unshift({
-				label: "Dex",
+				label: localize("PTU.Epopee.Sheet.Button.Dex"),
 				class: "dex-screen",
 				icon: "fas fa-tablet-alt",
 				onclick: () => new PTUDexSheet(this.actor, this.ballStyle).render(true)
@@ -389,7 +390,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		// "Pouvoir rajouter librement des blocs de texte. Pouvoir deplacer librement ces blocs."
 		const blocks = () => [...(this.actor.system.epopee?.narrative?.customBlocks ?? [])];
 		html.find('.block-create').click(() => {
-			this.actor.update({ "system.epopee.narrative.customBlocks": [...blocks(), { title: "Nouveau bloc", body: "" }] });
+			this.actor.update({ "system.epopee.narrative.customBlocks": [...blocks(), { title: localize("PTU.Epopee.Sheet.NewBlock"), body: "" }] });
 		});
 		html.find('.block-delete').click((ev) => {
 			const index = Number(ev.currentTarget.dataset.index);
@@ -797,7 +798,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 		if (event?.shiftKey) {
 			const extra = await new Promise((resolve, reject) => {
 				Dialog.confirm({
-					title: `Accuracy Modifier`,
+					title: localize("PTU.Epopee.Sheet.AccuracyModifier"),
 					content: `<input type="text" name="accuracy-modifier" value="0"></input>`,
 					yes: async (html) => {
 						const bonusTxt = html.find('input[name="accuracy-modifier"]').val()
@@ -813,7 +814,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			if (extra) {
 				bonus.push({
 					value: extra,
-					label: `with ${extra} accuracy modifier`
+					label: localize("PTU.Epopee.Sheet.AccuracyModifierLabel", { value: extra })
 				})
 			}
 		}

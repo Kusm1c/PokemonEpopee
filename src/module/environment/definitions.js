@@ -1,20 +1,21 @@
+import { localize } from "../i18n.js";
 const WEATHER_DEFINITIONS = {
     sunny: {
-        label: "Sunny",
+        get label() { return localize("PTU.Epopee.Environment.Weather.sunny"); },
         duration: 5,
         extendedDuration: 8,
         typeBoost: { type: "Fire", stageDelta: 2 },
         typePenalty: { type: "Water", stageDelta: -2 }
     },
     rainy: {
-        label: "Rainy",
+        get label() { return localize("PTU.Epopee.Environment.Weather.rainy"); },
         duration: 5,
         extendedDuration: 8,
         typeBoost: { type: "Water", stageDelta: 2 },
         typePenalty: { type: "Fire", stageDelta: -2 }
     },
     sandstorm: {
-        label: "Sandstorm",
+        get label() { return localize("PTU.Epopee.Environment.Weather.sandstorm"); },
         duration: 5,
         extendedDuration: 8,
         damageImmuneTypes: ["Rock", "Ground", "Steel"],
@@ -22,14 +23,14 @@ const WEATHER_DEFINITIONS = {
         typeStageBonus: { type: "Rock", stat: "spdef", stageDelta: 2 }
     },
     snowstorm: {
-        label: "Snowstorm",
+        get label() { return localize("PTU.Epopee.Environment.Weather.snowstorm"); },
         duration: 5,
         extendedDuration: 8,
         nonTypeStagePenalty: { exceptType: "Ice", stat: "spd", stageDelta: -2 },
         typeStageBonus: { type: "Ice", stat: "spdef", stageDelta: 2 }
     },
     mist: {
-        label: "Mist",
+        get label() { return localize("PTU.Epopee.Environment.Weather.mist"); },
         duration: 5,
         extendedDuration: 8,
         purgeStages: true
@@ -38,7 +39,7 @@ const WEATHER_DEFINITIONS = {
 
 const FIELD_DEFINITIONS = {
     electric: {
-        label: "Electric Terrain",
+        get label() { return localize("PTU.Epopee.Environment.Field.electric"); },
         duration: 5,
         extendedDuration: 8,
         groundedOnly: true,
@@ -46,7 +47,7 @@ const FIELD_DEFINITIONS = {
         typeBoost: { type: "Electric", stageDelta: 2 }
     },
     misty: {
-        label: "Misty Terrain",
+        get label() { return localize("PTU.Epopee.Environment.Field.misty"); },
         duration: 5,
         extendedDuration: 8,
         groundedOnly: true,
@@ -54,7 +55,7 @@ const FIELD_DEFINITIONS = {
         typePenalty: { type: "Dragon", stageDelta: -2 }
     },
     grassy: {
-        label: "Grassy Terrain",
+        get label() { return localize("PTU.Epopee.Environment.Field.grassy"); },
         duration: 5,
         extendedDuration: 8,
         groundedOnly: true,
@@ -62,7 +63,7 @@ const FIELD_DEFINITIONS = {
         typeBoost: { type: "Grass", stageDelta: 2 }
     },
     psychic: {
-        label: "Psychic Terrain",
+        get label() { return localize("PTU.Epopee.Environment.Field.psychic"); },
         duration: 5,
         extendedDuration: 8,
         groundedOnly: true,
@@ -73,32 +74,32 @@ const FIELD_DEFINITIONS = {
 
 const ZONE_DEFINITIONS = {
     "plasma-flood": {
-        label: "Plasma Flood",
+        get label() { return localize("PTU.Epopee.Environment.Zone.plasma-flood"); },
         duration: 5,
         note: "All Normal-type moves become Electric-type. Not auto-applied: needs move-type resolution to be adjusted manually."
     },
     distortion: {
-        label: "Distortion",
+        get label() { return localize("PTU.Epopee.Environment.Zone.distortion"); },
         duration: 5,
         note: "Reverses initiative order, including for the currently active turn. Not auto-applied: reorder the Combat Tracker manually."
     },
     gravity: {
-        label: "Gravity",
+        get label() { return localize("PTU.Epopee.Environment.Zone.gravity"); },
         duration: 5,
         note: "Grounds all airborne/Levitating Pokemon, removes their Ground immunity, blocks air-only moves. Not auto-applied: adjudicate manually."
     },
     "magic-room": {
-        label: "Magic Room",
+        get label() { return localize("PTU.Epopee.Environment.Zone.magic-room"); },
         duration: 5,
         note: "Held Items cannot be used or activated. Not auto-applied: remind players manually."
     },
     "wonder-room": {
-        label: "Wonder Room",
+        get label() { return localize("PTU.Epopee.Environment.Zone.wonder-room"); },
         duration: 5,
         note: "Swaps Defense and Special Defense for all Pokemon and Trainers. Not auto-applied: adjudicate manually."
     },
     tailwind: {
-        label: "Tailwind",
+        get label() { return localize("PTU.Epopee.Environment.Zone.tailwind"); },
         duration: 5,
         allyOnly: true,
         note: "Doubles Speed and initiative of allied Pokemon. Not auto-applied: adjudicate manually."
@@ -107,33 +108,33 @@ const ZONE_DEFINITIONS = {
 
 const HAZARD_DEFINITIONS = {
     "sticky-web": {
-        label: "Sticky Web",
+        get label() { return localize("PTU.Epopee.Environment.Hazard.sticky-web"); },
         triggerRadius: 0,
         maxStacks: 1,
         oncePerTurn: true,
         stageDeltas: { spd: -1 }
     },
     spikes: {
-        label: "Spikes",
+        get label() { return localize("PTU.Epopee.Environment.Hazard.spikes"); },
         triggerRadius: 0,
         maxStacks: 3,
         hpDamageFractionPerStack: 1
     },
     "toxic-spikes": {
-        label: "Toxic Spikes",
+        get label() { return localize("PTU.Epopee.Environment.Hazard.toxic-spikes"); },
         triggerRadius: 0,
         maxStacks: 2,
         poisonIntensityPerStack: 1
     },
     "rock-trap": {
-        label: "Rock Trap",
+        get label() { return localize("PTU.Epopee.Environment.Hazard.rock-trap"); },
         triggerRadius: 3,
         maxStacks: 1,
         hpDamageFraction: 2,
         selfDestructs: true
     },
     "sharp-trap": {
-        label: "Sharp Trap",
+        get label() { return localize("PTU.Epopee.Environment.Hazard.sharp-trap"); },
         triggerRadius: 0,
         maxStacks: 1,
         damageFormula: "7d10 + 28",
@@ -144,31 +145,31 @@ const HAZARD_DEFINITIONS = {
 
 const WALL_DEFINITIONS = {
     protect: {
-        label: "Protect",
+        get label() { return localize("PTU.Epopee.Environment.Wall.protect"); },
         duration: 5,
         extendedDuration: 8,
         note: "Treats the Defense of allies behind it as +2 Combat Stage against moves passing through. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
     },
     "light-wall": {
-        label: "Light Wall",
+        get label() { return localize("PTU.Epopee.Environment.Wall.light-wall"); },
         duration: 5,
         extendedDuration: 8,
         note: "Same as Protect but for Special Defense. Not auto-applied - adjudicate manually."
     },
     "rune-protect": {
-        label: "Rune Protect",
+        get label() { return localize("PTU.Epopee.Environment.Wall.rune-protect"); },
         duration: 5,
         extendedDuration: 8,
         note: "Moves passing through cannot apply Status alterations to allies behind it. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
     },
     "fog-wall": {
-        label: "Fog Wall",
+        get label() { return localize("PTU.Epopee.Environment.Wall.fog-wall"); },
         duration: 5,
         extendedDuration: 8,
         note: "Moves targeting allies behind it get +3 AC if they have one. Not auto-applied - adjudicate manually."
     },
     "telekinesis-wall": {
-        label: "Telekinesis Wall",
+        get label() { return localize("PTU.Epopee.Environment.Wall.telekinesis-wall"); },
         duration: 5,
         extendedDuration: 8,
         note: "Same +3 AC effect as Fog Wall. Not auto-applied - adjudicate manually."

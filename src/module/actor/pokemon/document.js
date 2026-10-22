@@ -3,6 +3,7 @@ import { calculateStatTotal } from "../helpers.js";
 import { calculateLevel } from "./level.js";
 import { LevelUpForm } from "../../apps/level-up-form/sheet.js";
 import { sluggify } from "../../../util/misc.js";
+import { localize } from "../../i18n.js";
 import { PokemonGenerator } from "./generator.js";
 import { PTUModifier } from "../modifiers.js";
 
@@ -204,7 +205,7 @@ class PTUPokemonActor extends PTUActor {
 
             if (system.modifiers.saveChecks.total != 0) {
                 const saveMods = (this.synthetics.statisticsModifiers["save-check"] ??= []);
-                saveMods.push(construct({ value: system.modifiers.saveChecks.total, label: "Save Check Mod" }));
+                saveMods.push(construct({ value: system.modifiers.saveChecks.total, label: localize("PTU.Epopee.Modifiers.SaveCheck") }));
             }
         }
 

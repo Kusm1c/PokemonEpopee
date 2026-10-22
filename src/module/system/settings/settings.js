@@ -102,14 +102,14 @@ export function registerSettings() {
     // Epopee: what fills a Trainer's Inventory Space. One rule for the whole table, so it
     // lives with the world rather than on each sheet.
     game.settings.register("pe", "inventoryCountMode", {
-        name: "Inventory Space: counting",
-        hint: "Per copy: 10 Potions take 10 slots. Per item: 10 Potions take 1 slot. Items marked Free Slot never count.",
+        name: "PTU.Epopee.Settings.InventoryCount.Name",
+        hint: "PTU.Epopee.Settings.InventoryCount.Hint",
         scope: "world",
         config: true,
         type: String,
         choices: {
-            copies: "Per copy (quantity)",
-            types: "Per item (one slot per line)"
+            copies: "PTU.Epopee.Settings.InventoryCount.Copies",
+            types: "PTU.Epopee.Settings.InventoryCount.Types"
         },
         default: "types",
         // Inventory Space is worked out when a sheet renders, so redraw the open ones.
@@ -121,8 +121,8 @@ export function registerSettings() {
     });
 
     game.settings.register("pe", "skipRollDialog", {
-        name: "Skip roll dialog",
-        hint: "Skip the roll dialog and automatically roll the dice.",
+        name: "PTU.Epopee.Settings.SkipRollDialog.Name",
+        hint: "PTU.Epopee.Settings.SkipRollDialog.Hint",
         scope: "client",
         config: true,
         type: Boolean,
@@ -130,8 +130,8 @@ export function registerSettings() {
     })
 
     game.settings.register("pe", "autoRollDamage", {
-        name: "Auto roll damage",
-        hint: "Automatically roll damage when a move is used.",
+        name: "PTU.Epopee.Settings.AutoRollDamage.Name",
+        hint: "PTU.Epopee.Settings.AutoRollDamage.Hint",
         scope: "client",
         config: true,
         type: Boolean,
@@ -139,8 +139,8 @@ export function registerSettings() {
     });
 
     game.settings.register("pe", "tokens.autoscale", {
-        name: "Scale Tokens According to Size",
-        hint: "If enabled, tokens will be scaled to 1.0 or (if belonging to a small creature) 0.6",
+        name: "PTU.Epopee.Settings.TokenScale.Name",
+        hint: "PTU.Epopee.Settings.TokenScale.Hint",
         scope: "world",
         config: true,
         type: Boolean,
@@ -148,37 +148,37 @@ export function registerSettings() {
     });
 
     game.settings.register("pe", "transferOwnershipDefaultValue", {
-        name: "Transfer Ownership Preference",
-        hint: "After ownership of a mon is transfered, would you like for it to also set default permissions for other players?",
+        name: "PTU.Epopee.Settings.TransferOwnership.Name",
+        hint: "PTU.Epopee.Settings.TransferOwnership.Hint",
         scope: "world",
         config: true,
         type: Number,
         choices: {
-            [CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE]: "None",
-            [CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED]: "Limited",
-            [CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER]: "Observer",
-            [CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER]: "Owner"
+            [CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE]: "OWNERSHIP.NONE",
+            [CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED]: "OWNERSHIP.LIMITED",
+            [CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER]: "OWNERSHIP.OBSERVER",
+            [CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER]: "OWNERSHIP.OWNER"
         },
         default: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
     })
 
     game.settings.register("pe", "captureDefaultPartyState", {
-        name: "Capture Default Party State",
-        hint: "When a pokemon is captured, should it be added to the party?",
+        name: "PTU.Epopee.Settings.CaptureParty.Name",
+        hint: "PTU.Epopee.Settings.CaptureParty.Hint",
         scope: "world",
         config: true,
         type: String,
         choices: {
-            "party": "Party",
-            "box": "Box",
-            "available": "Available"
+            "party": "PTU.Epopee.Settings.CaptureParty.Party",
+            "box": "PTU.Epopee.Settings.CaptureParty.Box",
+            "available": "PTU.Epopee.Settings.CaptureParty.Available"
         },
         default: "available"
     });
     
     game.settings.register("pe", "devMode", {
-        name: "Development Mode",
-        hint: "Enables certain behavior that is undesirable for normal play, but useful for development.",
+        name: "PTU.Epopee.Settings.DevMode.Name",
+        hint: "PTU.Epopee.Settings.DevMode.Hint",
         scope: "world",
         config: true,
         type: Boolean,
@@ -230,8 +230,8 @@ export function registerSettings() {
     });
 
     game.settings.register("pe", "worldSchemaVersion", {
-        name: "World Schema Version",
-        hint: "Records the schema version for documents in the PTR system (don't modify this unless you know what you are doing).",
+        name: "PTU.Epopee.Settings.SchemaVersion.Name",
+        hint: "PTU.Epopee.Settings.SchemaVersion.Hint",
         scope: "world",
         config: true,
         default: MigrationRunner.MINIMUM_SAFE_VERSION,
@@ -243,8 +243,8 @@ export function registerSettings() {
     // Trap/Coat items and shared inventory install themselves instead of being pasted
     // into the console. See src/module/setup/world-setup.js.
     game.settings.register("pe", "epopeeSetupVersion", {
-        name: "Epopee Setup Version",
-        hint: "Tracks which automatic setup steps have run in this world. Set to 0 to force the setup to run again.",
+        name: "PTU.Epopee.Settings.SetupVersion.Name",
+        hint: "PTU.Epopee.Settings.SetupVersion.Hint",
         scope: "world",
         config: true,
         default: 0,
@@ -544,8 +544,8 @@ export function registerSettings() {
 
     //#region AutoAnimations        
     game.settings.register("autoanimations", "playonDamageCore", {
-        name: "Play Animation on Damage Rolls",
-        hint: "Automatically play animations on damage rolls",
+        name: "PTU.Epopee.Settings.AnimDamage.Name",
+        hint: "PTU.Epopee.Settings.AnimDamage.Hint",
         scope: "world",
         config: true,
         type: Boolean,
@@ -553,8 +553,8 @@ export function registerSettings() {
     })
 
     game.settings.register("autoanimations", "disableAEAnimations", {
-        name: "Disable Active Effect Animations",
-        hint: "Disable Active Effect Animations",
+        name: "PTU.Epopee.Settings.AnimEffects.Name",
+        hint: "PTU.Epopee.Settings.AnimEffects.Hint",
         scope: "world",
         config: true,
         type: Boolean,
@@ -562,8 +562,8 @@ export function registerSettings() {
     })
 
     game.settings.register("autoanimations", "disableGrantedAuraEffects", {
-        name: "Disable Granted Aura Effects",
-        hint: "Disable Granted Aura Effects",
+        name: "PTU.Epopee.Settings.AnimAuras.Name",
+        hint: "PTU.Epopee.Settings.AnimAuras.Hint",
         scope: "world",
         config: true,
         type: Boolean,
@@ -571,8 +571,8 @@ export function registerSettings() {
     })
 
     game.settings.register("autoanimations", "disableNestedEffects", {
-        name: "Disable Nested Effects",
-        hint: "Disable Nested Effects to save on performance",
+        name: "PTU.Epopee.Settings.AnimNested.Name",
+        hint: "PTU.Epopee.Settings.AnimNested.Hint",
         scope: "world",
         config: true,
         type: Boolean,

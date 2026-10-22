@@ -1,4 +1,5 @@
 import * as EpopeeDialogs from "../module/setup/dialogs.js";
+import { localize } from "../module/i18n.js";
 import { PokemonGenerator } from "../module/actor/pokemon/generator.js"
 import { CompendiumBrowser } from "../module/apps/compendium-browser/index.js"
 import { MigrationSummary } from "../module/apps/migration-summary.js"
@@ -59,7 +60,7 @@ const GamePTU = {
                 openPokemonTraining: (actor) => {
                     if (!actor) {
                         if (game.user.character === null) {
-                            ui.notifications.error("No Character was set for this user.", { localize: true });
+                            ui.notifications.error(localize("PTU.Epopee.Notify.NoCharacter"));
                             return;
                         }
                         actor = game.user.character;

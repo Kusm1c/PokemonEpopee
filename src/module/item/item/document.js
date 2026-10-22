@@ -1,4 +1,5 @@
 import { PTUItem } from '../index.js';
+import { localize } from "../../i18n.js";
 class PTUItemItem extends PTUItem {
 
     get container() {
@@ -69,11 +70,11 @@ class PTUItemItem extends PTUItem {
 
             return null;
         })();
-        if(!actor) return ui.notifications.error("No actor selected");
+        if(!actor) return ui.notifications.error(localize("PTU.Epopee.Notify.NoActorSelected"));
 
         const amount = this.system.cost;
         
-        if ((actor.system.money ?? 0) < amount) return ui.notifications.error(`${actor.name} does not have enough money to pay for ${this.name} (Cost: ${amount} Poké, Current: ${actor.system.money})`);
+        if ((actor.system.money ?? 0) < amount) return ui.notifications.error(localize("PTU.Epopee.Notify.NotEnoughMoney", { actor: actor.name, item: this.name, cost: amount, money: actor.system.money }));
         await actor.update({
             "system.money": actor.system.money - amount,
         });
@@ -87,7 +88,7 @@ class PTUItemItem extends PTUItem {
         else {
             await Item.create(this.toObject(), {parent: actor});
         }
-        return ui.notifications.info(`${actor.name} Paid ${amount} Poké for ${this.name} (New Total: ${actor.system.money})`);
+        return ui.notifications.info(localize("PTU.Epopee.Notify.Paid", { actor: actor.name, item: this.name, cost: amount, money: actor.system.money }));
     }
 }
 

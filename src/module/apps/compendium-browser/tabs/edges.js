@@ -152,7 +152,7 @@ export class CompendiumBrowserEdgesTab extends CompendiumBrowserTab {
                     conjunction: "and",
                     label: "PTU.CompendiumBrowser.FilterOptions.Keywords",
                     options: [],
-                    selected: [{value: 'Obsolete', label: 'Obsolete', not: true}]
+                    selected: [{value: 'Obsolete', label: game.i18n.localize("PTU.Epopee.Apps.Browser.Obsolete"), not: true}]
                 }
             },
             order: {

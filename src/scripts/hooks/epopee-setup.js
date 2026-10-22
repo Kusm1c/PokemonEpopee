@@ -1,4 +1,5 @@
 import { runWorldSetup, syncMacros, SETUP_VERSION } from "../../module/setup/world-setup.js";
+import { localize } from "../../module/i18n.js";
 
 /**
  * Runs the Epopee world setup once per world, so a GM never has to paste a console
@@ -46,7 +47,7 @@ export const EpopeeSetup = {
                 if (log.length) {
                     for (const line of log) console.log("PokemonEpopee | " + line);
                     ui.notifications.info(
-                        `Pokémon Épopée : configuration du monde terminée (${log.length} étape(s)). Détail dans la console.`,
+                        localize("PTU.Epopee.Setup.WorldDone", { n: log.length }),
                         { permanent: false }
                     );
                 } else {
@@ -56,7 +57,7 @@ export const EpopeeSetup = {
                 // The version is intentionally NOT bumped here, so the next load retries.
                 console.error("PokemonEpopee | World setup failed:", error);
                 ui.notifications.warn(
-                    "Pokémon Épopée : la configuration automatique a échoué. Les scripts de scripts/foundry-console/ restent utilisables en secours.",
+                    localize("PTU.Epopee.Setup.WorldFailed"),
                     { permanent: true }
                 );
             }

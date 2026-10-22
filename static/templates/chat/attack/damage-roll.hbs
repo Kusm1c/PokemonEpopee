@@ -2,7 +2,7 @@
     {{#if crit.hit}}
     <span class="flavor-text">
         <div class="header-bar tags">
-            <span class="tag tag-transparent" data-slug="crit-double-mod">Crit Doubles Base Modifier</span>
+            <span class="tag tag-transparent" data-slug="crit-double-mod">{{peLocalize "PTU.Epopee.Chat.CritDoubles"}}</span>
         </div>
     </span>
     {{/if}}
@@ -11,7 +11,7 @@
             <div class="dice-formula">{{formula}}</div>
             {{{tooltip}}}
             <div class="dice-total">
-                <span class="num-total">{{@root/total}} {{#if crit.hit}}Crit{{/if}} Damage</span>
+                <span class="num-total">{{#if crit.hit}}{{peLocalize "PTU.Epopee.Chat.CritDamage" total=@root/total}}{{else}}{{peLocalize "PTU.Epopee.Chat.Damage" total=@root/total}}{{/if}}</span>
             </div>
         </div>
     </div>

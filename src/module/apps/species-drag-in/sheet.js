@@ -1,4 +1,5 @@
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
+import { localize } from "../../i18n.js";
 import { PTUSpecies } from "../../item/index.js";
 
 export class PTUSpeciesDragOptionsPrompt extends FormApplication {
@@ -9,7 +10,7 @@ export class PTUSpeciesDragOptionsPrompt extends FormApplication {
             template: "systems/pe/static/templates/apps/species-drag-prompt.hbs",
             width: 250,
             height: "auto",
-            title: "Species Drag-In"
+            title: localize("PTU.Epopee.Apps.SpeciesDragIn.Title")
         });
     }
 

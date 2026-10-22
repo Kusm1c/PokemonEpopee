@@ -1,3 +1,4 @@
+import { localize } from "../../module/i18n.js";
 export const ActorButtons = {
     listen() {
         Hooks.on("renderAbstractSidebarTab", () => {
@@ -11,11 +12,11 @@ export const ActorButtons = {
             const thirdRowDiv = $('<div class="pe-button-row pe-button-row-tertiary"></div>');
             
             // Add buttons to appropriate rows
-            secondRowDiv.append(`<button class="import-party"><i class="fas fa-upload"></i>Import Party</button>`);
-            secondRowDiv.append(`<button class="mass-generator"><i class="fas fa-users"></i>Pkmn Generator</button>`);
+            secondRowDiv.append(`<button class="import-party"><i class="fas fa-upload"></i>${localize("PTU.Epopee.Apps.Buttons.ImportParty")}</button>`);
+            secondRowDiv.append(`<button class="mass-generator"><i class="fas fa-users"></i>${localize("PTU.Epopee.Apps.Buttons.Generator")}</button>`);
             
-            thirdRowDiv.append(`<button class="quick-build"><i class="fas fa-users"></i>NPC Quick Build</button>`);
-            thirdRowDiv.append(`<button class="pokemon-training"><i class="fas fa-dumbbell"></i>Pokemon Training</button>`);
+            thirdRowDiv.append(`<button class="quick-build"><i class="fas fa-users"></i>${localize("PTU.Epopee.Apps.NpcQuickBuild.Title")}</button>`);
+            thirdRowDiv.append(`<button class="pokemon-training"><i class="fas fa-dumbbell"></i>${localize("PTU.Epopee.Apps.Buttons.Training")}</button>`);
             
             // Append the new rows to the action buttons container
             sidebarButtons.append(secondRowDiv);
@@ -43,7 +44,7 @@ export const ActorButtons = {
             const footer = $(".compendium-sidebar .directory-footer");
             if (footer.find(".compendium-browser-btn").length > 0) return;
 
-            footer.append(`<button type="button" class="compendium-browser-btn"><i class="fa-solid fa-magnifying-glass"></i> Compendium Browser</button>`);
+            footer.append(`<button type="button" class="compendium-browser-btn"><i class="fa-solid fa-magnifying-glass"></i> ${localize("PTU.Epopee.Apps.Buttons.Browser")}</button>`);
             footer.find(".compendium-browser-btn").on("click", async () => {
                 await game.pe.compendiumBrowser.loadTab("items")
             });
@@ -55,14 +56,14 @@ export const ActorButtons = {
 
             if (sidebarButtons.find(".mass-import").length > 0) return;
             if(!window.showOpenFilePicker) return;
-            sidebarButtons.append(`<button class="mass-import"><i class="fas fa-upload"></i>Mass Import</button>`)
+            sidebarButtons.append(`<button class="mass-import"><i class="fas fa-upload"></i>${localize("PTU.Epopee.Apps.Buttons.MassImport")}</button>`)
 
             $("#sidebar #items .directory-header .action-buttons .mass-import").on("click", async (event) => {
 
                 const fileHandlers = await window.showOpenFilePicker({
                     types: [
                         {
-                            description: "JSON Files",
+                            description: localize("PTU.Epopee.Apps.JsonFiles"),
                             accept: {
                                 "text/json": [".json"]
                             }

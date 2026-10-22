@@ -1,6 +1,7 @@
+import { localize } from "../../module/i18n.js";
 export function pokedex() {
     const species = game.user.targets.first()?.actor?.species;
-    if (!species) return ui.notifications.error("Please target a pokemon");
+    if (!species) return ui.notifications.error(localize("PTU.Epopee.Notify.TargetPokemon"));
     species.sheet.render(true)
 
     const dex = game.user.character?.system?.dex;

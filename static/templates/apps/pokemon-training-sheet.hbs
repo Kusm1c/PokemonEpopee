@@ -2,13 +2,13 @@
     <div class="d-flex flex-column w-100 h-100">
         {{#if trainer}}
             <div class="d-flex flex-column mb-2 trainer">
-                <h3>Trainer</h3>
+                <h3>{{localize "PTU.Epopee.Modifiers.Trainer"}}</h3>
                 <div class="d-flex flex-row party-list">
                     <div class="party-item" data-actor-uuid="{{trainer.uuid}}">
                         <img src="{{trainer.img}}" alt="{{trainer.name}}" title="{{trainer.name}}" />
                         <div class="labels">
                             <label>{{trainer.name}}</label>
-                            <small>Level: {{trainer.system.level.current}}</small>
+                            <small>{{peLocalize "PTU.Epopee.Apps.Party.Level" level=trainer.system.level.current}}</small>
                         </div>
                     </div>
                 </div>
@@ -16,22 +16,22 @@
         {{/if}}
         {{#each boxes as |box name|}}
             <div class="d-flex flex-column mb-2">
-                <h3>{{formatSlug name}}<span style="float:right;">{{#if (is name "training")}}{{box.instances}} instances of {{box.xpinstance}} EXP for a Total EXP of: {{else}}Average Level: {{/if}}{{#if box.metric}}{{box.metric}}{{/if}}</span></h3>
+                <h3>{{formatSlug name}}<span style="float:right;">{{#if (is name "training")}}{{peLocalize "PTU.Epopee.Apps.Training.Total" instances=box.instances exp=box.xpinstance total=box.metric}}{{else}}{{peLocalize "PTU.Epopee.Apps.Party.AverageLevel" level=box.metric}}{{/if}}</span></h3>
                 {{#if (is name "training")}}
                     <div style="text-align: center; margin-bottom: 10px;">
                         <input type="radio" id="none" value="none" name="training" checked="checked">
-                        <label for="none">None</label>
+                        <label for="none">{{localize "PTU.SelectNone"}}</label>
                         <input type="radio" id="agility-training" name="training" value="agility-training">
-                        <label for="agility-training">Agility Training</label>
+                        <label for="agility-training">{{peLocalize "PTU.Epopee.Apps.Training.Agility"}}</label>
                         <input type="radio" id="brutal-training" name="training" value="brutal-training">
-                        <label for="brutal-training">Brutal Training</label>
+                        <label for="brutal-training">{{peLocalize "PTU.Epopee.Apps.Training.Brutal"}}</label>
                         <input type="radio" id="focused-training" name="training" value="focused-training">
-                        <label for="focused-training">Focused Training</label>
+                        <label for="focused-training">{{peLocalize "PTU.Epopee.Apps.Training.Focused"}}</label>
                         <input type="radio" id="inspired-training" name="training" value="inspired-training">
-                        <label for="inspired-training">Inspired Training</label>
+                        <label for="inspired-training">{{peLocalize "PTU.Epopee.Apps.Training.Inspired"}}</label>
                     </div>
                     <div style="text-align: center; margin-bottom: 10px;">
-                        <button type="submit">Train!</button>
+                        <button type="submit">{{peLocalize "PTU.Epopee.Apps.Training.Train"}}</button>
                     </div>
                 {{/if}}
                 <div class="d-flex flex-row party-list droppable" data-party-status="{{name}}">
@@ -40,9 +40,9 @@
                             <img src="{{actor.img}}" alt="{{actor.name}}" title="{{actor.name}}" />
                             <div class="labels">
                                 <label>{{actor.name}}</label>
-                                <small>Level: {{actor.system.level.current}}</small>
+                                <small>{{peLocalize "PTU.Epopee.Apps.Party.Level" level=actor.system.level.current}}</small>
                                 {{#if (is name "training")}}
-                                    <input id="xp-for-{{actor.id}}" name="{{actor.id}}" type="number" style="width: 80px; margin-top: 5px;" placeholder="Instances" min="0">
+                                    <input id="xp-for-{{actor.id}}" name="{{actor.id}}" type="number" style="width: 80px; margin-top: 5px;" placeholder="{{peLocalize "PTU.Epopee.Apps.Training.Instances"}}" min="0">
                                 {{/if}}
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                     {{#unless box.contents}}
                         <div class="party-item empty">
                             <div class="item-name">
-                                <small><i>Drop actor here</i></small>
+                                <small><i>{{peLocalize "PTU.Epopee.Apps.Party.DropActor"}}</i></small>
                             </div>
                         </div>
                     {{/unless}}

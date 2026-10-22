@@ -1,6 +1,7 @@
 import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND, MAX_STATUSES } from "./config.js";
 import { STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { PERIODS, itemUsage, resetUses } from "../../usage/engine.js";
+import { localize } from "../../i18n.js";
 import { bindLinkedFields, prepareEpopeeSheetData } from "../epopee-sheet.js";
 import { natureOptions } from "../../natures/flavors.js";
 import { PTUPartySheet } from "../../apps/party/sheet.js";
@@ -232,7 +233,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		if (this.actor.isOwner) {
 			buttons.unshift({
-				label: "Rest",
+				label: localize("PTU.Epopee.Sheet.Button.Rest"),
 				class: "rest-until-next-day",
 				icon: "fas fa-bed",
 				onclick: async () => {
@@ -245,12 +246,12 @@ export class PTUPokemonSheet extends PTUActorSheet {
 					// EOT pools as well - see resetUses().
 					const refilled = await resetUses(this.actor, PERIODS.DAILY);
 					ui.notifications.info(refilled.length
-						? `${this.actor.name}: healed ${heal} HP, refilled ${refilled.length} daily/scene use(s).`
-						: `${this.actor.name}: healed ${heal} HP. Nothing to refill.`);
+						? localize("PTU.Epopee.Notify.RestHealedRefilled", { name: this.actor.name, heal, n: refilled.length })
+						: localize("PTU.Epopee.Notify.RestHealed", { name: this.actor.name, heal }));
 				}
 			});
 			buttons.unshift({
-				label: "End of Scene",
+				label: localize("PTU.Epopee.Sheet.Button.EndOfScene"),
 				class: "end-of-scene",
 				icon: "fas fa-hourglass-end",
 				onclick: async () => {
@@ -258,21 +259,21 @@ export class PTUPokemonSheet extends PTUActorSheet {
 					const moved = await this._handOverFoundItems();
 
 					const parts = [];
-					if (refilled.length) parts.push(`refilled ${refilled.length} scene use(s)`);
-					if (moved.length) parts.push(`handed ${moved.join(", ")} to the trainer`);
+					if (refilled.length) parts.push(localize("PTU.Epopee.Notify.SceneRefilledPart", { n: refilled.length }));
+					if (moved.length) parts.push(localize("PTU.Epopee.Notify.SceneHandedPart", { list: moved.join(", ") }));
 					ui.notifications.info(parts.length
-						? `${this.actor.name}: ${parts.join("; ")}.`
-						: `${this.actor.name}: nothing to do at end of scene.`);
+						? localize("PTU.Epopee.Notify.SceneSummary", { name: this.actor.name, parts: parts.join("; ") })
+						: localize("PTU.Epopee.Notify.SceneNothingPokemon", { name: this.actor.name }));
 				}
 			});
 			buttons.unshift({
-				label: "Training",
+				label: localize("PTU.Epopee.Sheet.Button.Training"),
 				class: "training-screen",
 				icon: "fas fa-dumbbell",
 				onclick: () => new CONFIG.PTU.ui.pokemonTraining.sheetClass({ actor: this.actor }).render(true)
 			});
 			buttons.unshift({
-				label: "Party",
+				label: localize("PTU.Epopee.Sheet.Button.Party"),
 				class: "part-screen",
 				icon: "fas fa-users",
 				onclick: () => new PTUPartySheet({ actor: this.actor }).render(true)
@@ -441,16 +442,16 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				const success = roll.total >= difficulty;
 				if (success) anySuccess = true;
 				rows.push(`<tr><td>${user.name}</td><td style="text-align:center;">${roll.total}</td>`
-					+ `<td style="text-align:center;">${success ? "<b>Réussite</b>" : "Échec"}</td></tr>`);
+					+ `<td style="text-align:center;">${success ? `<b>${localize("PTU.Epopee.Sheet.Training.Success")}</b>` : localize("PTU.Epopee.Sheet.Training.Failure")}</td></tr>`);
 			}
 
 			await ChatMessage.create({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `<div class="header-bar"><p class="action">Entraînement : ${this.actor.name}</p></div>`,
-				content: `<p>Difficulté d'Entraînement <b>${difficulty}</b></p>`
-					+ `<table style="width:100%;"><tr><th>${solo ? "Jet" : "Joueur"}</th><th>1d100</th><th></th></tr>${rows.join("")}</table>`
-					+ `<p>${anySuccess ? "<b>Entraînement réussi.</b>" : "<b>Entraînement raté.</b>"}</p>`
-					+ `<p style="font-size:11px;opacity:.7;">Les modificateurs wildcard (Traits, Objets) sont à appliquer à la main.</p>`
+				flavor: `<div class="header-bar"><p class="action">${localize("PTU.Epopee.Sheet.Training.Title", { name: this.actor.name })}</p></div>`,
+				content: `<p>${localize("PTU.Epopee.Sheet.Training.Difficulty", { dc: difficulty })}</p>`
+					+ `<table style="width:100%;"><tr><th>${localize(solo ? "PTU.Epopee.Sheet.Training.Roll" : "PTU.Epopee.Sheet.Training.Player")}</th><th>1d100</th><th></th></tr>${rows.join("")}</table>`
+					+ `<p><b>${localize(anySuccess ? "PTU.Epopee.Sheet.Training.Passed" : "PTU.Epopee.Sheet.Training.Failed")}</b></p>`
+					+ `<p style="font-size:11px;opacity:.7;">${localize("PTU.Epopee.Sheet.Training.Wildcards")}</p>`
 			});
 		});
 
@@ -594,12 +595,12 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		
 		foundry.applications.ux.ContextMenu.implementation.create(this, htmlElement, ".move-item", [
 			{
-				name: "Roll",
+				name: localize("PTU.Epopee.Sheet.Menu.Roll"),
 				icon: '<i class="fas fa-dice"></i>',
 				callback: this.#onMoveRoll.bind(this),
 			},
 			{
-				name: "Send to Chat",
+				name: localize("PTU.Epopee.Sheet.Menu.SendToChat"),
 				icon: '<i class="fas fa-comment"></i>',
 				callback: (ev) => {
 					const li = ev.closest('.item');
@@ -609,7 +610,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				}
 			},
 			{
-				name: "Edit",
+				name: localize("PTU.Epopee.Sheet.Menu.Edit"),
 				icon: '<i class="fas fa-edit"></i>',
 				callback: (ev) => {
 					const li = ev.closest('.item');
@@ -619,7 +620,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				}
 			},
 			{
-				name: "Delete",
+				name: localize("PTU.Epopee.Sheet.Menu.Delete"),
 				icon: '<i class="fas fa-trash"></i>',
 				callback: this._onItemDelete.bind(this),
 			},
@@ -827,7 +828,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		if (event?.shiftKey) {
 			const extra = await new Promise((resolve, reject) => {
 				Dialog.confirm({
-					title: `Accuracy Modifier`,
+					title: localize("PTU.Epopee.Sheet.AccuracyModifier"),
 					content: `<input type="text" name="accuracy-modifier" value="0"></input>`,
 					yes: async (html) => {
 						const bonusTxt = html.find('input[name="accuracy-modifier"]').val()
@@ -843,7 +844,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			if (extra) {
 				bonus.push({
 					value: extra,
-					label: `with ${extra} accuracy modifier`
+					label: localize("PTU.Epopee.Sheet.AccuracyModifierLabel", { value: extra })
 				})
 			}
 		}

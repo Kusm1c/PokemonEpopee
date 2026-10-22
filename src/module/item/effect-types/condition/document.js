@@ -6,6 +6,7 @@ import { Statistic } from "../../../system/statistic/index.js";
 import { runStatusResistance } from "../../../statuses/engine.js";
 import { ALL_STATUS_DEFINITIONS } from "../../../statuses/definitions.js";
 import { BaseEffectPTU } from "../base.js";
+import { localize } from "../../../i18n.js";
 
 class PTUCondition extends BaseEffectPTU {
     /** @override */
@@ -153,25 +154,25 @@ class PTUCondition extends BaseEffectPTU {
             const dcModifiers = (() => {
                 if(this.slug === "shadow-pokemon") {
                     // Epopee drops Injuries; PTR added +2 to this DC per Injury.
-                    return [new PTUModifier({ slug: "dc", label: "DC", modifier: 5 })];
+                    return [new PTUModifier({ slug: "dc", label: localize("PTU.Epopee.Modifiers.Dc"), modifier: 5 })];
                 }
-                if (!decrease) return [new PTUModifier({ slug: "dc", label: "DC", modifier: dc })];
+                if (!decrease) return [new PTUModifier({ slug: "dc", label: localize("PTU.Epopee.Modifiers.Dc"), modifier: dc })];
                 const modifier = 20 - ((this.value - 1) * (this.slug === "hyper-mode" ? 2 : 6));
-                if (modifier <= 0) return [new PTUModifier({ slug: "dc", label: "DC", modifier: -Infinity })];
-                return [new PTUModifier({ slug: "dc", label: "DC", modifier })];
+                if (modifier <= 0) return [new PTUModifier({ slug: "dc", label: localize("PTU.Epopee.Modifiers.Dc"), modifier: -Infinity })];
+                return [new PTUModifier({ slug: "dc", label: localize("PTU.Epopee.Modifiers.Dc"), modifier })];
             })();
             const saveModifiers = [];
 
             if (this.slug === "frozen") {
                 if (this.actor.types.includes("Fire")) {
-                    dcModifiers.push(new PTUModifier({ slug: "type", label: "Fire Type", modifier: -5 }));
+                    dcModifiers.push(new PTUModifier({ slug: "type", label: localize("PTU.Epopee.Modifiers.FireType"), modifier: -5 }));
                 }
                 //TODO: Add weather check
                 if (false) {
-                    saveModifiers.push(new PTUModifier({ slug: "weather", label: "Sunny Weather", modifier: 4 }));
+                    saveModifiers.push(new PTUModifier({ slug: "weather", label: localize("PTU.Epopee.Modifiers.SunnyWeather"), modifier: 4 }));
                 }
                 if (false) {
-                    saveModifiers.push(new PTUModifier({ slug: "weather", label: "Cold Weather", modifier: -2 }));
+                    saveModifiers.push(new PTUModifier({ slug: "weather", label: localize("PTU.Epopee.Modifiers.ColdWeather"), modifier: -2 }));
                 }
             }
 
@@ -327,7 +328,7 @@ class PTUCondition extends BaseEffectPTU {
     static async HandleConfusion(move, actor) {
 
                     const coinFlip = await new Roll(`1dcc1`).evaluate()
-        await coinFlip.toMessage({ flavor: `<div class="header-bar"><p class="action">${actor.name} attempts a Confusion Check to use ${move.name}</p></div>`, speaker: ChatMessage.getSpeaker({ actor }) });
+        await coinFlip.toMessage({ flavor: `<div class="header-bar"><p class="action">${localize("PTU.Epopee.Chat.ConfusionCheck", { actor: actor.name, move: move.name })}</p></div>`, speaker: ChatMessage.getSpeaker({ actor }) });
         const success = coinFlip.total === 1;
         if (!success) {
             const damage = (() => {
@@ -352,7 +353,7 @@ class PTUCondition extends BaseEffectPTU {
      */
     static async HandleParalyzed(actor, paralyzed) {
 
-        const dcModifiers = [new PTUModifier({ slug: "dc", label: "DC", modifier: 11 })]
+        const dcModifiers = [new PTUModifier({ slug: "dc", label: localize("PTU.Epopee.Modifiers.Dc"), modifier: 11 })]
         const saveModifiers = [];
 
         const statistic = new Statistic(actor, {
@@ -393,7 +394,7 @@ class PTUCondition extends BaseEffectPTU {
      */
     static async HandleHyperMode(actor, hypermode) {
 
-        const dcModifiers = [new PTUModifier({ slug: "dc", label: "DC", modifier: 11 })]
+        const dcModifiers = [new PTUModifier({ slug: "dc", label: localize("PTU.Epopee.Modifiers.Dc"), modifier: 11 })]
         const saveModifiers = [];
 
         const statistic = new Statistic(actor, {

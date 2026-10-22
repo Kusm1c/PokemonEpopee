@@ -1,4 +1,5 @@
 import { Progress } from "../../../util/progress.js";
+import { localize } from "../../i18n.js";
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
 
 class PTUDexSheet extends FormApplication {
@@ -30,7 +31,7 @@ class PTUDexSheet extends FormApplication {
                         if(value?.load) acc.push(id);
                         return acc;
                     }, ["pe.species"]) 
-                    if (packs.length === 0) return ui.notifications.error("Please enable at least one species compendium from the Compendium Browser settings.");
+                    if (packs.length === 0) return ui.notifications.error(localize("PTU.Epopee.Notify.NoSpeciesPack"));
                     const docs = [];
                     for(const packId of packs) {
                         const pack = game.packs.get(packId);

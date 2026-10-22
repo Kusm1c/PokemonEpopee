@@ -1,4 +1,5 @@
 import { Progress } from "../../../util/progress.js";
+import { localize } from "../../i18n.js";
 
 class PTUPokemonTrainingSheet extends FormApplication {
     constructor({ actor, ...options } = {}) {
@@ -422,7 +423,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                         const trainingLevelCap = actor.attributes.level.cap.training;
                         
                         if (currentLevel > trainingLevelCap) {
-                            ui.notifications.warn(`${actor.name} is too high level (${currentLevel}) for training. Maximum level: ${trainingLevelCap}`);
+                            ui.notifications.warn(localize("PTU.Epopee.Notify.TrainingTooHigh", { name: actor.name, level: currentLevel, cap: trainingLevelCap }));
                             this.handledDrop = false;
                             return this.render();
                         }
@@ -430,7 +431,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                     }
                     default: {
                         const folder = this.folders[partyStatus];
-                        if(!folder) return ui.notifications.error("Invalid folder");
+                        if(!folder) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidFolder"));
 
                         if (actor.folder?.id != folder.id) {
                             await actor.update({ folder: folder.id });
@@ -554,7 +555,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
                 const trainingLevelCap = actor.attributes.level.cap.training;
                 
                 if (currentLevel > trainingLevelCap) {
-                    ui.notifications.warn(`${actor.name} is too high level (${currentLevel}) for training. Maximum level: ${trainingLevelCap}`);
+                    ui.notifications.warn(localize("PTU.Epopee.Notify.TrainingTooHigh", { name: actor.name, level: currentLevel, cap: trainingLevelCap }));
                     return this.render();
                 }
                 
@@ -570,7 +571,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
             }
             default: {
                 const folder = this.folders[partyStatus];
-                if(!folder) return ui.notifications.error("Invalid folder");
+                if(!folder) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidFolder"));
 
                 if (actor.folder?.id != folder.id) {
                     await actor.update({ folder: folder.id });
@@ -602,7 +603,7 @@ class PTUPokemonTrainingSheet extends FormApplication {
     completeTraining(trainingType, trainingData) {
         // Finalizes the training and messages the GM
         let trainingEffectID = this.getTrainingEffect(trainingType);
-        let message = this.trainer.name + " has completed their daily training!<br>";
+        let message = localize("PTU.Epopee.Apps.Training.Completed", { name: this.trainer.name }) + "<br>";
         Object.entries(trainingData).forEach(([key, value]) => {
             let actor = game.actors.get(key);
             
@@ -618,12 +619,12 @@ class PTUPokemonTrainingSheet extends FormApplication {
             const expValue = instancesValue * this.xpToDistribute;
             
             if (currentLevel > trainingLevelCap) {
-                message += `${actor.name} is too high level (${currentLevel}) for training (cap: ${trainingLevelCap})<br>`;
+                message += localize("PTU.Epopee.Apps.Training.TooHigh", { name: actor.name, level: currentLevel, cap: trainingLevelCap }) + "<br>";
                 return;
             }
             
             let updatedXP = actor.system.level.exp + expValue;
-            message += actor.name + " gained " + expValue + " EXP (" + instancesValue + " instances) totaling to " + updatedXP + " EXP<br>";
+            message += localize("PTU.Epopee.Apps.Training.Gained", { name: actor.name, exp: expValue, instances: instancesValue, total: updatedXP }) + "<br>";
             actor.update({'system.level.exp' : updatedXP});
             
             if (trainingEffectID !== "") {

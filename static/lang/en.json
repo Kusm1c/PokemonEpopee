@@ -83,7 +83,9 @@
         "TurnEnd": "End of Turn",
         "RoundStart": "Start of Round"
       }
-    }
+    },
+    "Trigger": "Trigger",
+    "ActiveAction": "Active Action"
   },
 
   "SPECIES.Height": "Height",
@@ -388,6 +390,32 @@
           "FieldEnd": "{name} fades away.",
           "ZoneStart": "{name} is now active.",
           "ZoneEnd": "{name} is no longer active."
+        },
+        "Hazard": {
+          "sticky-web": "Sticky Web",
+          "spikes": "Spikes",
+          "toxic-spikes": "Toxic Spikes",
+          "rock-trap": "Rock Trap",
+          "sharp-trap": "Sharp Trap"
+        },
+        "Wall": {
+          "protect": "Protect",
+          "light-wall": "Light Wall",
+          "rune-protect": "Rune Protect",
+          "fog-wall": "Fog Wall",
+          "telekinesis-wall": "Telekinesis Wall"
+        },
+        "Hazards": {
+          "MaxStacks": "{name} is already at max stacks on this tile.",
+          "DamageRoll": "{name}: damage roll",
+          "PoisonManual": "{actor} should be given the Poisoned condition manually ({name}: {n} intensity).",
+          "Triggers": "<strong>{actor}</strong> triggers {name}.",
+          "TriggeredTitle": "Hazard Triggered",
+          "TriggeredContent": "{token} is within range of <strong>{name}</strong>. Activate its effect?"
+        },
+        "Walls": {
+          "Placed": "<strong>{name}</strong> is placed on the field.",
+          "Crumbles": "<strong>{name}</strong> crumbles."
         }
       },
       "Status": {
@@ -518,6 +546,672 @@
             "tresForte": "The status is cured.",
             "complete": "The status is cured."
           }
+        }
+      },
+      "StatShort": {
+        "hp": "HP",
+        "atk": "ATK",
+        "def": "DEF",
+        "spatk": "SPATK",
+        "spdef": "SPDEF",
+        "spd": "SPD"
+      },
+      "Sheet": {
+        "FragAbbr": "Frag",
+        "CombatStagesAbbr": "CS",
+        "StatFragmentHint": "{stat} Fragment (25%)",
+        "StatFragmentShort": "{stat} Fragment",
+        "GaugeHint": "CS: {current} ({dice})",
+        "Name": "Name",
+        "TempHp": "Temp HP",
+        "CurrentHp": "Current HP",
+        "MaxHp": "Max HP",
+        "HpFragmentHint": "HP Fragment: 1/20th of max HP, rounded up",
+        "HpFragment": "HP Fragment",
+        "Stab": "STAB",
+        "StabHint": "STAB = 5 + (Level / 5)",
+        "TrainingDC": "Training DC",
+        "TrainingDCHint": "Training Difficulty",
+        "TrainingRollHint": "Roll 1d100 against the Training Difficulty",
+        "LoyaltyCell": "Loyalty {n}",
+        "ContestAppeal": "Appeal",
+        "ContestTags": "Contest Tags",
+        "NaturalOver": "{count} / {max} Natural Moves — over the limit",
+        "NaturalTitle": "Natural Moves ({count}/{max})",
+        "TechnicalOver": "{count} / {max} Technical Moves — over the limit",
+        "TechnicalTitle": "Technical Moves ({count}/{max})",
+        "ListOrderPokemonHint": "Swaps the order of the Move and Skill lists",
+        "ListOrderTrainerHint": "Rotates the order of the lists: Moves, Skills, Items",
+        "ListOrderLabel": "Moves / Items / Skills",
+        "ContestModeHint": "Switches the Move list to Contest Mode",
+        "ContestModeOn": "Contest Mode",
+        "ContestModeOff": "Leave Contest Mode",
+        "HeldOver": "{count} Held Items — 1 maximum",
+        "FoundOver": "{count} Found Items — 1 maximum",
+        "HeldItem": "Held Item",
+        "FoundItem": "Found Item",
+        "FoundItemHint": "Found Item (goes to the trainer at the end of the scene)",
+        "Carried": "Carried (no effect)",
+        "Moments": "Moments of Brilliance",
+        "AddMoment": "Add Moment",
+        "DeleteMoment": "Delete Moment",
+        "Flavours": "Flavours",
+        "FlavoursNeutral": "No preference (neutral nature)",
+        "Liked": "Liked",
+        "Disliked": "Disliked",
+        "PhysicalTraits": "Physical Traits",
+        "Motivations": "Motivations & Interests",
+        "CaptureContext": "Capture Context",
+        "PreCampaignLore": "Pre-Campaign Lore",
+        "Experience": "Experience",
+        "Gender": "Gender",
+        "Pending": "To do:",
+        "PendingStats": "{n} stat(s) to assign.",
+        "PendingFeats": "{n} feature(s) to place.",
+        "PendingEdges": "{n} edge(s) to choose.",
+        "InventorySpace": "Inventory Space",
+        "InventorySpaceHint": "Inventory slots used",
+        "MaxControl": "Max Control",
+        "MaxControlHint": "Highest level of Pokémon this Trainer can control",
+        "MaxControlAuto": "auto",
+        "MaxControlOverrideHint": "Leave empty to follow the Trainer's level",
+        "Identity": "Identity",
+        "Height": "Height",
+        "Weight": "Weight",
+        "Age": "Age",
+        "ChooseOrigin": "Choose an Origin",
+        "TotalWorth": "Total Worth",
+        "CategoryTitle": "{items}: {category}",
+        "Honours": "Honours",
+        "AddHonour": "Add an Honour",
+        "NoHonours": "No Honours.",
+        "Delete": "Delete",
+        "PhysicalDescription": "Physical Description",
+        "CharacterTraits": "Character Traits",
+        "Goals": "Goals",
+        "Connections": "Connections to other PCs",
+        "FreeBlocks": "Free Blocks",
+        "AddBlock": "Add a block",
+        "NewBlock": "New block",
+        "MoveUp": "Move up",
+        "MoveDown": "Move down",
+        "NoBlocks": "No free blocks.",
+        "HideExperience": "Hide Experience",
+        "AccuracyModifier": "Accuracy Modifier",
+        "AccuracyModifierLabel": "with {value} accuracy modifier",
+        "Button": {
+          "Rest": "Rest",
+          "EndOfScene": "End of Scene",
+          "Training": "Training",
+          "Party": "Party",
+          "Dex": "Dex",
+          "Heal": "Heal",
+          "Notes": "Notes",
+          "Configure": "Configure"
+        },
+        "Menu": {
+          "Roll": "Roll",
+          "SendToChat": "Send to Chat",
+          "Edit": "Edit",
+          "Delete": "Delete"
+        },
+        "Training": {
+          "Title": "Training: {name}",
+          "Difficulty": "Training Difficulty <b>{dc}</b>",
+          "Roll": "Roll",
+          "Player": "Player",
+          "Success": "Success",
+          "Failure": "Failure",
+          "Passed": "Training passed.",
+          "Failed": "Training failed.",
+          "Wildcards": "Wildcard modifiers (Features, Items) are applied by hand."
+        }
+      },
+      "Inventory": {
+        "Category": {
+          "Temporaire": "Temporary",
+          "Key": "Key Items",
+          "Medical": "Medicine",
+          "Misc": "Miscellaneous",
+          "Pokemon Items": "Pokémon Items",
+          "PokeBalls": "Poké Balls",
+          "TMs": "TMs",
+          "Money": "Money",
+          "Equipment": "Equipment",
+          "Food": "Food"
+        },
+        "LeftColumn": "Left Column",
+        "RightColumn": "Right Column",
+        "Available": "Available",
+        "MoveToAvailable": "Move to Available",
+        "MoveToLeft": "Move to Left Column",
+        "MoveToRight": "Move to Right Column"
+      },
+      "Notify": {
+        "RestHealedRefilled": "{name}: healed {heal} HP, refilled {n} daily/scene use(s).",
+        "RestHealed": "{name}: healed {heal} HP. Nothing to refill.",
+        "SceneRefilled": "{name}: refilled {n} scene use(s) - {list}.",
+        "SceneNothing": "{name}: no scene uses to refill.",
+        "SceneRefilledPart": "refilled {n} scene use(s)",
+        "SceneHandedPart": "handed {list} to the trainer",
+        "SceneSummary": "{name}: {parts}.",
+        "SceneNothingPokemon": "{name}: nothing to do at end of scene.",
+        "FullHealth": "{name} is already at full health!",
+        "Healed": "{name} was healed to full health! ({from} -> {to})",
+        "NoNotesFolder": "No folder found for world notes. Ask your GM to log in, and not to delete the \"Actor Notes\" folder.",
+        "InvalidMoney": "Invalid amount of money dropped",
+        "InvalidItem": "Invalid item dropped",
+        "NotEnoughMoney": "{actor} does not have enough money to pay for {item} (Cost: {cost} Poké, Current: {money})",
+        "Paid": "{actor} paid {cost} Poké for {item} (New Total: {money})",
+        "Gained": "{actor} gained {amount} Poké (New Total: {money})",
+        "Applied": "Applied {item} to {actor}",
+        "Added": "Added {item} to {actor}",
+        "ApplyFailed": "Failed to apply {item} to {actor}",
+        "CannotAdd": "{type} cannot be added to {actor}",
+        "RefreshNotOwned": "The item must be owned to refresh from the compendium",
+        "RefreshNoSource": "Could not find the latest source for this item",
+        "RefreshTypeMismatch": "The item type must match the latest source type",
+        "Refreshed": "{name} updated from the compendium",
+        "NoActorSelected": "No actor selected",
+        "GmPromptMissing": "The GM Prompt is not implemented, showing the basic view.",
+        "OnlyItems": "Only items can be dropped here",
+        "GrantedNoDelete": "{item} cannot be deleted because it is granted to {granter}",
+        "AlreadyGranted": "{item} is already granted to {actor}.",
+        "ModifierNaN": "Modifier value must be a number.",
+        "ModifierZero": "Modifier value must not be zero.",
+        "DiceAmountNaN": "Dice amount must be a number.",
+        "DiceAmountZero": "Dice amount must not be zero.",
+        "DiceSizeNaN": "Dice size must be a number.",
+        "DiceSizeZero": "Dice size must be greater than zero.",
+        "InvalidDamageBase": "Invalid Damage Base!",
+        "NpcFailed": "Could not generate the NPC! Check the dev console for more details.",
+        "NpcPartyFailed": "Error creating party Pokémon; some automations may not work properly. See the console for details.",
+        "SpeciesNotFound": "No species found for table result \"{result}\": skipped.",
+        "WeatherUpdated": "Weather effects updated on all actors!",
+        "NoSpeciesPack": "Enable at least one species compendium in the Compendium Browser settings.",
+        "SettingsSaved": "Settings saved",
+        "InvalidFolder": "Invalid folder",
+        "InvalidPartyFile": "Invalid file type. Please select a PTU Party file.",
+        "TrainingTooHigh": "{name} is too high level ({level}) for training. Maximum level: {cap}",
+        "NoCombat": "No combat active",
+        "NoToken": "No token found",
+        "NoActor": "{name} has no associated actor.",
+        "InvalidAmount": "Invalid amount",
+        "NoCharacter": "No Character was set for this user.",
+        "TooOldToMigrate": "Your PTU system data is from too old a Foundry version to be migrated reliably. The migration will be attempted, but errors may occur.",
+        "DexSyncing": "Syncing Pokédexes...",
+        "DexSynced": "Pokédex sync complete!",
+        "TargetPokemon": "Please target a Pokémon",
+        "Rotom": {
+          "Select": "Select your Rotom on the canvas before running this macro.",
+          "Updating": "Updating Rotom...",
+          "NoSpecies": "Could not find the Rotom species",
+          "NoChange": "Update cancelled: no change detected.",
+          "Title": "Rotom Form Change",
+          "Question": "Which form should Rotom change into?",
+          "Form": {
+            "normal": "Normal",
+            "fan": "Fan",
+            "frost": "Frost",
+            "heat": "Heat",
+            "mow": "Mow",
+            "wash": "Wash"
+          }
+        }
+      },
+      "ItemSheet": {
+        "Tab": {
+          "Overview": "Overview",
+          "Details": "Details",
+          "Rules": "Rules",
+          "CapabilitiesOther": "Capabilities & Other",
+          "Moves": "Moves",
+          "Abilities": "Abilities"
+        },
+        "Abbr": {
+          "Keywords": "KEYWORDS",
+          "Frequency": "FREQ",
+          "Prerequisites": "PREREQ",
+          "Tier": "TIER",
+          "Dice": "DICE",
+          "Notes": "NOTES",
+          "FreeEdge": "FREE EDGE",
+          "FreeFeat": "FREE FEAT",
+          "Trigger": "TRIGGER",
+          "Cost": "COST",
+          "Active": "ACTIVE",
+          "AC": "AC",
+          "Range": "RANGE",
+          "DB": "DB",
+          "Contest": "CONTEST",
+          "Owned": "OWNED",
+          "DexEntry": "DEX ENTRY"
+        },
+        "HeldSlot": "Slot",
+        "HeldSlotHint": "On a Pokémon: 1 Held Item and 1 Found Item at most. Only passive Held Items grant their effects.",
+        "GeneratedAppeal": "Generated Appeal",
+        "Acquisition": "Acquisition",
+        "AcquisitionHint": "Natural = by level or egg. Technical = by TM or move tutor. 4 max of each.",
+        "AcquisitionNatural": "Natural (level / egg)",
+        "AcquisitionTechnical": "Technical (TM / tutor)",
+        "EditInTrainerSheet": "Please edit in the trainer sheet.",
+        "StatLabel": "{stat}:",
+        "Dice": "Dice"
+      },
+      "ItemList": {
+        "SlotsUsed": "Slots used:",
+        "Settings": "Settings",
+        "Add": "Add {type}",
+        "Roll": "Roll {name}",
+        "GrantedBy": "Granted by {name}",
+        "HasAutomation": "This item has automation!",
+        "DisabledAutomation": "This item has disabled automation!",
+        "DisableAutomation": "Disable Automation",
+        "EnableAutomation": "Enable Automation",
+        "Unequip": "Unequip Item",
+        "Equip": "Equip Item",
+        "SendToChat": "Send {type} to chat",
+        "Edit": "Edit {type}",
+        "Delete": "Delete {type}",
+        "DbDice": "DB: {db} ({dice})",
+        "Db": "DB: {db}",
+        "Ac": "AC: {ac}",
+        "Range": "Range {range}",
+        "ConditionOverridden": "Condition overridden",
+        "CollapseSubItems": "Collapse sub-items",
+        "Restriction": "Restriction",
+        "DropItem": "Drop item here",
+        "DropItems": "Drop items here",
+        "DeleteEvolutionItem": "Delete Evolution Item"
+      },
+      "Rules": {
+        "Multiple": "Multiple",
+        "Complex": "Complex",
+        "Single": "Single",
+        "ActorLevelDefault": "Actor Level (Default)",
+        "DomainAll": "Domain is 'all' if empty",
+        "RollOption": "Roll Option",
+        "ValueTrue": "Value is 'true' if empty",
+        "Uuid": "UUID",
+        "CopyToClipboard": "Copy to clipboard",
+        "SourceId": "Source ID",
+        "Source": "Source",
+        "Slug": "Slug",
+        "RegenerateSlug": "(Re)generate Slug",
+        "Enabled": "Enabled",
+        "DeleteRule": "Delete Rule"
+      },
+      "Modifiers": {
+        "AccuracyCheck": "Accuracy Check",
+        "AccuracyBonus": "Accuracy Bonus",
+        "Level": "Level Modifier",
+        "Hp": "HP Modifier",
+        "Shiny": "Shiny Modifier",
+        "Legendary": "Legendary Modifier",
+        "PersistentCondition": "{name} (persistent condition)",
+        "Condition": "{name} (condition)",
+        "Stage": "{stat} Stage Modifier",
+        "Pokeball": "Poké Ball Modifier",
+        "EffectRange": "Effect Range",
+        "CritRange": "Crit Range",
+        "Ac": "AC",
+        "Vulnerable": "Vulnerable",
+        "Flanked": "Flanked",
+        "DamageBase": "Damage Base",
+        "Stab": "STAB",
+        "SheetDamageBonus": "Sheet Damage Bonus",
+        "AttackOverwrite": "Attack Overwrite ({stat})",
+        "AttackStat": "Attack Stat",
+        "SpecialAttackStat": "Special Attack Stat",
+        "DamageBonus": "Damage Bonus",
+        "DamageBaseModifier": "Damage Base Modifier",
+        "SpeedStat": "Speed Stat",
+        "Initiative": "Initiative Modifier",
+        "Trainer": "Trainer",
+        "Paralysis": "Paralysis",
+        "Dc": "DC",
+        "FireType": "Fire Type",
+        "SunnyWeather": "Sunny Weather",
+        "ColdWeather": "Cold Weather",
+        "CombatStage": "CS {stat} ({stages})",
+        "SaveCheck": "Save Check Mod"
+      },
+      "Chat": {
+        "TargetDc": "{name}'s {dc}",
+        "Versus": "vs.",
+        "CritDoubles": "Crit Doubles Base Modifier",
+        "Damage": "{total} Damage",
+        "CritDamage": "{total} Crit Damage",
+        "NoEffect": "No effect was provided",
+        "Use": "Use",
+        "DcCalculation": "DC Calculation",
+        "ApplyCapture": "Apply Capture",
+        "ContestedCheck": "Contested Check",
+        "Icon": "Icon",
+        "Hit": "Hit",
+        "Crit": "Crit",
+        "Applicators": "Applicators",
+        "GainedEffects": "{target} gained the following effects:",
+        "StruggleRecoil": "{name} takes <b>{damage}</b> recoil damage from Struggle.",
+        "StruggleName": "Struggle ({type})",
+        "ConfusionCheck": "{actor} attempts a Confusion Check to use {move}",
+        "Poke": "{amount} Poké",
+        "Purchase": "Purchase",
+        "PurchaseTitle": "Purchase {name} ({cost} Poké)"
+      },
+      "Dialog": {
+        "Substitution": "Substitution",
+        "Roll": "Roll",
+        "Utilize": "Utilize?",
+        "UnnamedModifier": "Unnamed Modifier",
+        "Ok": "Ok"
+      },
+      "Frequency": {
+        "AtWill": "At-Will",
+        "Eot": "EOT",
+        "Scene": "1x Scene",
+        "Scene2": "2x S",
+        "Scene3": "3x S",
+        "Daily": "1x D",
+        "Daily2": "2x D",
+        "Daily3": "3x D",
+        "InvalidDb": "Not a valid DB"
+      },
+      "HelpText": {
+        "Range": "The range of the move is {range}m.",
+        "Target": "This move can target {target} target at once.",
+        "Targets": "This move can target {target} targets at once.",
+        "DamageBase": "This move has a Damage Base of {db} ({dice}).",
+        "Priority": "This move has Priority"
+      },
+      "Apps": {
+        "JsonFiles": "JSON Files",
+        "Dex": {
+          "Search": "Search",
+          "HideUnknown": "Hide Unknown",
+          "HideSeen": "Hide Seen",
+          "HideOwned": "Hide Owned",
+          "LeftClickHelp": "Left click a Pokémon to mark it from Unknown to Seen, or Seen to Owned",
+          "RightClickHelp": "Right click a Pokémon to mark it from Owned to Seen, or Seen to Unknown",
+          "NoResults": "No results found for \"{search}\"",
+          "Loading": "Loading the Pokédex..."
+        },
+        "LevelUp": {
+          "Title": "Level-Up Menu!",
+          "Header": "{name}'s Level Up. {from} ▶ {to}"
+        },
+        "NpcQuickBuild": {
+          "Title": "NPC Quick Build",
+          "Randomize": "Randomize",
+          "Warnings": "Validation Warnings",
+          "TrainerImage": "Trainer Image",
+          "FeatureItem": "Feature Item",
+          "EdgeItem": "Edge Item",
+          "SelectionFor": "Selection for {label}",
+          "RollTable": "Roll Table",
+          "BrowserSettings": "Compendium Browser Settings"
+        },
+        "Party": {
+          "Level": "Level: {level}",
+          "AverageLevel": "Average Level: {level}",
+          "DropActors": "Drop actors here",
+          "DropActor": "Drop actor here",
+          "Download": "Download Party",
+          "OverwriteTitle": "Overwrite Party",
+          "OverwriteContent": "It appears you're trying to import a party that already exists. Would you like to overwrite it?",
+          "ImportTrainer": "Importing Party: Trainer {name}",
+          "ImportParty": "Importing Party: Party Pokémon {name}",
+          "ImportBox": "Importing Party: Boxed Pokémon {name}",
+          "ImportDone": "Importing Party: Completed!"
+        },
+        "Training": {
+          "Total": "{instances} instances of {exp} EXP for a Total EXP of: {total}",
+          "Agility": "Agility Training",
+          "Brutal": "Brutal Training",
+          "Focused": "Focused Training",
+          "Inspired": "Inspired Training",
+          "Train": "Train!",
+          "Instances": "Instances",
+          "Completed": "{name} has completed their daily training!",
+          "TooHigh": "{name} is too high level ({level}) for training (cap: {cap})",
+          "Gained": "{name} gained {exp} EXP ({instances} instances), for a total of {total} EXP"
+        },
+        "MassGenerator": {
+          "Title": "Species Mass-Generator",
+          "Species": "Pokémon Species",
+          "Folder": "Folder Name"
+        },
+        "SpeciesDragIn": {
+          "Title": "Species Drag-In"
+        },
+        "TokenPanel": {
+          "Feats": "Features",
+          "Party": "{name}'s Party",
+          "DecreaseTitle": "Decrease {name}?",
+          "DeleteTitle": "Delete {name}?",
+          "DecreaseConfirm": "Are you sure you want to decrease {name}?",
+          "DeleteConfirm": "Are you sure you want to delete {name}?"
+        },
+        "Weather": {
+          "Title": "Weather",
+          "SendToChat": "Send Effect to chat",
+          "Delete": "Delete Effect"
+        },
+        "Browser": {
+          "DamageBase": "Damage Base {db}",
+          "DbShort": "DB:",
+          "Obsolete": "Obsolete"
+        },
+        "TypeSettings": {
+          "Instructions": "Double click a type to edit its settings, left click on an effectiveness to increase it, right click an effectiveness to decrease it."
+        },
+        "Token": {
+          "UnlinkedUnsupported": "Unlinked actors are not supported by the system"
+        },
+        "Tracker": {
+          "Exp": "{exp} EXP",
+          "ToggleActed": "Toggle Acted"
+        },
+        "InventoryConfig": {
+          "Title": "Inventory Configuration"
+        },
+        "SharedInventory": {
+          "Title": "Shared Inventory",
+          "Missing": "No shared inventory container in this world.",
+          "MissingGm": "It is created automatically the first time a GM loads the world. If it is missing, set the <code>Epopee Setup Version</code> setting to <code>0</code> and reload.",
+          "MissingPlayer": "Ask the GM to create it.",
+          "Help": "Drag items or Pokémon here from a sheet, or from here onto a sheet. The <i class=\"fas fa-hand-holding\"></i> button sends straight to the Trainer you control.",
+          "Items": "Items ({n})",
+          "Pokemon": "Pokémon ({n})",
+          "Open": "Open",
+          "Take": "Take",
+          "Remove": "Remove from the list",
+          "NoItems": "No items.",
+          "NoPokemon": "No Pokémon.",
+          "Level": "Lv. {level}",
+          "Stale": "{n} reference(s) to deleted Pokémon.",
+          "Prune": "Clean up",
+          "NoPermission": "You do not have permission to write to the shared inventory.",
+          "Stored": "{name} → shared inventory.",
+          "OnlyPokemon": "Only Pokémon can go in the shared inventory.",
+          "AlreadyThere": "{name} is already there.",
+          "NoTrainer": "You do not control any Trainer.",
+          "Recipient": "Recipient",
+          "SendTo": "Send to",
+          "Confirm": "Confirm",
+          "Sent": "{name} → {target}.",
+          "Pruned": "{n} dead reference(s) removed."
+        },
+        "Buttons": {
+          "ImportParty": "Import Party",
+          "Generator": "Pokémon Generator",
+          "Training": "Pokémon Training",
+          "Browser": "Compendium Browser",
+          "MassImport": "Mass Import"
+        },
+        "Origin": {
+          "Title": "Origin Choice",
+          "Intro": "Origin choice chain.",
+          "Label": "Origin",
+          "Name": "Origin Name",
+          "Choice": "Written Choice",
+          "ChoiceHint": "(shown in brackets)",
+          "Money": "Pokédollars",
+          "SkillAuto": "Raised Skill (automatic)",
+          "SkillPick": "Raised Skill (chosen)",
+          "FeatureCount": "Number of Origin Features",
+          "Description": "Appended description",
+          "Custom": "Other (to agree with the GM)…",
+          "Granted": "granted",
+          "StartingPokemon": "Starting Pokémon",
+          "Relationships": "Relationships",
+          "GrantedNow": "Granted right away",
+          "StartingMoney": "Starting money: <b>{money} ₽</b>",
+          "Trait": "Origin Feature — {name}",
+          "CustomChoice": "Specify your choice",
+          "StartingItems": "Starting items",
+          "StartingItemsList": "Starting items:",
+          "Narrative": "Story hooks",
+          "Source": "Origin: {name}",
+          "AlreadyApplied": "An Origin was already applied to this trainer (<b>{name}</b>). The money and items will not be granted again.",
+          "Unnamed": "unnamed",
+          "Compendiums": "Compendiums",
+          "FreeForm": "(free entry)",
+          "Applied": "Origin applied: {name}",
+          "AppliedAlready": " — starting kit already granted, nothing given again.",
+          "AppliedGrants": " — +{money} ₽, {n} entry(ies) added to the sheet.",
+          "AppliedMoney": " — +{money} ₽",
+          "AppliedFeatures": " — {n} Feature(s) to place",
+          "AppliedWasGranted": " (a starting kit had already been granted)"
+        }
+      },
+      "Setup": {
+        "Validate": "Confirm",
+        "Apply": "Apply",
+        "Place": "Place",
+        "NoneM": "(none)",
+        "NoneF": "(none)",
+        "Extended": "Extended duration",
+        "Environment": {
+          "Title": "Weather / Terrain / Zones",
+          "Weather": "Weather",
+          "Field": "Terrain",
+          "ExtendedHint": "Rock / Extender item held",
+          "Zones": "Zones (stackable):"
+        },
+        "Hazard": {
+          "Title": "Place a Hazard",
+          "Label": "Hazard",
+          "NoToken": "Target or select a token to mark the spot."
+        },
+        "Wall": {
+          "Title": "Place a Wall",
+          "Label": "Wall",
+          "Length": "Length (squares)",
+          "NoToken": "Target or select a token to mark where the wall starts."
+        },
+        "Quarter": {
+          "Title": "Advance one Travel Quarter",
+          "Progress": "<b>Progress:</b> {done} / {threshold} km",
+          "ProgressPlain": "Progress: {done} / {threshold} km",
+          "Threshold": "Hex exit threshold",
+          "ThresholdNear": "Start / near side / return (6 km)",
+          "ThresholdFar": "Far side (12 km)",
+          "Speed": "Party speed (km/h)",
+          "Multiplier": "Pace / mode multiplier",
+          "TracksTable": "Tracks table",
+          "LairTable": "Lair table",
+          "WanderTable": "Wandering table",
+          "Advance": "Advance",
+          "Covered": "Covered this quarter: <b>{km} km</b>",
+          "HalfHour": "Half-hour within the quarter: <b>{n}</b>",
+          "Exited": "<b>Hex exited.</b> Carried over: {km} km",
+          "Tracks": "Tracks",
+          "Lair": "Lair",
+          "Wander": "Wandering",
+          "Draw": "<b>{label}:</b> {text}",
+          "Card": "Travel"
+        },
+        "Recall": {
+          "NoToken": "Select or target the Pokémon recalled to its Poké Ball.",
+          "Purged": "{name}: statuses cleared — {list}",
+          "Nothing": "{name}: no status to clear."
+        },
+        "Block": {
+          "Title": "Add a narrative block",
+          "Field": "Block title",
+          "Confirm": "Add to every Trainer",
+          "NoTrainers": "No Trainer in this world.",
+          "Added": "Block \"{title}\" added to {n} Trainer(s)."
+        },
+        "WorldDone": "Pokémon Épopée: world setup complete ({n} step(s)). Details in the console.",
+        "WorldFailed": "Pokémon Épopée: automatic setup failed. The scripts in scripts/foundry-console/ remain available as a fallback."
+      },
+      "Settings": {
+        "InventoryCount": {
+          "Name": "Inventory Space: counting",
+          "Hint": "Per copy: 10 Potions take 10 slots. Per item: 10 Potions take 1 slot. Items marked Free Slot never count.",
+          "Copies": "Per copy (quantity)",
+          "Types": "Per item (one slot per line)"
+        },
+        "SkipRollDialog": {
+          "Name": "Skip roll dialog",
+          "Hint": "Skip the roll dialog and roll the dice right away."
+        },
+        "AutoRollDamage": {
+          "Name": "Auto roll damage",
+          "Hint": "Automatically roll damage when a move is used."
+        },
+        "TokenScale": {
+          "Name": "Scale Tokens According to Size",
+          "Hint": "If enabled, tokens are scaled to 1.0, or 0.6 for a small creature."
+        },
+        "TransferOwnership": {
+          "Name": "Transfer Ownership Preference",
+          "Hint": "When ownership of a Pokémon is transferred, also set default permissions for the other players?"
+        },
+        "CaptureParty": {
+          "Name": "Capture Default Party State",
+          "Hint": "When a Pokémon is captured, where should it go?",
+          "Party": "Party",
+          "Box": "Box",
+          "Available": "Available"
+        },
+        "DevMode": {
+          "Name": "Development Mode",
+          "Hint": "Enables behaviour that is undesirable in normal play but useful for development."
+        },
+        "SchemaVersion": {
+          "Name": "World Schema Version",
+          "Hint": "Records the schema version of this world's documents. Do not change it unless you know what you are doing."
+        },
+        "SetupVersion": {
+          "Name": "Epopee Setup Version",
+          "Hint": "Tracks which automatic setup steps have run in this world. Set to 0 to run the setup again."
+        },
+        "AnimDamage": {
+          "Name": "Play Animation on Damage Rolls",
+          "Hint": "Automatically play animations on damage rolls"
+        },
+        "AnimEffects": {
+          "Name": "Disable Active Effect Animations",
+          "Hint": "Disable Active Effect Animations"
+        },
+        "AnimAuras": {
+          "Name": "Disable Granted Aura Effects",
+          "Hint": "Disable Granted Aura Effects"
+        },
+        "AnimNested": {
+          "Name": "Disable Nested Effects",
+          "Hint": "Disable Nested Effects to save on performance"
+        },
+        "DexPermissions": {
+          "Disabled": "Disable Pokédex",
+          "DescriptionOnly": "Dex entry description only (basic description and details)",
+          "OwnedTokens": "Full details on owned Tokens",
+          "OwnedMons": "Full details on owned Pokémon (checks the trainer's Dex tab)",
+          "GmPrompt": "GM Prompt",
+          "Always": "Always Full Details"
         }
       }
     },

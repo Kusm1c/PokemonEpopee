@@ -6,12 +6,12 @@
             {{#each targets as |target|}}
                 <div class="dice-total">
                     <span class="num-total">{{@root/total}}</span>
-                    <span>vs.</span>
+                    <span>{{peLocalize "PTU.Epopee.Chat.Versus"}}</span>
                     <span>{{#unless target.isPrivate}}{{target.dc.value}}{{else}}?{{/unless}}</span>
                 </div>
                 <div class="img-row">
                     <img src="{{@root/self.img}}"/>
-                    <span>{{#if target.isPrivate}}???{{else}}{{target.name}}{{/if}}'s {{localize target.dc.slug}}</span>
+                    <span>{{#if target.isPrivate}}{{peLocalize "PTU.Epopee.Chat.TargetDc" name="???" dc=(localize target.dc.slug)}}{{else}}{{peLocalize "PTU.Epopee.Chat.TargetDc" name=target.name dc=(localize target.dc.slug)}}{{/if}}</span>
                     <img src="{{target.img}}"/>
                 </div>
                 {{#unless target.isPrivate}}
@@ -90,7 +90,7 @@
                         {{#each (split tag.value ",") as | range |}}
                             {{#if (helpText range)}}
                                 <div class="tag tooltip ball-themes gradient default range" title="{{helpText range}}">
-                                    <span>{{#if (isNumber range)}}Range {{/if}}{{range}}</span>
+                                    <span>{{#if (isNumber range)}}{{peLocalize "PTU.Epopee.ItemList.Range" range=range}}{{else}}{{range}}{{/if}}</span>
                                 </div>
                             {{else}}
                                 <div class="tag ball-themes gradient default range">

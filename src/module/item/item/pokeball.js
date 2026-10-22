@@ -3,6 +3,7 @@ import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { extractModifiers, extractRollSubstitutions } from "../../rules/helpers.js";
 import { PTUCheck } from "../../system/check/check.js";
 import { PTUItemItem } from "./document.js";
+import { localize } from "../../i18n.js";
 
 class PokeballItem extends PTUItemItem {
     get rollable() {
@@ -85,14 +86,14 @@ class PokeballItem extends PTUItemItem {
             const modifiers = [];
             modifiers.push(new PTUModifier({
                 slug: "accuracy-check",
-                label: "Accuracy Check",
+                label: localize("PTU.Epopee.Modifiers.AccuracyCheck"),
                 modifier: -this.ac
             }));
 
             if (this.actor.system.modifiers.acBonus.total != 0) {
                 modifiers.push(new PTUModifier({
                     slug: "accuracy-bonus",
-                    label: "Accuracy Bonus",
+                    label: localize("PTU.Epopee.Modifiers.AccuracyBonus"),
                     modifier: this.actor.system.modifiers.acBonus.total
                 }));
             }
@@ -164,14 +165,14 @@ class PokeballItem extends PTUItemItem {
                 // Level mods
                 DCModifiers.push(new PTUModifier({
                     slug: "level-modifier",
-                    label: "Level Modifier",
+                    label: localize("PTU.Epopee.Modifiers.Level"),
                     modifier: (-(target.actor.system?.level?.current ?? 0) * 2)
                 }));
 
                 // HP mods
                 DCModifiers.push(new PTUModifier({
                     slug: "hp-modifier",
-                    label: "HP Modifier",
+                    label: localize("PTU.Epopee.Modifiers.Hp"),
                     modifier: (() => {
                         const health = target.actor?.system?.health;
                         if (!health) return 0;
@@ -218,7 +219,7 @@ class PokeballItem extends PTUItemItem {
                 if (target.actor.system?.shiny) {
                     DCModifiers.push(new PTUModifier({
                         slug: "shiny-modifier",
-                        label: "Shiny Modifier",
+                        label: localize("PTU.Epopee.Modifiers.Shiny"),
                         modifier: -10
                     }));
                 }
@@ -228,7 +229,7 @@ class PokeballItem extends PTUItemItem {
                 if (target.actor.legendary) {
                     DCModifiers.push(new PTUModifier({
                         slug: "legendary-modifier",
-                        label: "Legendary Modifier",
+                        label: localize("PTU.Epopee.Modifiers.Legendary"),
                         modifier: -30
                     }));
                 }
@@ -241,14 +242,14 @@ class PokeballItem extends PTUItemItem {
                     if (condition.persistent) {
                         DCModifiers.push(new PTUModifier({
                             slug: condition.slug,
-                            label: `${condition.name} (persistent condition)`,
+                            label: localize("PTU.Epopee.Modifiers.PersistentCondition", { name: condition.name }),
                             modifier: 15
                         }));
                     }
                     else {
                         DCModifiers.push(new PTUModifier({
                             slug: condition.slug,
-                            label: `${condition.name} (condition)`,
+                            label: localize("PTU.Epopee.Modifiers.Condition", { name: condition.name }),
                             modifier: 8
                         }));
                     }
@@ -263,14 +264,14 @@ class PokeballItem extends PTUItemItem {
                     if (stat.stage?.total < 0) {
                         DCModifiers.push(new PTUModifier({
                             slug: stat.slug,
-                            label: `${stat.label} Stage Modifier`,
+                            label: localize("PTU.Epopee.Modifiers.Stage", { stat: stat.label }),
                             modifier: Math.abs(Number(stat.stage.total)) * 2
                         }));
                     }
                     else if (stat.stage?.total > 0) {
                         DCModifiers.push(new PTUModifier({
                             slug: stat.slug,
-                            label: `${stat.label} Stage Modifier`,
+                            label: localize("PTU.Epopee.Modifiers.Stage", { stat: stat.label }),
                             modifier: Number(stat.stage.total) * -2
                         }));
                     }
@@ -293,14 +294,14 @@ class PokeballItem extends PTUItemItem {
                 // Level mods
                 rollModifiers.push(new PTUModifier({
                     slug: "level-modifier",
-                    label: "Level Modifier",
+                    label: localize("PTU.Epopee.Modifiers.Level"),
                     modifier: (["data-revamp", "short-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? 2 : ["long-track"].includes(game.settings.get("pe", "variant.trainerAdvancement")) ? 0.5 : 1) * -this.actor.system.level.current
                 }));
 
                 // Item mods
                 rollModifiers.push(new PTUModifier({
                     slug: "ball-modifier",
-                    label: "Pokeball Modifier",
+                    label: localize("PTU.Epopee.Modifiers.Pokeball"),
                     modifier: this.modifier
                 }));
             }

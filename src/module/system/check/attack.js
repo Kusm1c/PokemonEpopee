@@ -5,6 +5,7 @@ import { ALL_STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { esquiveValue, precisionBonus } from "../../stats/secondary.js";
 import { ACCURACY_DIE } from "../../combat-math/config.js";
 import { PTUDiceCheck } from "./check.js";
+import { localize } from "../../i18n.js";
 import { AttackRoll } from "./rolls/attack-roll.js";
 
 class PTUAttackCheck extends PTUDiceCheck {
@@ -52,7 +53,7 @@ class PTUAttackCheck extends PTUDiceCheck {
         if (isNaN(Number(this.item.system.ac))) {
             this.modifiers.unshift(new PTUModifier({
                 slug: "accuracy-check",
-                label: "Accuracy Check",
+                label: localize("PTU.Epopee.Modifiers.AccuracyCheck"),
                 modifier: Infinity
             }));
         }
@@ -61,7 +62,7 @@ class PTUAttackCheck extends PTUDiceCheck {
         if (this.actor.system.modifiers.acBonus.total != 0) {
             this.modifiers.push(new PTUModifier({
                 slug: "accuracy-bonus",
-                label: "Accuracy Bonus",
+                label: localize("PTU.Epopee.Modifiers.AccuracyBonus"),
                 modifier: this.actor.system.modifiers.acBonus.total
             }));
         }
@@ -81,7 +82,7 @@ class PTUAttackCheck extends PTUDiceCheck {
         const critRangeModifiers = [
             new PTUModifier({
                 slug: "crit-range",
-                label: "Crit Range",
+                label: localize("PTU.Epopee.Modifiers.CritRange"),
                 modifier: this.actor.system.modifiers.critRange.total ?? 0
             }),
         ];
@@ -187,7 +188,7 @@ class PTUAttackCheck extends PTUDiceCheck {
                 if (Number.isFinite(ac)) {
                     target.statistic.push(new PTUModifier({
                         slug: "ac",
-                        label: "AC",
+                        label: localize("PTU.Epopee.Modifiers.Ac"),
                         modifier: ac
                     }));
                 }
@@ -196,7 +197,7 @@ class PTUAttackCheck extends PTUDiceCheck {
                 if (context.options.has("target:condition:vulnerable")) {
                     target.statistic.push(new PTUModifier({
                         slug: "vulnerable",
-                        label: "Vulnerable",
+                        label: localize("PTU.Epopee.Modifiers.Vulnerable"),
                         modifier: 0
                     }));
                 }
@@ -215,7 +216,7 @@ class PTUAttackCheck extends PTUDiceCheck {
                 if (context.options.has("target:flanked")) {
                     target.statistic.push(new PTUModifier({
                         slug: "flanked",
-                        label: "Flanked",
+                        label: localize("PTU.Epopee.Modifiers.Flanked"),
                         modifier: -2
                     }));
                 }

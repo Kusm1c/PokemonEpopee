@@ -1,4 +1,5 @@
 import { NpcQuickBuildData } from "./document.js";
+import { localize } from "../../i18n.js";
 // import {tagify} from "../../../util/tags.js";
 
 export class PTUNpcQuickBuild extends FormApplication {
@@ -9,7 +10,7 @@ export class PTUNpcQuickBuild extends FormApplication {
             template: "systems/pe/static/templates/apps/npc-quick-build-sheet.hbs",
             width: 660,
             height: "auto",
-            title: "NPC Quick Build",
+            title: localize("PTU.Epopee.Apps.NpcQuickBuild.Title"),
             submitOnChange: true,
             submitOnClose: true,
             closeOnSubmit: false,
@@ -49,7 +50,7 @@ export class PTUNpcQuickBuild extends FormApplication {
 
         // Add notes button
         buttons.unshift({
-            label: "Randomize",
+            label: localize("PTU.Epopee.Apps.NpcQuickBuild.Randomize"),
             class: "randomize",
             icon: "fas fa-dice",
             onclick: () => sheet.loading().then(()=>sheet.data.randomizeAll()).then(()=>sheet.renderAsync()).then(()=>this.disabled = false),
@@ -318,7 +319,7 @@ export class PTUNpcQuickBuild extends FormApplication {
     async close(options) {
         if (options?.properClose) {
             await this.data.finalize().then(()=>this.data.generate()).catch(err => {
-                ui.notifications.error("Could not generate the NPC! Check the dev console for more details.");
+                ui.notifications.error(localize("PTU.Epopee.Notify.NpcFailed"));
                 Hooks.onError("Application#close", err, {
                     msg: `An error occurred while closing ${this.constructor.name} ${this.appId}`,
                     log: "error",

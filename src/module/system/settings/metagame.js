@@ -6,12 +6,12 @@ const MetagameSettingsConfig = {
         hint: "PTU.Settings.Metagame.DexPermissions.Hint",
         type: Number,
         choices: {
-            1: "Disable Pokédex",
-            2: "Dexentry description only (Basic description and details only)",
-            3: "Full details on owned Tokens",
-            4: "Full details on owned Mons (checks trainer's dex tab)",
-            5: "GM Prompt",
-            6: "Always Full Details",
+            1: "PTU.Epopee.Settings.DexPermissions.Disabled",
+            2: "PTU.Epopee.Settings.DexPermissions.DescriptionOnly",
+            3: "PTU.Epopee.Settings.DexPermissions.OwnedTokens",
+            4: "PTU.Epopee.Settings.DexPermissions.OwnedMons",
+            5: "PTU.Epopee.Settings.DexPermissions.GmPrompt",
+            6: "PTU.Epopee.Settings.DexPermissions.Always",
         },
         default: 1
     },

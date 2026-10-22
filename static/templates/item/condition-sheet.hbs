@@ -2,9 +2,9 @@
 <form class="item-sheet {{cssClass}}" autocomplete="off">
     <header class="sheet-header sheet-tabs" data-group="primary" style="background: #AED3A2;">
         <nav class="tabs" data-group="primary">
-            <a class="item tooltip ball-themes nest" title="Overview" data-tab="overview"><i class="fas fa-house"></i></a>
-            <a class="item tooltip ball-themes nest" title="Details" data-tab="details"><i class="fas fa-gear"></i></a>
-            <a class="item tooltip ball-themes nest" title="Rules" data-tab="rules"><i class="fas fa-toolbox"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Overview"}}" data-tab="overview"><i class="fas fa-house"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Details"}}" data-tab="details"><i class="fas fa-gear"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Rules"}}" data-tab="rules"><i class="fas fa-toolbox"></i></a>
         </nav>
     </header>
 
@@ -15,7 +15,7 @@
                 name="name"
                 type="text"
                 value="{{item.name}}"
-                placeholder="Name"
+                placeholder="{{peLocalize "PTU.Epopee.Sheet.Name"}}"
                 {{#if editLocked}}disabled{{/if}}
             />
         </header>
@@ -30,7 +30,7 @@
                             name=""
                             type="text"
                             value="{{item.system.origin}}"
-                            placeholder="Origin"
+                            placeholder="{{localize "ITEM.Origin"}}"
                             disabled
                         />
                     </div>
@@ -40,7 +40,7 @@
                         <div class="move-info-col">
                             <div class="move-other-info mt-2">
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%">
-                                    KEYWORDS 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Keywords"}}
                                     <input 
                                         type="text" 
                                         class="pe-tagify system-keywords" 

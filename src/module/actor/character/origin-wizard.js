@@ -16,6 +16,7 @@
 
 import { getOrigins, getOrigin, resolveItemGrant } from "../../origins/data.js";
 import { findItemInCompendium } from "../../../util/misc.js";
+import { localize } from "../../i18n.js";
 
 /** Where the wizard looks for authored Origins, in order. */
 const ORIGIN_SOURCES = ["pe.origins", "pe.edges", "pe.feats"];
@@ -73,31 +74,31 @@ function renderDetail(origin, skillOptions) {
     if (!origin) {
         return `
             <div class="form-group">
-                <label>Nom de l'Origine</label>
+                <label>${localize("PTU.Epopee.Apps.Origin.Name")}</label>
                 <input type="text" name="origin-name" value=""/>
             </div>
             <div class="form-group">
-                <label>Choix Rédigé <span style="opacity:.6;">(apparaît entre crochets)</span></label>
+                <label>${localize("PTU.Epopee.Apps.Origin.Choice")} <span style="opacity:.6;">${localize("PTU.Epopee.Apps.Origin.ChoiceHint")}</span></label>
                 <input type="text" name="origin-choice" value=""/>
             </div>
             <div class="form-group">
-                <label>Pokédollars</label>
+                <label>${localize("PTU.Epopee.Apps.Origin.Money")}</label>
                 <input type="number" name="origin-money" value="0"/>
             </div>
             <div class="form-group">
-                <label>Compétence augmentée (auto)</label>
-                <select name="origin-skill-auto"><option value="">(aucune)</option>${skillOptions}</select>
+                <label>${localize("PTU.Epopee.Apps.Origin.SkillAuto")}</label>
+                <select name="origin-skill-auto"><option value="">${localize("PTU.Epopee.Setup.NoneF")}</option>${skillOptions}</select>
             </div>
             <div class="form-group">
-                <label>Compétence augmentée (au choix)</label>
-                <select name="origin-skill-pick"><option value="">(aucune)</option>${skillOptions}</select>
+                <label>${localize("PTU.Epopee.Apps.Origin.SkillPick")}</label>
+                <select name="origin-skill-pick"><option value="">${localize("PTU.Epopee.Setup.NoneF")}</option>${skillOptions}</select>
             </div>
             <div class="form-group">
-                <label>Nombre de Features de l'Origine</label>
+                <label>${localize("PTU.Epopee.Apps.Origin.FeatureCount")}</label>
                 <input type="number" name="origin-features" value="1"/>
             </div>
             <div class="form-group">
-                <label>Description concaténée</label>
+                <label>${localize("PTU.Epopee.Apps.Origin.Description")}</label>
                 <textarea name="origin-desc" rows="3"></textarea>
             </div>`;
     }
@@ -105,7 +106,7 @@ function renderDetail(origin, skillOptions) {
     const trait = origin.trait;
     const traitOptions = trait
         ? optionList(trait.choices)
-        + (trait.allowCustom ? `<option value="__custom__">Autre (à négocier avec le MJ)…</option>` : "")
+        + (trait.allowCustom ? `<option value="__custom__">${localize("PTU.Epopee.Apps.Origin.Custom")}</option>` : "")
         : "";
 
     const itemRows = origin.items.map((entry, index) => {
@@ -116,7 +117,7 @@ function renderDetail(origin, skillOptions) {
             if (entry.prompt) {
                 return `<input type="text" name="origin-item-${index}" placeholder="${escapeHtml(entry.prompt)}"/>`;
             }
-            return `<span style="flex:1;opacity:.7;">accordé</span>`;
+            return `<span style="flex:1;opacity:.7;">${localize("PTU.Epopee.Apps.Origin.Granted")}</span>`;
         })();
 
         return `
@@ -134,7 +135,7 @@ function renderDetail(origin, skillOptions) {
 
     const pokemon = origin.startingPokemon;
     const pokemonBlock = (pokemon.text || pokemon.examples.length) ? `
-        <p style="margin:6px 0 2px;font-weight:bold;">Pokémon de départ</p>
+        <p style="margin:6px 0 2px;font-weight:bold;">${localize("PTU.Epopee.Apps.Origin.StartingPokemon")}</p>
         ${pokemon.text ? `<p style="margin:0 0 4px;">${escapeHtml(pokemon.text)}</p>` : ""}
         ${pokemon.examples.length ? `<ul style="margin:0 0 6px 16px;padding:0;">
             ${pokemon.examples.map(e => `<li>${escapeHtml(e)}</li>`).join("")}
@@ -142,8 +143,8 @@ function renderDetail(origin, skillOptions) {
 
     const narrative = [
         pokemonBlock,
-        promptList("Personnalité", origin.personalityPrompts),
-        promptList("Relations", origin.relationshipPrompts)
+        promptList(localize("PTU.Personality"), origin.personalityPrompts),
+        promptList(localize("PTU.Epopee.Apps.Origin.Relationships"), origin.relationshipPrompts)
     ].join("");
 
     // Every section is optional. An Origin part-way through being written - a name, some
@@ -155,13 +156,13 @@ function renderDetail(origin, skillOptions) {
             ${origin.intro.map(p => `<p style="margin:0 0 6px;">${escapeHtml(p)}</p>`).join("")}
         </div>` : ""}
 
-        <p style="font-weight:bold;margin:0;">Accordé directement</p>
+        <p style="font-weight:bold;margin:0;">${localize("PTU.Epopee.Apps.Origin.GrantedNow")}</p>
         <p style="font-size:11px;margin:2px 0 8px;">
-            Argent de départ : <b>${origin.money.toLocaleString("fr-FR")} ₽</b>
+            ${localize("PTU.Epopee.Apps.Origin.StartingMoney", { money: origin.money.toLocaleString(game.i18n.lang) })}
         </p>
 
         ${trait ? `
-        <p style="font-weight:bold;margin:0;">Trait d'Origine — ${escapeHtml(trait.name)}</p>
+        <p style="font-weight:bold;margin:0;">${localize("PTU.Epopee.Apps.Origin.Trait", { name: escapeHtml(trait.name) })}</p>
         <div style="font-size:11px;opacity:.85;margin:2px 0 6px;">
             ${trait.description.map(p => `<p style="margin:0 0 4px;">${escapeHtml(p)}</p>`).join("")}
         </div>
@@ -171,19 +172,19 @@ function renderDetail(origin, skillOptions) {
             <select name="origin-trait">${traitOptions}</select>
         </div>
         <div class="form-group" data-custom-trait style="display:none;">
-            <label>Précise ton choix</label>
+            <label>${localize("PTU.Epopee.Apps.Origin.CustomChoice")}</label>
             <input type="text" name="origin-trait-custom" value=""/>
         </div>` : ""}` : ""}
 
         ${origin.items.length ? `
         <hr/>
-        <p style="font-weight:bold;margin:0 0 4px;">Objets de départ</p>
+        <p style="font-weight:bold;margin:0 0 4px;">${localize("PTU.Epopee.Apps.Origin.StartingItems")}</p>
         ${itemRows}` : ""}
 
         ${narrative ? `
         <hr/>
         <details>
-            <summary style="cursor:pointer;font-weight:bold;">Pistes narratives</summary>
+            <summary style="cursor:pointer;font-weight:bold;">${localize("PTU.Epopee.Apps.Origin.Narrative")}</summary>
             <div style="font-size:11px;opacity:.9;padding-top:4px;">${narrative}</div>
         </details>` : ""}`;
 }
@@ -198,11 +199,11 @@ function buildDescription(origin, traitChoice, itemLabels) {
 
     if (origin.trait) {
         const named = traitChoice ? `${origin.trait.name} [${traitChoice}]` : origin.trait.name;
-        lines.push("", `Trait d'Origine — ${named}`, ...origin.trait.description);
+        lines.push("", localize("PTU.Epopee.Apps.Origin.Trait", { name: named }), ...origin.trait.description);
     }
 
     if (itemLabels.length) {
-        lines.push("", "Objets de départ :", ...itemLabels.map(l => `• ${l}`));
+        lines.push("", localize("PTU.Epopee.Apps.Origin.StartingItemsList"), ...itemLabels.map(l => `• ${l}`));
     }
 
     return lines.join("\n");
@@ -228,7 +229,7 @@ async function applyGrants(actor, origin, traitChoice, grants) {
                 frequency: "Static",
                 free: true,
                 keywords: ["origine"],
-                source: { value: `Origine : ${origin.name}` }
+                source: { value: localize("PTU.Epopee.Apps.Origin.Source", { name: origin.name }) }
             },
             flags: { pe: { originGrant: origin.slug } }
         });
@@ -287,19 +288,17 @@ async function runOriginWizard(actor) {
     const authoredOptions = authored.map(o => `<option value="uuid:${o.uuid}">${escapeHtml(o.name)}</option>`).join("");
 
     const content = `
-        <p style="font-size:11px;opacity:.8;">Chaîne de choix d'Origine.</p>
+        <p style="font-size:11px;opacity:.8;">${localize("PTU.Epopee.Apps.Origin.Intro")}</p>
         ${alreadyGranted ? `
         <p style="font-size:11px;border:1px solid #a55;padding:4px;border-radius:3px;">
-            Une Origine a déjà été appliquée à ce dresseur
-            (<b>${escapeHtml(current.name || "sans nom")}</b>).
-            L'argent et les objets ne seront pas redonnés.
+            ${localize("PTU.Epopee.Apps.Origin.AlreadyApplied", { name: escapeHtml(current.name || localize("PTU.Epopee.Apps.Origin.Unnamed")) })}
         </p>` : ""}
         <div class="form-group">
-            <label>Origine</label>
+            <label>${localize("PTU.Epopee.Apps.Origin.Label")}</label>
             <select name="origin-key">
                 ${writtenOptions}
-                ${authoredOptions ? `<optgroup label="Compendiums">${authoredOptions}</optgroup>` : ""}
-                <option value="">(saisie libre)</option>
+                ${authoredOptions ? `<optgroup label="${localize("PTU.Epopee.Apps.Origin.Compendiums")}">${authoredOptions}</optgroup>` : ""}
+                <option value="">${localize("PTU.Epopee.Apps.Origin.FreeForm")}</option>
             </select>
         </div>
         <hr/>
@@ -309,9 +308,9 @@ async function runOriginWizard(actor) {
     const read = (html, name) => html.find(`[name="${name}"]`).val();
 
     const result = await Dialog.prompt({
-        title: "Choix d'Origine",
+        title: localize("PTU.Epopee.Apps.Origin.Title"),
         content,
-        label: "Appliquer",
+        label: localize("PTU.Epopee.Setup.Apply"),
         options: { width: 520 },
         render: (html) => {
             const detail = html.find("[data-origin-detail]");
@@ -404,10 +403,10 @@ async function applyWrittenOrigin(actor, result, alreadyGranted) {
 
     const label = traitChoice ? `${origin.name} [${traitChoice}]` : origin.name;
     ui.notifications.info(
-        `Origine appliquée : ${label}`
+        localize("PTU.Epopee.Apps.Origin.Applied", { name: label })
         + (alreadyGranted
-            ? " — dotation déjà accordée, rien n'a été redonné."
-            : ` — +${origin.money.toLocaleString("fr-FR")} ₽, ${granted} entrée(s) ajoutée(s) à la fiche.`)
+            ? localize("PTU.Epopee.Apps.Origin.AppliedAlready")
+            : localize("PTU.Epopee.Apps.Origin.AppliedGrants", { money: origin.money.toLocaleString(game.i18n.lang), n: granted }))
     );
 
     return result;
@@ -451,10 +450,10 @@ async function applyFreeFormOrigin(actor, result, alreadyGranted) {
 
     const label = result.choice ? `${result.name} [${result.choice}]` : result.name;
     ui.notifications.info(
-        `Origine appliquée : ${label || "(sans nom)"}`
-        + (result.money ? ` — +${result.money.toLocaleString("fr-FR")} ₽` : "")
-        + (result.features ? ` — ${result.features} Feature(s) à placer` : "")
-        + (alreadyGranted && result.money ? " (une dotation avait déjà été accordée)" : "")
+        localize("PTU.Epopee.Apps.Origin.Applied", { name: label || `(${localize("PTU.Epopee.Apps.Origin.Unnamed")})` })
+        + (result.money ? localize("PTU.Epopee.Apps.Origin.AppliedMoney", { money: result.money.toLocaleString(game.i18n.lang) }) : "")
+        + (result.features ? localize("PTU.Epopee.Apps.Origin.AppliedFeatures", { n: result.features }) : "")
+        + (alreadyGranted && result.money ? localize("PTU.Epopee.Apps.Origin.AppliedWasGranted") : "")
     );
 
     return result;

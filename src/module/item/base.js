@@ -1,4 +1,5 @@
 import { RuleElements } from "../rules/index.js";
+import { localize } from "../i18n.js";
 import { processGrantDeletions } from "../rules/rule-element/grant-item/helper.js";
 import { sluggify } from "../../util/misc.js"
 import { GrantItemRuleElement } from "../rules/rule-element/grant-item/rule-element.js";
@@ -221,7 +222,7 @@ class PTUItem extends Item {
 
         for (const source of sources) {
             if (!validTypes.includes(source.type)) {
-                ui.notifications.error(`PTU | ${source.type.capitalize()}s cannot be added to ${actor.name}`);
+                ui.notifications.error(localize("PTU.Epopee.Notify.CannotAdd", { type: game.i18n.localize(`TYPES.Item.${source.type}`), actor: actor.name }));
                 return [];
             }
 
@@ -370,7 +371,7 @@ class PTUItem extends Item {
     }
 
     async refreshFromCompendium() {
-        if (!this.isOwned) return ui.notifications.error("PTU | Item must be owned to refresh from compendium");
+        if (!this.isOwned) return ui.notifications.error(localize("PTU.Epopee.Notify.RefreshNotOwned"));
 
         if (!this.sourceId?.startsWith("Compendium.")) {
             console.warn("PTU | Item must be from a compendium to refresh from compendium");
@@ -379,8 +380,8 @@ class PTUItem extends Item {
 
         const currentSource = this.toObject();
         const latestSource = (await fromUuid(this.sourceId))?.toObject();
-        if (!latestSource) return ui.notifications.error("PTU | Could not find latest source for item");
-        else if (latestSource.type !== this.type) return ui.notifications.error("PTU | Item type must match latest source type");
+        if (!latestSource) return ui.notifications.error(localize("PTU.Epopee.Notify.RefreshNoSource"));
+        else if (latestSource.type !== this.type) return ui.notifications.error(localize("PTU.Epopee.Notify.RefreshTypeMismatch"));
 
         const updatedImage = currentSource.img.endsWith(".svg") ? latestSource.img : currentSource.img;
         const updates = {
@@ -395,7 +396,7 @@ class PTUItem extends Item {
         }
 
         await this.update(updates, { diff: false, recursive: false });
-        ui.notifications.info(`PTU | Item ${this.name} updated from compendium`);
+        ui.notifications.info(localize("PTU.Epopee.Notify.Refreshed", { name: this.name }));
     }
 
     async use(options = {}) {

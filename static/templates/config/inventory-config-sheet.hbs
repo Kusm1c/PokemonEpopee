@@ -10,17 +10,17 @@
             <div class="fb-33">
                 <div class="swsh-box h-100" data-column="one">
                     <div class="swsh-header justify-content-center ball-themes {{ballStyle}} highlight pt-2 pb-2 w-100">
-                        <b>Left Column</b>
+                        <b>{{peLocalize "PTU.Epopee.Inventory.LeftColumn"}}</b>
                     </div>
                     <div class="swsh-body p-0">
                         <ol class="item-list w-100" >
                             {{#each columns.one as | category|}}
                                 <li class="item category p-1" data-column="one" data-category="{{category}}" draggable="true">
                                     <div class="item-name">
-                                        <h4>{{category}}</h4>
+                                        <h4>{{peCategory category}}</h4>
                                     </div>
                                     <div class="item-controls" style="flex: 0 0 20px;">
-                                        <a class="item-control move-available" title="Move to Available"><i class="fas fa-arrow-right"></i></a>
+                                        <a class="item-control move-available" title="{{peLocalize "PTU.Epopee.Inventory.MoveToAvailable"}}"><i class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </li>
                             {{/each}}
@@ -32,20 +32,20 @@
             <div class="fb-33">
                 <div class="swsh-box h-100" data-column="available">
                     <div class="swsh-header justify-content-center ball-themes {{ballStyle}} highlight pt-2 pb-2 w-100">
-                        <b>Available</b>
+                        <b>{{peLocalize "PTU.Epopee.Inventory.Available"}}</b>
                     </div>
                     <div class="swsh-body p-0">
                         <ol class="item-list w-100" >
                             {{#each columns.available as | category|}}
                                 <li class="item category p-1" data-column="available" data-category="{{category}}" draggable="true">
                                     <div class="item-controls" style="flex: 0 0 20px;">
-                                        <a class="item-control move-one" title="Move to Available"><i class="fas fa-arrow-left"></i></a>
+                                        <a class="item-control move-one" title="{{peLocalize "PTU.Epopee.Inventory.MoveToLeft"}}"><i class="fas fa-arrow-left"></i></a>
                                     </div>
                                     <div class="item-name">
-                                        <h4>{{category}}</h4>
+                                        <h4>{{peCategory category}}</h4>
                                     </div>
                                     <div class="item-controls" style="flex: 0 0 20px;">
-                                        <a class="item-control move-two" title="Move to Available"><i class="fas fa-arrow-right"></i></a>
+                                        <a class="item-control move-two" title="{{peLocalize "PTU.Epopee.Inventory.MoveToRight"}}"><i class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </li>
                             {{/each}}
@@ -57,17 +57,17 @@
             <div class="fb-33">
                 <div class="swsh-box h-100" data-column="two">
                     <div class="swsh-header justify-content-center ball-themes {{ballStyle}} highlight pt-2 pb-2 w-100">
-                        <b>Right Column</b>
+                        <b>{{peLocalize "PTU.Epopee.Inventory.RightColumn"}}</b>
                     </div>
                     <div class="swsh-body p-0">
                         <ol class="item-list w-100" >
                             {{#each columns.two as | category|}}
                                 <li class="item category p-1" data-column="two" data-category="{{category}}" draggable="true">
                                     <div class="item-controls" style="flex: 0 0 20px;">
-                                        <a class="item-control move-available" title="Move to Available"><i class="fas fa-arrow-left"></i></a>
+                                        <a class="item-control move-available" title="{{peLocalize "PTU.Epopee.Inventory.MoveToAvailable"}}"><i class="fas fa-arrow-left"></i></a>
                                     </div>
                                     <div class="item-name">
-                                        <h4>{{category}}</h4>
+                                        <h4>{{peCategory category}}</h4>
                                     </div>
                                 </li>
                             {{/each}}

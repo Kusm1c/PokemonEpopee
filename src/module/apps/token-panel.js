@@ -1,3 +1,4 @@
+import { localize } from "../i18n.js";
 export class TokenPanel extends Application {
     get token() {
         return canvas.tokens.controlled.at(0)?.document ?? null;
@@ -101,13 +102,13 @@ export class TokenPanel extends Application {
 
         let movement = [];
         movement.push(
-            {name: "Overland", value: actor.system.capabilities?.overland ?? 0, icon: "fas fa-shoe-prints"},
-            {name: "Swim", value: actor.system.capabilities?.swim ?? 0, icon: "fas fa-swimmer"},
-            {name: "Burrow", value: actor.system.capabilities?.burrow ?? 0, icon: "fas fa-mountain"},
-            {name: "Levitate", value: actor.system.capabilities?.levitate ?? 0, icon: "fas fa-feather"},
-            {name: "Sky", value: actor.system.capabilities?.sky ?? 0, icon: "fab fa-fly"},
-            {name: "Teleporter", value: actor.system.capabilities?.teleporter ?? 0, icon: "fas fa-people-arrows"},
-            {name: "Throwing", value: actor.system.capabilities?.throwingRange ?? 0, icon: "fas fa-baseball-ball"},
+            {name: game.i18n.localize("overland"), value: actor.system.capabilities?.overland ?? 0, icon: "fas fa-shoe-prints"},
+            {name: game.i18n.localize("swim"), value: actor.system.capabilities?.swim ?? 0, icon: "fas fa-swimmer"},
+            {name: game.i18n.localize("burrow"), value: actor.system.capabilities?.burrow ?? 0, icon: "fas fa-mountain"},
+            {name: game.i18n.localize("levitate"), value: actor.system.capabilities?.levitate ?? 0, icon: "fas fa-feather"},
+            {name: game.i18n.localize("sky"), value: actor.system.capabilities?.sky ?? 0, icon: "fab fa-fly"},
+            {name: game.i18n.localize("teleporter"), value: actor.system.capabilities?.teleporter ?? 0, icon: "fas fa-people-arrows"},
+            {name: game.i18n.localize("throwingRange"), value: actor.system.capabilities?.throwingRange ?? 0, icon: "fas fa-baseball-ball"},
         );
 
         movement = movement.filter(item => item.value !== 0);
@@ -323,8 +324,8 @@ export class TokenPanel extends Application {
 
                 if (event.shiftKey) return item.decrease();
                 Dialog.confirm({
-                    title: `${(item.system.value?.value > 1) ? "Decrease" : "Delete"} ${item.name}?`,
-                    content: `<p>Are you sure you want to ${(item.system.value?.value > 1) ? "decrease" : "delete"} ${item.name}?</p>`,
+                    title: localize(item.system.value?.value > 1 ? "PTU.Epopee.Apps.TokenPanel.DecreaseTitle" : "PTU.Epopee.Apps.TokenPanel.DeleteTitle", { name: item.name }),
+                    content: `<p>${localize(item.system.value?.value > 1 ? "PTU.Epopee.Apps.TokenPanel.DecreaseConfirm" : "PTU.Epopee.Apps.TokenPanel.DeleteConfirm", { name: item.name })}</p>`,
                     yes: () => item.decrease(),
                     no: () => { },
                     defaultYes: false

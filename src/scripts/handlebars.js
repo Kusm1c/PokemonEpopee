@@ -14,6 +14,12 @@ function _registerPTUHelpers() {
     Handlebars.registerHelper("getGameSetting", function (key) { return game.settings.get("pe", key) });
     // Like `localize`, but a string the translators left as "tradFR" shows in English.
     Handlebars.registerHelper("peLocalize", function (key, options) { return localize(key, options?.hash); });
+    // Inventory categories are stored by name. The built-in ones show translated; one a
+    // player created shows as typed.
+    Handlebars.registerHelper("peCategory", function (category) {
+        const key = `PTU.Epopee.Inventory.Category.${category}`;
+        return game.i18n.has(key) ? localize(key) : category;
+    });
     Handlebars.registerHelper("getProperty", foundry.utils.getProperty); // native foundry function
 
     Handlebars.registerHelper("range", function (start, end) {
@@ -27,21 +33,21 @@ function _registerPTUHelpers() {
     Handlebars.registerHelper("shortFrequency", function (frequency) {
         switch (frequency.toLowerCase()) {
             case "at-will":
-                return "At-Will";
+                return localize("PTU.Epopee.Frequency.AtWill");
             case "eot":
-                return "EOT";
+                return localize("PTU.Epopee.Frequency.Eot");
             case "scene":
-                return "1x Scene";
+                return localize("PTU.Epopee.Frequency.Scene");
             case "scene x2":
-                return "2x S";
+                return localize("PTU.Epopee.Frequency.Scene2");
             case "scene x3":
-                return "3x S";
+                return localize("PTU.Epopee.Frequency.Scene3");
             case "daily":
-                return "1x D";
+                return localize("PTU.Epopee.Frequency.Daily");
             case "daily x2":
-                return "2x D";
+                return localize("PTU.Epopee.Frequency.Daily2");
             case "daily x3":
-                return "3x D";
+                return localize("PTU.Epopee.Frequency.Daily3");
             default:
                 return frequency;
         }
@@ -131,7 +137,7 @@ function _registerPTUHelpers() {
 
     Handlebars.registerHelper("moveDbToDice", (item, actor) => {
         const dbNumber = Number(item.damageBase.postStab ?? item);
-        if (isNaN(dbNumber)) return "Not a valid DB";
+        if (isNaN(dbNumber)) return localize("PTU.Epopee.Frequency.InvalidDb");
 
         const realDb = Math.clamp(dbNumber, 0, 28);
         const dbString = CONFIG.PTU.data.dbData[realDb];

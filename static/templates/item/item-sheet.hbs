@@ -2,9 +2,9 @@
 <form class="item-sheet {{cssClass}}" autocomplete="off">
     <header class="sheet-header sheet-tabs" data-group="primary" style="background: #AED3A2;">
         <nav class="tabs" data-group="primary">
-            <a class="item tooltip ball-themes nest" title="Overview" data-tab="overview"><i class="fas fa-house"></i></a>
-            <a class="item tooltip ball-themes nest" title="Details" data-tab="details"><i class="fas fa-gear"></i></a>
-            <a class="item tooltip ball-themes nest" title="Rules" data-tab="rules"><i class="fas fa-toolbox"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Overview"}}" data-tab="overview"><i class="fas fa-house"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Details"}}" data-tab="details"><i class="fas fa-gear"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Rules"}}" data-tab="rules"><i class="fas fa-toolbox"></i></a>
         </nav>
     </header>
 
@@ -15,7 +15,7 @@
                 name="name"
                 type="text"
                 value="{{item.name}}"
-                placeholder="Name"
+                placeholder="{{peLocalize "PTU.Epopee.Sheet.Name"}}"
                 {{#if editLocked}}disabled{{/if}}
             />
         </header>
@@ -30,7 +30,7 @@
                             name=""
                             type="text"
                             value="{{item.system.origin}}"
-                            placeholder="Origin"
+                            placeholder="{{localize "ITEM.Origin"}}"
                             disabled
                         />
                     </div>
@@ -41,7 +41,7 @@
                         <div class="move-info-col">
                             <div class="move-other-info mt-2">
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%;">
-                                    <span>Quantity</span> 
+                                    <span>{{localize "ITEM.Quantity"}}</span> 
                                     <input
                                         class="fb-80"
                                         name=""
@@ -52,13 +52,13 @@
                                     />
                                 </span>
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%;">
-                                    Cost 
+                                    {{localize "ITEM.Cost"}} 
                                     <span class="fb-80" style="font-weight: normal;">
                                         {{{itemCost}}}
                                     </span>
                                 </span>
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%">
-                                    Category 
+                                    {{localize "ITEM.Category"}} 
                                     <input
                                         class="fb-80"
                                         name=""
@@ -70,7 +70,7 @@
                                 </span>
                                 {{#if (is item.system.subtype "pokeball")}}
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%">
-                                    Modifier 
+                                    {{localize "ITEM.Modifier"}} 
                                     <input
                                         class="fb-80"
                                         name=""
@@ -82,7 +82,7 @@
                                 </span>
                                 {{/if}}
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%">
-                                    KEYWORDS 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Keywords"}}
                                     <input 
                                         type="text" 
                                         class="pe-tagify system-keywords" 
@@ -115,11 +115,11 @@
                 <input class="ml-1 mr-1" name="system.category" type="text" value="{{item.system.category}}" placeholder="{{localize "ITEM.Category"}}"/>
             </div>
             <div class="item-row">
-                <label for="system.heldSlot" title="Sur un Pokemon : 1 Objet Tenu et 1 Objet Trouve maximum. Seuls les Objets Tenus passifs conferent leurs effets.">Emplacement</label>
+                <label for="system.heldSlot" title="{{peLocalize "PTU.Epopee.ItemSheet.HeldSlotHint"}}">{{peLocalize "PTU.Epopee.ItemSheet.HeldSlot"}}</label>
                 <select class="ml-1 mr-1" name="system.heldSlot">
-                    <option value="" {{#if (is item.system.heldSlot "")}}selected{{/if}}>Porté (aucun effet)</option>
-                    <option value="held" {{#if (is item.system.heldSlot "held")}}selected{{/if}}>Objet Tenu</option>
-                    <option value="found" {{#if (is item.system.heldSlot "found")}}selected{{/if}}>Objet Trouvé</option>
+                    <option value="" {{#if (is item.system.heldSlot "")}}selected{{/if}}>{{peLocalize "PTU.Epopee.Sheet.Carried"}}</option>
+                    <option value="held" {{#if (is item.system.heldSlot "held")}}selected{{/if}}>{{peLocalize "PTU.Epopee.Sheet.HeldItem"}}</option>
+                    <option value="found" {{#if (is item.system.heldSlot "found")}}selected{{/if}}>{{peLocalize "PTU.Epopee.Sheet.FoundItem"}}</option>
                 </select>
             </div>
             <div class="item-row">
@@ -134,7 +134,7 @@
             {{/if}}
             <div class="item-row">
                 <label for="system.referenceEffect">{{localize "ITEM.ReferenceEffect"}}</label>
-                <span class="ml-1 mr-1 effect">{{#if referenceEffect}}{{{referenceEffect}}}{{else}}None{{/if}}</span>
+                <span class="ml-1 mr-1 effect">{{#if referenceEffect}}{{{referenceEffect}}}{{else}}{{localize "PTU.SelectNone"}}{{/if}}</span>
             </div>
             <div class="item-row">
                 <label for="system.effect">{{localize "ITEM.Effect"}}</label>

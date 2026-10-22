@@ -2,7 +2,7 @@
 <form class="move-sheet {{cssClass}}" autocomplete="off">
     {{!-- Sheet Header --}}
     <header class="header w-100 p-2">
-        <h3 class="pl-1">DEX ENTRY</h3>
+        <h3 class="pl-1">{{peLocalize "PTU.Epopee.ItemSheet.Abbr.DexEntry"}}</h3>
         <span class="lock-img pr-1">
             {{#if editLocked}}
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 43 51">
@@ -27,7 +27,7 @@
                         name="system.origin"
                         type="text"
                         value="{{item.system.origin}}"
-                        placeholder="Origin"
+                        placeholder="{{localize "ITEM.Origin"}}"
                         {{#if editLocked}}disabled{{/if}}
                     />
                 </div>
@@ -39,7 +39,7 @@
                         name="name"
                         type="text"
                         value="{{item.name}}"
-                        placeholder="Name"
+                        placeholder="{{peLocalize "PTU.Epopee.Sheet.Name"}}"
                         {{#if editLocked}}disabled{{/if}}
                     />
                 </div>
@@ -48,7 +48,7 @@
                     <div class="move-info-col">
                         <div class="move-other-info mt-2">
                             <span style="flex: 0 0 100%;">
-                                OWNED
+                                {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Owned"}}
                                 <input
                                     class="ml-2 mr-2"
                                     data-item-id="{{_id}}" 
@@ -56,7 +56,7 @@
                                     type="checkbox" {{checked item.system.owned}}
                                     disabled
                                 />
-                                <label for="system.owned"><span class="text-muted" style="word-break: break-word;">Please edit in trainer sheet.</span></label>
+                                <label for="system.owned"><span class="text-muted" style="word-break: break-word;">{{peLocalize "PTU.Epopee.ItemSheet.EditInTrainerSheet"}}</span></label>
                             </span>
                         </div>
                     </div>

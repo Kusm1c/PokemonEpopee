@@ -7,12 +7,12 @@
                 {{#each targets as |target|}}
                     <div class="dice-total">
                         <span class="num-total">{{@root/total}}</span>
-                        <span>vs.</span>
+                        <span>{{peLocalize "PTU.Epopee.Chat.Versus"}}</span>
                         <span>{{#unless target.isPrivate}}{{target.dc.value}}{{else}}?{{/unless}}</span>
                     </div>
                     <div class="img-row">
                         <img src="{{@root/self.img}}"/>
-                        <span>{{#if target.isPrivate}}???{{else}}{{target.name}}{{/if}}'s {{localize target.dc.slug}}</span>
+                        <span>{{#if target.isPrivate}}{{peLocalize "PTU.Epopee.Chat.TargetDc" name="???" dc=(localize target.dc.slug)}}{{else}}{{peLocalize "PTU.Epopee.Chat.TargetDc" name=target.name dc=(localize target.dc.slug)}}{{/if}}</span>
                         <img src="{{target.img}}"/>
                     </div>
                     {{#unless target.isPrivate}}
@@ -68,7 +68,7 @@
         {{#if contestedCheck}}
             <div class="flavor-text footer">
                 <div class="buttons">
-                    <button class="button contested-check" title="Contested-Check">Contested Check</button>
+                    <button class="button contested-check" title="{{peLocalize "PTU.Epopee.Chat.ContestedCheck"}}">{{peLocalize "PTU.Epopee.Chat.ContestedCheck"}}</button>
                 </div>
             </div>
         {{/if}}

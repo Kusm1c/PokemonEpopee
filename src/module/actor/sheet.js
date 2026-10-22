@@ -1,4 +1,5 @@
 import { ActorConfig } from "./sheet/actor-config.js";
+import { localize } from "../i18n.js";
 
 class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
     /** @override */
@@ -13,7 +14,7 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
         if (this.isEditable) {
             const index = buttons.findIndex((b) => b.class === "close");
             buttons.splice(index, 0, {
-                label: "Configure", // Top-level foundry localization key
+                label: localize("PTU.Epopee.Sheet.Button.Configure"),
                 class: "configure-creature",
                 icon: "fas fa-cog",
                 onclick: () => this._onConfigureActor(),
@@ -21,7 +22,7 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
 
             // Add a button to heal the character as if Pokecenter Healing was done
             buttons.unshift({
-                label: "Heal",
+                label: localize("PTU.Epopee.Sheet.Button.Heal"),
                 class: "heal-character",
                 icon: "fas fa-heart",
                 onclick: async () => {
@@ -32,13 +33,13 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
                     const totalHp = this.actor.system.health.total;
 
                     if (hp === totalHp) {
-                        return ui.notifications.info(`${this.actor.name} is already at full health!`);
+                        return ui.notifications.info(localize("PTU.Epopee.Notify.FullHealth", { name: this.actor.name }));
                     }
 
                     await this.actor.update({ "system.health.value": totalHp });
                     await ChatMessage.create({
                         speaker: { alias: this.actor.name },
-                        content: `${this.actor.name} was healed to full health! (${hp} -> ${totalHp})`
+                        content: localize("PTU.Epopee.Notify.Healed", { name: this.actor.name, from: hp, to: totalHp })
                     });
                 }
             })
@@ -46,7 +47,7 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
 
         // Add notes button
         buttons.unshift({
-            label: "Notes",
+            label: localize("PTU.Epopee.Sheet.Button.Notes"),
             class: "open-notes",
             icon: "fas fa-book",
             onclick: () => this.openNotes(),
@@ -88,7 +89,7 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
 
             return folder;
         })();
-        if (!folder) return ui.notifications.error("No folder found for world notes; Please ask your GM to login and not to delete the folder \"Actor Notes\"");
+        if (!folder) return ui.notifications.error(localize("PTU.Epopee.Notify.NoNotesFolder"));
 
         const journalEntry = await (async () => {
             const journalId = this.actor.getFlag("pe", "notesId");
@@ -136,13 +137,13 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
         // Case 1 - Money
         if (data.type === "pokedollar") {
             const amount = parseInt(data.data.amount);
-            if (!amount) return ui.notifications.error("Invalid amount of money dropped");
+            if (!amount) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidMoney"));
 
             if (data.data.item) {
                 const item = await fromUuid(data.data.item);
-                if (!item) return ui.notifications.error("Invalid item dropped");
+                if (!item) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidItem"));
 
-                if ((actor.system.money ?? 0) < amount) return ui.notifications.error(`${actor.name} does not have enough money to pay for ${item.name} (Cost: ${amount} Poké, Current: ${actor.system.money})`);
+                if ((actor.system.money ?? 0) < amount) return ui.notifications.error(localize("PTU.Epopee.Notify.NotEnoughMoney", { actor: actor.name, item: item.name, cost: amount, money: actor.system.money }));
                 await actor.update({
                     "system.money": actor.system.money - amount,
                 });
@@ -155,17 +156,17 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
                 else {
                     await Item.create(item.toObject(), { parent: actor });
                 }
-                return ui.notifications.info(`${actor.name} Paid ${amount} Poké for ${item.name} (New Total: ${actor.system.money})`);
+                return ui.notifications.info(localize("PTU.Epopee.Notify.Paid", { actor: actor.name, item: item.name, cost: amount, money: actor.system.money }));
             }
             await actor.update({
                 "system.money": actor.system.money + amount
             });
-            return ui.notifications.info(`${actor.name} Gained ${amount} Poké (New Total: ${actor.system.money})`);
+            return ui.notifications.info(localize("PTU.Epopee.Notify.Gained", { actor: actor.name, amount, money: actor.system.money }));
         }
         // Case 2 - Items (including effects and conditions)
         else if (data.type === "Item" && data.uuid) {
             const item = await fromUuid(data.uuid);
-            if (!item) return ui.notifications.error("Invalid item dropped");
+            if (!item) return ui.notifications.error(localize("PTU.Epopee.Notify.InvalidItem"));
 
             // Special handling for effects and conditions
             if (item.type === "effect" || item.type === "condition") {
@@ -173,15 +174,15 @@ class PTUActorSheet extends foundry.appv1.sheets.ActorSheet {
                     // Check if the item has an apply method (for effects/conditions)
                     if (typeof item.apply === "function") {
                         await item.apply([actor]);
-                        return ui.notifications.info(`Applied ${item.name} to ${actor.name}`);
+                        return ui.notifications.info(localize("PTU.Epopee.Notify.Applied", { item: item.name, actor: actor.name }));
                     } else {
                         // Fallback: create the item on the actor
                         await actor.createEmbeddedDocuments("Item", [item.toObject()]);
-                        return ui.notifications.info(`Added ${item.name} to ${actor.name}`);
+                        return ui.notifications.info(localize("PTU.Epopee.Notify.Added", { item: item.name, actor: actor.name }));
                     }
                 } catch (error) {
                     console.error("PTU | Error applying effect/condition:", error);
-                    ui.notifications.error(`Failed to apply ${item.name} to ${actor.name}`);
+                    ui.notifications.error(localize("PTU.Epopee.Notify.ApplyFailed", { item: item.name, actor: actor.name }));
                     return false;
                 }
             }

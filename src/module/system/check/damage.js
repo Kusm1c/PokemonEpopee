@@ -6,6 +6,7 @@ import { PTUMove } from "../../item/index.js";
 import { DamageRoll } from "../damage/roll.js";
 import { PTUDiceCheck, eventToRollParams } from "./check.js";
 import { CheckDialog } from "./dialogs/dialog.js";
+import { localize } from "../../i18n.js";
 
 class PTUDamageCheck extends PTUDiceCheck {
 
@@ -65,7 +66,7 @@ class PTUDamageCheck extends PTUDiceCheck {
         const damageBaseModifiers = [
             new PTUModifier({
                 slug: "damage-base",
-                label: "Damage Base",
+                label: localize("PTU.Epopee.Modifiers.DamageBase"),
                 modifier: this.item.damageBase.preStab,
             })
         ]
@@ -89,7 +90,7 @@ class PTUDamageCheck extends PTUDiceCheck {
         if (this.item.system.isStruggle || this.item.damageBase?.isStab) {
             modifiers.push(new PTUModifier({
                 slug: "epopee-stab",
-                label: "STAB",
+                label: localize("PTU.Epopee.Modifiers.Stab"),
                 modifier: stabValue(epopeeLevel),
             }));
         }
@@ -98,7 +99,7 @@ class PTUDamageCheck extends PTUDiceCheck {
         if (damageBonus != 0) {
             modifiers.push(new PTUModifier({
                 slug: "damage-bonus",
-                label: "Sheet Damage Bonus",
+                label: localize("PTU.Epopee.Modifiers.SheetDamageBonus"),
                 modifier: damageBonus,
             }));
         }
@@ -109,7 +110,7 @@ class PTUDamageCheck extends PTUDiceCheck {
             const value = this.actor.system.stats[stat]?.total ?? 0;
             modifiers.push(new PTUModifier({
                 slug: "attack-overwrite",
-                label: `Attack Overwrite (${stat})`,
+                label: localize("PTU.Epopee.Modifiers.AttackOverwrite", { stat }),
                 modifier: value,
             }));
         }
@@ -128,7 +129,7 @@ class PTUDamageCheck extends PTUDiceCheck {
                 if (this.actor.system.modifiers.damageBonus.physical?.total != 0) {
                     modifiers.push(new PTUModifier({
                         slug: "physical-damage-bonus",
-                        label: "Attack Stat",
+                        label: localize("PTU.Epopee.Modifiers.AttackStat"),
                         modifier: this.actor.system.modifiers.damageBonus.physical.total,
                     }));
                 }
@@ -143,7 +144,7 @@ class PTUDamageCheck extends PTUDiceCheck {
                 if (this.actor.system.modifiers.damageBonus.special?.total != 0) {
                     modifiers.push(new PTUModifier({
                         slug: "special-damage-bonus",
-                        label: "Attack Stat",
+                        label: localize("PTU.Epopee.Modifiers.AttackStat"),
                         modifier: this.actor.system.modifiers.damageBonus.special.total,
                     }));
                 }
@@ -258,7 +259,7 @@ class PTUDamageCheck extends PTUDiceCheck {
                     [
                         new PTUModifier({
                             slug: "damage-base",
-                            label: "Damage Base",
+                            label: localize("PTU.Epopee.Modifiers.DamageBase"),
                             modifier: newBaseDb,
                         }),
                         ...otherModifiers
@@ -276,7 +277,7 @@ class PTUDamageCheck extends PTUDiceCheck {
             return db;
         })();
         if (!dice) {
-            ui.notifications.error("Invalid DamageBase!");
+            ui.notifications.error(localize("PTU.Epopee.Notify.InvalidDamageBase"));
             return null;
         }
 
@@ -305,7 +306,7 @@ class PTUDamageCheck extends PTUDiceCheck {
 
         this.statistic.push(new PTUModifier({
             slug: "damage-base-modifier",
-            label: "Damage Base Modifier",
+            label: localize("PTU.Epopee.Modifiers.DamageBaseModifier"),
             modifier: diceModifier,
         }))
 

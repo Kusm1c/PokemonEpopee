@@ -1,4 +1,5 @@
 import { PTUItemSheet } from "../index.js";
+import { localize } from "../../i18n.js";
 
 class PTUSpeciesSheet extends PTUItemSheet {
     /** @override */
@@ -48,7 +49,7 @@ class PTUSpeciesSheet extends PTUItemSheet {
                     return "entry";
                 }
                 case 5: {
-                    ui.notifications.warn("GM Prompt is not implemented, showing basic view.");
+                    ui.notifications.warn(localize("PTU.Epopee.Notify.GmPromptMissing"));
                     return "entry";
                 }
                 case 6: return "full";

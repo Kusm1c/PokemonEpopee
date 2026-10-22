@@ -64,8 +64,8 @@
     "TypeSpiritActionPlural": "Esprit Actions",
     "Modifier": "Modificateur",
     "ShowInTokenPanel": "Afficher dans le panneau du Jeton",
-    "FreeSlot": "tradFR",
-    "FreeSlotHint": "tradFR",
+    "FreeSlot": "Emplacement gratuit",
+    "FreeSlotHint": "Ne compte pas dans l'Espace d'Inventaire du Dresseur.",
     "Dice": "Dés De Base",
     "Snippet": "Extrait d'effet",
     "Keywords": "Mots-clés",
@@ -83,7 +83,9 @@
         "TurnEnd": "Fin du tour",
         "RoundStart": "Début du round"
       }
-    }
+    },
+    "Trigger": "Déclencheur",
+    "ActiveAction": "Action active"
   },
   "SPECIES.Height": "Taille",
   "SPECIES.Weight": "Poids",
@@ -219,8 +221,8 @@
         "Composed": "Posé"
       },
       "Usage": {
-        "Exhausted": "tradFR",
-        "ExhaustedGm": "tradFR"
+        "Exhausted": "{name} n'a plus d'utilisation ({frequency}).",
+        "ExhaustedGm": "{name} n'a plus d'utilisation ({frequency}). Lancé quand même : tu es MJ."
       },
       "Travel": {
         "GmOnly": "MJ Seulement",
@@ -264,10 +266,10 @@
           "ForageDC": "DD de Forage",
           "Condition": "Condition",
           "Modifier": "Modifier",
-          "PacesTitle": "tradFR",
-          "Pace": "tradFR",
-          "Speed": "tradFR",
-          "Effects": "tradFR"
+          "PacesTitle": "Modes de Déplacement",
+          "Pace": "Mode",
+          "Speed": "Vitesse",
+          "Effects": "Effets"
         },
         "Navigation": {
           "Title": "Jet de Navigation",
@@ -295,12 +297,12 @@
           "Deviation": "Déviation",
           "Success": "Réussite : le groupe continue son chemin",
           "Failure": "Échec : le groupe est perdu :cccccccc",
-          "Pace": "tradFR",
-          "PaceModifier": "tradFR",
-          "PaceRollTwice": "tradFR",
-          "PaceNoEffect": "tradFR",
-          "Rolls": "tradFR",
-          "RollsBest": "tradFR"
+          "Pace": "Mode de déplacement",
+          "PaceModifier": "{value} au jet.",
+          "PaceRollTwice": "Lancé deux fois, meilleur résultat gardé.",
+          "PaceNoEffect": "Aucun effet sur le jet.",
+          "Rolls": "Jets",
+          "RollsBest": "{rolls} (meilleur gardé)"
         },
         "Journey": {
           "Title": "Voyage",
@@ -308,7 +310,7 @@
           "Path": "Trajet",
           "Condition": "Condition",
           "Duration": "Durée (heures)",
-          "Pace": "tradFR",
+          "Pace": "Mode de déplacement",
           "Distance": "Distance",
           "KmPerHour": "{value} km/h",
           "Confirm": "Confirmer",
@@ -316,26 +318,26 @@
           "CardDistance": "Distance traversée : {km} km",
           "ProgressKm": "{done} / {planned} km",
           "ProgressHours": "{done} / {planned} h",
-          "PaceOption": "tradFR",
-          "FinalPace": "tradFR",
-          "Hours": "tradFR"
+          "PaceOption": "{name} ({value} km/h)",
+          "FinalPace": "Vitesse finale",
+          "Hours": "{hours} h"
         },
         "Pace": {
           "exploration": {
-            "Name": "tradFR",
-            "Effect": "tradFR"
+            "Name": "Exploration",
+            "Effect": "Très lent. Navigation lancée deux fois, meilleur résultat gardé. Deux fois plus de chances de rencontre. Pas de jet de Discrétion pour éviter d'être repéré."
           },
           "slow": {
-            "Name": "tradFR",
-            "Effect": "tradFR"
+            "Name": "Lent",
+            "Effect": "Lent. Navigation lancée deux fois, meilleur résultat gardé. Jets de Discrétion autorisés pour éviter d'être repéré. -50 % de chances de rencontres non exploratoires."
           },
           "normal": {
-            "Name": "tradFR",
-            "Effect": "tradFR"
+            "Name": "Normal",
+            "Effect": "Vitesse normale. Pas de jet de Discrétion pour éviter d'être repéré."
           },
           "fast": {
-            "Name": "tradFR",
-            "Effect": "tradFR"
+            "Name": "Rapide",
+            "Effect": "Rapide. -20 aux jets de Navigation et de Perception. Pas de jet de Discrétion pour éviter d'être repéré."
           }
         }
       },
@@ -351,20 +353,20 @@
       },
       "Environment": {
         "Weather": {
-          "sunny": "Ensoleillé",
+          "sunny": "Soleil",
           "rainy": "Pluie",
           "sandstorm": "Tempête de sable",
-          "snowstorm": "Tempête de neige",
+          "snowstorm": "Neige",
           "mist": "Brume"
         },
         "Field": {
           "electric": "Champ Électrifié",
           "misty": "Champ Brumeux",
-          "grassy": "Champ Herbeux",
+          "grassy": "Champ Herbu",
           "psychic": "Champ Psychique"
         },
         "Zone": {
-          "plasma-flood": "Inondation de Plasma",
+          "plasma-flood": "Déluge Plasmique",
           "distortion": "Distorsion",
           "gravity": "Gravité",
           "magic-room": "Zone Magique",
@@ -378,6 +380,32 @@
           "FieldEnd": "{name} disparait.",
           "ZoneStart": "{name} est désormais active.",
           "ZoneEnd": "{name} n'est plus active."
+        },
+        "Hazard": {
+          "sticky-web": "Toile Gluante",
+          "spikes": "Picots",
+          "toxic-spikes": "Pics Toxik",
+          "rock-trap": "Piège de Roc",
+          "sharp-trap": "Piège Tranchant"
+        },
+        "Wall": {
+          "protect": "Abri",
+          "light-wall": "Mur Lumière",
+          "rune-protect": "Rune Protect",
+          "fog-wall": "Mur de Brume",
+          "telekinesis-wall": "Mur Télékinétique"
+        },
+        "Hazards": {
+          "MaxStacks": "{name} est déjà au maximum de couches sur cette case.",
+          "DamageRoll": "{name} : jet de dégâts",
+          "PoisonManual": "{actor} doit recevoir le statut Empoisonné à la main ({name} : intensité {n}).",
+          "Triggers": "<strong>{actor}</strong> déclenche {name}.",
+          "TriggeredTitle": "Danger déclenché",
+          "TriggeredContent": "{token} est à portée de <strong>{name}</strong>. Activer son effet ?"
+        },
+        "Walls": {
+          "Placed": "<strong>{name}</strong> est posé sur le terrain.",
+          "Crumbles": "<strong>{name}</strong> s'effondre."
         }
       },
       "Status": {
@@ -509,7 +537,678 @@
             "complete": "Le Statut est soigné."
           }
         }
-      }
+      },
+      "StatShort": {
+        "hp": "PV",
+        "atk": "ATQ",
+        "def": "DÉF",
+        "spatk": "ATQ SPÉ",
+        "spdef": "DÉF SPÉ",
+        "spd": "VIT"
+      },
+      "Sheet": {
+        "FragAbbr": "Frag",
+        "CombatStagesAbbr": "MdS",
+        "StatFragmentHint": "Fragment de {stat} (25 %)",
+        "StatFragmentShort": "Fragment de {stat}",
+        "GaugeHint": "MdS : {current} ({dice})",
+        "Name": "Nom",
+        "TempHp": "PV temp.",
+        "CurrentHp": "PV actuels",
+        "MaxHp": "PV max",
+        "HpFragmentHint": "Fragment de PV : 1/20e des PV max, arrondi au supérieur",
+        "HpFragment": "Fragment de PV",
+        "Stab": "STAB",
+        "StabHint": "STAB = 5 + (Niveau / 5)",
+        "TrainingDC": "DD d'Entraînement",
+        "TrainingDCHint": "Difficulté d'Entraînement",
+        "TrainingRollHint": "Lancer 1d100 contre la Difficulté d'Entraînement",
+        "LoyaltyCell": "Loyauté {n}",
+        "ContestAppeal": "Attrait",
+        "ContestTags": "Tags de Concours",
+        "NaturalOver": "{count} / {max} Capacités Naturelles — au-dessus de la limite",
+        "NaturalTitle": "Capacités Naturelles ({count}/{max})",
+        "TechnicalOver": "{count} / {max} Capacités Techniques — au-dessus de la limite",
+        "TechnicalTitle": "Capacités Techniques ({count}/{max})",
+        "ListOrderPokemonHint": "Inverse l'ordre des listes de Capacités et de Compétences",
+        "ListOrderTrainerHint": "Fait tourner l'ordre des listes : Capacités, Compétences, Objets",
+        "ListOrderLabel": "Capacités / Objets / Compétences",
+        "ContestModeHint": "Bascule la liste des Capacités en Mode Concours",
+        "ContestModeOn": "Mode Concours",
+        "ContestModeOff": "Quitter le Mode Concours",
+        "HeldOver": "{count} Objets Tenus — 1 maximum",
+        "FoundOver": "{count} Objets Trouvés — 1 maximum",
+        "HeldItem": "Objet Tenu",
+        "FoundItem": "Objet Trouvé",
+        "FoundItemHint": "Objet Trouvé (part au dresseur en fin de scène)",
+        "Carried": "Porté (aucun effet)",
+        "Moments": "Moments de Brillance",
+        "AddMoment": "Ajouter un Moment",
+        "DeleteMoment": "Supprimer le Moment",
+        "Flavours": "Goûts",
+        "FlavoursNeutral": "Aucune préférence (nature neutre)",
+        "Liked": "Préféré",
+        "Disliked": "Détesté",
+        "PhysicalTraits": "Traits physiques",
+        "Motivations": "Motivations et centres d'intérêt",
+        "CaptureContext": "Contexte de capture",
+        "PreCampaignLore": "Lore pré-campagne",
+        "Experience": "Expérience",
+        "Gender": "Genre",
+        "Pending": "À faire :",
+        "PendingStats": "{n} stat(s) à répartir.",
+        "PendingFeats": "{n} trait(s) à placer.",
+        "PendingEdges": "{n} atout(s) à choisir.",
+        "InventorySpace": "Espace d'Inventaire",
+        "InventorySpaceHint": "Emplacements d'inventaire utilisés",
+        "MaxControl": "Contrôle max",
+        "MaxControlHint": "Niveau maximum des Pokémon contrôlables",
+        "MaxControlAuto": "auto",
+        "MaxControlOverrideHint": "Laisser vide pour suivre le niveau du Dresseur",
+        "Identity": "Identité",
+        "Height": "Taille",
+        "Weight": "Poids",
+        "Age": "Âge",
+        "ChooseOrigin": "Choisir une Origine",
+        "TotalWorth": "Valeur totale",
+        "CategoryTitle": "{items} : {category}",
+        "Honours": "Honneurs",
+        "AddHonour": "Ajouter un Honneur",
+        "NoHonours": "Aucun Honneur.",
+        "Delete": "Supprimer",
+        "PhysicalDescription": "Description physique",
+        "CharacterTraits": "Traits de caractère",
+        "Goals": "Objectifs",
+        "Connections": "Connexions aux autres PJ",
+        "FreeBlocks": "Blocs libres",
+        "AddBlock": "Ajouter un bloc",
+        "NewBlock": "Nouveau bloc",
+        "MoveUp": "Monter",
+        "MoveDown": "Descendre",
+        "NoBlocks": "Aucun bloc libre.",
+        "HideExperience": "Masquer l'Expérience",
+        "AccuracyModifier": "Modificateur de Précision",
+        "AccuracyModifierLabel": "avec un modificateur de Précision de {value}",
+        "Button": {
+          "Rest": "Repos",
+          "EndOfScene": "Fin de Scène",
+          "Training": "Entraînement",
+          "Party": "Équipe",
+          "Dex": "Pokédex",
+          "Heal": "Soigner",
+          "Notes": "Notes",
+          "Configure": "Configurer"
+        },
+        "Menu": {
+          "Roll": "Lancer",
+          "SendToChat": "Envoyer dans le chat",
+          "Edit": "Modifier",
+          "Delete": "Supprimer"
+        },
+        "Training": {
+          "Title": "Entraînement : {name}",
+          "Difficulty": "Difficulté d'Entraînement <b>{dc}</b>",
+          "Roll": "Jet",
+          "Player": "Joueur",
+          "Success": "Réussite",
+          "Failure": "Échec",
+          "Passed": "Entraînement réussi.",
+          "Failed": "Entraînement raté.",
+          "Wildcards": "Les modificateurs wildcard (Traits, Objets) sont à appliquer à la main."
+        }
+      },
+      "Inventory": {
+        "Category": {
+          "Temporaire": "Temporaire",
+          "Key": "Objets rares",
+          "Medical": "Médicaments",
+          "Misc": "Divers",
+          "Pokemon Items": "Objets Pokémon",
+          "PokeBalls": "Poké Balls",
+          "TMs": "CT",
+          "Money": "Argent",
+          "Equipment": "Équipement",
+          "Food": "Nourriture"
+        },
+        "LeftColumn": "Colonne de gauche",
+        "RightColumn": "Colonne de droite",
+        "Available": "Disponibles",
+        "MoveToAvailable": "Déplacer vers Disponibles",
+        "MoveToLeft": "Déplacer vers la colonne de gauche",
+        "MoveToRight": "Déplacer vers la colonne de droite"
+      },
+      "Notify": {
+        "RestHealedRefilled": "{name} : {heal} PV soignés, {n} utilisation(s) par jour/scène rechargée(s).",
+        "RestHealed": "{name} : {heal} PV soignés. Rien à recharger.",
+        "SceneRefilled": "{name} : {n} utilisation(s) par scène rechargée(s) - {list}.",
+        "SceneNothing": "{name} : aucune utilisation par scène à recharger.",
+        "SceneRefilledPart": "{n} utilisation(s) par scène rechargée(s)",
+        "SceneHandedPart": "{list} remis au dresseur",
+        "SceneSummary": "{name} : {parts}.",
+        "SceneNothingPokemon": "{name} : rien à faire en fin de scène.",
+        "FullHealth": "{name} a déjà tous ses PV !",
+        "Healed": "{name} a récupéré tous ses PV ! ({from} -> {to})",
+        "NoNotesFolder": "Aucun dossier de notes du monde. Demande au MJ de se connecter et de ne pas supprimer le dossier « Actor Notes ».",
+        "InvalidMoney": "Montant d'argent déposé invalide",
+        "InvalidItem": "Objet déposé invalide",
+        "NotEnoughMoney": "{actor} n'a pas assez d'argent pour payer {item} (Coût : {cost} Poké, Actuel : {money})",
+        "Paid": "{actor} a payé {cost} Poké pour {item} (Nouveau total : {money})",
+        "Gained": "{actor} a gagné {amount} Poké (Nouveau total : {money})",
+        "Applied": "{item} appliqué à {actor}",
+        "Added": "{item} ajouté à {actor}",
+        "ApplyFailed": "Impossible d'appliquer {item} à {actor}",
+        "CannotAdd": "{type} : impossible à ajouter à {actor}",
+        "RefreshNotOwned": "L'objet doit appartenir à un acteur pour être actualisé depuis le compendium",
+        "RefreshNoSource": "Source la plus récente introuvable pour cet objet",
+        "RefreshTypeMismatch": "Le type de l'objet doit correspondre à celui de la source",
+        "Refreshed": "{name} actualisé depuis le compendium",
+        "NoActorSelected": "Aucun acteur sélectionné",
+        "GmPromptMissing": "L'invite MJ n'est pas implémentée, affichage de la vue de base.",
+        "OnlyItems": "Seuls des objets peuvent être déposés ici",
+        "GrantedNoDelete": "{item} ne peut pas être supprimé : il est accordé à {granter}",
+        "AlreadyGranted": "{item} est déjà accordé à {actor}.",
+        "ModifierNaN": "La valeur du modificateur doit être un nombre.",
+        "ModifierZero": "La valeur du modificateur ne doit pas être nulle.",
+        "DiceAmountNaN": "Le nombre de dés doit être un nombre.",
+        "DiceAmountZero": "Le nombre de dés ne doit pas être nul.",
+        "DiceSizeNaN": "La taille des dés doit être un nombre.",
+        "DiceSizeZero": "La taille des dés doit être supérieure à zéro.",
+        "InvalidDamageBase": "Base de dégâts invalide !",
+        "NpcFailed": "Impossible de générer le PNJ ! Détails dans la console (F12).",
+        "NpcPartyFailed": "Erreur à la création des Pokémon de l'équipe ; certaines automatisations peuvent mal fonctionner. Détails dans la console.",
+        "SpeciesNotFound": "Espèce introuvable pour le résultat « {result} » de la table : ignoré.",
+        "WeatherUpdated": "Effets météo mis à jour sur tous les acteurs !",
+        "NoSpeciesPack": "Active au moins un compendium d'espèces dans les paramètres du navigateur de compendiums.",
+        "SettingsSaved": "Paramètres enregistrés",
+        "InvalidFolder": "Dossier invalide",
+        "InvalidPartyFile": "Type de fichier invalide. Choisis un fichier d'Équipe PTU.",
+        "TrainingTooHigh": "{name} a un niveau trop élevé ({level}) pour l'entraînement. Niveau maximum : {cap}",
+        "NoCombat": "Aucun combat actif",
+        "NoToken": "Aucun jeton trouvé",
+        "NoActor": "{name} n'a pas d'acteur associé.",
+        "InvalidAmount": "Montant invalide",
+        "NoCharacter": "Aucun personnage n'est assigné à cet utilisateur.",
+        "TooOldToMigrate": "Les données du système viennent d'une version de Foundry trop ancienne pour être migrées de façon fiable. La migration sera tentée, mais des erreurs peuvent survenir.",
+        "DexSyncing": "Synchronisation des Pokédex...",
+        "DexSynced": "Synchronisation des Pokédex terminée !",
+        "TargetPokemon": "Cible un Pokémon",
+        "Rotom": {
+          "Select": "Sélectionne ton Motisma sur la scène avant de lancer cette macro.",
+          "Updating": "Mise à jour de Motisma...",
+          "NoSpecies": "Espèce Motisma introuvable",
+          "NoChange": "Mise à jour annulée : aucun changement détecté.",
+          "Title": "Changement de forme de Motisma",
+          "Question": "En quelle forme Motisma doit-il se changer ?",
+          "Form": {
+            "normal": "Normale",
+            "fan": "Hélice",
+            "frost": "Froid",
+            "heat": "Chaleur",
+            "mow": "Tonte",
+            "wash": "Lavage"
+          }
+        }
+      },
+      "ItemSheet": {
+        "Tab": {
+          "Overview": "Aperçu",
+          "Details": "Détails",
+          "Rules": "Règles",
+          "CapabilitiesOther": "Aptitudes et autres",
+          "Moves": "Capacités",
+          "Abilities": "Talents"
+        },
+        "Abbr": {
+          "Keywords": "MOTS-CLÉS",
+          "Frequency": "FRÉQ",
+          "Prerequisites": "PRÉREQ",
+          "Tier": "RANG",
+          "Dice": "DÉS",
+          "Notes": "NOTES",
+          "FreeEdge": "ATOUT GRATUIT",
+          "FreeFeat": "TRAIT GRATUIT",
+          "Trigger": "DÉCLENCHEUR",
+          "Cost": "COÛT",
+          "Active": "ACTIF",
+          "AC": "CA",
+          "Range": "PORTÉE",
+          "DB": "BDD",
+          "Contest": "CONCOURS",
+          "Owned": "POSSÉDÉ",
+          "DexEntry": "ENTRÉE DU POKÉDEX"
+        },
+        "HeldSlot": "Emplacement",
+        "HeldSlotHint": "Sur un Pokémon : 1 Objet Tenu et 1 Objet Trouvé maximum. Seuls les Objets Tenus passifs confèrent leurs effets.",
+        "GeneratedAppeal": "Attrait Généré",
+        "Acquisition": "Acquisition",
+        "AcquisitionHint": "Naturelle = par niveau ou par œuf. Technique = par CT ou Donneur de Capacités. 4 max de chaque.",
+        "AcquisitionNatural": "Naturelle (niveau / œuf)",
+        "AcquisitionTechnical": "Technique (CT / Donneur de Capacités)",
+        "EditInTrainerSheet": "À modifier depuis la fiche du dresseur.",
+        "StatLabel": "{stat} :",
+        "Dice": "Dés"
+      },
+      "ItemList": {
+        "SlotsUsed": "Emplacements utilisés :",
+        "Settings": "Paramètres",
+        "Add": "Ajouter : {type}",
+        "Roll": "Lancer {name}",
+        "GrantedBy": "Accordé par {name}",
+        "HasAutomation": "Cet élément est automatisé !",
+        "DisabledAutomation": "L'automatisation de cet élément est désactivée !",
+        "DisableAutomation": "Désactiver l'automatisation",
+        "EnableAutomation": "Activer l'automatisation",
+        "Unequip": "Déséquiper l'objet",
+        "Equip": "Équiper l'objet",
+        "SendToChat": "Envoyer dans le chat : {type}",
+        "Edit": "Modifier : {type}",
+        "Delete": "Supprimer : {type}",
+        "DbDice": "BDD : {db} ({dice})",
+        "Db": "BDD : {db}",
+        "Ac": "CA : {ac}",
+        "Range": "Portée {range}",
+        "ConditionOverridden": "Condition remplacée",
+        "CollapseSubItems": "Replier les sous-éléments",
+        "Restriction": "Restriction",
+        "DropItem": "Dépose un objet ici",
+        "DropItems": "Dépose des éléments ici",
+        "DeleteEvolutionItem": "Supprimer l'objet d'évolution"
+      },
+      "Rules": {
+        "Multiple": "Multiple",
+        "Complex": "Complexe",
+        "Single": "Unique",
+        "ActorLevelDefault": "Niveau de l'acteur (par défaut)",
+        "DomainAll": "Domaine « all » si vide",
+        "RollOption": "Option de jet",
+        "ValueTrue": "Valeur « true » si vide",
+        "Uuid": "UUID",
+        "CopyToClipboard": "Copier dans le presse-papiers",
+        "SourceId": "ID source",
+        "Source": "Source",
+        "Slug": "Slug",
+        "RegenerateSlug": "(Re)générer le slug",
+        "Enabled": "Activé",
+        "DeleteRule": "Supprimer la règle"
+      },
+      "Modifiers": {
+        "AccuracyCheck": "Test de Précision",
+        "AccuracyBonus": "Bonus de Précision",
+        "Level": "Modificateur de Niveau",
+        "Hp": "Modificateur de PV",
+        "Shiny": "Modificateur Chromatique",
+        "Legendary": "Modificateur Légendaire",
+        "PersistentCondition": "{name} (statut persistant)",
+        "Condition": "{name} (statut)",
+        "Stage": "Modificateur de MdS {stat}",
+        "Pokeball": "Modificateur de Poké Ball",
+        "EffectRange": "Portée d'effet",
+        "CritRange": "Plage de critique",
+        "Ac": "CA",
+        "Vulnerable": "Vulnérable",
+        "Flanked": "Pris en tenaille",
+        "DamageBase": "Base de dégâts",
+        "Stab": "STAB",
+        "SheetDamageBonus": "Bonus de dégâts de la fiche",
+        "AttackOverwrite": "Attaque remplacée ({stat})",
+        "AttackStat": "Statistique d'attaque",
+        "SpecialAttackStat": "Statistique d'Attaque Spéciale",
+        "DamageBonus": "Bonus de dégâts",
+        "DamageBaseModifier": "Modificateur de base de dégâts",
+        "SpeedStat": "Statistique de Vitesse",
+        "Initiative": "Modificateur d'Initiative",
+        "Trainer": "Dresseur",
+        "Paralysis": "Paralysie",
+        "Dc": "DD",
+        "FireType": "Type Feu",
+        "SunnyWeather": "Zénith",
+        "ColdWeather": "Temps froid",
+        "CombatStage": "MdS {stat} ({stages})",
+        "SaveCheck": "Modificateur de test de sauvegarde"
+      },
+      "Chat": {
+        "TargetDc": "{dc} de {name}",
+        "Versus": "contre",
+        "CritDoubles": "Le critique double le modificateur de base",
+        "Damage": "{total} dégâts",
+        "CritDamage": "{total} dégâts critiques",
+        "NoEffect": "Aucun effet renseigné",
+        "Use": "Utiliser",
+        "DcCalculation": "Calcul du DD",
+        "ApplyCapture": "Appliquer la capture",
+        "ContestedCheck": "Test en opposition",
+        "Icon": "Icône",
+        "Hit": "Touché",
+        "Crit": "Critique",
+        "Applicators": "Applicateurs",
+        "GainedEffects": "{target} a obtenu les effets suivants :",
+        "StruggleRecoil": "{name} subit <b>{damage}</b> dégâts de contrecoup à cause de Lutte.",
+        "StruggleName": "Lutte ({type})",
+        "ConfusionCheck": "{actor} tente un test de Confusion pour utiliser {move}",
+        "Poke": "{amount} Poké",
+        "Purchase": "Acheter",
+        "PurchaseTitle": "Acheter {name} ({cost} Poké)"
+      },
+      "Dialog": {
+        "Substitution": "Substitution",
+        "Roll": "Jet",
+        "Utilize": "Utiliser ?",
+        "UnnamedModifier": "Modificateur sans nom",
+        "Ok": "OK"
+      },
+      "Frequency": {
+        "AtWill": "À volonté",
+        "Eot": "EOT",
+        "Scene": "1x Scène",
+        "Scene2": "2x S",
+        "Scene3": "3x S",
+        "Daily": "1x J",
+        "Daily2": "2x J",
+        "Daily3": "3x J",
+        "InvalidDb": "BDD invalide"
+      },
+      "HelpText": {
+        "Range": "La portée de la capacité est de {range} m.",
+        "Target": "Cette capacité peut viser {target} cible à la fois.",
+        "Targets": "Cette capacité peut viser {target} cibles à la fois.",
+        "DamageBase": "Cette capacité a une base de dégâts de {db} ({dice}).",
+        "Priority": "Cette capacité est prioritaire"
+      },
+      "Apps": {
+        "JsonFiles": "Fichiers JSON",
+        "Dex": {
+          "Search": "Rechercher",
+          "HideUnknown": "Masquer les inconnus",
+          "HideSeen": "Masquer les vus",
+          "HideOwned": "Masquer les capturés",
+          "LeftClickHelp": "Clic gauche sur un Pokémon : Inconnu → Vu, ou Vu → Capturé",
+          "RightClickHelp": "Clic droit sur un Pokémon : Capturé → Vu, ou Vu → Inconnu",
+          "NoResults": "Aucun résultat pour « {search} »",
+          "Loading": "Chargement du Pokédex..."
+        },
+        "LevelUp": {
+          "Title": "Montée de niveau !",
+          "Header": "Montée de niveau de {name}. {from} ▶ {to}"
+        },
+        "NpcQuickBuild": {
+          "Title": "Création rapide de PNJ",
+          "Randomize": "Aléatoire",
+          "Warnings": "Avertissements",
+          "TrainerImage": "Image du Dresseur",
+          "FeatureItem": "Trait",
+          "EdgeItem": "Atout",
+          "SelectionFor": "Choix pour {label}",
+          "RollTable": "Table aléatoire",
+          "BrowserSettings": "Paramètres du navigateur de compendiums"
+        },
+        "Party": {
+          "Level": "Niveau : {level}",
+          "AverageLevel": "Niveau moyen : {level}",
+          "DropActors": "Dépose des acteurs ici",
+          "DropActor": "Dépose un acteur ici",
+          "Download": "Télécharger l'Équipe",
+          "OverwriteTitle": "Écraser l'Équipe",
+          "OverwriteContent": "Cette Équipe semble déjà exister. Veux-tu l'écraser ?",
+          "ImportTrainer": "Import de l'Équipe : Dresseur {name}",
+          "ImportParty": "Import de l'Équipe : Pokémon de l'Équipe {name}",
+          "ImportBox": "Import de l'Équipe : Pokémon du PC {name}",
+          "ImportDone": "Import de l'Équipe : terminé !"
+        },
+        "Training": {
+          "Total": "{instances} instances de {exp} Exp., soit un total de : {total}",
+          "Agility": "Entraînement d'Agilité",
+          "Brutal": "Entraînement Brutal",
+          "Focused": "Entraînement Concentré",
+          "Inspired": "Entraînement Inspiré",
+          "Train": "Entraîner !",
+          "Instances": "Instances",
+          "Completed": "{name} a terminé son entraînement du jour !",
+          "TooHigh": "{name} a un niveau trop élevé ({level}) pour l'entraînement (max : {cap})",
+          "Gained": "{name} gagne {exp} Exp. ({instances} instances), soit {total} Exp. au total"
+        },
+        "MassGenerator": {
+          "Title": "Générateur de Pokémon en masse",
+          "Species": "Espèce de Pokémon",
+          "Folder": "Nom du dossier"
+        },
+        "SpeciesDragIn": {
+          "Title": "Ajout d'espèce"
+        },
+        "TokenPanel": {
+          "Feats": "Traits",
+          "Party": "Équipe de {name}",
+          "DecreaseTitle": "Diminuer {name} ?",
+          "DeleteTitle": "Supprimer {name} ?",
+          "DecreaseConfirm": "Veux-tu vraiment diminuer {name} ?",
+          "DeleteConfirm": "Veux-tu vraiment supprimer {name} ?"
+        },
+        "Weather": {
+          "Title": "Météo",
+          "SendToChat": "Envoyer l'effet dans le chat",
+          "Delete": "Supprimer l'effet"
+        },
+        "Browser": {
+          "DamageBase": "Base de dégâts {db}",
+          "DbShort": "BDD :",
+          "Obsolete": "Obsolète"
+        },
+        "TypeSettings": {
+          "Instructions": "Double-clic sur un type pour le modifier ; clic gauche sur une efficacité pour l'augmenter, clic droit pour la diminuer."
+        },
+        "Token": {
+          "UnlinkedUnsupported": "Les acteurs non liés ne sont pas pris en charge par le système"
+        },
+        "Tracker": {
+          "Exp": "{exp} Exp.",
+          "ToggleActed": "A agi / n'a pas agi"
+        },
+        "InventoryConfig": {
+          "Title": "Configuration de l'inventaire"
+        },
+        "SharedInventory": {
+          "Title": "Inventaire Partagé",
+          "Missing": "Aucun conteneur d'inventaire partagé dans ce monde.",
+          "MissingGm": "Il est créé automatiquement au premier chargement du monde par un MJ. S'il manque, mets le réglage <code>Epopee Setup Version</code> à <code>0</code> et recharge.",
+          "MissingPlayer": "Demande au MJ de le créer.",
+          "Help": "Glisse des objets ou des Pokémon ici depuis une fiche, ou glisse-les d'ici vers une fiche. Le bouton <i class=\"fas fa-hand-holding\"></i> envoie directement au Dresseur que tu contrôles.",
+          "Items": "Objets ({n})",
+          "Pokemon": "Pokémon ({n})",
+          "Open": "Ouvrir",
+          "Take": "Prendre",
+          "Remove": "Retirer de la liste",
+          "NoItems": "Aucun objet.",
+          "NoPokemon": "Aucun Pokémon.",
+          "Level": "N. {level}",
+          "Stale": "{n} référence(s) vers des Pokémon supprimés.",
+          "Prune": "Nettoyer",
+          "NoPermission": "Tu n'as pas la permission d'écrire dans l'inventaire partagé.",
+          "Stored": "{name} → inventaire partagé.",
+          "OnlyPokemon": "Seuls les Pokémon peuvent aller dans l'inventaire partagé.",
+          "AlreadyThere": "{name} y est déjà.",
+          "NoTrainer": "Tu ne contrôles aucun Dresseur.",
+          "Recipient": "Destinataire",
+          "SendTo": "Envoyer vers",
+          "Confirm": "Confirmer",
+          "Sent": "{name} → {target}.",
+          "Pruned": "{n} référence(s) morte(s) retirée(s)."
+        },
+        "Buttons": {
+          "ImportParty": "Importer une Équipe",
+          "Generator": "Générateur de Pokémon",
+          "Training": "Entraînement Pokémon",
+          "Browser": "Navigateur de compendiums",
+          "MassImport": "Import en masse"
+        },
+        "Origin": {
+          "Title": "Choix d'Origine",
+          "Intro": "Chaîne de choix d'Origine.",
+          "Label": "Origine",
+          "Name": "Nom de l'Origine",
+          "Choice": "Choix Rédigé",
+          "ChoiceHint": "(apparaît entre crochets)",
+          "Money": "Pokédollars",
+          "SkillAuto": "Compétence augmentée (auto)",
+          "SkillPick": "Compétence augmentée (au choix)",
+          "FeatureCount": "Nombre de Traits de l'Origine",
+          "Description": "Description concaténée",
+          "Custom": "Autre (à négocier avec le MJ)…",
+          "Granted": "accordé",
+          "StartingPokemon": "Pokémon de départ",
+          "Relationships": "Relations",
+          "GrantedNow": "Accordé directement",
+          "StartingMoney": "Argent de départ : <b>{money} ₽</b>",
+          "Trait": "Trait d'Origine — {name}",
+          "CustomChoice": "Précise ton choix",
+          "StartingItems": "Objets de départ",
+          "StartingItemsList": "Objets de départ :",
+          "Narrative": "Pistes narratives",
+          "Source": "Origine : {name}",
+          "AlreadyApplied": "Une Origine a déjà été appliquée à ce dresseur (<b>{name}</b>). L'argent et les objets ne seront pas redonnés.",
+          "Unnamed": "sans nom",
+          "Compendiums": "Compendiums",
+          "FreeForm": "(saisie libre)",
+          "Applied": "Origine appliquée : {name}",
+          "AppliedAlready": " — dotation déjà accordée, rien n'a été redonné.",
+          "AppliedGrants": " — +{money} ₽, {n} entrée(s) ajoutée(s) à la fiche.",
+          "AppliedMoney": " — +{money} ₽",
+          "AppliedFeatures": " — {n} Trait(s) à placer",
+          "AppliedWasGranted": " (une dotation avait déjà été accordée)"
+        }
+      },
+      "Setup": {
+        "Validate": "Valider",
+        "Apply": "Appliquer",
+        "Place": "Poser",
+        "NoneM": "(aucun)",
+        "NoneF": "(aucune)",
+        "Extended": "Durée prolongée",
+        "Environment": {
+          "Title": "Climat / Terrain / Zones",
+          "Weather": "Climat",
+          "Field": "Terrain",
+          "ExtendedHint": "objet Roche / Extenseur tenu",
+          "Zones": "Zones (cumulables) :"
+        },
+        "Hazard": {
+          "Title": "Poser un Danger",
+          "Label": "Danger",
+          "NoToken": "Cible ou sélectionne un token pour marquer l'emplacement."
+        },
+        "Wall": {
+          "Title": "Poser un Mur",
+          "Label": "Mur",
+          "Length": "Longueur (cases)",
+          "NoToken": "Cible ou sélectionne un token pour marquer le départ du mur."
+        },
+        "Quarter": {
+          "Title": "Avancer d'un Quart de Voyage",
+          "Progress": "<b>Progression :</b> {done} / {threshold} km",
+          "ProgressPlain": "Progression : {done} / {threshold} km",
+          "Threshold": "Seuil de sortie d'hexagone",
+          "ThresholdNear": "Départ / côté proche / retour (6 km)",
+          "ThresholdFar": "Côté lointain (12 km)",
+          "Speed": "Vitesse du groupe (km/h)",
+          "Multiplier": "Multiplicateur rythme / mode",
+          "TracksTable": "Table Pistes",
+          "LairTable": "Table Antre",
+          "WanderTable": "Table Errante",
+          "Advance": "Avancer",
+          "Covered": "Parcouru ce quart : <b>{km} km</b>",
+          "HalfHour": "Demi-heure dans le quart : <b>{n}</b>",
+          "Exited": "<b>Sortie de l'hexagone.</b> Report : {km} km",
+          "Tracks": "Pistes",
+          "Lair": "Antre",
+          "Wander": "Errante",
+          "Draw": "<b>{label} :</b> {text}",
+          "Card": "Voyage"
+        },
+        "Recall": {
+          "NoToken": "Sélectionne ou cible le Pokémon rappelé dans sa Poké Ball.",
+          "Purged": "{name} : statuts purgés — {list}",
+          "Nothing": "{name} : aucun statut à purger."
+        },
+        "Block": {
+          "Title": "Ajouter un bloc de narration",
+          "Field": "Titre du bloc",
+          "Confirm": "Ajouter à tous les Dresseurs",
+          "NoTrainers": "Aucun Dresseur dans le monde.",
+          "Added": "Bloc « {title} » ajouté à {n} Dresseur(s)."
+        },
+        "WorldDone": "Pokémon Épopée : configuration du monde terminée ({n} étape(s)). Détail dans la console.",
+        "WorldFailed": "Pokémon Épopée : la configuration automatique a échoué. Les scripts de scripts/foundry-console/ restent utilisables en secours."
+      },
+      "Settings": {
+        "InventoryCount": {
+          "Name": "Espace d'Inventaire : comptage",
+          "Hint": "Par exemplaire : 10 Potions prennent 10 emplacements. Par objet : 10 Potions prennent 1 emplacement. Les objets marqués Emplacement gratuit ne comptent jamais.",
+          "Copies": "Par exemplaire (quantité)",
+          "Types": "Par objet (un emplacement par ligne)"
+        },
+        "SkipRollDialog": {
+          "Name": "Passer la fenêtre de jet",
+          "Hint": "Ne pas afficher la fenêtre de jet et lancer les dés directement."
+        },
+        "AutoRollDamage": {
+          "Name": "Dégâts automatiques",
+          "Hint": "Lancer les dégâts automatiquement quand une capacité est utilisée."
+        },
+        "TokenScale": {
+          "Name": "Taille des jetons selon le gabarit",
+          "Hint": "Si activé, les jetons sont à l'échelle 1,0, ou 0,6 pour une petite créature."
+        },
+        "TransferOwnership": {
+          "Name": "Transfert de propriété",
+          "Hint": "Quand la propriété d'un Pokémon est transférée, définir aussi les permissions par défaut des autres joueurs ?"
+        },
+        "CaptureParty": {
+          "Name": "Destination par défaut après capture",
+          "Hint": "Quand un Pokémon est capturé, où doit-il aller ?",
+          "Party": "Équipe",
+          "Box": "PC",
+          "Available": "Disponible"
+        },
+        "DevMode": {
+          "Name": "Mode développement",
+          "Hint": "Active des comportements indésirables en jeu normal mais utiles pour le développement."
+        },
+        "SchemaVersion": {
+          "Name": "Version du schéma du monde",
+          "Hint": "Version du schéma des documents de ce monde. Ne pas modifier sans savoir ce que tu fais."
+        },
+        "SetupVersion": {
+          "Name": "Version de configuration Épopée",
+          "Hint": "Indique quelles étapes de configuration automatique ont tourné dans ce monde. Mettre à 0 pour la relancer."
+        },
+        "AnimDamage": {
+          "Name": "Animation sur les jets de dégâts",
+          "Hint": "Jouer automatiquement les animations sur les jets de dégâts"
+        },
+        "AnimEffects": {
+          "Name": "Désactiver les animations d'effets actifs",
+          "Hint": "Désactiver les animations d'effets actifs"
+        },
+        "AnimAuras": {
+          "Name": "Désactiver les effets d'aura accordés",
+          "Hint": "Désactiver les effets d'aura accordés"
+        },
+        "AnimNested": {
+          "Name": "Désactiver les effets imbriqués",
+          "Hint": "Désactiver les effets imbriqués pour gagner en performances"
+        },
+        "DexPermissions": {
+          "Disabled": "Désactiver le Pokédex",
+          "DescriptionOnly": "Description de l'entrée seulement (description et détails de base)",
+          "OwnedTokens": "Détails complets sur les jetons possédés",
+          "OwnedMons": "Détails complets sur les Pokémon capturés (selon l'onglet Pokédex du dresseur)",
+          "GmPrompt": "Demande au MJ",
+          "Always": "Toujours les détails complets"
+        }
+      },
+      "TabStatistics": "Statistiques",
+      "TabActions": "Actions",
+      "TabNarrative": "Narration",
+      "TabMechanics": "Mécaniques",
+      "TabMechanicsHint": "Mécanismes peu utilisés : barres de boss, modificateurs bruts, concours, esprit."
     },
     "Skills": {
       "acrobatics": "Acrobaties",

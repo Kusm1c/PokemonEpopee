@@ -1,5 +1,6 @@
 import { PTUModifier } from "../../actor/modifiers.js";
 import { CheckModifiersDialog } from "../check/dialogs/dialog.js";
+import { localize } from "../../i18n.js";
 
 export class DamageModifiersDialog extends CheckModifiersDialog {
     constructor(check, resolve, context) {
@@ -77,12 +78,12 @@ export class DamageModifiersDialog extends CheckModifiersDialog {
             let name = String(parent.querySelector(".add-modifier-name")?.value);
             const errors = [];
             if (Number.isNaN(value)) {
-                errors.push("Modifier value must be a number.");
+                errors.push(localize("PTU.Epopee.Notify.ModifierNaN"));
             } else if (value === 0) {
-                errors.push("Modifier value must not be zero.");
+                errors.push(localize("PTU.Epopee.Notify.ModifierZero"));
             }
             if (!name || !name.trim()) {
-                name = "Unnamed Modifier"
+                name = localize("PTU.Epopee.Dialog.UnnamedModifier")
             }
             if (errors.length > 0) {
                 ui.notifications.error(errors.join(" "));

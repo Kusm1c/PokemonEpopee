@@ -2,9 +2,9 @@
 <form class="item-sheet {{cssClass}}" autocomplete="off">
     <header class="sheet-header sheet-tabs" data-group="primary" style="background: #AED3A2;">
         <nav class="tabs" data-group="primary">
-            <a class="item tooltip ball-themes nest" title="Overview" data-tab="overview"><i class="fas fa-house"></i></a>
-            <a class="item tooltip ball-themes nest" title="Details" data-tab="details"><i class="fas fa-gear"></i></a>
-            <a class="item tooltip ball-themes nest" title="Rules" data-tab="rules"><i class="fas fa-toolbox"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Overview"}}" data-tab="overview"><i class="fas fa-house"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Details"}}" data-tab="details"><i class="fas fa-gear"></i></a>
+            <a class="item tooltip ball-themes nest" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Rules"}}" data-tab="rules"><i class="fas fa-toolbox"></i></a>
         </nav>
     </header>
 
@@ -15,7 +15,7 @@
                 name="name"
                 type="text"
                 value="{{item.name}}"
-                placeholder="Name"
+                placeholder="{{peLocalize "PTU.Epopee.Sheet.Name"}}"
                 {{#if editLocked}}disabled{{/if}}
             />
         </header>
@@ -30,7 +30,7 @@
                             name=""
                             type="text"
                             value="{{item.system.origin}}"
-                            placeholder="Origin"
+                            placeholder="{{localize "ITEM.Origin"}}"
                             disabled
                         />
                     </div>
@@ -49,7 +49,7 @@
                             </div>
                             <div class="move-other-info mt-2">
                                 <span>
-                                    AC 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.AC"}}
                                     <input
                                         class="ml-1 mr-1"
                                         type="text"
@@ -58,7 +58,7 @@
                                     />
                                 </span>
                                 <span>
-                                    FREQ 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Frequency"}}
                                     <input
                                         class="ml-1 mr-1"
                                         type="text"
@@ -67,7 +67,7 @@
                                     />
                                 </span>
                                 <span style="flex: 0 0 100%;">
-                                    RANGE 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Range"}}
                                     <input
                                         class="ml-1 mr-1"
                                         type="text"
@@ -76,7 +76,7 @@
                                     />
                                 </span>
                                 <span>
-                                    DB 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.DB"}}
                                     <input
                                         class="ml-1 mr-1"
                                         type="text"
@@ -101,7 +101,7 @@
                                     {{/if}}
                                 </span>
                                 <span style="flex: 0 0 100%;">
-                                    CONTEST 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Contest"}}
                                     <input
                                         class="ml-1 mr-1"
                                         type="text"
@@ -110,7 +110,7 @@
                                     />
                                 </span>
                                 <span class="d-flex justify-content-between" style="flex: 0 0 100%">
-                                    KEYWORDS 
+                                    {{peLocalize "PTU.Epopee.ItemSheet.Abbr.Keywords"}}
                                     <input 
                                         type="text" 
                                         class="pe-tagify system-keywords" 
@@ -169,18 +169,18 @@
             </div>
             {{/unless}}
             <div class="item-row">
-                <label for="system.contestAppeal">Attrait Généré</label>
+                <label for="system.contestAppeal">{{peLocalize "PTU.Epopee.ItemSheet.GeneratedAppeal"}}</label>
                 <input class="ml-1 mr-1" name="system.contestAppeal" type="number" value="{{item.system.contestAppeal}}" placeholder="0"/>
             </div>
             <div class="item-row">
-                <label for="system.contestTags">Tags de Concours</label>
+                <label for="system.contestTags">{{peLocalize "PTU.Epopee.Sheet.ContestTags"}}</label>
                 <input type="text" class="pe-tagify system-keywords" name="system.contestTags" value="{{json item.system.contestTags}}" data-dtype="JSON"/>
             </div>
             <div class="item-row">
-                <label for="system.acquisition" title="Naturelle = par niveau ou par oeuf. Technique = par CT ou move tutor. 4 max de chaque.">Acquisition</label>
+                <label for="system.acquisition" title="{{peLocalize "PTU.Epopee.ItemSheet.AcquisitionHint"}}">{{peLocalize "PTU.Epopee.ItemSheet.Acquisition"}}</label>
                 <select class="ml-1 mr-1" name="system.acquisition">
-                    <option value="natural" {{#if (is item.system.acquisition "natural")}}selected{{/if}}>Naturelle (niveau / oeuf)</option>
-                    <option value="technical" {{#if (is item.system.acquisition "technical")}}selected{{/if}}>Technique (CT / tuteur)</option>
+                    <option value="natural" {{#if (is item.system.acquisition "natural")}}selected{{/if}}>{{peLocalize "PTU.Epopee.ItemSheet.AcquisitionNatural"}}</option>
+                    <option value="technical" {{#if (is item.system.acquisition "technical")}}selected{{/if}}>{{peLocalize "PTU.Epopee.ItemSheet.AcquisitionTechnical"}}</option>
                 </select>
             </div>
             <div class="item-row">
@@ -189,11 +189,11 @@
             </div>
             <div class="item-row">
                 <label for="system.contestType">{{localize "ITEM.ContestType"}}</label>
-                <input class="ml-1 mr-1" name="system.contestType" type="text" value="{{item.system.contestType}}" placeholder="{{localize "ITEM.Range"}}"/>
+                <input class="ml-1 mr-1" name="system.contestType" type="text" value="{{item.system.contestType}}" placeholder="{{localize "ITEM.ContestType"}}"/>
             </div>
             <div class="item-row">
                 <label for="system.referenceEffect">{{localize "ITEM.ReferenceEffect"}}</label>
-                <span class="ml-1 mr-1 effect">{{#if referenceEffect}}{{{referenceEffect}}}{{else}}None{{/if}}</span>
+                <span class="ml-1 mr-1 effect">{{#if referenceEffect}}{{{referenceEffect}}}{{else}}{{localize "PTU.SelectNone"}}{{/if}}</span>
             </div>
             <div class="item-row">
                 <label for="system.effect">{{localize "ITEM.Effect"}}</label>

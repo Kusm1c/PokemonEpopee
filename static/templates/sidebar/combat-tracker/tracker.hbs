@@ -25,7 +25,7 @@
                 {{#if @root.user.isGM}}
                 <button type="button" class="inline-control combatant-control icon fa-solid {{#if hasActed}}fa-times{{else}}fa-check{{/if}}"
                         data-action="toggleActed" data-tooltip
-                        aria-label="Toggle Acted"></button>
+                        aria-label="{{peLocalize "PTU.Epopee.Apps.Tracker.ToggleActed"}}"></button>
                 {{/if}}
                 {{#unless @root.user.isGM}}
                 <button type="button" class="inline-control combatant-control icon fa-solid fa-arrows-to-eye"

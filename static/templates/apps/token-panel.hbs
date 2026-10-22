@@ -33,7 +33,7 @@
                                     title="<div class='effect-popup'><div class='d-flex justify-content-center'><div class='effect-range'>{{attack.range}}</div>{{#each attack.keywords}}<div class='effect-range'>{{this}}</div>{{/each}}</div><div class='effect-effect'>{{attack.effect}}</div></div>">
                                     <div class="icon {{#if attack.category}}with-category{{/if}}">
                                         <img class="icon" src="{{attack.img}}" alt="{{attack.name}}">
-                                        <img class="dice" src="/icons/svg/d20.svg" title="Roll {{attack.name}}">
+                                        <img class="dice" src="/icons/svg/d20.svg" title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=attack.name}}">
                                         {{#if attack.category}}
                                             <img class="icon category" src="{{attack.category}}" alt="{{attack.name}}">
                                         {{/if}}
@@ -49,7 +49,7 @@
                                         {{/if}}
                                         {{#if attack.db}}
                                             <div class="tag db" title="{{attack.db}}">
-                                                DB: {{attack.db}}
+                                                {{peLocalize "PTU.Epopee.ItemList.Db" db=attack.db}}
                                             </div>
                                         {{else}}
                                             <div class="tag db" style="visibility: hidden;">
@@ -57,7 +57,7 @@
                                         {{/if}}
                                         {{#if attack.ac}}
                                             <div class="tag ac" title="{{attack.ac}}">
-                                                AC: {{attack.ac}}
+                                                {{peLocalize "PTU.Epopee.ItemList.Ac" ac=attack.ac}}
                                             </div>
                                         {{else}}
                                             <div class="tag ac" style="visibility: hidden;">
@@ -74,7 +74,7 @@
                             <div class="action rollable" data-id="{{struggle.id}}">
                                 <div class="icon {{#if struggle.category}}with-category{{/if}}">
                                     <img class="icon" src="{{struggle.img}}" alt="{{struggle.name}}">
-                                    <img class="dice" src="/icons/svg/d20.svg" title="Roll {{struggle.name}}">
+                                    <img class="dice" src="/icons/svg/d20.svg" title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=struggle.name}}">
                                     {{#if struggle.category}}
                                         <img class="icon category" src="{{struggle.category}}" alt="{{struggle.name}}">
                                     {{/if}}
@@ -85,12 +85,12 @@
                                 <div class="tags">
                                     {{#if struggle.db}}
                                     <div class="tag db" title="{{struggle.db}}">
-                                        DB: {{struggle.db}}
+                                        {{peLocalize "PTU.Epopee.ItemList.Db" db=struggle.db}}
                                     </div>
                                     {{/if}}
                                     {{#if struggle.ac}}
                                     <div class="tag ac" title="{{struggle.ac}}">
-                                        AC: {{struggle.ac}}
+                                        {{peLocalize "PTU.Epopee.ItemList.Ac" ac=struggle.ac}}
                                     </div>
                                     {{/if}}
                                     {{#if struggle.frequency}}
@@ -113,7 +113,7 @@
                             title="<div class='effect-popup'>{{#if feat.keywords}}<div class='d-flex justify-content-center'>{{#each feat.keywords}}<div class='effect-range'>{{this}}</div>{{/each}}</div>{{/if}}<div class='effect-effect'>{{feat.effect}}</div></div>">
                             <div class="icon">
                                 <img class="icon" src="{{feat.img}}" alt="{{feat.name}}">
-                                <img class="dice" src="/icons/svg/d20.svg" title="Roll {{feat.name}}">
+                                <img class="dice" src="/icons/svg/d20.svg" title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=feat.name}}">
                             </div>
                             <div class="name">
                                 {{feat.name}}
@@ -137,7 +137,7 @@
                             title="{{ability.effect}}">
                             <div class="icon">
                                 <img class="icon" src="{{ability.img}}" alt="{{ability.name}}">
-                                <img class="dice" src="/icons/svg/d20.svg" title="Roll {{ability.name}}">
+                                <img class="dice" src="/icons/svg/d20.svg" title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=ability.name}}">
                             </div>
                             <div class="name">
                                 {{ability.name}}
@@ -163,7 +163,7 @@
                                 title="{{ball.system.effect}}">
                                 <div class="icon">
                                     <img class="icon" src="{{ball.img}}" alt="{{ball.name}}">
-                                    <img class="dice" src="/icons/svg/d20.svg" title="Roll {{ball.name}}">
+                                    <img class="dice" src="/icons/svg/d20.svg" title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=ball.name}}">
                                 </div>
                                 <div class="name">
                                     {{ball.name}}
@@ -179,7 +179,7 @@
                                 title="{{item.effect}}">
                                 <div class="icon">
                                     <img class="icon" src="{{item.img}}" alt="{{item.name}}">
-                                    <img class="dice" src="/icons/svg/d20.svg" title="Roll {{item.name}}">
+                                    <img class="dice" src="/icons/svg/d20.svg" title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=item.name}}">
                                 </div>
                                 <div class="name">
                                     {{item.name}}
@@ -196,19 +196,19 @@
     <div class="footer-panel">
         <div class="toggle-bar bar">
             <div class="action {{#if show.actions}}active{{else}}inactive{{/if}}" data-target="actions">
-                <i class="fas fa-burst" title="Moves"></i>
+                <i class="fas fa-burst" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Moves"}}"></i>
             </div>
             {{#if (is actor.type "character")}}
                 <div class="action {{#if show.feats}}active{{else}}inactive{{/if}}" data-target="feats">
-                    <i class="fas fa-crown" title="Feats"></i>
+                    <i class="fas fa-crown" title="{{peLocalize "PTU.Epopee.Apps.TokenPanel.Feats"}}"></i>
                 </div>
             {{/if}}
             <div class="action {{#if show.abilities}}active{{else}}inactive{{/if}}" data-target="abilities">
-                <i class="fas fa-star" title="Abilities"></i>
+                <i class="fas fa-star" title="{{peLocalize "PTU.Epopee.ItemSheet.Tab.Abilities"}}"></i>
             </div>
             {{#if (is actor.type "character")}}
                 <div class="action {{#if show.items}}active{{else}}inactive{{/if}}" data-target="items">
-                    <i class="fas fa-backpack" title="Items"></i>
+                    <i class="fas fa-backpack" title="{{localize "ITEM.TypeItemPlural"}}"></i>
                 </div>
             {{/if}}
         </div>
@@ -224,7 +224,7 @@
                 <div class="party-overview">
                     <div class="party-header">
                         <img class="trainer icon" data-id="{{party.trainer.id}}" src="{{party.trainer.img}}" alt="{{party.trainer.name}}" draggable="true">
-                        <span class="header">{{party.trainer.name}}'s Party</span>
+                        <span class="header">{{peLocalize "PTU.Epopee.Apps.TokenPanel.Party" name=party.trainer.name}}</span>
                     </div>
                     {{#if (gt party.pokemon.length 0)}}
                         <div class="party-pokemon">
@@ -243,7 +243,7 @@
             {{/if}}
             {{#if (gt conditions.length 0)}}
                 <div class="header mt-1">
-                    Conditions
+                    {{localize "TYPES.Item.conditionPlural"}}
                 </div>
                 <div class="conditions">
                     {{#each conditions as |condition|}}
@@ -259,7 +259,7 @@
             {{/if}}
             {{#if (gt effects.length 0)}}
                 <div class="header mt-1">
-                    Effects
+                    {{localize "TYPES.Item.effectPlural"}}
                 </div>
                 <div class="effects">
                     {{#each effects as |effect|}}

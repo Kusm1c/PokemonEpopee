@@ -39,10 +39,10 @@
                             </div>
                             {{/if}}
                             <div class="pe-cell">
-                                <label for="system.level.miscexp"><b>Expérience</b></label>
+                                <label for="system.level.miscexp"><b>{{peLocalize "PTU.Epopee.Sheet.Experience"}}</b></label>
                             </div>
-                            <div class="pe-cell" title="STAB = 5 + (Niveau / 5)">
-                                <b>STAB</b>
+                            <div class="pe-cell" title="{{peLocalize "PTU.Epopee.Sheet.StabHint"}}">
+                                <b>{{peLocalize "PTU.Epopee.Sheet.Stab"}}</b>
                             </div>
                         </div>
                     </div>
@@ -67,10 +67,10 @@
                     {{#if epopee.pending.any}}
                     <div class="swsh-body center-text pt-1 pb-1"
                         style="background:#e8b923;color:#000;font-size:11px;font-weight:bold;">
-                        À faire :
-                        {{#if epopee.pending.stats}}{{epopee.pending.stats}} stat(s) à répartir. {{/if}}
-                        {{#if epopee.pending.featsLeft}}{{epopee.pending.featsLeft}} feature(s) à placer. {{/if}}
-                        {{#if epopee.pending.edgesLeft}}{{epopee.pending.edgesLeft}} edge(s) à choisir.{{/if}}
+                        {{peLocalize "PTU.Epopee.Sheet.Pending"}}
+                        {{#if epopee.pending.stats}}{{peLocalize "PTU.Epopee.Sheet.PendingStats" n=epopee.pending.stats}} {{/if}}
+                        {{#if epopee.pending.featsLeft}}{{peLocalize "PTU.Epopee.Sheet.PendingFeats" n=epopee.pending.featsLeft}} {{/if}}
+                        {{#if epopee.pending.edgesLeft}}{{peLocalize "PTU.Epopee.Sheet.PendingEdges" n=epopee.pending.edgesLeft}}{{/if}}
                     </div>
                     {{/if}}
                 </div>
@@ -95,14 +95,14 @@
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsMod"}}</div>
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsStage"}}</div>
                             <div class="fb-15 mt-2 mb-2">{{localize "PTU.StatsTotal"}}</div>
-                            <div class="fb-10 mt-2 mb-2" title="{{localize "PTU.Epopee.Fragment"}}">Frag</div>
-                            <div class="fb-25 mt-2 mb-2" title="{{localize "PTU.Epopee.CombatStages"}}">MdS</div>
+                            <div class="fb-10 mt-2 mb-2" title="{{localize "PTU.Epopee.Fragment"}}">{{peLocalize "PTU.Epopee.Sheet.FragAbbr"}}</div>
+                            <div class="fb-25 mt-2 mb-2" title="{{localize "PTU.Epopee.CombatStages"}}">{{peLocalize "PTU.Epopee.Sheet.CombatStagesAbbr"}}</div>
                         </div>
                         <div class="swsh-body p-0">
                             {{#each actor.system.stats as |stat key|}}
                                 <div class="d-flex flex-row {{key}}">
                                     <div class="stats {{key}} key fb-20">
-                                        <label for="system.stats.{{key}}.value" class="resource-label">{{key}}</label>
+                                        <label for="system.stats.{{key}}.value" class="resource-label">{{peLocalize (concat "PTU.Epopee.StatShort." key)}}</label>
                                     </div>
                                     <div class="stats {{key}} base fb-15">
                                         <input type="number" name="system.stats.{{key}}.value" value="{{stat.value}}"
@@ -147,13 +147,13 @@
                                         <input type="number" name="system.stats.{{key}}.total" value="{{stat.total}}"
                                             data-dtype="Number" disabled />
                                     </div>
-                                    <div class="stats {{key}} fragment fb-10 center-text" title="Fragment de {{key}}">
+                                    <div class="stats {{key}} fragment fb-10 center-text" title="{{peLocalize "PTU.Epopee.Sheet.StatFragmentShort" stat=(peLocalize (concat "PTU.Epopee.StatShort." key))}}">
                                         {{#if (lookup ../epopee.fragments key)}}<b>{{lookup ../epopee.fragments key}}</b>
                                         {{else}}<span style="opacity:.4;">-</span>{{/if}}
                                     </div>
                                     <div class="stats {{key}} mds fb-25">
                                         {{#with (lookup ../epopee.gauges key) as |gauge|}}
-                                        <div class="d-flex flex-column" style="gap:1px;" title="MdS : {{gauge.current}} ({{gauge.dice}})">
+                                        <div class="d-flex flex-column" style="gap:1px;" title="{{peLocalize "PTU.Epopee.Sheet.GaugeHint" current=gauge.current dice=gauge.dice}}">
                                             <div class="d-flex" style="gap:1px;">
                                                 {{#each gauge.positive as |cell|}}
                                                 <span class="mds-cell" data-stat="{{key}}" data-index="{{cell.index}}"
@@ -221,7 +221,7 @@
                                     <div class="stats {{key}} mds fb-25">
                                         {{!-- Epopee: same gauge as the six stats; a click sets secondaryStats.<key>.stage. --}}
                                         {{#with (lookup ../epopee.secondaryGauges key) as |gauge|}}
-                                        <div class="d-flex flex-column" style="gap:1px;" title="MdS: {{gauge.current}} ({{gauge.dice}})">
+                                        <div class="d-flex flex-column" style="gap:1px;" title="{{peLocalize "PTU.Epopee.Sheet.GaugeHint" current=gauge.current dice=gauge.dice}}">
                                             <div class="d-flex" style="gap:1px;">
                                                 {{#each gauge.positive as |cell|}}
                                                 <span class="mds-cell" data-group="secondaryStats" data-stat="{{key}}" data-index="{{cell.index}}"
@@ -354,35 +354,35 @@
             <div class="pe-col pe-col-side">
                 <div class="swsh-box mb-2">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex flex-row align-items-center pe-name-row">
-                        <input class="pe-name" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+                        <input class="pe-name" name="name" type="text" value="{{actor.name}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.Name"}}" />
                         <input class="pe-gender" data-link="system.sex" type="text" value="{{actor.system.sex}}"
-                            placeholder="Genre" title="Genre" />
+                            placeholder="{{peLocalize "PTU.Epopee.Sheet.Gender"}}" title="{{peLocalize "PTU.Epopee.Sheet.Gender"}}" />
                     </div>
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex flex-row center-text justify-content-between">
                         <div class="fb-25">
-                            <b>Temp HP</b>
+                            <b>{{peLocalize "PTU.Epopee.Sheet.TempHp"}}</b>
                         </div>
                         <div class="fb-35">
-                            <b>Current HP</b>
+                            <b>{{peLocalize "PTU.Epopee.Sheet.CurrentHp"}}</b>
                         </div>
                         <div class="fb-25">
-                            <b>Max HP</b>
+                            <b>{{peLocalize "PTU.Epopee.Sheet.MaxHp"}}</b>
                         </div>
-                        <div class="fb-15" title="Fragment de Point de Vie : 1/20e des PV max">
-                            <b>Frag</b>
+                        <div class="fb-15" title="{{peLocalize "PTU.Epopee.Sheet.HpFragmentHint"}}">
+                            <b>{{peLocalize "PTU.Epopee.Sheet.FragAbbr"}}</b>
                         </div>
                     </div>
                     <div class="swsh-body d-flex flex-row center-text justify-content-between">
                         <div class="fb-25">
-                            <input name="system.tempHp.value" type="number" value="{{actor.system.tempHp.value}}" placeholder="Temp HP" />
+                            <input name="system.tempHp.value" type="number" value="{{actor.system.tempHp.value}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.TempHp"}}" />
                         </div>
                         <div class="fb-35">
-                            <input name="system.health.value" type="number" value="{{actor.system.health.value}}" placeholder="Current HP" />
+                            <input name="system.health.value" type="number" value="{{actor.system.health.value}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.CurrentHp"}}" />
                         </div>
                         <div class="fb-25">
-                            <input name="system.health.max" type="number" value="{{actor.system.health.max}}" placeholder="Max HP" disabled/>
+                            <input name="system.health.max" type="number" value="{{actor.system.health.max}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.MaxHp"}}" disabled/>
                         </div>
-                        <div class="fb-15 center-text" style="align-self:center;" title="Fragment de Point de Vie">
+                        <div class="fb-15 center-text" style="align-self:center;" title="{{peLocalize "PTU.Epopee.Sheet.HpFragment"}}">
                             <b>{{epopee.hpFragment}}</b>
                         </div>
                         <div class="options w-100 pb-1 pt-1 mt-1">
@@ -397,8 +397,8 @@
 
                 <div class="pe-pair">
                     <div class="swsh-box" style="text-align: center;">
-                        <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 justify-content-center" title="Slots d'inventaire utilisés">
-                            <b>Inventory Space</b>
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 justify-content-center" title="{{peLocalize "PTU.Epopee.Sheet.InventorySpaceHint"}}">
+                            <b>{{peLocalize "PTU.Epopee.Sheet.InventorySpace"}}</b>
                         </div>
                         <div class="swsh-body pe-inline align-items-center pt-1 pb-1"
                             style="{{#if epopee.slotsOver}}color:#c0392b;font-weight:bold;{{/if}}">
@@ -407,43 +407,43 @@
                         </div>
                     </div>
                     <div class="swsh-box" style="text-align: center;">
-                        <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 justify-content-center" title="Niveau maximum des Pokémon contrôlables">
-                            <b>Contrôle max</b>
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 justify-content-center" title="{{peLocalize "PTU.Epopee.Sheet.MaxControlHint"}}">
+                            <b>{{peLocalize "PTU.Epopee.Sheet.MaxControl"}}</b>
                         </div>
                         <div class="swsh-body pe-inline align-items-center pt-1 pb-1">
                             <b style="font-size: 16px;">{{epopee.maxControlLevel}}</b>
                             <input type="number" name="system.epopee.maxControlLevelOverride"
                                 value="{{actor.system.epopee.maxControlLevelOverride}}" data-dtype="Number"
-                                placeholder="auto" title="Laisser vide pour suivre le niveau du Dresseur" />
+                                placeholder="{{peLocalize "PTU.Epopee.Sheet.MaxControlAuto"}}" title="{{peLocalize "PTU.Epopee.Sheet.MaxControlOverrideHint"}}" />
                         </div>
                     </div>
                 </div>
 
                 <div class="swsh-box">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-1 pb-1 center-text justify-content-center">
-                        <b>Identité</b>
+                        <b>{{peLocalize "PTU.Epopee.Sheet.Identity"}}</b>
                     </div>
                     <div class="swsh-body pe-identity pt-1 pb-1">
-                        <label for="system.sex">Genre</label>
+                        <label for="system.sex">{{peLocalize "PTU.Epopee.Sheet.Gender"}}</label>
                         <input type="text" name="system.sex" value="{{actor.system.sex}}" />
-                        <label for="system.height">Taille</label>
+                        <label for="system.height">{{peLocalize "PTU.Epopee.Sheet.Height"}}</label>
                         <input type="text" name="system.height" value="{{actor.system.height}}" />
-                        <label for="system.weight">Poids</label>
+                        <label for="system.weight">{{peLocalize "PTU.Epopee.Sheet.Weight"}}</label>
                         <input type="text" name="system.weight" value="{{actor.system.weight}}" />
-                        <label for="system.age">Âge</label>
+                        <label for="system.age">{{peLocalize "PTU.Epopee.Sheet.Age"}}</label>
                         <input type="text" name="system.age" value="{{actor.system.age}}" data-dtype="String" />
                     </div>
                 </div>
 
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-1 pb-1 center-text justify-content-center">
-                        <b>Origine</b>
+                        <b>{{localize "ITEM.Origin"}}</b>
                     </div>
                     <div class="swsh-body center-text pt-1 pb-1">
                         <button type="button" class="origin-wizard" style="width:100%;">
                             <i class="fas fa-scroll"></i>
                             {{#if epopee.origin.name}}{{epopee.origin.name}}{{#if epopee.origin.choice}} [{{epopee.origin.choice}}]{{/if}}
-                            {{else}}Choisir une Origine{{/if}}
+                            {{else}}{{peLocalize "PTU.Epopee.Sheet.ChooseOrigin"}}{{/if}}
                         </button>
                         {{#if epopee.origin.description}}
                         {{!-- pre-line: the wizard writes a plain-text block with
@@ -489,10 +489,10 @@
                     <!-- Epopee: Contest Mode view - Nom / Type de Concours / Attrait / Tags -->
                     <div class="swsh-box w-100">
                         <div class="swsh-header ball-themes {{ballStyle}} highlight d-flex flex-row center-text" style="padding:unset;">
-                            <div class="fb-35 mt-2 mb-2"><b>Nom</b></div>
-                            <div class="fb-20 mt-2 mb-2"><b>Type de Concours</b></div>
-                            <div class="fb-15 mt-2 mb-2"><b>Attrait</b></div>
-                            <div class="fb-30 mt-2 mb-2"><b>Tags de Concours</b></div>
+                            <div class="fb-35 mt-2 mb-2"><b>{{peLocalize "PTU.Epopee.Sheet.Name"}}</b></div>
+                            <div class="fb-20 mt-2 mb-2"><b>{{localize "ITEM.ContestType"}}</b></div>
+                            <div class="fb-15 mt-2 mb-2"><b>{{peLocalize "PTU.Epopee.Sheet.ContestAppeal"}}</b></div>
+                            <div class="fb-30 mt-2 mb-2"><b>{{peLocalize "PTU.Epopee.Sheet.ContestTags"}}</b></div>
                         </div>
                         <div class="swsh-body p-0">
                             {{#each actions.moves as |move|}}
@@ -585,7 +585,7 @@
                                             <b for="system.money" class="mb-0">{{localize "PTU.Money"}}</b>
                                         </div>
                                         <div class="fb-48 center-self center-text">
-                                            <b for="totalwealth" class="mb-0">Total Worth</b>
+                                            <b for="totalwealth" class="mb-0">{{peLocalize "PTU.Epopee.Sheet.TotalWorth"}}</b>
                                         </div>
                                     </div>
                                     <div class="swsh-body d-flex flex-row justify-content-between pt-1 pb-1">
@@ -598,8 +598,7 @@
                                     </div>
                                 {{else}}
                                     <div class="color-wrapper" data-category="{{category}}">
-                                        {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(concat (concat
-                                        (localize "ITEM.TypeItemPlural") ": ") category) type="item" items=(lookup ../items_categorized category) settings="columns"}}
+                                        {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(peLocalize "PTU.Epopee.Sheet.CategoryTitle" items=(localize "ITEM.TypeItemPlural") category=(peCategory category)) type="item" items=(lookup ../items_categorized category) settings="columns"}}
                                     </div>
                                 {{/if}}
                             {{/each}}
@@ -611,35 +610,35 @@
             <div class="pe-col pe-col-side">
                 <div class="swsh-box mb-2">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex flex-row align-items-center pe-name-row">
-                        <input class="pe-name" data-link="name" type="text" value="{{actor.name}}" placeholder="Name" />
+                        <input class="pe-name" data-link="name" type="text" value="{{actor.name}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.Name"}}" />
                         <input class="pe-gender" data-link="system.sex" type="text" value="{{actor.system.sex}}"
-                            placeholder="Genre" title="Genre" />
+                            placeholder="{{peLocalize "PTU.Epopee.Sheet.Gender"}}" title="{{peLocalize "PTU.Epopee.Sheet.Gender"}}" />
                     </div>
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex flex-row center-text justify-content-between">
                         <div class="fb-25">
-                            <b>Temp HP</b>
+                            <b>{{peLocalize "PTU.Epopee.Sheet.TempHp"}}</b>
                         </div>
                         <div class="fb-35">
-                            <b>Current HP</b>
+                            <b>{{peLocalize "PTU.Epopee.Sheet.CurrentHp"}}</b>
                         </div>
                         <div class="fb-25">
-                            <b>Max HP</b>
+                            <b>{{peLocalize "PTU.Epopee.Sheet.MaxHp"}}</b>
                         </div>
-                        <div class="fb-15" title="Fragment de Point de Vie : 1/20e des PV max">
-                            <b>Frag</b>
+                        <div class="fb-15" title="{{peLocalize "PTU.Epopee.Sheet.HpFragmentHint"}}">
+                            <b>{{peLocalize "PTU.Epopee.Sheet.FragAbbr"}}</b>
                         </div>
                     </div>
                     <div class="swsh-body d-flex flex-row center-text justify-content-between">
                         <div class="fb-25">
-                            <input data-link="system.tempHp.value" type="number" value="{{actor.system.tempHp.value}}" placeholder="Temp HP" />
+                            <input data-link="system.tempHp.value" type="number" value="{{actor.system.tempHp.value}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.TempHp"}}" />
                         </div>
                         <div class="fb-35">
-                            <input data-link="system.health.value" type="number" value="{{actor.system.health.value}}" placeholder="Current HP" />
+                            <input data-link="system.health.value" type="number" value="{{actor.system.health.value}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.CurrentHp"}}" />
                         </div>
                         <div class="fb-25">
-                            <input data-link="system.health.max" type="number" value="{{actor.system.health.max}}" placeholder="Max HP" disabled/>
+                            <input data-link="system.health.max" type="number" value="{{actor.system.health.max}}" placeholder="{{peLocalize "PTU.Epopee.Sheet.MaxHp"}}" disabled/>
                         </div>
-                        <div class="fb-15 center-text" style="align-self:center;" title="Fragment de Point de Vie">
+                        <div class="fb-15 center-text" style="align-self:center;" title="{{peLocalize "PTU.Epopee.Sheet.HpFragment"}}">
                             <b>{{epopee.hpFragment}}</b>
                         </div>
                         <div class="options w-100 pb-1 pt-1 mt-1">
@@ -650,14 +649,14 @@
 
                 <div class="pe-pair">
                     <button type="button" class="pe-big-button list-order-toggle"
-                        title="Fait tourner l'ordre des listes : Capacités, Compétences, Objets">
+                        title="{{peLocalize "PTU.Epopee.Sheet.ListOrderTrainerHint"}}">
                         <i class="fas fa-sort"></i>
-                        <span>Capacités / Objets / Compétences</span>
+                        <span>{{peLocalize "PTU.Epopee.Sheet.ListOrderLabel"}}</span>
                     </button>
                     <button type="button" class="pe-big-button contest-mode-toggle"
-                        title="Bascule la liste des Capacités en Mode Concours">
+                        title="{{peLocalize "PTU.Epopee.Sheet.ContestModeHint"}}">
                         <i class="fas fa-award"></i>
-                        <span>{{#if epopee.contestMode}}Quitter le Mode Concours{{else}}Mode Concours{{/if}}</span>
+                        <span>{{#if epopee.contestMode}}{{peLocalize "PTU.Epopee.Sheet.ContestModeOff"}}{{else}}{{peLocalize "PTU.Epopee.Sheet.ContestModeOn"}}{{/if}}</span>
                     </button>
                 </div>
 
@@ -677,8 +676,8 @@
                         </div>
                     </div>
                     <div class="swsh-box" style="text-align: center;">
-                        <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 justify-content-center" title="Slots d'inventaire utilisés">
-                            <b>Inventory Space</b>
+                        <div class="swsh-header ball-themes {{ballStyle}} highlight p-1 justify-content-center" title="{{peLocalize "PTU.Epopee.Sheet.InventorySpaceHint"}}">
+                            <b>{{peLocalize "PTU.Epopee.Sheet.InventorySpace"}}</b>
                         </div>
                         <div class="swsh-body pe-inline align-items-center pt-1 pb-1"
                             style="{{#if epopee.slotsOver}}color:#c0392b;font-weight:bold;{{/if}}">
@@ -738,7 +737,7 @@
                                             <b for="system.money" class="mb-0">{{localize "PTU.Money"}}</b>
                                         </div>
                                         <div class="fb-48 center-self center-text">
-                                            <b for="totalwealth" class="mb-0">Total Worth</b>
+                                            <b for="totalwealth" class="mb-0">{{peLocalize "PTU.Epopee.Sheet.TotalWorth"}}</b>
                                         </div>
                                     </div>
                                     <div class="swsh-body d-flex flex-row justify-content-between pt-1 pb-1">
@@ -751,8 +750,7 @@
                                     </div>
                                 {{else}}
                                     <div class="color-wrapper" data-category="{{category}}">
-                                        {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(concat (concat
-                                        (localize "ITEM.TypeItemPlural") ": ") category) type="item" items=(lookup ../items_categorized category) settings="columns"}}
+                                        {{> "systems/pe/static/templates/partials/item-display-partial.hbs" title=(peLocalize "PTU.Epopee.Sheet.CategoryTitle" items=(localize "ITEM.TypeItemPlural") category=(peCategory category)) type="item" items=(lookup ../items_categorized category) settings="columns"}}
                                     </div>
                                 {{/if}}
                             {{/each}}
@@ -769,25 +767,25 @@
             <div class="pe-col pe-col-main">
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex justify-content-between center-text">
-                        <div class="fb-80"><b>Honneurs</b></div>
-                        <div class="fb-20"><a class="honour-create" title="Ajouter un Honneur"><i class="fas fa-plus-circle"></i></a></div>
+                        <div class="fb-80"><b>{{peLocalize "PTU.Epopee.Sheet.Honours"}}</b></div>
+                        <div class="fb-20"><a class="honour-create" title="{{peLocalize "PTU.Epopee.Sheet.AddHonour"}}"><i class="fas fa-plus-circle"></i></a></div>
                     </div>
                     <div class="swsh-body" style="display:block;">
                         {{#each epopee.narrative.honours as |honour index|}}
                         <div class="d-flex flex-row align-items-start w-100 mb-1" style="gap:4px;">
                             <textarea class="honour-text w-100" data-index="{{index}}" rows="2">{{honour}}</textarea>
-                            <a class="honour-delete" data-index="{{index}}" title="Supprimer"><i class="fas fa-trash"></i></a>
+                            <a class="honour-delete" data-index="{{index}}" title="{{peLocalize "PTU.Epopee.Sheet.Delete"}}"><i class="fas fa-trash"></i></a>
                         </div>
                         {{/each}}
                         {{#unless epopee.narrative.honours.length}}
-                        <div class="center-text" style="opacity:.5;font-size:11px;">Aucun Honneur.</div>
+                        <div class="center-text" style="opacity:.5;font-size:11px;">{{peLocalize "PTU.Epopee.Sheet.NoHonours"}}</div>
                         {{/unless}}
                     </div>
                 </div>
 
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
-                        <b>Description Physique</b>
+                        <b>{{peLocalize "PTU.Epopee.Sheet.PhysicalDescription"}}</b>
                     </div>
                     <div class="swsh-body">
                         <textarea class="w-100" name="system.epopee.narrative.physicalDescription" rows="3">{{actor.system.epopee.narrative.physicalDescription}}</textarea>
@@ -796,7 +794,7 @@
 
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
-                        <b>Traits de Caractère</b>
+                        <b>{{peLocalize "PTU.Epopee.Sheet.CharacterTraits"}}</b>
                     </div>
                     <div class="swsh-body">
                         <textarea class="w-100" name="system.epopee.narrative.personality" rows="3">{{actor.system.epopee.narrative.personality}}</textarea>
@@ -866,7 +864,7 @@
             <div class="pe-col pe-col-side">
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
-                        <b>Objectifs</b>
+                        <b>{{peLocalize "PTU.Epopee.Sheet.Goals"}}</b>
                     </div>
                     <div class="swsh-body">
                         <textarea class="w-100" name="system.epopee.narrative.goals" rows="3">{{actor.system.epopee.narrative.goals}}</textarea>
@@ -875,7 +873,7 @@
 
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
-                        <b>Connexions aux autres PJ</b>
+                        <b>{{peLocalize "PTU.Epopee.Sheet.Connections"}}</b>
                     </div>
                     <div class="swsh-body">
                         <textarea class="w-100" name="system.epopee.narrative.connections" rows="3">{{actor.system.epopee.narrative.connections}}</textarea>
@@ -884,7 +882,7 @@
 
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
-                        <b>Lore Pré-Campagne</b>
+                        <b>{{peLocalize "PTU.Epopee.Sheet.PreCampaignLore"}}</b>
                     </div>
                     <div class="swsh-body">
                         <textarea class="w-100" name="system.epopee.narrative.preCampaignLore" rows="3">{{actor.system.epopee.narrative.preCampaignLore}}</textarea>
@@ -893,23 +891,23 @@
 
                 <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 d-flex justify-content-between center-text">
-                        <div class="fb-80"><b>Blocs libres</b></div>
-                        <div class="fb-20"><a class="block-create" title="Ajouter un bloc"><i class="fas fa-plus-circle"></i></a></div>
+                        <div class="fb-80"><b>{{peLocalize "PTU.Epopee.Sheet.FreeBlocks"}}</b></div>
+                        <div class="fb-20"><a class="block-create" title="{{peLocalize "PTU.Epopee.Sheet.AddBlock"}}"><i class="fas fa-plus-circle"></i></a></div>
                     </div>
                     <div class="swsh-body" style="display:block;">
                         {{#each epopee.narrative.customBlocks as |block index|}}
                         <div class="mb-2" style="border:1px solid #ccc;padding:4px;">
                             <div class="d-flex flex-row align-items-center" style="gap:4px;">
                                 <input type="text" class="block-title w-100" data-index="{{index}}" value="{{block.title}}" />
-                                <a class="block-move" data-index="{{index}}" data-dir="-1" title="Monter"><i class="fas fa-arrow-up"></i></a>
-                                <a class="block-move" data-index="{{index}}" data-dir="1" title="Descendre"><i class="fas fa-arrow-down"></i></a>
-                                <a class="block-delete" data-index="{{index}}" title="Supprimer"><i class="fas fa-trash"></i></a>
+                                <a class="block-move" data-index="{{index}}" data-dir="-1" title="{{peLocalize "PTU.Epopee.Sheet.MoveUp"}}"><i class="fas fa-arrow-up"></i></a>
+                                <a class="block-move" data-index="{{index}}" data-dir="1" title="{{peLocalize "PTU.Epopee.Sheet.MoveDown"}}"><i class="fas fa-arrow-down"></i></a>
+                                <a class="block-delete" data-index="{{index}}" title="{{peLocalize "PTU.Epopee.Sheet.Delete"}}"><i class="fas fa-trash"></i></a>
                             </div>
                             <textarea class="block-body w-100" data-index="{{index}}" rows="3">{{block.body}}</textarea>
                         </div>
                         {{/each}}
                         {{#unless epopee.narrative.customBlocks.length}}
-                        <div class="center-text" style="opacity:.5;font-size:11px;">Aucun bloc libre.</div>
+                        <div class="center-text" style="opacity:.5;font-size:11px;">{{peLocalize "PTU.Epopee.Sheet.NoBlocks"}}</div>
                         {{/unless}}
                     </div>
                 </div>
@@ -1046,7 +1044,7 @@
                     <div class="swsh-body justify-content-center pt-1 pb-1" style="font-size:11px;">
                         <label style="cursor:pointer;">
                             <input type="checkbox" name="system.epopee.hideExperience"
-                                {{checked epopee.hideExperience}} /> Masquer l'Expérience
+                                {{checked epopee.hideExperience}} /> {{peLocalize "PTU.Epopee.Sheet.HideExperience"}}
                         </label>
                     </div>
                 </div>

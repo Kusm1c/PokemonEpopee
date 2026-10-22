@@ -1,5 +1,6 @@
 import { sluggify, sortStringRecord } from "../../../util/misc.js";
 import { RuleElements } from "../../rules/index.js";
+import { localize } from "../../i18n.js";
 import { RULE_ELEMENT_FORMS, RuleElementForm } from "./rule-elements/index.js";
 
 class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
@@ -110,7 +111,7 @@ class PTUItemSheet extends foundry.appv1.sheets.ItemSheet {
         const buttons = super._getHeaderButtons();
 
 		buttons.unshift({
-			label: "Send to Chat",
+			label: localize("PTU.Epopee.Sheet.Menu.SendToChat"),
 			class: ".to-chat",
 			icon: "fas fa-comment",
 			onclick: () => this.object.sendToChat?.()
