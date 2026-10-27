@@ -2,7 +2,7 @@ import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND, MAX_STATUSES 
 import { STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { PERIODS, itemUsage, resetUses } from "../../usage/engine.js";
 import { localize } from "../../i18n.js";
-import { bindLinkedFields, prepareEpopeeSheetData } from "../epopee-sheet.js";
+import { bindLinkedFields, prepareEpopeeSheetData, skillOptions } from "../epopee-sheet.js";
 import { natureOptions } from "../../natures/flavors.js";
 import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { clampStages } from "../../combat-math/formula.js";
@@ -292,6 +292,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	 */
 	async _prepareCharacterItems(sheetData) {
 		sheetData['skills'] = this.actor.system.skills
+		sheetData['skillOptions'] = skillOptions(this.actor);
 
 		// Initialize containers.
 		const abilities = [];

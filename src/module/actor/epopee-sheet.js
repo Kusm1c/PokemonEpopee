@@ -158,4 +158,17 @@ function bindLinkedFields(sheet) {
     }, true);
 }
 
-export { prepareEpopeeSheetData, prepareStatDisplay, prepareSkillGroups, bindLinkedFields };
+/**
+ * Skill choices for the sheet's selects, named in the player's language. The skill data
+ * carries an English `label` ("Technology Ed") that would otherwise show as is.
+ *
+ * @returns {{value: string, label: string}[]}
+ */
+function skillOptions(actor) {
+    return Object.entries(actor.system.skills ?? {}).map(([key, skill]) => {
+        const slug = skill.slug ?? key;
+        return { value: slug, label: game.i18n.localize(`PTU.Skills.${slug}`) };
+    });
+}
+
+export { prepareEpopeeSheetData, prepareStatDisplay, prepareSkillGroups, bindLinkedFields, skillOptions };

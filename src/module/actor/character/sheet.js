@@ -4,7 +4,7 @@ import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { Statistic } from "../../system/statistic/index.js";
 import { PTUDexSheet } from "../../apps/dex/sheet.js";
 import { PTUActorSheet } from "../sheet.js";
-import { bindLinkedFields, prepareEpopeeSheetData } from "../epopee-sheet.js";
+import { bindLinkedFields, prepareEpopeeSheetData, skillOptions } from "../epopee-sheet.js";
 import { runOriginWizard } from "./origin-wizard.js";
 import { PERIODS, resetUses } from "../../usage/engine.js";
 import { localize } from "../../i18n.js";
@@ -239,6 +239,7 @@ export class PTUCharacterSheet extends PTUActorSheet {
 	 */
 	async _prepareCharacterItems(sheetData) {
 		sheetData['skills'] = this.actor.system.skills
+		sheetData['skillOptions'] = skillOptions(this.actor);
 
 		const actor = sheetData.actor;
 
