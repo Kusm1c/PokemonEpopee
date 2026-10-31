@@ -66,8 +66,13 @@
         <div class="d-flex flex-row mt-2 center-text moves">
             <div class="d-flex flex-column fb-50 moves-dropzone" data-zone="known">
                 <div class="d-flex flex-row justify-content-center header-bar ball-themes {{data.ballStyle}} highlight">
-                    <h3>{{localize "PTU.LevelUpForm.KnownMoves"}} ({{data.moves.known.length}}/6)</h3>
+                    <h3>{{peLocalize "PTU.Epopee.Sheet.NaturalTitle" count=data.moves.known.length max=data.moves.max}}</h3>
                 </div>
+                {{#if data.knownOver}}
+                <div class="center-text" style="background:#c0392b;color:#fff;padding:2px;font-size:11px;">
+                    {{peLocalize "PTU.Epopee.Sheet.NaturalOver" count=data.moves.known.length max=data.moves.max}}
+                </div>
+                {{/if}}
                 <div class="d-flex flex-column pt-2 pb-2">
                     {{#each data.moves.known as | move |}}
                         {{#if move.uuid}}
@@ -94,6 +99,23 @@
             </div>
         </div>
         {{!-- {{/if}} --}}
+
+        {{!-- Epopee: TM / tutor moves do not change on a level-up; shown so the whole
+              set is in view while choosing the Natural ones. --}}
+        {{#if data.moves.technical.length}}
+        <div class="d-flex flex-column mt-2 center-text moves">
+            <div class="d-flex flex-row justify-content-center header-bar ball-themes {{data.ballStyle}} highlight">
+                <h3>{{peLocalize "PTU.Epopee.Sheet.TechnicalTitle" count=data.moves.technical.length max=data.moves.max}}</h3>
+            </div>
+            <div class="d-flex flex-row flex-wrap justify-content-center pt-2 pb-2" style="gap:4px;">
+                {{#each data.moves.technical as | move |}}
+                    <div class="d-flex flex-row justify-content-center move">
+                        <span class="linked-item">@UUID[{{move.uuid}}]</span>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
 
         <div class="d-flex flex-row justify-content-center center-text header-bar ball-themes {{data.ballStyle}} highlight">
             <h3>{{localize "ITEM.TypeAbilityPlural"}}</h3>

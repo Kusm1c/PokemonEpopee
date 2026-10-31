@@ -146,7 +146,7 @@ class LevelUpForm extends FormApplication {
         const data = foundry.utils.expandObject(formData);
 
         for(const [stat, value] of Object.entries(data.stats)) {
-            this.data.stats[stat].newLevelUp = value.newLevelUp;
+            this.data.stats[stat].newLevelUp = Number(value.newLevelUp) || 0;
         }
 
         return this.render(true);

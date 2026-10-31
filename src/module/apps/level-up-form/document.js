@@ -2,6 +2,7 @@ import { getItemFromCompendium, formatSlug } from "../../../util/misc.js";
 import { calculateStatTotal } from "../../actor/helpers.js";
 import { PTUPokemonActor } from "../../actor/index.js"
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
+import { MAX_MOVES_PER_KIND } from "../../actor/pokemon/config.js";
 
 class LevelUpData {
     constructor(pokemon, { newExp, newLevel }) {
@@ -143,20 +144,40 @@ class LevelUpData {
         }
     }
 
+    /**
+     * Level-up moves are Natural moves, so only those can be swapped here, against the
+     * Epopee cap of 4. Technical moves (TM / tutor) are listed for reference only.
+     */
     #setMoves(species) {
         const availableMoves = species.system.moves.level.filter(move => (move.level > this.level.current && move.level <= this.newLevel) || move.level == "Evo").map(move => ({
             uuid: move.uuid,
             slug: move.slug,
         }));
-        const knownMoves = this.pokemon.moves.map(move => ({
-            uuid: move.uuid,
-            slug: move.slug,
-        }));
+        const toEntry = move => ({ uuid: move.uuid, slug: move.slug });
+        const knownMoves = this.pokemon.moves.filter(m => m.system.acquisition !== "technical").map(toEntry);
+        const technicalMoves = this.pokemon.moves.filter(m => m.system.acquisition === "technical").map(toEntry);
+        const learnt = [...knownMoves, ...technicalMoves];
 
         this.moves = {
             known: knownMoves,
-            available: availableMoves.filter(m => !knownMoves.some(km => km.slug === m.slug)),
+            technical: technicalMoves,
+            available: availableMoves.filter(m => !learnt.some(km => km.slug === m.slug)),
+            max: MAX_MOVES_PER_KIND
         }
+    }
+
+    get knownOver() {
+        return this.moves.known.length > this.moves.max;
+    }
+
+    /**
+     * Whether the chosen stage is another species. Read from the choice itself, as the
+     * template does: the fetched species document's slug is not guaranteed to match the
+     * actor's own species item, and taking that mismatch for an evolution threw away the
+     * points already spent.
+     */
+    get evolving() {
+        return !!this.evolutions && this.evolutions.current.slug !== this.pokemon.species.slug;
     }
 
     get level() {
@@ -220,27 +241,45 @@ class LevelUpData {
             }
         }
 
-        if (this.evolution?.slug !== this.evolutions.current.slug) {
-            this.evolution = await getItemFromCompendium({uuid: this.evolutions.current.uuid, type: "species", name: this.evolutions.current.slug});
-            if (this.evolution) {
-                this.evolutions.current.image = await PokemonGenerator.getImage(this.evolution, { gender: this.pokemon.system.gender, shiny: this.pokemon.system.shiny });
+        // Reload only when the chosen stage changes. Keyed on the choice, not on the fetched
+        // document's slug: when the two differed, every render reloaded, which reset the
+        // move lists (undoing each drag) and the points typed in.
+        const stageKey = this.evolutions.current.uuid ?? this.evolutions.current.slug;
+        if (this.loadedStage !== stageKey) {
+            this.loadedStage = stageKey;
 
-                this.#setMoves(this.evolution);
-
-                this.#setAbilities(this.evolution);
-
+            if (!this.evolving) {
+                // Staying in the same species: keep the actor's own base stats.
+                this.evolution = null;
+                this.#setMoves(this.pokemon.species);
+                this.#setAbilities(this.pokemon.species);
                 for (const key of Object.keys(this.stats)) {
                     this.stats[key].newLevelUp = 0;
-                    this.stats[key].value = this.evolution.system.stats[key] + this.stats[key].baseMod;
+                    this.stats[key].value = this.pokemon.system.stats[key].value;
                 }
             }
-            else console.warn("Could not find evolution", this.evolutions.current.uuid, this.evolutions.current.slug);
+            else {
+                this.evolution = await getItemFromCompendium({uuid: this.evolutions.current.uuid, type: "species", name: this.evolutions.current.slug});
+                if (this.evolution) {
+                    this.evolutions.current.image = await PokemonGenerator.getImage(this.evolution, { gender: this.pokemon.system.gender, shiny: this.pokemon.system.shiny });
+
+                    this.#setMoves(this.evolution);
+
+                    this.#setAbilities(this.evolution);
+
+                    for (const key of Object.keys(this.stats)) {
+                        this.stats[key].newLevelUp = 0;
+                        this.stats[key].value = this.evolution.system.stats[key] + this.stats[key].baseMod;
+                    }
+                }
+                else console.warn("Could not find evolution", this.evolutions.current.uuid, this.evolutions.current.slug);
+            }
         }
 
         const leftoverLevelUpPoints = (10 + this.level.new + this.pokemon.system.modifiers.statPoints.total ?? 0) - Object.values(this.stats).reduce((a, v) => v.oldLevelUp + v.newLevelUp + a, 0);
         const actualLevel = Math.max(1, this.level.new - Math.max(0, Math.clamp(0, leftoverLevelUpPoints, leftoverLevelUpPoints - this.pokemon.system.modifiers.statPoints.total ?? 0)));
 
-        const evolving = (this.evolution?.slug ?? this.pokemon.species.slug) !== this.pokemon.species.slug;
+        const evolving = this.evolving && !!this.evolution;
         const actualStats = Object.entries(this.stats).reduce((stats, [stat, value]) => {
             stats[stat] = {
                 value: value.value,
@@ -256,7 +295,8 @@ class LevelUpData {
             actorStats: actualStats,
             nature: this.pokemon.nature,
             isTrainer: false,
-            twistedPower: this.pokemon.rollOptions.all["self:ability:twisted-power"]
+            twistedPower: this.pokemon.rollOptions.all["self:ability:twisted-power"],
+            hybridArmor: this.pokemon.rollOptions.all["self:ability:hybrid-armor"]
         });
 
         //calculate final stats
@@ -269,6 +309,7 @@ class LevelUpData {
     }
 
     async finalize() {
+        const evolving = this.evolving && !!this.evolution;
         const movesToAdd = [], movesToRemove = [];
         for (const move of this.moves.available) {
             if (move.uuid.startsWith("Actor")) {
@@ -277,7 +318,10 @@ class LevelUpData {
         }
         for (const move of this.moves.known) {
             if (!move.uuid.startsWith("Actor")) {
-                movesToAdd.push((await fromUuid(move.uuid)).toObject());
+                const source = (await fromUuid(move.uuid)).toObject();
+                // Learnt by levelling up: a Natural move.
+                source.system = { ...source.system, acquisition: "natural" };
+                movesToAdd.push(source);
             }
         }
 
@@ -297,7 +341,7 @@ class LevelUpData {
                     stats: {
                         ...Object.entries(this.stats).reduce((stats, [stat, value]) => {
                             stats[stat] = {
-                                levelUp: (this.evolution?.slug ?? this.pokemon.species.slug) !== this.pokemon.species.slug ? value.newLevelUp : value.newLevelUp + value.oldLevelUp,
+                                levelUp: evolving ? value.newLevelUp : value.newLevelUp + value.oldLevelUp,
                             }
                             return stats;
                         }, {})
@@ -312,7 +356,9 @@ class LevelUpData {
                 add: abilities,
                 remove: this.abilities.remove.map(a => a.toObject?.()).filter(a => a)
             },
-            evolution: this.evolution
+            // Only a real evolution: the actor swaps its species item on any evolution it
+            // is handed.
+            evolution: evolving ? this.evolution : null
         };
     }
 }
