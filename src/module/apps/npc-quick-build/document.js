@@ -1,5 +1,6 @@
 import { PokemonGenerator } from "../../actor/pokemon/generator.js";
 import { localize } from "../../i18n.js";
+import { hasKeyword } from "../../keywords/index.js";
 import { PTUSkills } from '../../actor/index.js';
 import { Mutex } from '../../../util/mutex.js';
 
@@ -213,7 +214,7 @@ export class NpcQuickBuildData {
             for (const feature of game.packs.get(compendium).index) {
                 if (feature.type !== "feat") continue;
                 let bucket = "features";
-                if (feature?.system?.keywords?.includes("Class")) bucket = "classes";
+                if (hasKeyword(feature?.system?.keywords, "class")) bucket = "classes";
                 this._staticMultiselects[bucket].options.push({
                     label: feature.name,
                     value: feature.name,
@@ -444,7 +445,7 @@ export class NpcQuickBuildData {
 
             const { allNewFeatures, allNewUnmet } = await this.allItemPrereqs(chosen.prerequisites, { level: this.trainer.level, allComputed, skillsComputed })
             // check if there are any new classes in there, and we're not allowed to add new classes
-            const isRestricted = this.trainer.classes.restricted && allNewFeatures.some(f=>f?.system?.keywords?.includes("Class"));
+            const isRestricted = this.trainer.classes.restricted && allNewFeatures.some(f=>hasKeyword(f?.system?.keywords, "class"));
             if (!isRestricted && allNewUnmet.length == 0 && numChosen + 1 + allNewFeatures.length <= N) {
                 newFeatures.push(chosen);
                 numChosen += 1 + allNewFeatures.length;
@@ -481,7 +482,7 @@ export class NpcQuickBuildData {
             const chosen = chooseFrom(curatedOptions);
 
             const { allNewFeatures, allNewEdges, allNewUnmet } = await this.allItemPrereqs(chosen.prerequisites, { level: this.trainer.level, allComputed, skillsComputed })
-            const isRestricted = this.trainer.classes.restricted && allNewFeatures.some(f=>f?.system?.keywords?.includes("Class"));
+            const isRestricted = this.trainer.classes.restricted && allNewFeatures.some(f=>hasKeyword(f?.system?.keywords, "class"));
             if (!isRestricted && allNewUnmet.length == 0 && numChosen + 1 + allNewEdges.length <= N) {
                 newEdges.push(chosen);
                 numChosen += 1 + allNewEdges.length;

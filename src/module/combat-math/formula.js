@@ -1,3 +1,4 @@
+import { keywordKey } from "../keywords/index.js";
 /**
  * Pure math for the Pokemon Epopee damage formula. No Foundry globals in here,
  * so `scripts/test-combat-math.mjs` can exercise it under plain node.
@@ -20,6 +21,8 @@ import {
     MDS_DIE_BY_LEVEL,
     MDS_DIE_ABOVE_TABLE,
     DEFAULT_IS_MODERATE,
+    MODERATE_TAG,
+    POWERFUL_TAG,
     MODERATE_TAG_ALIASES,
     POWERFUL_TAG_ALIASES
 } from "./config.js";
@@ -137,8 +140,10 @@ function isModerate(tags, isDamaging = true) {
     const normalized = Array.isArray(tags)
         ? tags.filter(t => typeof t === "string").map(t => t.trim().toLowerCase())
         : [];
-    if (normalized.some(t => POWERFUL_TAG_ALIASES.includes(t))) return false;
-    if (normalized.some(t => MODERATE_TAG_ALIASES.includes(t))) return true;
+    // Any spelling listed for the keyword in the locale files counts, the built-in
+    // aliases too (they cover the tests and the moment before the tables load).
+    if (normalized.some(t => POWERFUL_TAG_ALIASES.includes(t) || keywordKey(t) === POWERFUL_TAG)) return false;
+    if (normalized.some(t => MODERATE_TAG_ALIASES.includes(t) || keywordKey(t) === MODERATE_TAG)) return true;
     return DEFAULT_IS_MODERATE;
 }
 
@@ -170,7 +175,8 @@ function hasStrayScalingTag(tags, isDamaging) {
     const normalized = Array.isArray(tags)
         ? tags.filter(t => typeof t === "string").map(t => t.trim().toLowerCase())
         : [];
-    return normalized.some(t => MODERATE_TAG_ALIASES.includes(t) || POWERFUL_TAG_ALIASES.includes(t));
+    return normalized.some(t => MODERATE_TAG_ALIASES.includes(t) || POWERFUL_TAG_ALIASES.includes(t)
+        || [MODERATE_TAG, POWERFUL_TAG].includes(keywordKey(t)));
 }
 
 /**

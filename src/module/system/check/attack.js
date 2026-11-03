@@ -4,7 +4,7 @@ import { CheckModifier, PTUModifier, StatisticModifier } from "../../actor/modif
 import { PTUCondition } from "../../item/index.js";
 import { ALL_STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { esquiveValue, precisionBonus } from "../../stats/secondary.js";
-import { ACCURACY_DIE } from "../../combat-math/config.js";
+import { ACCURACY_DIE, critFaces } from "../../combat-math/config.js";
 import { PTUDiceCheck } from "./check.js";
 import { localize } from "../../i18n.js";
 import { AttackRoll } from "./rolls/attack-roll.js";
@@ -160,7 +160,8 @@ class PTUAttackCheck extends PTUDiceCheck {
         /** @type {DcCollection} */
         const dcs = (() => {
             const targets = new Map();
-            const critRange = Array.fromRange(1 + Math.max(this.critMod, 0), 20 - Math.max(this.critMod, 0));
+            // Accuracy results (on the d100) that crit: 95+, minus 5 per point of crit range.
+            const critRange = critFaces(this.critMod);
 
             /** @type {TargetContext[]} */
             const contexts = this._contexts.size > 0 ? this._contexts : [{ actor: this.actor, options: this.options, token: this.token }]

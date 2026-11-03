@@ -14,6 +14,7 @@ import {
     computePower,
     applyDamageFormula
 } from "../src/module/combat-math/formula.js";
+import { critFaces } from "../src/module/combat-math/config.js";
 
 let failures = 0;
 function test(name, fn) {
@@ -198,6 +199,13 @@ test("STAB only applies to a move of the attacker's type", () => {
     assert.equal(same.total - other.total, 11);
 });
 
+
+test("crits land on 95+ of the d100, 5 lower per point of crit range", () => {
+    assert.deepEqual(critFaces(0), [95, 96, 97, 98, 99, 100]);
+    assert.equal(critFaces(2)[0], 85);
+    assert.equal(critFaces(-3)[0], 95);
+    assert.equal(critFaces(50)[0], 1);
+});
 if (failures > 0) {
     console.error(`\n${failures} test(s) failed.`);
     process.exit(1);

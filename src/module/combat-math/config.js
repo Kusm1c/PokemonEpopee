@@ -21,6 +21,20 @@ const MAX_COMBAT_STAGES = 6;
 /** Accuracy rolls use a d100 ("Faire passer le jet en de 100"). */
 const ACCURACY_DIE = 100;
 
+/**
+ * "Faire passer les coups critiques à 95+": an accuracy roll of 95 or more crits. Each
+ * point of crit range (a move's "Critical Hit on 18+" is +2) lowers it by CRIT_STEP, the
+ * d100 width of one d20 face - so 18+ becomes 85+.
+ */
+const CRIT_THRESHOLD = 95;
+const CRIT_STEP = 5;
+
+/** The accuracy results that crit, for a crit range bonus. */
+function critFaces(critMod = 0) {
+    const threshold = Math.max(1, CRIT_THRESHOLD - CRIT_STEP * Math.max(Number(critMod) || 0, 0));
+    return Array.from({ length: ACCURACY_DIE - threshold + 1 }, (_, i) => threshold + i);
+}
+
 /** Added to a Trainer's initiative, so Trainers always act before Pokemon. */
 const TRAINER_INITIATIVE_BONUS = 1000;
 
@@ -70,6 +84,9 @@ export {
     STAB_LEVEL_DIVISOR,
     MAX_COMBAT_STAGES,
     ACCURACY_DIE,
+    CRIT_THRESHOLD,
+    CRIT_STEP,
+    critFaces,
     TRAINER_INITIATIVE_BONUS,
     MDS_DIE_BY_LEVEL,
     MDS_DIE_ABOVE_TABLE,

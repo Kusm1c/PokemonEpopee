@@ -1,0 +1,21 @@
+{{!-- Epopee: the common moves (Lutte, Garde, Réaction...) from the Moves compendium.
+      Rolled like any move: `.rollable.move` inside an `li.item` carrying the realId. --}}
+<ol class="item-list w-100 p-0 m-0" style="list-style:none;">
+    {{#each commons as |entry|}}
+    <li class="item move-item d-flex flex-row align-items-center w-100 p-1" data-item-id="{{entry.id}}"
+        style="{{#if entry.locked}}opacity:.45;{{/if}}" title="{{entry.hint}}">
+        <div class="fb-10 center-text">
+            {{#if entry.locked}}
+            <i class="fas fa-lock"></i>
+            {{else}}
+            <img class="rollable move" src="/icons/svg/d20.svg" style="width:20px;height:20px;border:none;cursor:pointer;"
+                title="{{peLocalize "PTU.Epopee.ItemList.Roll" name=entry.item.name}}" />
+            {{/if}}
+        </div>
+        <div class="fb-60"><b>{{entry.item.name}}</b></div>
+        <div class="fb-30 center-text" style="font-size:11px;">{{entry.status}}</div>
+    </li>
+    {{else}}
+    <li class="center-text p-1" style="font-size:11px;opacity:.6;">{{peLocalize "PTU.Epopee.CommonMoves.None"}}</li>
+    {{/each}}
+</ol>

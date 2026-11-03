@@ -1,8 +1,9 @@
 import { sluggify } from '../../../util/misc.js';
 import { PTUItem } from '../index.js';
+import { hasKeyword } from '../../keywords/index.js';
 class PTUFeat extends PTUItem {
     get category() {
-        if(this.system.keywords?.includes("Class")) return "class";
+        if(hasKeyword(this.system.keywords, "class")) return "class";
         return "feat";
     }
 

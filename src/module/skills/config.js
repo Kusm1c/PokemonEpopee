@@ -64,18 +64,29 @@ const SKILL_GROUPS = [
 ];
 
 /**
+ * Skills whose Epopee group differs from the `type` stored on actors. Read before that
+ * field, so a move takes effect on every existing sheet without migrating actor data.
+ */
+const SKILL_GROUP_OVERRIDES = {
+    intimidate: "spirit"
+};
+
+/**
  * Where the Epopee list differs from stock PTR:
  *  - `dexterity` (Habileté) is new, and belongs to VOLONTÉ.
  *  - `guile` (Ruse) moves from SAVOIR to ÉMOTION.
+ *  - `intimidate` (Intimidation) moves from VOLONTÉ to ÉMOTION (SKILL_GROUP_OVERRIDES).
  *
  * Kept here as documentation; the actual data lives in template.json.
  */
 const MIGRATED_SKILLS = {
     dexterity: { group: "body", added: true },
-    guile: { group: "spirit", movedFrom: "mind" }
+    guile: { group: "spirit", movedFrom: "mind" },
+    intimidate: { group: "spirit", movedFrom: "body" }
 };
 
 export {
+    SKILL_GROUP_OVERRIDES,
     SKILL_DIE_SIZE,
     SKILL_RANK_BONUS,
     MIN_SKILL_RANK,

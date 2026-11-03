@@ -1,5 +1,6 @@
 import { sluggify } from "../../../../util/misc.js";
 import { CompendiumBrowserTab } from "./base.js";
+import { hasKeyword } from "../../../keywords/index.js";
 
 export class CompendiumBrowserFeatsTab extends CompendiumBrowserTab {
     constructor(browser) {
@@ -43,7 +44,7 @@ export class CompendiumBrowserFeatsTab extends CompendiumBrowserTab {
                 const sourceSlug = sluggify(source);
                 if (source) sources.add(source);
 
-                const isClass = featData.system.keywords.includes("Class");
+                const isClass = hasKeyword(featData.system.keywords, "class");
                 const _class = isClass ? featData.name.trim(): (featData.system.class?.trim() ?? "");
                 const prerequisites = featData.system?.prerequisites ?? "";
 

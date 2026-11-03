@@ -342,7 +342,7 @@ class PTUTrainerActor extends PTUActor {
             if (stat === "hp") stats[stat].base = 10;
             else stats[stat].base = 5;
 
-            stats[stat].value = stats[stat].base + this.system.modifiers?.baseStats?.[stat]?.total ?? 0;
+            stats[stat].value = stats[stat].base + (this.system.modifiers?.baseStats?.[stat]?.total ?? 0);
         }
 
         return stats;

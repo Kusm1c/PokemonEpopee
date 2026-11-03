@@ -21,9 +21,10 @@ import { SHARED_FLAG, POKEMON_FLAG } from "../apps/shared-inventory/index.js";
 import { EPOPEE_MACROS } from "./macros.js";
 import { migrateSystemId } from "./id-migration.js";
 import { injectSkillChoices } from "./skill-choices.js";
+import { sluggify } from "../../util/misc.js";
 
 /** Bump when new setup steps are added, so existing worlds pick them up. */
-const SETUP_VERSION = 5;
+const SETUP_VERSION = 6;
 
 /** Traps carry a starting duration in rounds; Coats do not expire on a timer. */
 const TRAPS = [
@@ -83,6 +84,7 @@ async function runWorldSetup() {
 
     await setupConditions(log);
     await setupSharedInventory(log);
+    await repairChoiceFlags(log);
 
     return log;
 }
@@ -231,6 +233,52 @@ async function setupSharedInventory(log) {
         await container.update({ ownership });
         log.push("Accès à l'inventaire partagé accordé à tous les joueurs.");
     }
+}
+
+/**
+ * Repair choices made on items whose name had been translated.
+ *
+ * A ChoiceSet without an explicit flag used to take it from the item's *name*. The rules
+ * that read the choice address it by the English name ("basicSkills"), so on an item
+ * renamed "Compétence Basique" the choice was stored under "compétenceBasique" and never
+ * found: the skill stayed Untrained. The flag now comes from the slug; this rewrites the
+ * flag already saved on owned items, and swaps a raw skill key in the name ("(intuition)")
+ * for the skill's name.
+ */
+async function repairChoiceFlags(log) {
+    let repaired = 0;
+    for (const actor of game.actors) {
+        const updates = [];
+        for (const item of actor.items) {
+            const rules = foundry.utils.deepClone(item._source.system?.rules ?? []);
+            if (!rules.some(r => r.key === "ChoiceSet")) continue;
+
+            const referenced = new Set([...JSON.stringify(rules).matchAll(/rulesSelections\.([A-Za-z0-9_-]+)/g)].map(m => m[1]));
+            const expected = sluggify(item.slug ?? item.name, { camel: "dromedary" });
+            let changed = false;
+            for (const rule of rules) {
+                if (rule.key !== "ChoiceSet" || typeof rule.flag !== "string" || rule.flag.startsWith("{")) continue;
+                if (rule.flag !== expected && !referenced.has(rule.flag) && referenced.has(expected)) {
+                    rule.flag = expected;
+                    changed = true;
+                }
+            }
+
+            const update = { _id: item.id };
+            if (changed) update["system.rules"] = rules;
+
+            const skill = item.name.match(/\(([A-Za-z]+)\)$/)?.[1];
+            if (skill && game.i18n.has(`PTU.Skills.${skill}`)) {
+                update.name = item.name.replace(/\(([A-Za-z]+)\)$/, `(${game.i18n.localize(`PTU.Skills.${skill}`)})`);
+            }
+            if (Object.keys(update).length > 1) updates.push(update);
+        }
+        if (updates.length) {
+            await actor.updateEmbeddedDocuments("Item", updates);
+            repaired += updates.length;
+        }
+    }
+    if (repaired) log.push(`${repaired} objet(s) à choix réparé(s) (Compétence Basique…).`);
 }
 
 export { runWorldSetup, syncMacros, SETUP_VERSION };

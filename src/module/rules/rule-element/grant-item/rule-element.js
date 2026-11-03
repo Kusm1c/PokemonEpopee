@@ -87,7 +87,7 @@ class GrantItemRuleElement extends RuleElementPTU {
         }
 
         if (!this.actor?.allowedItemTypes.includes(grantedItem.type)) {
-            ui.notifications.error(localize("PTU.Epopee.Notify.CannotAdd", { type: game.i18n.localize(`TYPES.Item.${source.type}`), actor: actor.name }));
+            ui.notifications.error(localize("PTU.Epopee.Notify.CannotAdd", { type: game.i18n.localize(`TYPES.Item.${grantedItem.type}`), actor: this.actor.name }));
             return [];
         }
 
@@ -97,6 +97,14 @@ class GrantItemRuleElement extends RuleElementPTU {
 
         if (["feat", "edge"].includes(grantedSource.type) && this.item?.slug !== 'grant-training-feature') {
             grantedSource.system.free = true;
+        }
+
+        // Epopee: a granted item names what it comes from - "Acupressure [Pistolet à
+        // Fléchettes]". The slug is pinned first, so the rules and roll options keyed on it
+        // ("move:acupressure") do not follow the new name.
+        if (!this.replaceSelf && itemSource.name) {
+            grantedSource.system.slug ||= grantedItem.slug;
+            grantedSource.name = `${grantedSource.name} [${itemSource.name}]`;
         }
 
         // Guarantee future alreadyGranted checks pass in all cases by re-assigning sourceId

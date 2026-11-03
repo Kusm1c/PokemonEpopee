@@ -9,8 +9,10 @@
 import { MAX_COMBAT_STAGES } from "../combat-math/config.js";
 import { clampStages, fragment, mdsTerm, stabValue } from "../combat-math/formula.js";
 import { flavoursForNature } from "../natures/flavors.js";
-import { SKILL_DIE_SIZE, SKILL_GROUPS, skillRank, skillRankBonus } from "../skills/config.js";
+import { SKILL_DIE_SIZE, SKILL_GROUPS, SKILL_GROUP_OVERRIDES, skillRank, skillRankBonus } from "../skills/config.js";
 import { hpFragment } from "../statuses/roll.js";
+import { commonMoveAccess } from "../moves/common.js";
+import { localize } from "../i18n.js";
 
 /**
  * Per-stat Fragments and MdS gauge state.
@@ -101,7 +103,8 @@ function prepareSkillGroups(actor) {
             modifierOrigins: foundry.utils.getProperty(origins, `system.skills.${key}.modifier.mod`)
         };
 
-        (groups.find(g => g.id === skill.type) ?? other).skills.push(entry);
+        const group = SKILL_GROUP_OVERRIDES[key] ?? skill.type;
+        (groups.find(g => g.id === group) ?? other).skills.push(entry);
     }
 
     return other.skills.length ? [...groups, other] : groups;
@@ -171,4 +174,33 @@ function skillOptions(actor) {
     });
 }
 
-export { prepareEpopeeSheetData, prepareStatDisplay, prepareSkillGroups, bindLinkedFields, skillOptions };
+/**
+ * The Common Moves panel: Lutte, Garde, Réaction and any other move ticked "common" in the
+ * Moves compendium, with whether this actor's Loyalty unlocks it.
+ */
+function prepareCommonMoves(actor) {
+    const entries = [];
+    for (const statistic of actor.attacks ?? []) {
+        const item = statistic.item;
+        if (!item?.system?.common || item.id) continue;
+
+        const access = commonMoveAccess(actor, item);
+        const status = !access.required
+            ? localize("PTU.Epopee.Always")
+            : access.locked
+                ? localize("PTU.Epopee.LoyaltyProgress", { current: access.current, required: access.required })
+                : localize("PTU.Epopee.LoyaltyMet", { required: access.required });
+
+        entries.push({
+            item,
+            id: item.realId,
+            locked: access.locked,
+            required: access.required,
+            status,
+            hint: access.locked ? localize("PTU.Epopee.LockedLoyalty", { required: access.required, current: access.current }) : ""
+        });
+    }
+    return entries.sort((a, b) => a.required - b.required || a.item.name.localeCompare(b.item.name, game.i18n.lang));
+}
+
+export { prepareEpopeeSheetData, prepareStatDisplay, prepareSkillGroups, bindLinkedFields, skillOptions, prepareCommonMoves };

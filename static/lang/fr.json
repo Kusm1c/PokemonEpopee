@@ -131,6 +131,7 @@
   "SKILL.occultEd": "Occulte",
   "SKILL.pokemonEd": "Culture Pokémon",
   "SKILL.techEd": "Technologie",
+  "SKILL.dexterity": "Dextérité",
   "DIALOG.DeleteItem.Title": "Confirmation de suppression",
   "DIALOG.DeleteItem.Content": "Voulez-vous vraiment supprimer : '{name}'?",
   "DIALOG.DeleteItem.Restricted": "'{name}' ne peut pas être supprimé car il est restreint par '{parentName}'.",
@@ -654,7 +655,30 @@
           "Failure": "Échec",
           "Passed": "Entraînement réussi.",
           "Failed": "Entraînement raté.",
-          "Wildcards": "Les modificateurs wildcard (Traits, Objets) sont à appliquer à la main."
+          "Wildcards": "Les modificateurs wildcard (Traits, Objets) sont à appliquer à la main.",
+          "Type": "Type d'entraînement",
+          "Types": {
+            "levelUp": "Level-Up (burst d'XP)",
+            "loyalty": "Loyauté",
+            "tm": "Apprendre une CT/DT",
+            "other": "Autre (entraînement de classe)"
+          },
+          "Berry": "A mangé une baie au goût apprécié et pas détesté (+{bonus})",
+          "Hours": "Heures d'entraînement d'affilée",
+          "HoursHint": "Chaque heure rapporte 1 de plus que la précédente : 3 heures = +1 +2 +3 = +6.",
+          "RollButton": "Lancer",
+          "Chosen": "Type : <b>{type}</b>",
+          "BerryLine": "Baie : +{bonus}",
+          "HoursLine": "{hours} heure(s) d'affilée : +{bonus}",
+          "NewDifficulty": "Difficulté d'Entraînement : {from} → <b>{to}</b>",
+          "Gain": {
+            "LevelUp": "Gagne {exp} points d'expérience : niveau {level}.",
+            "MaxLevel": "Déjà au niveau maximum.",
+            "Loyalty": "+1 Loyauté ({n} / {max}).",
+            "LoyaltyFull": "Loyauté déjà pleine ({max} / {max}) : ajoute un Moment de Brillance pour aller plus loin.",
+            "Tm": "Apprend une CT/DT : à ajouter aux Capacités Techniques.",
+            "Other": "Entraînement de classe : applique son effet."
+          }
         }
       },
       "Inventory": {
@@ -786,7 +810,11 @@
         "AcquisitionTechnical": "Technique (CT / Donneur de Capacités)",
         "EditInTrainerSheet": "À modifier depuis la fiche du dresseur.",
         "StatLabel": "{stat} :",
-        "Dice": "Dés"
+        "Dice": "Dés",
+        "Common": "Capacité commune",
+        "CommonHint": "Dans le compendium Moves, une capacité commune est donnée à tous les Pokémon et Dresseurs, dans le panneau Capacités Communes.",
+        "CommonLoyalty": "Loyauté requise (Pokémon)",
+        "CommonLoyaltyHint": "Un Pokémon sous cette Loyauté la voit verrouillée. Les Dresseurs l'ont toujours."
       },
       "ItemList": {
         "SlotsUsed": "Emplacements utilisés :",
@@ -1208,7 +1236,19 @@
       "TabActions": "Actions",
       "TabNarrative": "Narration",
       "TabMechanics": "Mécaniques",
-      "TabMechanicsHint": "Mécanismes peu utilisés : barres de boss, modificateurs bruts, concours, esprit."
+      "TabMechanicsHint": "Mécanismes peu utilisés : barres de boss, modificateurs bruts, concours, esprit.",
+      "Keywords": {
+        "moderate": "Modéré",
+        "powerful": "Puissant",
+        "class": "Classe",
+        "origin": "Origine",
+        "five-strike": "Cinq Coups",
+        "ranged-launching-distance": "À distance"
+      },
+      "CommonMoves": {
+        "None": "Aucune capacité commune dans le compendium Moves.",
+        "Locked": "{name} demande {required} de Loyauté (actuellement {current})."
+      }
     },
     "Skills": {
       "acrobatics": "Acrobaties",

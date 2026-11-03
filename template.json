@@ -279,7 +279,7 @@
               "value": 0,
               "mod": 0
             },
-            "type": "body"
+            "type": "spirit"
           },
           "intuition": {
             "value": {
@@ -766,6 +766,8 @@
       "damageBonus": 0,
       "isStruggle": false,
       "acquisition": "natural",
+      "common": false,
+      "commonLoyalty": 0,
       "contestAppeal": 0,
       "contestTags": []
     },
@@ -912,7 +914,7 @@
         "intimidate": {
           "value": 2,
           "modifier": 0,
-          "type": "body"
+          "type": "spirit"
         },
         "intuition": {
           "value": 2,

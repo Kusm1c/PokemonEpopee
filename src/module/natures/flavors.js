@@ -77,18 +77,19 @@ function flavoursForNature(natureName, natureData) {
 }
 
 /**
- * Short labels for the stats a Nature moves, for the dropdown.
+ * Short labels for the stats a Nature moves, for the dropdown: the stat's key, shown
+ * through the `PTU.Epopee.StatShort.*` translations (ATQ SPÉ in French, SPATK in English).
  *
  * Deliberately abbreviated: the option text carries a name plus two stats, and the full
  * "Special Attack" pushes the line past the width of the select.
  */
 const STAT_ABBREVIATIONS = {
-    "HP": "HP",
-    "Attack": "ATK",
-    "Defense": "DEF",
-    "Speed": "SPD",
-    "Special Attack": "SPATK",
-    "Special Defense": "SPDEF"
+    "HP": "hp",
+    "Attack": "atk",
+    "Defense": "def",
+    "Speed": "spd",
+    "Special Attack": "spatk",
+    "Special Defense": "spdef"
 };
 
 /**
@@ -111,7 +112,7 @@ const STAT_ABBREVIATIONS = {
 function natureOptions(natureData) {
     if (!natureData || typeof natureData !== "object") return [];
 
-    const abbr = (stat) => STAT_ABBREVIATIONS[stat] ?? stat;
+    const abbr = (stat) => STAT_ABBREVIATIONS[stat] ? game.i18n.localize(`PTU.Epopee.StatShort.${STAT_ABBREVIATIONS[stat]}`) : stat;
 
     return Object.entries(natureData)
         .map(([name, entry]) => {

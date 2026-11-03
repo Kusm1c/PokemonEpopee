@@ -16,6 +16,7 @@
 
 import { getOrigins, getOrigin, resolveItemGrant } from "../../origins/data.js";
 import { findItemInCompendium } from "../../../util/misc.js";
+import { hasKeyword } from "../../keywords/index.js";
 import { localize } from "../../i18n.js";
 
 /** Where the wizard looks for authored Origins, in order. */
@@ -37,7 +38,7 @@ async function collectOrigins() {
         const docs = await pack.getDocuments();
         for (const doc of docs) {
             const keywords = (doc.system?.keywords ?? []).map(k => String(k).toLowerCase());
-            if (isOriginPack || keywords.includes("origin") || keywords.includes("origine")) {
+            if (isOriginPack || hasKeyword(keywords, "origin")) {
                 found.push(doc);
             }
         }
@@ -56,8 +57,8 @@ function escapeHtml(text) {
 }
 
 /** `<option>` list built from plain strings. */
-function optionList(values) {
-    return values.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+function optionList(values, selected) {
+    return values.map(v => `<option value="${escapeHtml(v)}"${v === selected ? " selected" : ""}>${escapeHtml(v)}</option>`).join("");
 }
 
 /**
@@ -104,15 +105,31 @@ function renderDetail(origin, skillOptions) {
     }
 
     const trait = origin.trait;
-    const traitOptions = trait
-        ? optionList(trait.choices)
-        + (trait.allowCustom ? `<option value="__custom__">${localize("PTU.Epopee.Apps.Origin.Custom")}</option>` : "")
-        : "";
+    // A Trait may ask for several picks ("Choisis deux traits de personnalité"): one list
+    // per pick, the ones past `minPicks` optional ("jusqu'à deux").
+    const traitPick = (index) => {
+        const optional = index >= trait.minPicks ? `<option value="">${localize("PTU.Epopee.Setup.NoneM")}</option>` : "";
+        const custom = trait.allowCustom ? `<option value="__custom__">${localize("PTU.Epopee.Apps.Origin.Custom")}</option>` : "";
+        return `
+        <div class="form-group">
+            <label>${escapeHtml(trait.choiceLabel)}${trait.picks > 1 ? ` ${index + 1}` : ""}</label>
+            <select name="origin-trait-${index}" data-trait-pick="${index}">${optional}${optionList(trait.choices, index < trait.minPicks ? trait.choices[index] : undefined)}${custom}</select>
+        </div>
+        <div class="form-group" data-custom-trait="${index}" style="display:none;">
+            <label>${localize("PTU.Epopee.Apps.Origin.CustomChoice")}</label>
+            <input type="text" name="origin-trait-custom-${index}" value=""/>
+        </div>`;
+    };
+    const traitPicks = trait ? Array.from({ length: trait.picks }, (_, i) => traitPick(i)).join("") : "";
 
     const itemRows = origin.items.map((entry, index) => {
         const field = (() => {
             if (entry.options) {
-                return `<select name="origin-item-${index}">${optionList(entry.options.map(o => o.label))}</select>`;
+                // "3 baies au choix": one list per item picked.
+                const picks = Math.max(1, Number(entry.picks) || 1);
+                const list = optionList(entry.options.map(o => o.label));
+                return Array.from({ length: picks }, (_, p) =>
+                    `<select name="origin-item-${index}-${p}">${list}</select>`).join("");
             }
             if (entry.prompt) {
                 return `<input type="text" name="origin-item-${index}" placeholder="${escapeHtml(entry.prompt)}"/>`;
@@ -166,15 +183,7 @@ function renderDetail(origin, skillOptions) {
         <div style="font-size:11px;opacity:.85;margin:2px 0 6px;">
             ${trait.description.map(p => `<p style="margin:0 0 4px;">${escapeHtml(p)}</p>`).join("")}
         </div>
-        ${trait.choices.length || trait.allowCustom ? `
-        <div class="form-group">
-            <label>${escapeHtml(trait.choiceLabel)}</label>
-            <select name="origin-trait">${traitOptions}</select>
-        </div>
-        <div class="form-group" data-custom-trait style="display:none;">
-            <label>${localize("PTU.Epopee.Apps.Origin.CustomChoice")}</label>
-            <input type="text" name="origin-trait-custom" value=""/>
-        </div>` : ""}` : ""}
+        ${trait.choices.length || trait.allowCustom ? traitPicks : ""}` : ""}
 
         ${origin.items.length ? `
         <hr/>
@@ -316,12 +325,14 @@ async function runOriginWizard(actor) {
             const detail = html.find("[data-origin-detail]");
 
             const syncCustomTrait = () => {
-                const isCustom = html.find('[name="origin-trait"]').val() === "__custom__";
-                html.find("[data-custom-trait]").css("display", isCustom ? "" : "none");
+                html.find("[data-trait-pick]").each((_, select) => {
+                    const isCustom = select.value === "__custom__";
+                    html.find(`[data-custom-trait="${select.dataset.traitPick}"]`).css("display", isCustom ? "" : "none");
+                });
             };
 
             // Delegated, so it survives the panel being replaced below.
-            detail.on("change", '[name="origin-trait"]', syncCustomTrait);
+            detail.on("change", "[data-trait-pick]", syncCustomTrait);
 
             html.find('[name="origin-key"]').on("change", (event) => {
                 const key = event.currentTarget.value;
@@ -349,15 +360,21 @@ async function runOriginWizard(actor) {
                 };
             }
 
-            const raw = read(html, "origin-trait") ?? "";
-            const traitChoice = raw === "__custom__"
-                ? (read(html, "origin-trait-custom")?.trim() ?? "")
-                : raw;
+            // Every pick, custom text resolved, blanks and repeats dropped: "Affectueux, Stoïque".
+            const traitPicks = Array.from({ length: origin.trait?.picks ?? 0 }, (_, i) => {
+                const raw = read(html, `origin-trait-${i}`) ?? "";
+                return raw === "__custom__" ? (read(html, `origin-trait-custom-${i}`)?.trim() ?? "") : raw;
+            }).filter(Boolean);
+            const traitChoice = [...new Set(traitPicks)].join(", ");
 
             return {
                 origin,
                 traitChoice,
-                selections: origin.items.map((_, index) => read(html, `origin-item-${index}`) ?? "")
+                selections: origin.items.map((entry, index) => {
+                    if (!entry.options) return read(html, `origin-item-${index}`) ?? "";
+                    const picks = Math.max(1, Number(entry.picks) || 1);
+                    return Array.from({ length: picks }, (_, p) => read(html, `origin-item-${index}-${p}`) ?? "");
+                })
             };
         }
     }).catch(() => null);
@@ -377,12 +394,23 @@ async function runOriginWizard(actor) {
 async function applyWrittenOrigin(actor, result, alreadyGranted) {
     const { origin, traitChoice, selections } = result;
 
-    const grants = origin.items.map((entry, index) => resolveItemGrant(entry, selections[index]));
+    // A row picked several times grants each pick; the same item picked twice is one stack.
+    const rowGrants = origin.items.map((entry, index) => {
+        const picks = Array.isArray(selections[index]) ? selections[index] : [selections[index]];
+        const merged = new Map();
+        for (const grant of picks.map(pick => resolveItemGrant(entry, pick)).filter(Boolean)) {
+            const key = `${grant.label}|${grant.lookup ?? ""}`;
+            const existing = merged.get(key);
+            if (existing) existing.quantity += grant.quantity ?? 1;
+            else merged.set(key, { ...grant, quantity: grant.quantity ?? 1 });
+        }
+        return [...merged.values()];
+    });
+    const grants = rowGrants.flat();
     const itemLabels = origin.items.map((entry, index) => {
-        const grant = grants[index];
-        const quantity = grant?.quantity ?? 1;
-        const label = grant?.label ?? entry.label;
-        return quantity > 1 ? `${quantity} × ${label}` : label;
+        const granted = rowGrants[index];
+        if (!granted.length) return entry.label;
+        return granted.map(g => (g.quantity > 1 ? `${g.quantity} × ${g.label}` : g.label)).join(", ");
     });
 
     const updates = {

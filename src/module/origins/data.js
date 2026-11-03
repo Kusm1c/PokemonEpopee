@@ -671,6 +671,8 @@ const ORIGINS = [
                 "Quand tu fais un jet de compétence ayant en lien avec une Arène, la League, une Zone de Combat, un membre important de ces lieux ou un de ses pokémons et que ton champion d'arène partage un trait de personnalité avec cet individu, fais ton jet de compétence deux fois et utilises le meilleur résultat."
             ],
             choiceLabel: "Stratégie interne",
+            // "Choisis deux traits de personnalité".
+            picks: 2,
             choices: [
                 "Affectueux",
                 "Bizarre",
@@ -722,25 +724,27 @@ const ORIGINS = [
             },
             {
                 label: "5 baies de résistances de type utiles dans l'arène où tu étais ",
+                // Five picks of one berry each, so the types can be mixed.
+                picks: 5,
                 options: [
-                    { label: "Baie Chocco",     lookup: "Occa Berry",       quantity: 5 },
-                    { label: "Baie Pocpoc",     lookup: "Passho Berry",     quantity: 5 },
-                    { label: "Baie Parma",      lookup: "Wacan Berry",      quantity: 5 },
-                    { label: "Baie Ratam",      lookup: "Rindo Berry",      quantity: 5 },
-                    { label: "Baie Nanone",     lookup: "Yache Berry",      quantity: 5 },
-                    { label: "Baie Pomroz",     lookup: "Chople Berry",     quantity: 5 },
-                    { label: "Baie Kébia",      lookup: "Kebia Berry",      quantity: 5 },
-                    { label: "Baie Jouca",      lookup: "Shuca Berry",      quantity: 5 },
-                    { label: "Baie Cobaba",     lookup: "Coba Berry",       quantity: 5 },
-                    { label: "Baie Yapap",      lookup: "Payapa Berry",     quantity: 5 },
-                    { label: "Baie Panga",      lookup: "Tanga Berry",      quantity: 5 },
-                    { label: "Baie Charti",     lookup: "Charti Berry",     quantity: 5 },
-                    { label: "Baie Sédra",      lookup: "Kasib Berry",      quantity: 5 },
-                    { label: "Baie Fraigo",     lookup: "Haban Berry",      quantity: 5 },
-                    { label: "Baie Lampou",     lookup: "Colbur Berry",     quantity: 5 },
-                    { label: "Baie Babiri",     lookup: "Babiri Berry",     quantity: 5 },
-                    { label: "Baie Zalis",      lookup: "Chilan Berry",     quantity: 5 },
-                    { label: "Baie Selro",      lookup: "Roseli Berry",     quantity: 5 }
+                    { label: "Baie Chocco",     lookup: "Occa Berry",       quantity: 1 },
+                    { label: "Baie Pocpoc",     lookup: "Passho Berry",     quantity: 1 },
+                    { label: "Baie Parma",      lookup: "Wacan Berry",      quantity: 1 },
+                    { label: "Baie Ratam",      lookup: "Rindo Berry",      quantity: 1 },
+                    { label: "Baie Nanone",     lookup: "Yache Berry",      quantity: 1 },
+                    { label: "Baie Pomroz",     lookup: "Chople Berry",     quantity: 1 },
+                    { label: "Baie Kébia",      lookup: "Kebia Berry",      quantity: 1 },
+                    { label: "Baie Jouca",      lookup: "Shuca Berry",      quantity: 1 },
+                    { label: "Baie Cobaba",     lookup: "Coba Berry",       quantity: 1 },
+                    { label: "Baie Yapap",      lookup: "Payapa Berry",     quantity: 1 },
+                    { label: "Baie Panga",      lookup: "Tanga Berry",      quantity: 1 },
+                    { label: "Baie Charti",     lookup: "Charti Berry",     quantity: 1 },
+                    { label: "Baie Sédra",      lookup: "Kasib Berry",      quantity: 1 },
+                    { label: "Baie Fraigo",     lookup: "Haban Berry",      quantity: 1 },
+                    { label: "Baie Lampou",     lookup: "Colbur Berry",     quantity: 1 },
+                    { label: "Baie Babiri",     lookup: "Babiri Berry",     quantity: 1 },
+                    { label: "Baie Zalis",      lookup: "Chilan Berry",     quantity: 1 },
+                    { label: "Baie Selro",      lookup: "Roseli Berry",     quantity: 1 }
                 ]
             },
             {
@@ -892,6 +896,8 @@ const ORIGINS = [
                 "Quand tu fais un jet de compétence ayant un lien avec ton terrain favoris, fais ton jet de compétence deux fois et utilises le meilleur résultat."
             ],
             choiceLabel: "Routes du vagabondage",
+            // "Choisis deux terrains qui sont tes favoris dans la liste ci-dessous."
+            picks: 2,
             choices: [
                 "Plaine",
                 "Forêt",
@@ -904,8 +910,8 @@ const ORIGINS = [
                 "Désert",
 
             ],
-            // The sheet says "ou négocie-en une avec ton MJ", so the list is not closed.
-            allowCustom: true
+            // Closed list: unlike Dresseur d'Arène, the sheet offers no "négocie-en une".
+            allowCustom: false
         },
 
         items: [
@@ -933,12 +939,13 @@ const ORIGINS = [
             {
                 // The source table lists "Anti-para" twice; the duplicate is dropped here.
                 label: "3 baies soignant le statut au choix",
+                picks: 3,
                 options: [
-                    { label: "Baie Ceriz", lookup: "Cheri Berry", quantity: 3 },
-                    { label: "Baie Maron", lookup: "Chesto Berry", quantity: 3 },
-                    { label: "Baie Pêcha", lookup: "Pecha Berry", quantity: 3 },
-                    { label: "Baie Fraive", lookup: "Rawst Berry", quantity: 3 },
-                    { label: "Baie Willia", lookup: "Aspear Berry", quantity: 3 }
+                    { label: "Baie Ceriz", lookup: "Cheri Berry", quantity: 1 },
+                    { label: "Baie Maron", lookup: "Chesto Berry", quantity: 1 },
+                    { label: "Baie Pêcha", lookup: "Pecha Berry", quantity: 1 },
+                    { label: "Baie Fraive", lookup: "Rawst Berry", quantity: 1 },
+                    { label: "Baie Willia", lookup: "Aspear Berry", quantity: 1 }
                 ]
             },
             {
@@ -1847,6 +1854,9 @@ const ORIGINS = [
         "De plus, si tu prie ou médite pour au moins une minute avant de faire un jet, tu peux utiliser Guide spirituel sur ce jet de compétence s'il est logique avec la situation."
     ],
         choiceLabel: "Guide spirituel",
+        // "Choisis jusqu'à deux": one required, the second optional.
+        picks: 2,
+        minPicks: 1,
         choices: [
         "Adorateur du Prisme",
         "Croyant d'Arceus",
@@ -2035,7 +2045,12 @@ function normalise(origin) {
             ...origin.trait,
             name: origin.trait.name ?? "Trait d'Origine",
             description: origin.trait.description ?? [],
-            choices: origin.trait.choices ?? []
+            choices: origin.trait.choices ?? [],
+            // How many choices the Trait asks for, and how many of those are required.
+            picks: Math.max(1, Number(origin.trait.picks) || 1),
+            minPicks: Math.min(
+                Math.max(1, Number(origin.trait.picks) || 1),
+                Math.max(0, Number(origin.trait.minPicks ?? origin.trait.picks ?? 1)))
         }
         : null;
 

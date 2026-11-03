@@ -16,6 +16,8 @@ import { Environment } from "./environment.js";
 import { EpopeeSetup } from "./epopee-setup.js";
 import { Travel } from "./travel.js";
 import { UsageHooks } from "./usage.js";
+import { KeywordHooks } from "./keywords.js";
+import { CommonMoveHooks } from "./common-moves.js";
 
 export const PtuHooks = {
     listen() {
@@ -38,7 +40,9 @@ export const PtuHooks = {
             Environment,
             EpopeeSetup,
             Travel,
-            UsageHooks
+            UsageHooks,
+            KeywordHooks,
+            CommonMoveHooks
         ]
         for(const listener of listeners) listener.listen();
     }

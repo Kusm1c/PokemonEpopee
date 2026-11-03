@@ -134,6 +134,7 @@
   "SKILL.occultEd": "Occult Education",
   "SKILL.pokemonEd": "Pokémon Education",
   "SKILL.techEd": "Tech Education",
+  "SKILL.dexterity": "Dexterity",
 
   "DIALOG.DeleteItem.Title": "Delete Confirmation",
   "DIALOG.DeleteItem.Content": "Are you sure you want to delete: '{name}'?",
@@ -664,7 +665,30 @@
           "Failure": "Failure",
           "Passed": "Training passed.",
           "Failed": "Training failed.",
-          "Wildcards": "Wildcard modifiers (Features, Items) are applied by hand."
+          "Wildcards": "Wildcard modifiers (Features, Items) are applied by hand.",
+          "Type": "Training type",
+          "Types": {
+            "levelUp": "Level-Up (experience burst)",
+            "loyalty": "Loyalty",
+            "tm": "Learn a TM / TR",
+            "other": "Other (class training)"
+          },
+          "Berry": "Ate a berry it likes and does not dislike (+{bonus})",
+          "Hours": "Hours trained in a row",
+          "HoursHint": "Each hour adds one more than the last: 3 hours = +1 +2 +3 = +6.",
+          "RollButton": "Roll",
+          "Chosen": "Type: <b>{type}</b>",
+          "BerryLine": "Berry: +{bonus}",
+          "HoursLine": "{hours} hour(s) in a row: +{bonus}",
+          "NewDifficulty": "Training Difficulty: {from} → <b>{to}</b>",
+          "Gain": {
+            "LevelUp": "Gains {exp} experience: level {level}.",
+            "MaxLevel": "Already at the maximum level.",
+            "Loyalty": "+1 Loyalty ({n} / {max}).",
+            "LoyaltyFull": "Loyalty is already full ({max} / {max}): add a Moment of Brilliance to go further.",
+            "Tm": "Learns a TM / TR: add it to the Technical moves.",
+            "Other": "Class training: apply its effect."
+          }
         }
       },
       "Inventory": {
@@ -796,7 +820,11 @@
         "AcquisitionTechnical": "Technical (TM / tutor)",
         "EditInTrainerSheet": "Please edit in the trainer sheet.",
         "StatLabel": "{stat}:",
-        "Dice": "Dice"
+        "Dice": "Dice",
+        "Common": "Common move",
+        "CommonHint": "In the Moves compendium, a common move is given to every Pokémon and Trainer, in the Common Moves panel.",
+        "CommonLoyalty": "Loyalty required (Pokémon)",
+        "CommonLoyaltyHint": "A Pokémon below this Loyalty sees the move locked. Trainers always have it."
       },
       "ItemList": {
         "SlotsUsed": "Slots used:",
@@ -1213,6 +1241,18 @@
           "GmPrompt": "GM Prompt",
           "Always": "Always Full Details"
         }
+      },
+      "Keywords": {
+        "moderate": "Moderate",
+        "powerful": "Powerful",
+        "class": "Class",
+        "origin": "Origin",
+        "five-strike": "Five Strike",
+        "ranged-launching-distance": "Ranged"
+      },
+      "CommonMoves": {
+        "None": "No common move in the Moves compendium.",
+        "Locked": "{name} needs {required} Loyalty ({current} now)."
       }
     },
     "Skills": {

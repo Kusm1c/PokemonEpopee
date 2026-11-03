@@ -17,6 +17,7 @@ import { TRAINER_INITIATIVE_BONUS } from "../combat-math/config.js";
 import { ActorConditions } from "./conditions.js";
 import { prepareSecondaryStats } from "../stats/secondary.js";
 import { canUse, spendUse } from "../usage/engine.js";
+import { commonMoveAccess, commonMoveSources } from "../moves/common.js";
 import { localize } from "../i18n.js";
 import { IWRData, ImmunityData, ResistanceData, WeaknessData, scaleTypeEffectiveness } from "./iwr.js";
 import { PTUModifier, StatisticModifier } from "./modifiers.js";
@@ -1081,6 +1082,13 @@ class PTUActor extends Actor {
             return struggles;
         })() : [];
 
+        // Epopee: the common moves (Lutte, Garde, Réaction...) every actor has, read from the
+        // Moves compendium - unless this actor carries its own copy of one.
+        const ownedSlugs = new Set(this.itemTypes.move.map(m => m.slug));
+        const commons = commonMoveSources()
+            .filter(source => !ownedSlugs.has(source.system?.slug))
+            .map(source => new Item.implementation(foundry.utils.deepClone(source), { parent: this, temporary: true }));
+
         const moves = [];
         this.flags.pe.disabledOptions = [];
         for (const move of this.itemTypes.move) {
@@ -1108,7 +1116,7 @@ class PTUActor extends Actor {
         this.flags.pe.disabledOptions.sort((a, b) => b.sort - a.sort);
 
         return new Collection(
-            [...moves, ...struggles]
+            [...moves, ...struggles, ...commons]
                 .map(move => this.prepareAttack(move))
                 .map(modifier => [modifier.item.id ?? modifier.item.realId, modifier])
         );
@@ -1166,6 +1174,15 @@ class PTUActor extends Actor {
             // Epopee: a move with a limited frequency spends a use when it is rolled. An
             // empty pool stops the roll (a GM is only warned, see canUse).
             if (!canUse(move)) return null;
+
+            // A common move a Pokemon's Loyalty has not reached yet (Garde 5, Réaction 10).
+            if (move.system.common) {
+                const access = commonMoveAccess(this, move);
+                if (access.locked) {
+                    ui.notifications.warn(localize("PTU.Epopee.CommonMoves.Locked", { name: move.name, required: access.required, current: access.current }));
+                    return null;
+                }
+            }
 
             const check = new PTUAttackCheck({
                 source: {

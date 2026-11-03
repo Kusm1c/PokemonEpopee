@@ -1,14 +1,15 @@
-import { LOYALTY_PROTECTION, LOYALTY_REACTION, MAX_MOVES_PER_KIND, MAX_STATUSES } from "./config.js";
+import { MAX_MOVES_PER_KIND, MAX_STATUSES } from "./config.js";
 import { STATUS_DEFINITIONS } from "../../statuses/definitions.js";
 import { PERIODS, itemUsage, resetUses } from "../../usage/engine.js";
 import { localize } from "../../i18n.js";
-import { bindLinkedFields, prepareEpopeeSheetData, skillOptions } from "../epopee-sheet.js";
+import { bindLinkedFields, prepareCommonMoves, prepareEpopeeSheetData, skillOptions } from "../epopee-sheet.js";
 import { natureOptions } from "../../natures/flavors.js";
 import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { clampStages } from "../../combat-math/formula.js";
 import { Statistic } from "../../system/statistic/index.js";
 import { PTUActorSheet } from "../sheet.js";
 import { ItemSummaryRenderer } from "../sheet/item-summary.js";
+import { runTraining } from "./training.js";
 
 export class PTUPokemonSheet extends PTUActorSheet {
 	/** @override */
@@ -112,12 +113,6 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			loyaltyChecked: this.actor.system.loyalty?.checked ?? 0,
 			// Actions tab: Compétences above Capacités when set (the list order button).
 			skillsFirst: this.actor.getFlag("pe", "skillsFirst") === true,
-			reactionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_REACTION,
-			protectionUnlocked: (this.actor.system.loyalty?.checked ?? 0) >= LOYALTY_PROTECTION,
-			// Exposed so the template can name the threshold in a localised string rather
-			// than hardcoding "5" and "10" in the markup alongside the translated text.
-			loyaltyReaction: LOYALTY_REACTION,
-			loyaltyProtection: LOYALTY_PROTECTION,
 			statuses: this._prepareStatusCount()
 		};
 	}
@@ -350,6 +345,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			const effects = {};
 
 			for (const statistic of this.actor.attacks) {
+				// Common moves (Lutte, Garde, Réaction) have their own panel.
+				if (statistic.item.system.common && !statistic.item.id) continue;
 				if (statistic.item.system.isStruggle) struggles.push(statistic.item);
 				else moves.push(statistic.item);
 
@@ -378,6 +375,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 				technicalOver: technical.length > MAX_MOVES_PER_KIND,
 				maxPerKind: MAX_MOVES_PER_KIND,
 				struggles,
+				commons: prepareCommonMoves(this.actor),
 				effects
 			}
 		})();
@@ -426,35 +424,7 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			await this.actor.setFlag("pe", "contestMode", !current);
 		});
 
-		html.find('.training-roll').click(async () => {
-			const difficulty = this.actor.system.trainingDifficulty ?? 50;
-			// One roll per active player. With nobody connected - solo prep, or the GM
-			// testing - that collapses to a single roll, and the wording below follows
-			// suit instead of talking about "les joueurs" for one line.
-			const players = game.users.filter(u => u.active && !u.isGM);
-			const rollers = players.length ? players : [game.user];
-			const solo = rollers.length === 1;
-
-			const rows = [];
-			let anySuccess = false;
-
-			for (const user of rollers) {
-				const roll = await new Roll("1d100").evaluate();
-				const success = roll.total >= difficulty;
-				if (success) anySuccess = true;
-				rows.push(`<tr><td>${user.name}</td><td style="text-align:center;">${roll.total}</td>`
-					+ `<td style="text-align:center;">${success ? `<b>${localize("PTU.Epopee.Sheet.Training.Success")}</b>` : localize("PTU.Epopee.Sheet.Training.Failure")}</td></tr>`);
-			}
-
-			await ChatMessage.create({
-				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `<div class="header-bar"><p class="action">${localize("PTU.Epopee.Sheet.Training.Title", { name: this.actor.name })}</p></div>`,
-				content: `<p>${localize("PTU.Epopee.Sheet.Training.Difficulty", { dc: difficulty })}</p>`
-					+ `<table style="width:100%;"><tr><th>${localize(solo ? "PTU.Epopee.Sheet.Training.Roll" : "PTU.Epopee.Sheet.Training.Player")}</th><th>1d100</th><th></th></tr>${rows.join("")}</table>`
-					+ `<p><b>${localize(anySuccess ? "PTU.Epopee.Sheet.Training.Passed" : "PTU.Epopee.Sheet.Training.Failed")}</b></p>`
-					+ `<p style="font-size:11px;opacity:.7;">${localize("PTU.Epopee.Sheet.Training.Wildcards")}</p>`
-			});
-		});
+		html.find('.training-roll').click(() => runTraining(this.actor));
 
 		html.find('.moment-create').click(() => {
 			const moments = [...this.actor.system.narrative.momentsOfBrilliance, ""];

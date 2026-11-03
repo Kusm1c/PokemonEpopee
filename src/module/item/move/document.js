@@ -3,6 +3,7 @@ import { PTUCondition, PTUItem } from '../index.js';
 import { ALL_STATUS_DEFINITIONS } from '../../statuses/definitions.js';
 import { extractApplyEffects } from '../../rules/helpers.js';
 import { canUse, spendUse } from '../../usage/engine.js';
+import { keywordKey } from '../../keywords/index.js';
 
 /** Accuracy outcomes that count as the move landing. */
 const HIT_OUTCOMES = ["hit", "crit-hit"];
@@ -36,12 +37,20 @@ class PTUMove extends PTUItem {
         for(const keyword of this.system.keywords) {
             options.all[`move:${sluggify(keyword)}`] = true;
             options.item[`move:${sluggify(keyword)}`] = true;
+            // The same keyword in any language: "À distance" also sets the option "Ranged" does.
+            const key = keywordKey(keyword);
+            if (key) {
+                options.all[`move:${key}`] = true;
+                options.item[`move:${key}`] = true;
+            }
         }
         return options;
     }
 
     /** @override */
     get realId() {
+        // A common move lives in the compendium, not on the actor: it has no id of its own.
+        if (this.system.common && !this.id) return `common-${this.slug}`;
         return this.system.isStruggle
             ? `struggle-${this.system.type.toLocaleLowerCase(game.i18n.lang)}-${this.system.category.toLocaleLowerCase(game.i18n.lang)}${this.system.isRangedStruggle ? "-ranged" : ""}`
             : super.realId;

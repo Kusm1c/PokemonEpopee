@@ -153,7 +153,6 @@ globalThis.dev = dev;
 
 function calculateStatTotal({ level, actorStats, nature, isTrainer, twistedPower, hybridArmor }) {
     const stats = foundry.utils.duplicate(actorStats);
-    const levelDivisionConstant = isTrainer ? 25 : 50;
     const longShortStatDict = {
         "HP": "hp",
         "Attack": "atk",
@@ -163,36 +162,25 @@ function calculateStatTotal({ level, actorStats, nature, isTrainer, twistedPower
         "Speed": "spd"
     }
 
+    // Epopee: a stat is a plain sum - Base (with its base modifiers) + Level-Up points -
+    // for Trainers and Pokemon alike. PTR's curve (level term, "sigma" boost, x0.5 on
+    // points, Fox Factor) put an unexplained +1 on every stat.
+    // To change the formula, this loop and the nature step below are the whole of it.
     let levelUpPointsSpend = 0;
-    //find the gross stats = (Base Stat + (level * LevelUpPoints) * Level to the power of 1/2.2)/levelDivisionConstant + Base Stat + LevelUpPOints/5
     for (const [key, value] of Object.entries(stats)) {
-        value["total"] = (value["value"] + (level + value["levelUp"]) * Math.pow(level, 1 / 2.2)) / levelDivisionConstant + value["value"] + (value["levelUp"] * CONST.STATS_FACTOR);
-        levelUpPointsSpend += value["levelUp"];
+        const levelUp = Number(value["levelUp"]) || 0;
+        value["total"] = (Number(value["value"]) || 0) + levelUp;
+        levelUpPointsSpend += levelUp;
     }
 
-    //calculate sigma modifier = 1 + level/(100*sigma)
-    const sigmaMod = Math.max(dev(stats), CONST.STATS_SIGMA);
-    const sigma = 1 + Math.max(level, 35) / (100 * sigmaMod);
-
-    //apply sigma modifier
-    for (const [key, value] of Object.entries(stats)) {
-        value["total"] *= sigma;
-
-        //apply nature
-        if (nature && CONFIG.PTU.data.natureData[nature]) {
-            if (CONFIG.PTU.data.natureData[nature][0] == CONFIG.PTU.data.natureData[nature][1]) {
-                //neutral nature, do nothing
-            } else if (longShortStatDict[CONFIG.PTU.data.natureData[nature][0]] == key) {
-                //positive nature
-                value["total"] *= 1.1;
-            } else if (longShortStatDict[CONFIG.PTU.data.natureData[nature][1]] == key) {
-                //negative nature
-                value["total"] = Math.max(value["total"] * 0.9, 1);
-            }
-        }
-
-        //round
-        value["total"] = Math.round(value["total"]);
+    // Nature: +/- floor(Level / 20) on the raised / lowered stat, never below 1.
+    const natureStats = nature ? CONFIG.PTU.data.natureData[nature] : null;
+    if (natureStats && natureStats[0] !== natureStats[1]) {
+        const shift = Math.floor((Number(level) || 0) / 20);
+        const raised = stats[longShortStatDict[natureStats[0]]];
+        const lowered = stats[longShortStatDict[natureStats[1]]];
+        if (raised) raised["total"] += shift;
+        if (lowered) lowered["total"] = Math.max(lowered["total"] - shift, 1);
     }
 
     if (twistedPower) {
@@ -210,14 +198,8 @@ function calculateStatTotal({ level, actorStats, nature, isTrainer, twistedPower
         stats.spdef.total += Math.floor(defTotal / 3);
     }
 
+    // Only the stage curve still reads this setting; the Fox Factor is gone with PTR's curve.
     const playtestStats = game.settings.get("pe", "variant.improvedStatsRework");
-
-    if (playtestStats) {
-        // The Fox Factor
-        for (const [key, value] of Object.entries(stats)) {
-            value["total"] += Math.round(value["levelUp"] * 0.3);
-        }
-    }
 
     //apply mods and stages last
     for (const [key, value] of Object.entries(stats)) {

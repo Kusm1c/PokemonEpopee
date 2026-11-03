@@ -213,11 +213,9 @@ class PTUPokemonActor extends PTUActor {
         system.levelUpPoints = system.level.current + system.modifiers.statPoints.total + 10;
         system.stats = this._calcBaseStats();
 
-        const leftoverLevelUpPoints = system.levelUpPoints - Object.values(system.stats).reduce((a, v) => v.levelUp + a, 0);
-        const actualLevel = Math.max(1, system.level.current - Math.max(0, Math.clamp(0, leftoverLevelUpPoints, leftoverLevelUpPoints - system.modifiers.statPoints.total ?? 0)));
-
         const result = calculateStatTotal({
-            level: actualLevel,
+            // The real level: it only sizes the nature's +/- (Level / 20).
+            level: system.level.current,
             actorStats: system.stats,
             nature: system.nature.value,
             isTrainer: false,
@@ -401,7 +399,7 @@ class PTUPokemonActor extends PTUActor {
         }
 
         for (const stat of Object.keys(stats)) {
-            stats[stat].value = stats[stat].base + this.system.modifiers?.baseStats?.[stat]?.total ?? 0;
+            stats[stat].value = stats[stat].base + (this.system.modifiers?.baseStats?.[stat]?.total ?? 0);
         }
 
         return stats;

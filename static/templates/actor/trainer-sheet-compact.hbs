@@ -466,22 +466,7 @@
                             <b>{{localize "PTU.Epopee.CommonCapabilities"}}</b>
                         </div>
                         <div class="swsh-body w-100" style="display: block;">
-                            <div class="d-flex flex-row align-items-center w-100 p-1"
-                                title="{{localize "PTU.Epopee.StruggleHint"}}">
-                                <div class="fb-10 center-text"><i class="fas fa-hand-fist"></i></div>
-                                <div class="fb-60"><b>{{localize "PTU.Epopee.Struggle"}}</b></div>
-                                <div class="fb-30 center-text" style="font-size:11px;">{{localize "PTU.Epopee.Always"}}</div>
-                            </div>
-                            <div class="d-flex flex-row align-items-center w-100 p-1">
-                                <div class="fb-10 center-text"><i class="fas fa-shield"></i></div>
-                                <div class="fb-60"><b>{{localize "PTU.Epopee.ProtectionAction"}}</b></div>
-                                <div class="fb-30 center-text" style="font-size:11px;">{{localize "PTU.Epopee.Always"}}</div>
-                            </div>
-                            <div class="d-flex flex-row align-items-center w-100 p-1">
-                                <div class="fb-10 center-text"><i class="fas fa-shield-halved"></i></div>
-                                <div class="fb-60"><b>{{localize "PTU.Epopee.ReactionAction"}}</b></div>
-                                <div class="fb-30 center-text" style="font-size:11px;">{{localize "PTU.Epopee.Always"}}</div>
-                            </div>
+                            {{> "systems/pe/static/templates/partials/common-moves.hbs" commons=actions.commons}}
                         </div>
                     </div>
 

@@ -4,7 +4,7 @@ import { PTUPartySheet } from "../../apps/party/sheet.js";
 import { Statistic } from "../../system/statistic/index.js";
 import { PTUDexSheet } from "../../apps/dex/sheet.js";
 import { PTUActorSheet } from "../sheet.js";
-import { bindLinkedFields, prepareEpopeeSheetData, skillOptions } from "../epopee-sheet.js";
+import { bindLinkedFields, prepareCommonMoves, prepareEpopeeSheetData, skillOptions } from "../epopee-sheet.js";
 import { runOriginWizard } from "./origin-wizard.js";
 import { PERIODS, resetUses } from "../../usage/engine.js";
 import { localize } from "../../i18n.js";
@@ -310,6 +310,8 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			const effects = {}
 
 			for (const statistic of this.actor.attacks) {
+				// Common moves (Lutte, Garde, Réaction) have their own panel.
+				if (statistic.item.system.common && !statistic.item.id) continue;
 				if (statistic.item.system.isStruggle) struggles.push(statistic.item);
 				else moves.push(statistic.item);
 
@@ -318,7 +320,8 @@ export class PTUCharacterSheet extends PTUActorSheet {
 			}
 
 			return {
-				moves: moves.sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0)), struggles, effects
+				moves: moves.sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0)), struggles, effects,
+				commons: prepareCommonMoves(this.actor)
 			}
 		})();
 

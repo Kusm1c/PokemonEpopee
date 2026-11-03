@@ -183,6 +183,18 @@
                     <option value="technical" {{#if (is item.system.acquisition "technical")}}selected{{/if}}>{{peLocalize "PTU.Epopee.ItemSheet.AcquisitionTechnical"}}</option>
                 </select>
             </div>
+            {{!-- Epopee: a common move in the Moves compendium is given to every Pokemon and
+                  Trainer (Lutte, Garde, Reaction). See docs/guide-capacites.md. --}}
+            <div class="item-row" style="justify-content: flex-start;">
+                <label for="system.common" title="{{peLocalize "PTU.Epopee.ItemSheet.CommonHint"}}">{{peLocalize "PTU.Epopee.ItemSheet.Common"}}</label>
+                <input class="ml-1 mr-1" name="system.common" type="checkbox" {{checked item.system.common}}/>
+            </div>
+            {{#if item.system.common}}
+            <div class="item-row">
+                <label for="system.commonLoyalty" title="{{peLocalize "PTU.Epopee.ItemSheet.CommonLoyaltyHint"}}">{{peLocalize "PTU.Epopee.ItemSheet.CommonLoyalty"}}</label>
+                <input class="ml-1 mr-1" name="system.commonLoyalty" type="number" min="0" value="{{item.system.commonLoyalty}}" data-dtype="Number"/>
+            </div>
+            {{/if}}
             <div class="item-row">
                 <label for="system.keywords">{{localize "ITEM.Keywords"}}</label>
                 <input type="text" class="pe-tagify system-keywords" name="system.keywords" value="{{json item.system.keywords}}" data-dtype="JSON"/>

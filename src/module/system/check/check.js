@@ -242,7 +242,8 @@ class PTUDiceCheck {
                     if (!context) return null;
 
                     if (natural === 1 && !isInfinity) return "crit-miss"
-                    if (dcTarget.critRange.includes(natural)) return "crit-hit";
+                    // Crits are set on the die itself (95+ on the d100), not on its d20 face.
+                    if (dcTarget.critRange.includes(diceSize > 20 ? result : natural)) return "crit-hit";
                     if (isInfinity || total >= dcTarget.value) return "hit";
                     return "miss";
                 })();

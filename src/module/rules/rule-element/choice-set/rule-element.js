@@ -5,6 +5,15 @@ import { PredicateField } from "../../../system/schema-data-fields.js";
 import { RuleElementPTU } from "../base.js";
 import { ChoiceSetPrompt } from "./prompt.js";
 
+/**
+ * A choice's label for display. Skill choices are labelled with the bare skill key
+ * ("intuition"), which then showed up raw in item names - "Compétence Basique (intuition)".
+ */
+function choiceLabel(label) {
+    if (typeof label === "string" && game.i18n.has(`PTU.Skills.${label}`)) return game.i18n.localize(`PTU.Skills.${label}`);
+    return game.i18n.localize(label);
+}
+
 class ChoiceSetRuleElement extends RuleElementPTU {
     constructor(data, item, options) {
         const tempChoices = data.choices;
@@ -96,7 +105,7 @@ class ChoiceSetRuleElement extends RuleElementPTU {
             // If the name needs to be adjusted, do so
             if(this.adjustName) {
                 const effectName = itemSource.name;
-                const label = game.i18n.localize(selection.label);
+                const label = choiceLabel(selection.label);
                 const name = `${effectName} (${label})`;
 
                 // Deduplicate the name
@@ -156,7 +165,7 @@ class ChoiceSetRuleElement extends RuleElementPTU {
         try {
             const choiceData = choices.map((c) => ({
                 value: c.value,
-                label: game.i18n.localize(c.label),
+                label: choiceLabel(c.label),
                 img: c.img,
                 predicate: c.predicate ? new PTUPredicate(c.predicate) : undefined,
             }));
@@ -186,7 +195,9 @@ class ChoiceSetRuleElement extends RuleElementPTU {
         return (source.flag =
             typeof source.flag === "string" && source.flag.length > 0
                 ? source.flag.replace(/[^-a-z0-9]/gi, "")
-                : sluggify(this.item.slag ?? this.item.name, { camel: "dromedary"}))
+                // From the slug, not the name: rules address the flag by name ("basicSkills"),
+                // so renaming the item - "Basic Skills" to "Compétence Basique" - lost the choice.
+                : sluggify(this.item.slug ?? this.item.name, { camel: "dromedary"}))
     }
 
     #setRollOption(selection) {
@@ -201,4 +212,4 @@ class ChoiceSetRuleElement extends RuleElementPTU {
     }
 }
 
-export { ChoiceSetRuleElement }
+export { ChoiceSetRuleElement, choiceLabel }
