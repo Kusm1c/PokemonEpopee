@@ -535,7 +535,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 
 		html.find('.item-to-chat').click((ev) => {
 			const li = $(ev.currentTarget).parents('.item');
-			const item = this.actor.items.get(li.data('itemId'));
+			// Common moves are not embedded: they only exist among the attacks.
+			const item = this.actor.items.get(li.data('itemId')) ?? this.actor.attacks?.get(li.data('itemId'))?.item;
 			return item?.sendToChat?.();
 		});
 

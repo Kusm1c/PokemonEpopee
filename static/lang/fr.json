@@ -342,7 +342,6 @@
           }
         }
       },
-      "Always": "Toujours",
       "Item": {
         "Condition": {
           "SectionTitle": "Gestionnaire de Statut",

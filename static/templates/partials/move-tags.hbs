@@ -1,0 +1,60 @@
+{{!-- The tags of a move: frequency, type, category, DB, AC, range, keywords. --}}
+{{!-- Epopee: uses remaining + recharge moment. Unlimited renders dimmer. --}}
+{{#if item.system.frequency}}
+    <div class="tag gradient{{#if (usageExhausted item)}} exhausted{{/if}}"
+        style="{{#if (usageUnlimited item)}}opacity:.45;{{/if}}"
+        title="{{item.system.frequency}}">
+        <span>{{usageLabel item}}</span>
+    </div>
+{{/if}}
+{{#if item.system.type}}
+    <div class="tag gradient">
+        <img src="{{loadTypeImageIcon item.system.type}}" title="{{item.system.type}}"/>
+        <span>{{item.system.type}}</span>
+    </div>
+{{/if}}
+{{#if item.system.category}}
+    <div class="tag gradient">
+        <img src="/systems/pe/static/css/images/types2/{{item.system.category}}IC_Icon.png" title="{{item.system.category}}"/>
+        <span>{{item.system.category}}</span>
+    </div>
+{{/if}}
+{{#if item.damageBase}}
+    {{!-- {{#unless (is item.system.category "Status")}} --}}
+        <div class="tag tooltip gradient" title="{{peLocalize "PTU.Epopee.ItemList.DbDice" db=item.damageBase.postStab dice=(moveDbToDice item actor)}}">
+            <span>{{peLocalize "PTU.Epopee.ItemList.Db" db=item.damageBase.postStab}}</span>
+        </div>
+    {{!-- {{/unless}} --}}
+{{/if}}
+{{#if item.system.ac}}
+    {{#unless (is item.system.ac "--")}}
+        <div class="tag gradient" title="{{peLocalize "PTU.Epopee.ItemList.Ac" ac=item.system.ac}}">
+            <span>{{peLocalize "PTU.Epopee.ItemList.Ac" ac=item.system.ac}}</span>
+        </div>
+    {{/unless}}
+{{/if}}
+{{#if item.system.frequency}}
+    <div class="tag gradient">
+        <span>{{item.system.frequency}}</span>
+    </div>
+{{/if}}
+{{#if item.system.range}}
+    {{#each (split item.system.range ",") as | range |}}
+        {{#if (helpText range)}}
+            <div class="tag tooltip gradient" title="{{helpText range}}">
+                <span>{{#if (isNumber range)}}{{peLocalize "PTU.Epopee.ItemList.Range" range=range}}{{else}}{{range}}{{/if}}</span>
+            </div>
+        {{else}}
+            <div class="tag gradient">
+                <span>{{range}}</span>
+            </div>
+        {{/if}}
+    {{/each}}
+{{/if}}
+{{#if item.system.keywords}}
+    {{#each item.system.keywords as | keyword |}}
+        <div class="tag gradient">
+            <span>{{keyword}}</span>
+        </div>
+    {{/each}}
+{{/if}}

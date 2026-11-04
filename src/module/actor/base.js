@@ -1168,21 +1168,27 @@ class PTUActor extends Actor {
             .map(m => `${m.label}: ${m.signedValue}`)
             .join(", ");
 
-        if (!move.rollable) return action
+        // A common move a Pokemon's Loyalty has not reached yet (Garde 5, Réaction 10).
+        const commonUnlocked = () => {
+            if (!move.system.common) return true;
+            const access = commonMoveAccess(this, move);
+            if (access.locked) ui.notifications.warn(localize("PTU.Epopee.CommonMoves.Locked", { name: move.name, required: access.required, current: access.current }));
+            return !access.locked;
+        };
+
+        if (!move.rollable) {
+            // A common move with nothing to roll (Garde, Réaction) is announced: its card
+            // carries the rule.
+            if (move.system.common) action.roll = async () => commonUnlocked() ? move.sendToChat() : null;
+            return action;
+        }
 
         action.roll = async (params = {}) => {
             // Epopee: a move with a limited frequency spends a use when it is rolled. An
             // empty pool stops the roll (a GM is only warned, see canUse).
             if (!canUse(move)) return null;
 
-            // A common move a Pokemon's Loyalty has not reached yet (Garde 5, Réaction 10).
-            if (move.system.common) {
-                const access = commonMoveAccess(this, move);
-                if (access.locked) {
-                    ui.notifications.warn(localize("PTU.Epopee.CommonMoves.Locked", { name: move.name, required: access.required, current: access.current }));
-                    return null;
-                }
-            }
+            if (!commonUnlocked()) return null;
 
             const check = new PTUAttackCheck({
                 source: {
@@ -1198,8 +1204,8 @@ class PTUActor extends Actor {
 
             const result = await check.executeAttack(params.callback, action);
             // Only a roll that happened costs a use: no target, out of range or a closed
-            // dialog all come back empty.
-            if (result && move.isOwner) await spendUse(move);
+            // dialog all come back empty. A common move is temporary: no uses to keep.
+            if (result && move.isOwner && move.id) await spendUse(move);
             return result;
         };
 

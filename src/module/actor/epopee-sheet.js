@@ -186,7 +186,7 @@ function prepareCommonMoves(actor) {
 
         const access = commonMoveAccess(actor, item);
         const status = !access.required
-            ? localize("PTU.Epopee.Always")
+            ? ""
             : access.locked
                 ? localize("PTU.Epopee.LoyaltyProgress", { current: access.current, required: access.required })
                 : localize("PTU.Epopee.LoyaltyMet", { required: access.required });
