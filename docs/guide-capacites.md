@@ -84,11 +84,18 @@ dépôt, tant qu'on ne l'extrait pas.
 .\scripts\pack-tools\pack.ps1 compile moves   # fichiers JSON -> base
 ```
 
-- **Après des changements faits dans Foundry** : `extract`, puis commit des fichiers JSON et
-  des `.ldb`.
+**Vide `packs/_source/moves/` et lance `extract` avant de modifier des fichiers JSON.** Ce
+dossier n'est pas suivi par Git et ne se met pas à jour seul. Or `compile` écrase la base avec
+son contenu : des fichiers en retard annulent les traductions et corrections faites depuis dans
+Foundry. Le vider d'abord évite aussi de garder l'ancien fichier d'une capacité renommée.
+
+- **Après des changements faits dans Foundry** : commit des fichiers de `packs/moves/`.
 - **Pour créer une capacité à la main** :
-  1. copie un fichier JSON de `packs/_source/moves/` ;
+  1. après un `extract`, copie un fichier JSON de `packs/_source/moves/` ;
   2. donne-lui un `_id` unique de 16 caractères et le même dans `_key` (`!items!<id>`) ;
   3. modifie les champs (`"common": true` et `"commonLoyalty"` pour une capacité commune) ;
   4. lance `compile`, puis commit.
-- **Pour supprimer** : efface le fichier JSON, lance `compile`, puis commit.
+- **Pour supprimer** : après un `extract`, efface le fichier JSON, lance `compile`, puis commit.
+
+Les champs d'automatisation (Path, Selectors, Value, Predicate) sont détaillés dans
+[guide-regles.md](guide-regles.md).
