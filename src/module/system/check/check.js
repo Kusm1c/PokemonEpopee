@@ -9,6 +9,7 @@ import { PTUToken } from "../../canvas/token/index.js";
 import { CheckDialog } from "./dialogs/dialog.js";
 import { PTUTokenDocument } from "../../canvas/token/document.js";
 import { CheckModifier } from "../../actor/modifiers.js";
+import { ACCURACY_DIE, critFaces } from "../../combat-math/config.js";
 
 class PTUDiceCheck {
     /** @type {PTUToken[]} */
@@ -489,9 +490,12 @@ class PTUCheck {
                 rollOptions.add(trait);
             }
 
+            // Epopee: a Poke Ball's throw and its capture check are both rolled on a d100.
+            const faces = ["capture-throw", "capture-calculation"].includes(context.type) ? ACCURACY_DIE : 20;
+
             const substitution = substitutions.at(-1);
             if (rollOptions.has("fortune") && rollOptions.has("misfortune")) {
-                return ["1d20", ["PTU.Trait.Fortune", "PTU.Trait.Misfortune"]];
+                return [`1d${faces}`, ["PTU.Trait.Fortune", "PTU.Trait.Misfortune"]];
             }
             else if (substitution) {
                 const extraTag = game.i18n.format("PTU.Check.Substitution", { substitution: substitution.label, type: substitution.effectType == "fortune" ? "PTU.Trait.Fortune" : "PTU.Trait.Misfortune" })
@@ -499,16 +503,13 @@ class PTUCheck {
                 return [substitution.value.toString(), [extraTag]];
             }
             else if (context.rollTwice === "keep-higher") {
-                return ["2d20kh", ["PTU.Trait.Fortune"]];
+                return [`2d${faces}kh`, ["PTU.Trait.Fortune"]];
             }
             else if (context.rollTwice === "keep-lower") {
-                return ["2d20kl", ["PTU.Trait.Misfortune"]]
-            }
-            else if (context.type === "capture-calculation") {
-                return ["1d100", []];
+                return [`2d${faces}kl`, ["PTU.Trait.Misfortune"]]
             }
             else {
-                return ["1d20", []];
+                return [`1d${faces}`, []];
             }
         })();
         extraTags.push(...tagsFromDice);
@@ -623,8 +624,12 @@ class PTUCheck {
                     return [false, "miss"];
                 }
 
-                if (result === 1 && !isInfinity) return [false, "crit-miss"];
-                if (result >= 20 - critModifier) {
+                // A throw reads its d100 like an attack's accuracy roll: 1-5 fumbles, 95+ crits.
+                const isThrow = context.type === "capture-throw";
+                const natural = isThrow ? Math.ceil((result * 20) / ACCURACY_DIE) : result;
+
+                if (natural === 1 && !isInfinity) return [false, "crit-miss"];
+                if (isThrow ? critFaces(critModifier).includes(result) : result >= 20 - critModifier) {
                     // If target is immune to crit; return hit
                     if (target.options.has("target:immune:crit")) return [true, "blocked-crit"];
 

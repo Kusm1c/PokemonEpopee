@@ -6,6 +6,6 @@ export function pokedex() {
 
     const dex = game.user.character?.system?.dex;
     if (!dex) return;
-    const seen = [...dex.seen, species.slug];
+    const seen = [...dex.seen, species.dexSlug];
     return game.user.character.update({ "system.dex.seen": seen });
 }

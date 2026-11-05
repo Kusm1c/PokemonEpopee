@@ -1733,6 +1733,7 @@
       "CaptureRoll": "Capture Roll",
       "CaptureNoTarget": "You need to target a Pokémon to capture",
       "CaptureWrongTarget": "You need to target a Pokémon to capture",
+      "CaptureThrowMissed": "The Poké Ball missed its target: no capture roll",
       "Use": "Apply Effect",
       "NoTarget": "You need to target an actor before using a move"
     },
