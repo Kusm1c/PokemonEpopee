@@ -144,35 +144,47 @@ const HAZARD_DEFINITIONS = {
 }
 
 const WALL_DEFINITIONS = {
-    protect: {
-        get label() { return localize("PTU.Epopee.Environment.Wall.protect"); },
+    reflect: {
+        get label() { return localize("PTU.Epopee.Environment.Wall.reflect"); },
         duration: 5,
         extendedDuration: 8,
         note: "Treats the Defense of allies behind it as +2 Combat Stage against moves passing through. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
     },
-    "light-wall": {
-        get label() { return localize("PTU.Epopee.Environment.Wall.light-wall"); },
+    "light-screen": {
+        get label() { return localize("PTU.Epopee.Environment.Wall.light-screen"); },
         duration: 5,
         extendedDuration: 8,
-        note: "Same as Protect but for Special Defense. Not auto-applied - adjudicate manually."
+        note: "Treats the Special Defense of allies behind it as +2 Combat Stage against moves passing through. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
     },
+    "aurora-veil": {
+        get label() { return localize("PTU.Epopee.Environment.Wall.aurora-veil"); },
+        duration: 5,
+        extendedDuration: 8,
+        note: "Treats the Defense AND Special Defense of allies behind it as +2 Combat Stage against moves passing through. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
+    }
     "rune-protect": {
         get label() { return localize("PTU.Epopee.Environment.Wall.rune-protect"); },
         duration: 5,
         extendedDuration: 8,
         note: "Moves passing through cannot apply Status alterations to allies behind it. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
     },
-    "fog-wall": {
-        get label() { return localize("PTU.Epopee.Environment.Wall.fog-wall"); },
+    "mist": {
+        get label() { return localize("PTU.Epopee.Environment.Wall.mist"); },
+        duration: 5,
+        extendedDuration: 8,
+        note: "Moves and Abilities passing through cannot cause Combat Stages reductions to allies behind it. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
+    }
+    "smokescreen": {
+        get label() { return localize("PTU.Epopee.Environment.Wall.smokescreen"); },
         duration: 5,
         extendedDuration: 8,
         note: "Moves targeting allies behind it get +3 AC if they have one. Not auto-applied - adjudicate manually."
     },
-    "telekinesis-wall": {
-        get label() { return localize("PTU.Epopee.Environment.Wall.telekinesis-wall"); },
+    "telekinesis": {
+        get label() { return localize("PTU.Epopee.Environment.Wall.telekinesis"); },
         duration: 5,
         extendedDuration: 8,
-        note: "Same +3 AC effect as Fog Wall. Not auto-applied - adjudicate manually."
+        note: "Moves targeting allies behind it get +3 AC if they have one. Not auto-applied - adjudicate manually."
     }
 }
 

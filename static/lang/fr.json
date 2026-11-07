@@ -390,11 +390,13 @@
           "sharp-trap": "Piège Tranchant"
         },
         "Wall": {
-          "protect": "Abri",
-          "light-wall": "Mur Lumière",
+          "reflect": "Protection",
+          "light-screen": "Mur Lumière",
+          "aurora-veil": "Voile Aurore",
           "rune-protect": "Rune Protect",
-          "fog-wall": "Mur de Brume",
-          "telekinesis-wall": "Mur Télékinétique"
+          "mist": "Brume",
+          "smokescreen": "Brouillard",
+          "telekinesis": "Lévikinésie"
         },
         "Hazards": {
           "MaxStacks": "{name} est déjà au maximum de couches sur cette case.",

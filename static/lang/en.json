@@ -400,11 +400,13 @@
           "sharp-trap": "Sharp Trap"
         },
         "Wall": {
-          "protect": "Protect",
-          "light-wall": "Light Wall",
+          "reflect": "Reflect",
+          "light-screen": "Light Screen",
+          "aurora-veil": "Aurora Veil",
           "rune-protect": "Rune Protect",
-          "fog-wall": "Fog Wall",
-          "telekinesis-wall": "Telekinesis Wall"
+          "mist": "Mist",
+          "smokescreen": "Smokescreen",
+          "telekinesis": "Telekinesis Wall"
         },
         "Hazards": {
           "MaxStacks": "{name} is already at max stacks on this tile.",
