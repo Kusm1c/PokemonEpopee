@@ -53,3 +53,4 @@ desktop.ini
 *.bak
 *.tmp
 *~
+scripts/pack-tools/pack.ps1
