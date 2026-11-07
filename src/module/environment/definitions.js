@@ -161,7 +161,7 @@ const WALL_DEFINITIONS = {
         duration: 5,
         extendedDuration: 8,
         note: "Treats the Defense AND Special Defense of allies behind it as +2 Combat Stage against moves passing through. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
-    }
+    },
     "rune-protect": {
         get label() { return localize("PTU.Epopee.Environment.Wall.rune-protect"); },
         duration: 5,
@@ -173,7 +173,7 @@ const WALL_DEFINITIONS = {
         duration: 5,
         extendedDuration: 8,
         note: "Moves and Abilities passing through cannot cause Combat Stages reductions to allies behind it. Ignored by Critical Hits. Not auto-applied - adjudicate manually."
-    }
+    },
     "smokescreen": {
         get label() { return localize("PTU.Epopee.Environment.Wall.smokescreen"); },
         duration: 5,
