@@ -25,7 +25,8 @@ puis de la modifier.
 ## 2. En faire une capacité commune
 
 Une capacité commune est donnée d'office à **tous les Pokémon et tous les Dresseurs**. Elle
-apparaît dans le panneau **Capacités Communes** de l'onglet Actions et se lance d'un clic.
+apparaît dans le panneau **Capacités Communes** de l'onglet Actions et se lance d'un clic : jet
+d'attaque si elle en a un, sinon sa carte part dans le chat (CA et BDD à `--`, comme Garde).
 
 1. Dans l'onglet **Détails** de la capacité, coche **Capacité commune**.
 2. Règle **Loyauté requise (Pokémon)** :
@@ -36,7 +37,8 @@ apparaît dans le panneau **Capacités Communes** de l'onglet Actions et se lanc
    Les Dresseurs l'ont toujours.
 
 Le changement s'applique à toutes les fiches dès que l'entrée du compendium est
-enregistrée : il n'y a rien à copier sur les acteurs.
+enregistrée : il n'y a rien à copier sur les acteurs. Pour la même raison, une fréquence limitée
+n'est pas décomptée sur une capacité commune.
 
 Capacités communes fournies :
 
@@ -84,11 +86,18 @@ dépôt, tant qu'on ne l'extrait pas.
 .\scripts\pack-tools\pack.ps1 compile moves   # fichiers JSON -> base
 ```
 
-- **Après des changements faits dans Foundry** : `extract`, puis commit des fichiers JSON et
-  des `.ldb`.
+**Vide `packs/_source/moves/` et lance `extract` avant de modifier des fichiers JSON.** Ce
+dossier n'est pas suivi par Git et ne se met pas à jour seul. Or `compile` écrase la base avec
+son contenu : des fichiers en retard annulent les traductions et corrections faites depuis dans
+Foundry. Le vider d'abord évite aussi de garder l'ancien fichier d'une capacité renommée.
+
+- **Après des changements faits dans Foundry** : commit des fichiers de `packs/moves/`.
 - **Pour créer une capacité à la main** :
-  1. copie un fichier JSON de `packs/_source/moves/` ;
+  1. après un `extract`, copie un fichier JSON de `packs/_source/moves/` ;
   2. donne-lui un `_id` unique de 16 caractères et le même dans `_key` (`!items!<id>`) ;
   3. modifie les champs (`"common": true` et `"commonLoyalty"` pour une capacité commune) ;
   4. lance `compile`, puis commit.
-- **Pour supprimer** : efface le fichier JSON, lance `compile`, puis commit.
+- **Pour supprimer** : après un `extract`, efface le fichier JSON, lance `compile`, puis commit.
+
+Les champs d'automatisation (Path, Selectors, Value, Predicate) sont détaillés dans
+[guide-regles.md](guide-regles.md).

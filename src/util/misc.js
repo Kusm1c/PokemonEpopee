@@ -99,7 +99,9 @@ export async function findItemInCompendium({ type, name, compendium }) {
     })();
 
     const find = (items) => {
-        return items?.find((item) => item.slug === sluggify(name) || item.name === name);
+        const slug = sluggify(name);
+        // The name comes first: a species shares its stored slug with its Mega forms.
+        return items?.find((item) => item.name === name || item.dexSlug === slug) ?? items?.find((item) => item.slug === slug);
     }
 
     const indexed = find(pack.contents);

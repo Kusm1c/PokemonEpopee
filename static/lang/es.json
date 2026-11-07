@@ -553,6 +553,7 @@
       "CaptureRoll": "Tirada de Captura",
       "CaptureNoTarget": "Tienes que apuntar a un Pokémon para capturarlo",
       "CaptureWrongTarget": "Tienes que apuntar a un Pokémon para capturarlo",
+      "CaptureThrowMissed": "La Poké Ball ha fallado: no hay tirada de captura",
       "Use": "Aplicar efecto",
       "NoTarget": "Es necesario apuntar a un actor antes de utilizar un movimiento"
     },

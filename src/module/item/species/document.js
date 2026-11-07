@@ -2,7 +2,26 @@ import { sluggify, findItemInCompendium } from '../../../util/misc.js';
 import { PTUItem } from '../index.js';
 
 class PTUSpecies extends PTUItem {
+    /**
+     * The stable, untranslated slug that evolution lists and code refer to: "Roucool" is
+     * `pidgey`. It is not unique, as a Mega form shares the slug of its base species.
+     *
+     * If the species' own entry in its evolution list follows its name instead (a list
+     * edited from the sheet, or a mistyped stored slug), that entry wins, so that the
+     * species can still find itself in the list.
+     */
     get slug() {
+        const stored = super.slug;
+        const stages = this.system?.evolutions;
+        if (!Array.isArray(stages) || stages.some(e => e.slug === stored)) return stored;
+        return stages.some(e => e.slug === this.dexSlug) ? this.dexSlug : stored;
+    }
+
+    /**
+     * This species' entry in a Trainer's Dex, which is what `system.dex` stores. Built from
+     * the name so that each form keeps its own entry, unlike `slug`.
+     */
+    get dexSlug() {
         return sluggify(this.name);
     }
 
@@ -12,7 +31,7 @@ class PTUSpecies extends PTUItem {
         const femaleTag = gender.toLowerCase() == "female" ? "f" : "";
         const shinyTag = shiny ? "s" : "";
 
-        return `${path.startsWith('/') ? "" : "/"}${path}${path.endsWith('/') ? "" : "/"}${useName ? this.slug : Handlebars.helpers.lpad(this.system.number, 3, 0)}${femaleTag}${shinyTag}${this.system.form ? ("_" + this.system.form) : ""}${suffix ?? ""}${extension.startsWith('.') ? "" : "."}${extension}`;
+        return `${path.startsWith('/') ? "" : "/"}${path}${path.endsWith('/') ? "" : "/"}${useName ? this.dexSlug : Handlebars.helpers.lpad(this.system.number, 3, 0)}${femaleTag}${shinyTag}${this.system.form ? ("_" + this.system.form) : ""}${suffix ?? ""}${extension.startsWith('.') ? "" : "."}${extension}`;
     }
 
     static async convertToPTUSpecies(speciesData, options = {}) {

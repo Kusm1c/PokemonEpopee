@@ -192,9 +192,11 @@ class PokeballItem extends PTUItemItem {
                 // If 2 remaining add +10
                 // If 1 remaining add +5
                 // If 0 remaining add +0
-                const evolutions = target.actor.species?.system?.evolutions ?? [];
-                if (evolutions.length > 1) {
-                    const currentEvolution = evolutions.find(e => e.slug == target.actor.species.slug);
+                const species = target.actor.species;
+                const evolutions = species?.system?.evolutions ?? [];
+                // Some forms are not in their own list at all, and get no evolution modifier.
+                const currentEvolution = evolutions.find(e => e.slug === species?.slug);
+                if (currentEvolution && evolutions.length > 1) {
                     const remaining = new Set(evolutions.filter(e => e.level > currentEvolution.level).map(x => x.level)).size;
                     const stage = (() => {
                         const stage = new Set(evolutions.map(x => x.level)).size - remaining;
@@ -368,11 +370,17 @@ class PokeballItem extends PTUItemItem {
     async requestGmRoll(event, args) {
         //TODO
 
-        if (true) return this.rollCapture(event, args);
+        // A throw that misses never reaches the capture check.
+        const outcome = args[1]?.[0]?.outcome;
+        if (outcome === "miss" || outcome === "crit-miss") {
+            return ui.notifications.info("PTU.Action.CaptureThrowMissed", { localize: true });
+        }
+
+        return this.rollCapture(event, args);
     }
 
     async rollCapture(event, args) {
-        const target = await fromUuid(args[1]?.[0]?.token ?? "")?.object;
+        const target = (await fromUuid(args[1]?.[0]?.token ?? ""))?.object;
         return this.action.capture({ event, target, /*callback: (...args) => this.applyCapture(args)*/ });
     }
 
@@ -436,8 +444,8 @@ class PokeballItem extends PTUItemItem {
                         const trainerUpdateData = {
                             "_id": trainer.id,
                             "system.dex": {
-                                "seen": trainer.system.dex.seen.filter(s => s !== pokemon.species.slug),
-                                "owned": [...trainer.system.dex.owned.filter(s => s !== pokemon.species.slug), pokemon.species.slug]
+                                "seen": trainer.system.dex.seen.filter(s => s !== pokemon.species.dexSlug),
+                                "owned": [...trainer.system.dex.owned.filter(s => s !== pokemon.species.dexSlug), pokemon.species.dexSlug]
                             }
                         }
 

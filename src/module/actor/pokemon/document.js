@@ -61,8 +61,10 @@ class PTUPokemonActor extends PTUActor {
         if (embeddedName === "Item") {
             for (const itemData of data) {
                 if (itemData.type === "species" && this.itemTypes.species.length > 0) {
-                    if (this.itemTypes.species[0].slug == itemData.system.slug) return false;
-                    await this.itemTypes.species[0].delete();
+                    // Forms share the slug of their base species, so a Mega has to differ by name.
+                    const current = this.itemTypes.species[0];
+                    if (current.slug == itemData.system.slug && current.name == itemData.name) return false;
+                    await current.delete();
                 }
             }
         }
@@ -622,7 +624,7 @@ class PTUPokemonActor extends PTUActor {
                 tokenUpdates["texture.src"] = update["prototypeToken.texture.src"];
             }
 
-            if (sluggify(this.name) == this.species.slug) {
+            if (sluggify(this.name) == this.species.dexSlug) {
                 update.name = Handlebars.helpers.capitalizeFirst(result.evolution.name);
                 tokenUpdates["name"] = update.name;
             }

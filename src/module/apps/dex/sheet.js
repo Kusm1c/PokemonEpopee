@@ -42,7 +42,7 @@ class PTUDexSheet extends FormApplication {
                 }
             ).then(docs => this.speciesDocs = docs)
                 .then(docs => docs.reduce((map, s) => {
-                    map.set(s.slug, s);
+                    map.set(s.dexSlug, s);
                     return map;
                 }, new Map()))
                 .then(map => PTUDexSheet.speciesMap = map)
@@ -97,12 +97,12 @@ class PTUDexSheet extends FormApplication {
 
         data.dex.total = (this.speciesDocs ?? [])
             .map((species) => ({
-                img: PTUDexSheet.speciesArtCache.get(species.slug) ?? "/systems/pe/css/images/icons/dex_icon.png",
-                id: species.slug,
-                name: Handlebars.helpers.formatSlug(species.slug),
+                img: PTUDexSheet.speciesArtCache.get(species.dexSlug) ?? "/systems/pe/css/images/icons/dex_icon.png",
+                id: species.dexSlug,
+                name: Handlebars.helpers.formatSlug(species.dexSlug),
                 number: species.system.number,
-                seen: seen.has(species.slug),
-                owned: owned.has(species.slug)
+                seen: seen.has(species.dexSlug),
+                owned: owned.has(species.dexSlug)
             }))
             .sort((a, b) => a.number - b.number);
 

@@ -342,7 +342,6 @@
           }
         }
       },
-      "Always": "Toujours",
       "Item": {
         "Condition": {
           "SectionTitle": "Gestionnaire de Statut",
@@ -1726,6 +1725,7 @@
       "CaptureRoll": "Jet de capture",
       "CaptureNoTarget": "Vous devez cibler un Pokémon à capturer",
       "CaptureWrongTarget": "Vous devez cibler un Pokémon à capturer",
+      "CaptureThrowMissed": "La Poké Ball a raté sa cible : pas de jet de capture",
       "Use": "Appliquer l'effet",
       "NoTarget": "Vous devez cibler un personnage avant d'utiliser une attaque"
     },

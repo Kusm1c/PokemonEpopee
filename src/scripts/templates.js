@@ -6,6 +6,7 @@ export function registerTemplates() {
         "systems/pe/static/templates/partials/mod-field.hbs",
         "systems/pe/static/templates/partials/item-display-partial.hbs",
         "systems/pe/static/templates/partials/common-moves.hbs",
+        "systems/pe/static/templates/partials/move-tags.hbs",
 
         // Item Sheet Partials
         "systems/pe/static/templates/partials/rules/rule-partial.hbs",

@@ -45,7 +45,7 @@ class PTUSpeciesSheet extends PTUItemSheet {
                 case 4: {
                     if(!game.user.character) ui.notifications.warn("PTU.UserNeedsToOwnCharacter", {localize: true})
                     if(!game.user.character?.system.dex?.owned?.length) return "entry";
-                    if(game.user.character.system.dex.owned.find(slug => slug == this.item.slug)) return "full";
+                    if(game.user.character.system.dex.owned.find(slug => slug == this.item.dexSlug)) return "full";
                     return "entry";
                 }
                 case 5: {

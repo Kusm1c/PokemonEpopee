@@ -46,14 +46,21 @@ class PTUDamageCheck extends PTUDiceCheck {
     /** @override */
     async prepareContexts(attackStatistic = null) {
         if (this.isSelfAttack) {
+            this._contexts = new Collection();
+            this.targetOptions = new Set(this.options);
+
+            // Off the scene there is no token to read a context from; the roll still happens.
+            if (!this.token) return;
+
             const context = await this.actor.getContext({
                 selfToken: this.token,
                 targetToken: this.token,
                 selfItem: this.item,
-                domains: this.context.domains,
+                domains: this.selectors,
                 statistic: attackStatistic
             });
-            this._contexts = new Collection([[context.actor.uuid, context]]);
+            this._contexts.set(context.actor.uuid, context);
+            this.targetOptions = new Set([...this.targetOptions, ...context.targetOptions]);
         }
         else await super.prepareContexts(attackStatistic);
     }

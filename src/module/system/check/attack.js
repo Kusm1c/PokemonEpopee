@@ -29,14 +29,21 @@ class PTUAttackCheck extends PTUDiceCheck {
     /** @override */
     async prepareContexts(attackStatistic = null) {
         if (this.isSelfAttack) {
+            this._contexts = new Collection();
+            this.targetOptions = new Set(this.options);
+
+            // Off the scene there is no token to read a context from; the roll still happens.
+            if (!this.token) return;
+
             const context = await this.actor.getContext({
                 selfToken: this.token,
                 targetToken: this.token,
                 selfItem: this.item,
-                domains: this.context.domains,
+                domains: this.selectors,
                 statistic: attackStatistic
             });
-            this._contexts = new Collection([[context.actor.uuid, context]]);
+            this._contexts.set(context.actor.uuid, context);
+            this.targetOptions = new Set([...this.targetOptions, ...context.targetOptions]);
         }
         else await super.prepareContexts(attackStatistic);
     }
@@ -203,7 +210,8 @@ class PTUAttackCheck extends PTUDiceCheck {
                         modifier: 0
                     }));
                 }
-                else {
+                // Nobody dodges their own move.
+                else if (!this.isSelfAttack) {
                     target.statistic.push(new PTUModifier({
                         slug: "esquive",
                         label: game.i18n.localize("PTU.Epopee.Esquive"),
@@ -335,7 +343,7 @@ class PTUAttackCheck extends PTUDiceCheck {
      * @returns {boolean}
      */
     attackNoTargets() {
-        if (game.settings.get("pe", "automation.failAttackIfNoTarget")) {
+        if (!this.isSelfAttack && game.settings.get("pe", "automation.failAttackIfNoTarget")) {
             if (this._contexts.size === 0) {
                 ui.notifications.warn("PTU.Action.NoTarget", { localize: true });
                 return false;

@@ -20,14 +20,20 @@ class ItemSummaryRenderer {
         const element = el.closest('[data-item-id], .expandable');
         if(!element) return;
 
-        const item = this.sheet.actor.items.get(element.dataset.itemId);
+        const item = this.getItem(element.dataset.itemId);
         if(!item) return;
         
         const sheetState = game.user.getFlag("pe", "sheetStates")?.[this.sheet.actor.id];
         if(!sheetState) return;
 
-        const state = sheetState[item.type]?.[item.id];
+        const state = sheetState[item.type]?.[item.realId];
         if(state) return this.toggleSummary(element);
+    }
+
+    /** Common moves are not embedded: they only exist among the attacks, under their realId. */
+    getItem(itemId) {
+        const { actor } = this.sheet;
+        return actor.items.get(itemId) ?? actor.attacks?.get(itemId)?.item ?? null;
     }
 
     async toggleSummary(element) {
@@ -37,7 +43,7 @@ class ItemSummaryRenderer {
 
         const duration = 0.4;
 
-        const item = actor.items.get(itemId);
+        const item = this.getItem(itemId);
         if(!item) return;
 
         const summary = await (async () => {
@@ -70,7 +76,7 @@ class ItemSummaryRenderer {
             await game.user.setFlag("pe", "sheetStates", foundry.utils.mergeObject(game.user.getFlag("pe", "sheetStates") || {}, {
                 [actor.id]: {
                     [item.type]: {
-                        [item.id]: true
+                        [item.realId]: true
                     }
                 }
             }));
@@ -85,7 +91,7 @@ class ItemSummaryRenderer {
             await game.user.setFlag("pe", "sheetStates", foundry.utils.mergeObject(game.user.getFlag("pe", "sheetStates") || {}, {
                 [actor.id]: {
                     [item.type]: {
-                        [item.id]: false
+                        [item.realId]: false
                     }
                 }
             }));
