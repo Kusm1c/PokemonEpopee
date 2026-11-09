@@ -302,7 +302,7 @@
           "Failure": "Échec : le groupe est perdu :cccccccc",
           "Pace": "Mode de déplacement",
           "PaceModifier": "{value} au jet.",
-          "PaceRollTwice": "Lancé deux fois, meilleur résultat gardé.",
+          "PaceRollTwice": "Commence à 2 jets, meilleur résultat gardé.",
           "PaceNoEffect": "Aucun effet sur le jet.",
           "Rolls": "Jets",
           "RollsBest": "{rolls} (meilleur gardé)"
@@ -585,7 +585,7 @@
         "FoundOver": "{count} Objets Trouvés — 1 maximum",
         "HeldItem": "Objet Tenu",
         "FoundItem": "Objet Trouvé",
-        "FoundItemHint": "Objet Trouvé (part au dresseur en fin de scène)",
+        "FoundItemHint": "Part au dresseur en fin de scène.",
         "Carried": "Porté (aucun effet)",
         "Moments": "Moments de Brillance",
         "AddMoment": "Ajouter un Moment",
@@ -926,7 +926,12 @@
         "Roll": "Jet",
         "Utilize": "Utiliser ?",
         "UnnamedModifier": "Modificateur sans nom",
-        "Ok": "OK"
+        "Ok": "OK",
+        "RollCount": "Nombre de jets",
+        "RollCountHint": "Le meilleur est gardé.",
+        "RollCountHintLowest": "Le plus bas est gardé (c'est le meilleur ici).",
+        "RollCountTag": "{n} jets, meilleur gardé",
+        "RollCountTagLowest": "{n} jets, plus bas gardé"
       },
       "Frequency": {
         "AtWill": "À volonté",
@@ -1611,6 +1616,9 @@
       "Current": "Actuel",
       "KnownMoves": "Capacités connues",
       "AvailableMoves": "Capacités disponibles",
+      "NoTechnical": "Aucune capacité technique connue.",
+      "LearnableTechnical": "Capacités techniques apprenables ({count})",
+      "LearnableTechnicalHint": "CT et tuteurs de l'espèce que le Pokémon ne connaît pas encore. Pour référence : elles ne s'apprennent pas en montant de niveau.",
       "Move": "Capacité",
       "Keep": "Conserver ?",
       "Abilities": {

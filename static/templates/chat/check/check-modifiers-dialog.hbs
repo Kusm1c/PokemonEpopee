@@ -61,6 +61,15 @@
         </div>
         <hr/> --}}
 
+        {{#if showRollCount}}
+        <div class="roll-count-panel d-flex flex-row align-items-center justify-content-between" style="gap: 6px;">
+            <span class="label fb-30">{{peLocalize "PTU.Epopee.Dialog.RollCount"}}</span>
+            <input class="fb-20" type="number" name="rollCount" value="{{rollCount}}" min="1" max="{{maxRollCount}}" step="1"/>
+            <span class="fb-45" style="font-size: 11px; opacity: 0.8;">{{rollCountHint}}</span>
+        </div>
+        <hr/>
+        {{/if}}
+
         <div class="roll-mode-panel d-flex flex-row align-items-center justify-content-between">
             <span class="label fb-30">{{localize "PTU.RollModeLabel"}}</span>
             <select class="fb-50" name="rollmode" {{#if rollModeLocked}}disabled{{/if}}>

@@ -101,12 +101,13 @@
         {{!-- {{/if}} --}}
 
         {{!-- Epopee: TM / tutor moves do not change on a level-up; shown so the whole
-              set is in view while choosing the Natural ones. --}}
-        {{#if data.moves.technical.length}}
+              set is in view while choosing the Natural ones, with the ones the species
+              could still learn folded underneath. --}}
         <div class="d-flex flex-column mt-2 center-text moves">
             <div class="d-flex flex-row justify-content-center header-bar ball-themes {{data.ballStyle}} highlight">
                 <h3>{{peLocalize "PTU.Epopee.Sheet.TechnicalTitle" count=data.moves.technical.length max=data.moves.max}}</h3>
             </div>
+            {{#if data.moves.technical.length}}
             <div class="d-flex flex-row flex-wrap justify-content-center pt-2 pb-2" style="gap:4px;">
                 {{#each data.moves.technical as | move |}}
                     <div class="d-flex flex-row justify-content-center move">
@@ -114,8 +115,28 @@
                     </div>
                 {{/each}}
             </div>
+            {{else}}
+            <p class="pe-muted pt-2 pb-2 mb-0">{{peLocalize "PTU.LevelUpForm.NoTechnical"}}</p>
+            {{/if}}
+
+            {{#if data.moves.learnableTechnical.length}}
+            <details class="pe-learnable-technical pb-2" {{#if learnableOpen}}open{{/if}}>
+                <summary style="cursor: pointer;">{{peLocalize "PTU.LevelUpForm.LearnableTechnical" count=data.moves.learnableTechnical.length}}</summary>
+                <p class="pe-muted mb-1">{{peLocalize "PTU.LevelUpForm.LearnableTechnicalHint"}}</p>
+                <div class="pe-learnable-list d-flex flex-row flex-wrap justify-content-center" style="gap:4px;">
+                    {{#each data.moves.learnableTechnical as | move |}}
+                        <div class="d-flex flex-row justify-content-center move">
+                            {{#if move.uuid}}
+                            <a class="content-link" draggable="true" data-link data-uuid="{{move.uuid}}" data-type="Item"><i class="fas fa-suitcase"></i>{{move.label}}</a>
+                            {{else}}
+                            <span>{{move.label}}</span>
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
+            </details>
+            {{/if}}
         </div>
-        {{/if}}
 
         <div class="d-flex flex-row justify-content-center center-text header-bar ball-themes {{data.ballStyle}} highlight">
             <h3>{{localize "ITEM.TypeAbilityPlural"}}</h3>

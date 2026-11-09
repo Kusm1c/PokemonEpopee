@@ -5,6 +5,8 @@ import { PTUDiceCheck, eventToRollParams } from "./check.js";
 import { CheckDialog } from "./dialogs/dialog.js";
 import { DiceCheckDialog } from "./dialogs/diceDialog.js";
 import { CheckRoll } from "./rolls/roll.js";
+import { clampRollCount, multiPool } from "./roll-count.js";
+import { localize } from "../../i18n.js";
 
 class PTUSkillCheck extends PTUDiceCheck {
 
@@ -16,8 +18,10 @@ class PTUSkillCheck extends PTUDiceCheck {
      * @param {PTUModifier[]} [params.extraModifiers] Added to the roll (a Compass, say)
      * @param {string} [params.title] Dialog and message title instead of the skill's
      * @param {boolean} [params.skipDialog] Roll without the dialogs (a repeat roll)
+     * @param {number} [params.rollCount] How many rolls to start at, the best kept (the
+     *                                    Navigator's Slow pace starts at 2)
      */
-    constructor({ source, targets, selectors, event, action, dc, rollMode = null, lockRollMode = false, extraModifiers = [], title = null, skipDialog = null }) {
+    constructor({ source, targets, selectors, event, action, dc, rollMode = null, lockRollMode = false, extraModifiers = [], title = null, skipDialog = null, rollCount = 1 }) {
         super({ source, targets, selectors, event });
         this.action = action;
         this.dc = dc;
@@ -26,6 +30,7 @@ class PTUSkillCheck extends PTUDiceCheck {
         this.extraModifiers = extraModifiers;
         this.titleOverride = title;
         this.skipDialogOverride = skipDialog;
+        this.rollCount = clampRollCount(rollCount);
     }
 
     get rollCls() {
@@ -150,7 +155,8 @@ class PTUSkillCheck extends PTUDiceCheck {
             if (skipDialog) return {
                 rollMode,
                 fortuneType: null,
-                statistic: this.statistic
+                statistic: this.statistic,
+                rollCount: this.rollCount
             };
 
             return await CheckDialog.DisplayDialog({
@@ -158,10 +164,13 @@ class PTUSkillCheck extends PTUDiceCheck {
                 rollMode,
                 statistic: this.statistic,
                 type: "skill",
-                rollModeLocked
+                rollModeLocked,
+                rollCount: this.rollCount
             });
         })();
         if (!dialogContext) return null;
+        // Epopee: "Nombre de jets" - the whole pool rolled that many times, the best total kept.
+        const rollCount = isReroll ? 1 : clampRollCount(dialogContext.rollCount);
 
         const diceDialogContext = await (async () => {
             if (skipDialog) return {
@@ -180,7 +189,7 @@ class PTUSkillCheck extends PTUDiceCheck {
         })();
         if (!diceDialogContext) return null;
 
-        const dice = this.diceModifiers.map(mod => `${mod.diceNumber}d${mod.dieSize}`).join(" + ");
+        const dice = multiPool(this.diceModifiers.map(mod => `${mod.diceNumber}d${mod.dieSize}`).join(" + "), rollCount);
 
         const options = {
             origin: {
@@ -273,7 +282,8 @@ class PTUSkillCheck extends PTUDiceCheck {
         // The mode picked in the dialog - it used to be read and then dropped, so every
         // skill roll went out in the starting mode. A locked mode stays as given.
         const messageRollMode = rollModeLocked ? rollMode : (dialogContext.rollMode ?? rollMode);
-        const message = await this.createMessage({roll, rollMode: messageRollMode, flags, extraTags: diceDialogContext.statistic.tags, inverse: true});
+        const countTags = rollCount > 1 ? [localize("PTU.Epopee.Dialog.RollCountTag", { n: rollCount })] : [];
+        const message = await this.createMessage({roll, rollMode: messageRollMode, flags, extraTags: [...countTags, ...diceDialogContext.statistic.tags], inverse: true});
 
         if (callback) {
             const msg = message instanceof ChatMessage ? message : new ChatMessage(message);
@@ -283,9 +293,15 @@ class PTUSkillCheck extends PTUDiceCheck {
 
         this.rolls = [roll];
 
+        // Each roll's total, the kept one included, for callers that report them all.
+        const pool = rollResult.terms.find(t => t instanceof CONFIG.Dice.termTypes.PoolTerm);
+        const flat = isInfinity ? 0 : total;
+        const totals = pool ? pool.rolls.map(r => r.total + flat) : [rollResult.total];
+
         return {
             rolls: this.rolls,
             targets,
+            totals,
         }
     }
 

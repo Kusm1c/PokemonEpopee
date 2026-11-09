@@ -10,6 +10,14 @@ import { CheckDialog } from "./dialogs/dialog.js";
 import { PTUTokenDocument } from "../../canvas/token/document.js";
 import { CheckModifier } from "../../actor/modifiers.js";
 import { ACCURACY_DIE, critFaces } from "../../combat-math/config.js";
+import { clampRollCount, multiDie, multiPool } from "./roll-count.js";
+import { localize } from "../../i18n.js";
+
+/** The chat tag for a roll made several times, or none for a single roll. */
+function rollCountTags(count, lowerIsBetter = false) {
+    if (count <= 1) return [];
+    return [localize(lowerIsBetter ? "PTU.Epopee.Dialog.RollCountTagLowest" : "PTU.Epopee.Dialog.RollCountTag", { n: count })];
+}
 
 class PTUDiceCheck {
     /** @type {PTUToken[]} */
@@ -171,19 +179,23 @@ class PTUDiceCheck {
             if (skipDialog) return {
                 rollMode,
                 fortuneType: null,
-                statistic: this.statistic
+                statistic: this.statistic,
+                rollCount: context.rollCount ?? 1
             };
 
             return await CheckDialog.DisplayDialog({
                 title,
                 rollMode,
                 statistic: this.statistic,
-                type
+                type,
+                rollCount: context.rollCount ?? 1
             });
         })();
         if (!dialogContext) return null;
 
-        const dice = `1d${diceSize}`;
+        // Epopee: "Nombre de jets" - the die rolled that many times, the best one kept.
+        const rollCount = isReroll ? 1 : clampRollCount(dialogContext.rollCount);
+        const dice = multiDie(diceSize, rollCount);
 
         const options = {
             origin: {
@@ -309,7 +321,7 @@ class PTUDiceCheck {
         if (attack) flags.pe.attack = attack;
         if (type === "initiative") flags.core.initiativeRoll = true;
 
-        const message = await this.createMessage({roll, rollMode, flags, type});
+        const message = await this.createMessage({roll, rollMode, flags, type, extraTags: rollCountTags(rollCount)});
 
         if (callback) {
             const msg = message instanceof ChatMessage ? message : new ChatMessage(message);
@@ -468,13 +480,22 @@ class PTUCheck {
         const substitutions = context.substitutions ?? [];
         const extraTags = [];
 
+        // Epopee: "Nombre de jets" - rolled that many times and the best kept, which for a
+        // capture check (where a low result wins) is the lowest. Above 1 it takes over from
+        // Fortune; a substitution, which replaces the die altogether, still comes first.
+        const lowerIsBetter = context.type === "capture-calculation";
+        const rollCount = isReroll ? 1 : clampRollCount(context.rollCount);
+
         const [dice, tagsFromDice] = (() => {
             const substitutions = context.substitutions?.filter((s) => (!s.ignored && s.predicate?.test(rollOptions)) ?? true) ?? [];
 
             if(diceStatistic) {
                 const isOverwrite = context.type === "skill-check";
                 if(isOverwrite) {
-                    return [diceStatistic.totalModifier, diceStatistic.tags];
+                    return [
+                        multiPool(diceStatistic.totalModifier, rollCount, lowerIsBetter),
+                        [...(diceStatistic.tags ?? []), ...rollCountTags(rollCount, lowerIsBetter)]
+                    ];
                 }
             }
 
@@ -501,6 +522,9 @@ class PTUCheck {
                 const extraTag = game.i18n.format("PTU.Check.Substitution", { substitution: substitution.label, type: substitution.effectType == "fortune" ? "PTU.Trait.Fortune" : "PTU.Trait.Misfortune" })
 
                 return [substitution.value.toString(), [extraTag]];
+            }
+            else if (rollCount > 1) {
+                return [multiDie(faces, rollCount, lowerIsBetter), rollCountTags(rollCount, lowerIsBetter)];
             }
             else if (context.rollTwice === "keep-higher") {
                 return [`2d${faces}kh`, ["PTU.Trait.Fortune"]];

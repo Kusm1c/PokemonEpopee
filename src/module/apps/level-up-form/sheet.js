@@ -48,6 +48,8 @@ class LevelUpForm extends FormApplication {
         return {
             ...data,
             data: this.data,
+            // The form re-renders on every drag; keep the learnable list as the user left it.
+            learnableOpen: this.learnableOpen ?? false,
             cssClass: ``,
         };
     }
@@ -55,6 +57,12 @@ class LevelUpForm extends FormApplication {
     /** @override */
     activateListeners($html) {
         super.activateListeners($html);
+
+        $html.find("details.pe-learnable-technical").on("toggle", (event) => {
+            this.learnableOpen = event.currentTarget.open;
+            // Refit the window to the list, within the screen (setPosition caps it there).
+            this.setPosition({ height: "auto" });
+        });
 
         $html.find('.stats .tooltip').tooltipster({
 			theme: `tooltipster-shadow ball-themes ${this.ballStyle}`,

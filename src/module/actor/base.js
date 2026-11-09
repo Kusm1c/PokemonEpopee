@@ -1340,7 +1340,9 @@ class PTUActor extends Actor {
                 lockRollMode: params.lockRollMode === true,
                 extraModifiers: params.modifiers ?? [],
                 title: params.title ?? null,
-                skipDialog: params.skipDialog ?? null
+                skipDialog: params.skipDialog ?? null,
+                // How many rolls the dialog starts at, the best kept; the roller can change it.
+                rollCount: params.rollCount ?? 1
             })
 
             return await check.executeCheck(params.callback, action);

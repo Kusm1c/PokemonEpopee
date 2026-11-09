@@ -9,7 +9,8 @@
  * on a failure, the 1d10 deviation.
  *
  * The party's Movement Mode, shared with the Travel macro, shapes the roll: Fast takes
- * -20, Slow and Exploration roll twice and keep the best.
+ * -20, Slow and Exploration start the roll at two rolls, keeping the best. Like any roll,
+ * the roller sets how many rolls they make in the roll dialog ("Nombre de jets").
  *
  * With no owning player connected, the GM's client makes the same roll.
  */
@@ -152,8 +153,8 @@ function paceNavigationText(pace) {
 /**
  * Roll the Trainer's Survival check, blind and locked. Runs on whichever client rolls.
  *
- * A Slow or Exploration pace rolls twice and keeps the best: the first roll opens the
- * usual dialog, the second repeats it with the same bonuses and no dialog.
+ * The roll dialog's "Nombre de jets" sets how many times it is rolled, the best total
+ * kept. A Slow or Exploration pace starts it at 2; the roller can change it either way.
  *
  * @returns {Promise<{total: number, totals: number[]}|null>} null if the roll did not happen
  */
@@ -167,7 +168,7 @@ async function performNavigationRoll({ actorUuid, terrainId, bonusIds = [], pace
 
     const terrain = TERRAINS.find((t) => t.id === terrainId) ?? TERRAINS[0];
     const pace = paceById(paceId);
-    const modifiers = () => [
+    const modifiers = [
         ...NAVIGATION_BONUSES
             .filter((b) => bonusIds.includes(b.id))
             .map((b) => new PTUModifier({ slug: `navigation-${b.id}`, label: localize(`${K}.Bonus.${b.id}`), modifier: b.value })),
@@ -175,26 +176,19 @@ async function performNavigationRoll({ actorUuid, terrainId, bonusIds = [], pace
             ? [new PTUModifier({ slug: `navigation-pace-${pace.id}`, label: paceName(pace), modifier: pace.navigation.modifier })]
             : [])
     ];
-    const rollOnce = async (skipDialog) => {
-        const result = await skill.roll({
-            rollMode: CONST.DICE_ROLL_MODES.BLIND,
-            lockRollMode: true,
-            modifiers: modifiers(),
-            title: localize(`${K}.RollTitle`, { terrain: terrainName(terrain) }),
-            skipDialog
-        });
-        // A skill check resolves to { rolls, targets }, not to the roll itself.
-        const total = result?.rolls?.[0]?.total;
-        return Number.isFinite(total) ? total : null;
-    };
 
-    const first = await rollOnce(null);
-    if (first === null) return null;
-    if (!pace.navigation.rollTwice) return { total: first, totals: [first] };
-
-    const second = await rollOnce(true);
-    const totals = second === null ? [first] : [first, second];
-    return { total: Math.max(...totals), totals };
+    const result = await skill.roll({
+        rollMode: CONST.DICE_ROLL_MODES.BLIND,
+        lockRollMode: true,
+        modifiers,
+        title: localize(`${K}.RollTitle`, { terrain: terrainName(terrain) }),
+        rollCount: pace.navigation.rollTwice ? 2 : 1
+    });
+    // A skill check resolves to { rolls, targets, totals }; the roll's total is the kept one.
+    const total = result?.rolls?.[0]?.total;
+    if (!Number.isFinite(total)) return null;
+    const totals = (result.totals ?? []).filter(Number.isFinite);
+    return { total, totals: totals.length ? totals : [total] };
 }
 
 /** GM side: whisper the outcome to the GMs, with the deviation on a failure. */

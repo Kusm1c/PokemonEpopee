@@ -202,20 +202,21 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	}
 
 	/**
-	 * Split held items into Objet Tenu and Objet Trouvé, 1 of each. Anything not
-	 * assigned to a slot is simply carried and confers nothing.
+	 * Split held items into Objet Tenu and Objet Trouvé, 1 of each. An item with no slot
+	 * is listed with the Objets Tenus: the sheet has no "carried" list any more, and an
+	 * item it did not show would be lost from sight. Too many of them raise the
+	 * "1 maximum" warning, which is what an extra item on a Pokémon is.
 	 */
 	_prepareHeldItemSplit() {
 		const items = this.actor.itemTypes?.item ?? [];
-		const inSlot = (slot) => items.filter(i => (i.system.heldSlot ?? "") === slot);
+		const slotOf = (item) => item.system.heldSlot ?? "";
 
-		const held = inSlot("held");
-		const found = inSlot("found");
+		const held = items.filter(i => slotOf(i) !== "found");
+		const found = items.filter(i => slotOf(i) === "found");
 
 		return {
 			held,
 			found,
-			carried: inSlot(""),
 			heldOver: held.length > 1,
 			foundOver: found.length > 1
 		};
@@ -616,8 +617,8 @@ export class PTUPokemonSheet extends PTUActorSheet {
 	async _onDropItem(event, data) {
 		if (!this.actor.isOwner) return false;
 
-		// Epopee: an item dropped on Objet Tenu / Objet Trouvé / Porté takes that slot.
-		// Anywhere else it keeps its own slot, which for a new item is Porté.
+		// Epopee: an item dropped on Objet Tenu / Objet Trouvé takes that slot. Anywhere
+		// else it keeps its own slot; a new item has none and is listed as an Objet Tenu.
 		const slotZone = event.target?.closest?.("[data-held-slot]");
 		if (slotZone) {
 			const item = await Item.implementation.fromDropData(data);
@@ -689,6 +690,12 @@ export class PTUPokemonSheet extends PTUActorSheet {
 		const zone = event.currentTarget?.closest?.("[data-acquisition]");
 		if (type === "move" && zone?.dataset?.acquisition) {
 			itemData.system.acquisition = zone.dataset.acquisition;
+		}
+
+		// Likewise, an item created from the Objet Tenu or Objet Trouvé header takes that slot.
+		const slotZone = event.currentTarget?.closest?.("[data-held-slot]");
+		if (type === "item" && slotZone) {
+			itemData.system.heldSlot = slotZone.dataset.heldSlot ?? "";
 		}
 
 		if (itemData.type === "ActiveEffect") {

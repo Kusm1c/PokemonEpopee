@@ -92,12 +92,18 @@ son contenu : des fichiers en retard annulent les traductions et corrections fai
 Foundry. Le vider d'abord évite aussi de garder l'ancien fichier d'une capacité renommée.
 
 - **Après des changements faits dans Foundry** : commit des fichiers de `packs/moves/`.
-- **Pour créer une capacité à la main** :
-  1. après un `extract`, copie un fichier JSON de `packs/_source/moves/` ;
-  2. donne-lui un `_id` unique de 16 caractères et le même dans `_key` (`!items!<id>`) ;
-  3. modifie les champs (`"common": true` et `"commonLoyalty"` pour une capacité commune) ;
-  4. lance `compile`, puis commit.
-- **Pour supprimer** : après un `extract`, efface le fichier JSON, lance `compile`, puis commit.
+- **Pour créer ou supprimer une capacité à la main**, avec LevelDB Writer (Foundry fermé, l'appli
+  refuse d'écrire sinon) :
+  1. ouvre le dossier `packs/` du dépôt (l'ucone fichier OU Ctrl+O) et choisis `moves` ;
+  2. sélectionne une capacité proche de celle à créer et duplique-la (l'icone feuille OU Ctrl+D) : la copie
+     reçoit un nouvel `_id` et le nom « … (copie) » ;
+  3. modifie son JSON (nom, `"common": true` et `"commonLoyalty"` pour une capacité commune…),
+     puis enregistre (la diskette OU Ctrl+S) ;
+  4. pour supprimer une capacité, sélectionne-la puis la poubelle ou Suppr ;
+  5. commit des fichiers de `packs/moves/`.
+- **Sans LevelDB Writer** : après un `extract`, copie un fichier JSON de `packs/_source/moves/`,
+  donne-lui un `_id` unique de 16 caractères et le même dans `_key` (`!items!<id>`), modifie-le,
+  puis lance `compile`. Pour supprimer, efface le fichier JSON avant `compile`. Puis commit.
 
 Les champs d'automatisation (Path, Selectors, Value, Predicate) sont détaillés dans
 [guide-regles.md](guide-regles.md).

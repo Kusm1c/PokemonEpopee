@@ -1,6 +1,26 @@
 import { PTUModifier, StatisticModifier } from "../../../actor/modifiers.js";
 import { PTUDiceCheck } from "../check.js";
 import { localize } from "../../../i18n.js";
+import { MAX_ROLL_COUNT, clampRollCount } from "../roll-count.js";
+
+/**
+ * Epopee: the "Nombre de jets" field, for every roll but damage - advantage applies to
+ * checks. Where a low result wins (the capture check), the lowest is kept.
+ */
+function rollCountData({ count, type, lowerIsBetter }) {
+    return {
+        showRollCount: type !== "damage-roll",
+        rollCount: clampRollCount(count),
+        maxRollCount: MAX_ROLL_COUNT,
+        rollCountHint: localize(lowerIsBetter ? "PTU.Epopee.Dialog.RollCountHintLowest" : "PTU.Epopee.Dialog.RollCountHint")
+    };
+}
+
+/** The number typed in the field, read when the roll button is pressed. */
+function readRollCount($html, fallback) {
+    const input = $html.find("input[name=rollCount]")[0];
+    return input ? clampRollCount(input.value) : clampRollCount(fallback);
+}
 
 export class CheckDialog extends Application {
     /**
@@ -11,24 +31,26 @@ export class CheckDialog extends Application {
      * @param {String} context.rollMode
      * @param {String} context.fortuneType
      * @param {StatisticModifier} context.statistic
-     * @returns {Promise<{fortuneType: String, rollMode: String, statistic: StatisticModifier}>}
+     * @param {number} [context.rollCount] how many rolls the "Nombre de jets" field starts at
+     * @returns {Promise<{fortuneType: String, rollMode: String, statistic: StatisticModifier, rollCount: number}>}
      */
-    static async DisplayDialog({title, fortuneType, rollMode, statistic, type, rollModeLocked = false}) {
+    static async DisplayDialog({title, fortuneType, rollMode, statistic, type, rollModeLocked = false, rollCount = 1}) {
         return new Promise((resolve) => {
             const dialog = new CheckDialog({
                 resolve,
                 title,
-                fortuneType, 
+                fortuneType,
                 rollMode,
                 statistic,
                 type,
-                rollModeLocked
+                rollModeLocked,
+                rollCount
             });
             dialog.render(true);
         });
     }
 
-    constructor({resolve, title, fortuneType, rollMode, statistic, type, rollModeLocked = false}) {
+    constructor({resolve, title, fortuneType, rollMode, statistic, type, rollModeLocked = false, rollCount = 1}) {
         super({title});
 
         this.resolve = resolve;
@@ -38,6 +60,8 @@ export class CheckDialog extends Application {
         this.rollModeLocked = rollModeLocked === true;
         this.check = statistic;
         this.substitutions = [];
+        this.type = type;
+        this.rollCount = clampRollCount(rollCount);
 
         this.extraClasses = (() => {
             switch(type) {
@@ -81,7 +105,8 @@ export class CheckDialog extends Application {
             fortune,
             none,
             misfortune,
-            extraClasses: this.extraClasses.join(" ")
+            extraClasses: this.extraClasses.join(" "),
+            ...rollCountData({ count: this.rollCount, type: this.type })
         };
     }
 
@@ -90,13 +115,21 @@ export class CheckDialog extends Application {
         const thisref = this;
 
         $html.find("button.roll").on("click", () => {
+            thisref.rollCount = readRollCount($html, thisref.rollCount);
             thisref.resolve({
                 fortuneType: thisref.fortuneType,
                 rollMode: thisref.rollMode,
                 statistic: thisref.check,
+                rollCount: thisref.rollCount,
             });
             thisref.isResolved = true;
             thisref.close();
+        });
+
+        // Kept across the re-renders that toggling a modifier causes.
+        $html.find("input[name=rollCount]").on("change", (event) => {
+            this.rollCount = clampRollCount(event.currentTarget.value);
+            event.currentTarget.value = this.rollCount;
         });
 
         for (const checkbox of $html.find(".substitutions input[type=checkbox]")) {
@@ -225,6 +258,11 @@ export class CheckModifiersDialog extends Application {
             fortune,
             none,
             misfortune,
+            ...rollCountData({
+                count: this.context.rollCount ?? 1,
+                type: this.context.type,
+                lowerIsBetter: this.context.type === "capture-calculation"
+            })
         };
     }
 
@@ -233,9 +271,16 @@ export class CheckModifiersDialog extends Application {
         const thisref = this;
 
         $html.find("button.roll").on("click", () => {
+            thisref.context.rollCount = readRollCount($html, thisref.context.rollCount ?? 1);
             thisref.resolve(true);
             thisref.isResolved = true;
             thisref.close();
+        });
+
+        // Kept across the re-renders that toggling a modifier causes.
+        $html.find("input[name=rollCount]").on("change", (event) => {
+            this.context.rollCount = clampRollCount(event.currentTarget.value);
+            event.currentTarget.value = this.context.rollCount;
         });
 
         for (const checkbox of $html.find(".substitutions input[type=checkbox]")) {

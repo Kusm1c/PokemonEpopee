@@ -707,13 +707,8 @@
                         {{/if}}
                         <div data-held-slot="found">
                         {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
-                        title=(peLocalize "PTU.Epopee.Sheet.FoundItemHint") type="item"
+                        title=(peLocalize "PTU.Epopee.Sheet.FoundItem") hint=(peLocalize "PTU.Epopee.Sheet.FoundItemHint") type="item"
                         items=epopee.heldItems.found ballStyle=ballStyle}}
-                        </div>
-
-                        <div data-held-slot="">
-                        {{> "systems/pe/static/templates/partials/item-display-partial.hbs"
-                        title=(peLocalize "PTU.Epopee.Sheet.Carried") type="item" items=epopee.heldItems.carried ballStyle=ballStyle}}
                         </div>
                     </div>
                 </div>

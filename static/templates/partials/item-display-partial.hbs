@@ -1,5 +1,9 @@
 <div class="item-list-header p-1">
+    {{#if hint}}
+    <h3 class="title" data-tooltip="{{hint}}">{{title}} <i class="fas fa-circle-info" style="font-size: 0.7em; opacity: 0.6;"></i></h3>
+    {{else}}
     <h3 class="title">{{title}}</h3>
+    {{/if}}
     {{#if featsOrEdges}}
         <!-- Display the amount / max of feats or edges -->
         <div class="item-amount">

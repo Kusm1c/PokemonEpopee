@@ -4178,6 +4178,21 @@ a.content-link img {
   max-width: 150px;
   text-overflow: ellipsis;
 }
+/* Epopee: the form keeps its full height and the window scrolls, rather than the form
+   being squeezed to the window and its bottom cut off. */
+.pe.level-up .window-content {
+  overflow-y: auto;
+}
+.pe.level-up .window-content > form {
+  flex: 0 0 auto;
+  min-height: 100%;
+}
+/* The learnable technical moves can run to dozens: they scroll in their own box. */
+.pe.level-up form .pe-learnable-technical .pe-learnable-list {
+  max-height: 14rem;
+  overflow-y: auto;
+  padding: 2px 0;
+}
 .pe.level-up form .stats {
   align-items: center;
   padding: 0.25rem;

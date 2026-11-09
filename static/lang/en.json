@@ -312,7 +312,7 @@
           "Failure": "Failure: the party is lost.",
           "Pace": "Movement mode",
           "PaceModifier": "{value} to the roll.",
-          "PaceRollTwice": "Rolled twice, best kept.",
+          "PaceRollTwice": "Starts at 2 rolls, best kept.",
           "PaceNoEffect": "No effect on the roll.",
           "Rolls": "Rolls",
           "RollsBest": "{rolls} (best kept)"
@@ -595,7 +595,7 @@
         "FoundOver": "{count} Found Items — 1 maximum",
         "HeldItem": "Held Item",
         "FoundItem": "Found Item",
-        "FoundItemHint": "Found Item (goes to the trainer at the end of the scene)",
+        "FoundItemHint": "Goes to the trainer at the end of the scene.",
         "Carried": "Carried (no effect)",
         "Moments": "Moments of Brilliance",
         "AddMoment": "Add Moment",
@@ -936,7 +936,12 @@
         "Roll": "Roll",
         "Utilize": "Utilize?",
         "UnnamedModifier": "Unnamed Modifier",
-        "Ok": "Ok"
+        "Ok": "Ok",
+        "RollCount": "Number of rolls",
+        "RollCountHint": "The best is kept.",
+        "RollCountHintLowest": "The lowest is kept (the best here).",
+        "RollCountTag": "{n} rolls, best kept",
+        "RollCountTagLowest": "{n} rolls, lowest kept"
       },
       "Frequency": {
         "AtWill": "At-Will",
@@ -1620,6 +1625,9 @@
       "Current": "Current",
       "KnownMoves": "Known Moves",
       "AvailableMoves": "Available Moves",
+      "NoTechnical": "No Technical Move known.",
+      "LearnableTechnical": "Learnable Technical Moves ({count})",
+      "LearnableTechnicalHint": "The species' TM and tutor moves the Pokémon does not know yet. For reference: they are not learnt by levelling up.",
       "Move": "Move",
       "Keep": "Keep?",
       "Abilities": {

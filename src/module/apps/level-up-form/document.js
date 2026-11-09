@@ -146,7 +146,8 @@ class LevelUpData {
 
     /**
      * Level-up moves are Natural moves, so only those can be swapped here, against the
-     * Epopee cap of 4. Technical moves (TM / tutor) are listed for reference only.
+     * Epopee cap of 4. Technical moves (TM / tutor) are listed for reference only: the ones
+     * the Pokémon knows, and the ones its species (or the stage it evolves into) could learn.
      */
     #setMoves(species) {
         const availableMoves = species.system.moves.level.filter(move => (move.level > this.level.current && move.level <= this.newLevel) || move.level == "Evo").map(move => ({
@@ -161,9 +162,42 @@ class LevelUpData {
         this.moves = {
             known: knownMoves,
             technical: technicalMoves,
+            learnableTechnical: this.#learnableTechnical(species, learnt),
             available: availableMoves.filter(m => !learnt.some(km => km.slug === m.slug)),
             max: MAX_MOVES_PER_KIND
         }
+    }
+
+    /**
+     * The species' TM and tutor moves the Pokémon does not know, sorted by name.
+     *
+     * Named from the compendium index, which is already in memory, rather than through
+     * `@UUID` links: those fetch every document on each render, and the form re-renders on
+     * every drag while this list can run to dozens of moves.
+     */
+    #learnableTechnical(species, learnt) {
+        const nameOf = (uuid) => {
+            try { return fromUuidSync(uuid, { strict: false })?.name ?? null; }
+            catch { return null; }
+        };
+        const knownSources = new Set(this.pokemon.moves
+            .flatMap(m => [m._stats?.compendiumSource, m.flags?.core?.sourceId])
+            .filter(Boolean));
+
+        const seen = new Set();
+        return [...(species.system.moves.machine ?? []), ...(species.system.moves.tutor ?? [])]
+            .filter(move => {
+                const key = move.uuid || move.slug;
+                if (!key || seen.has(key)) return false;
+                seen.add(key);
+                if (move.uuid && knownSources.has(move.uuid)) return false;
+                return !learnt.some(km => km.slug === move.slug);
+            })
+            .map(move => ({
+                uuid: move.uuid || null,
+                label: (move.uuid && nameOf(move.uuid)) || formatSlug(move.slug ?? "")
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang));
     }
 
     get knownOver() {
