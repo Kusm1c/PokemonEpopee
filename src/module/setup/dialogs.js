@@ -15,7 +15,7 @@ import {
 } from "../environment/definitions.js";
 import { startWeather, startField, clearWeather, clearField, toggleZone } from "../environment/engine.js";
 import { placeHazard } from "../environment/hazards.js";
-import { placeWall } from "../environment/walls.js";
+import { placeWall, wallDuration, wallNote } from "../environment/walls.js";
 import { advanceProgression } from "../travel/engine.js";
 import { openNavigationRoll } from "../travel/navigation.js";
 import { openJourney } from "../travel/journey.js";
@@ -38,10 +38,11 @@ function anchorToken() {
     return [...game.user.targets][0]?.document ?? canvas.tokens.controlled[0]?.document ?? null;
 }
 
-async function prompt({ title, content, label, width = 420 }, read) {
+async function prompt({ title, content, label, width = 420, render }, read) {
     return Dialog.prompt({
         title, content, label: label ?? localize("PTU.Epopee.Setup.Validate"),
         options: { width },
+        render,
         callback: (html) => read(html)
     }).catch(() => null);
 }
@@ -107,25 +108,44 @@ async function hazard() {
     await placeHazard(token.x, token.y, slug);
 }
 
+/** The selected wall's effect and duration, shown under the list as in the travel macro. */
+function wallSummary(slug, extended) {
+    return `${wallNote(slug)}<br/><em>${localize("PTU.Epopee.Setup.Wall.Duration", { n: wallDuration(slug, extended) })}</em>`;
+}
+
 async function wall() {
     const token = anchorToken();
     if (!token) return ui.notifications.warn(localize("PTU.Epopee.Setup.Wall.NoToken"));
 
+    const first = Object.keys(WALL_DEFINITIONS)[0];
     const result = await prompt({
         title: localize("PTU.Epopee.Setup.Wall.Title"),
         content:
             field(localize("PTU.Epopee.Setup.Wall.Label"), `<select id="pe-wall">${opts(WALL_DEFINITIONS)}</select>`)
+            + `<p class="pe-muted" id="pe-wall-note">${wallSummary(first, false)}</p>`
             + field(localize("PTU.Epopee.Setup.Wall.Length"), `<input type="number" id="pe-wall-len" value="1" min="1"/>`)
-            + field(localize("PTU.Epopee.Setup.Extended"), `<input type="checkbox" id="pe-wall-ext"/>`),
-        label: localize("PTU.Epopee.Setup.Place")
+            + field(localize("PTU.Epopee.Setup.Wall.Orientation"),
+                `<select id="pe-wall-dir">
+                    <option value="horizontal">${localize("PTU.Epopee.Setup.Wall.Horizontal")}</option>
+                    <option value="vertical">${localize("PTU.Epopee.Setup.Wall.Vertical")}</option>
+                 </select>`)
+            + field(localize("PTU.Epopee.Setup.Extended"), `<input type="checkbox" id="pe-wall-ext"/>`)
+            + `<p class="pe-muted">${localize("PTU.Epopee.Setup.Wall.RotateHint")}</p>`,
+        label: localize("PTU.Epopee.Setup.Place"),
+        render: (html) => {
+            const update = () => html.find("#pe-wall-note")
+                .html(wallSummary(html.find("#pe-wall").val(), html.find("#pe-wall-ext").is(":checked")));
+            html.find("#pe-wall, #pe-wall-ext").on("change", update);
+        }
     }, (html) => ({
         slug: html.find("#pe-wall").val(),
         length: Number(html.find("#pe-wall-len").val()) || 1,
+        vertical: html.find("#pe-wall-dir").val() === "vertical",
         extended: html.find("#pe-wall-ext").is(":checked")
     }));
 
     if (!result) return;
-    await placeWall(token.x, token.y, result.slug, result.length, result.extended);
+    await placeWall({ sceneId: token.parent?.id, x: token.x, y: token.y, ...result });
 }
 
 /* ------------------------------------------------------------------ */

@@ -1,3 +1,5 @@
+import { wallRotationChanges } from "../../environment/walls.js";
+
 class PTUTokenDocument extends TokenDocument {
     get scene() {
         return this.parent;
@@ -195,6 +197,11 @@ class PTUTokenDocument extends TokenDocument {
 
     /** @override */
     async _preUpdate(changed, options, user) {
+        // A wall turns between horizontal and vertical, footprint included.
+        if (this.actor?.type === "wall" && "rotation" in changed) {
+            foundry.utils.mergeObject(changed, wallRotationChanges(this, changed.rotation));
+        }
+
         const allowed = await super._preUpdate(changed, options, user);
         if (allowed === false) return false;
 

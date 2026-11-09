@@ -1,6 +1,6 @@
 import { tickEnvironment } from "../../module/environment/engine.js";
 import { checkHazardTrigger } from "../../module/environment/hazards.js";
-import { tickWalls } from "../../module/environment/walls.js";
+import { onWallTokenDeleted, tickWalls } from "../../module/environment/walls.js";
 
 export const Environment = {
     listen() {
@@ -8,7 +8,11 @@ export const Environment = {
             if (!("round" in changed)) return;
             if (changed.round <= 1) return;
             await tickEnvironment(combat);
-            await tickWalls();
+            await tickWalls(combat);
+        });
+
+        Hooks.on("deleteToken", async (tokenDocument, options) => {
+            await onWallTokenDeleted(tokenDocument, options);
         });
 
         Hooks.on("updateToken", async (tokenDocument, changed) => {

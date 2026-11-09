@@ -3,6 +3,8 @@
   "ACTOR.TypeCharacterPlural": "Characters",
   "TYPES.Actor.pokemon": "Pokémon",
   "ACTOR.TypePokemonPlural": "Pokémon",
+  "TYPES.Actor.wall": "Wall",
+  "ACTOR.TypeWallPlural": "Walls",
   "TYPES.Item.feat": "Feature",
   "TYPES.Item.edge": "Edge",
   "TYPES.Item.ability": "Ability",
@@ -417,7 +419,8 @@
         },
         "Walls": {
           "Placed": "<strong>{name}</strong> is placed on the field.",
-          "Crumbles": "<strong>{name}</strong> crumbles."
+          "Crumbles": "<strong>{name}</strong> crumbles.",
+          "Folder": "Walls"
         }
       },
       "Status": {
@@ -1137,7 +1140,24 @@
           "Title": "Place a Wall",
           "Label": "Wall",
           "Length": "Length (squares)",
-          "NoToken": "Target or select a token to mark where the wall starts."
+          "NoToken": "Target or select a token to mark where the wall starts.",
+          "Remaining": "Rounds left",
+          "Duration": "Lasts {n} rounds.",
+          "NoGm": "A GM must be connected to place a wall.",
+          "Requested": "{name}: request sent to the GM.",
+          "Orientation": "Orientation",
+          "Horizontal": "Horizontal (to the right)",
+          "Vertical": "Vertical (downwards)",
+          "RotateHint": "To turn a wall already placed: select it, then Shift + mouse wheel. It flips between horizontal and vertical around its first square.",
+          "Notes": {
+            "reflect": "Allies behind the wall treat their Defense as +2 Combat Stages against moves passing through it. Ignored by Critical Hits. Apply manually.",
+            "light-screen": "Allies behind the wall treat their Special Defense as +2 Combat Stages against moves passing through it. Ignored by Critical Hits. Apply manually.",
+            "aurora-veil": "Allies behind the wall treat their Defense and Special Defense as +2 Combat Stages against moves passing through it. Ignored by Critical Hits. Apply manually.",
+            "rune-protect": "Moves passing through the wall cannot inflict Status alterations on allies behind it. Ignored by Critical Hits. Apply manually.",
+            "mist": "Moves and Abilities passing through the wall cannot lower the Combat Stages of allies behind it. Ignored by Critical Hits. Apply manually.",
+            "smokescreen": "Moves targeting an ally behind the wall get +3 AC, if they have one. Apply manually.",
+            "telekinesis": "Moves targeting an ally behind the wall get +3 AC, if they have one. Apply manually."
+          }
         },
         "Quarter": {
           "Title": "Advance one Travel Quarter",
@@ -1177,6 +1197,10 @@
         "WorldFailed": "Pokémon Épopée: automatic setup failed. The scripts in scripts/foundry-console/ remain available as a fallback."
       },
       "Settings": {
+        "WallImages": {
+          "Name": "Wall images",
+          "Hint": "Folder the wall macro takes its images from (webp, png, svg or jpg). For each wall it uses the first one found among: [slug]-[length] then [slug] (an image made for that wall, used as is), wall-[length] then wall (a generic image, tinted with the wall's colour). Slugs: reflect, light-screen, aurora-veil, rune-protect, mist, smokescreen, telekinesis. Example: light-screen-3.webp for a 3-square Light Screen. Use a folder of your own: the system's folder is replaced on every update."
+        },
         "InventoryCount": {
           "Name": "Inventory Space: counting",
           "Hint": "Per copy: 10 Potions take 10 slots. Per item: 10 Potions take 1 slot. Items marked Free Slot never count.",

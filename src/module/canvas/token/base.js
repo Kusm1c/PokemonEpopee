@@ -238,6 +238,12 @@ class PTUToken extends foundry.canvas.placeables.Token {
 
     /** @override */
     _refreshNameplate() {
+        // A wall still under the name it was placed with shows it in the viewer's language.
+        if (this.actor?.type === "wall") {
+            super._refreshNameplate();
+            if (this.document.name === this.document.flags.pe?.wallName) this.nameplate.text = this.actor.wallLabel;
+            return;
+        }
         if (!this.actor?.identified) {
             if (this.nameplate.text !== game.i18n.localize("PTU.Unidentified")) this.nameplate.text = game.i18n.localize("PTU.Unidentified");
             return;

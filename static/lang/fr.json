@@ -3,6 +3,8 @@
   "ACTOR.TypeCharacterPlural": "Personnages",
   "TYPES.Actor.pokemon": "Pokémon",
   "ACTOR.TypePokemonPlural": "Pokémons",
+  "TYPES.Actor.wall": "Mur",
+  "ACTOR.TypeWallPlural": "Murs",
   "TYPES.Item.feat": "Trait",
   "TYPES.Item.edge": "Atout",
   "TYPES.Item.ability": "Talent",
@@ -407,7 +409,8 @@
         },
         "Walls": {
           "Placed": "<strong>{name}</strong> est posé sur le terrain.",
-          "Crumbles": "<strong>{name}</strong> s'effondre."
+          "Crumbles": "<strong>{name}</strong> s'effondre.",
+          "Folder": "Murs"
         }
       },
       "Status": {
@@ -1127,7 +1130,24 @@
           "Title": "Poser un Mur",
           "Label": "Mur",
           "Length": "Longueur (cases)",
-          "NoToken": "Cible ou sélectionne un token pour marquer le départ du mur."
+          "NoToken": "Cible ou sélectionne un token pour marquer le départ du mur.",
+          "Remaining": "Rounds restants",
+          "Duration": "Durée : {n} rounds.",
+          "NoGm": "Un MJ doit être connecté pour poser un mur.",
+          "Requested": "{name} : demande envoyée au MJ.",
+          "Orientation": "Orientation",
+          "Horizontal": "Horizontal (vers la droite)",
+          "Vertical": "Vertical (vers le bas)",
+          "RotateHint": "Pour pivoter un mur déjà posé : sélectionne-le puis Maj + molette. Il bascule entre horizontal et vertical autour de sa première case.",
+          "Notes": {
+            "reflect": "Les alliés derrière le mur ont leur Défense traitée comme à +2 MdS contre les capacités qui le traversent. Ignoré par les coups critiques. À appliquer à la main.",
+            "light-screen": "Les alliés derrière le mur ont leur Défense Spéciale traitée comme à +2 MdS contre les capacités qui le traversent. Ignoré par les coups critiques. À appliquer à la main.",
+            "aurora-veil": "Les alliés derrière le mur ont leur Défense et leur Défense Spéciale traitées comme à +2 MdS contre les capacités qui le traversent. Ignoré par les coups critiques. À appliquer à la main.",
+            "rune-protect": "Les capacités qui traversent le mur ne peuvent pas infliger d'altération de statut aux alliés derrière lui. Ignoré par les coups critiques. À appliquer à la main.",
+            "mist": "Les capacités et les talents qui traversent le mur ne peuvent pas baisser les MdS des alliés derrière lui. Ignoré par les coups critiques. À appliquer à la main.",
+            "smokescreen": "Les capacités qui ciblent un allié derrière le mur gagnent +3 en AC, si elles en ont une. À appliquer à la main.",
+            "telekinesis": "Les capacités qui ciblent un allié derrière le mur gagnent +3 en AC, si elles en ont une. À appliquer à la main."
+          }
         },
         "Quarter": {
           "Title": "Avancer d'un Quart de Voyage",
@@ -1167,6 +1187,10 @@
         "WorldFailed": "Pokémon Épopée : la configuration automatique a échoué. Les scripts de scripts/foundry-console/ restent utilisables en secours."
       },
       "Settings": {
+        "WallImages": {
+          "Name": "Images des murs",
+          "Hint": "Dossier où la macro des murs cherche ses images (webp, png, svg ou jpg). Pour chaque mur, elle prend la première trouvée parmi : [slug]-[longueur] puis [slug] (image propre à ce mur, utilisée telle quelle), wall-[longueur] puis wall (image générique, teintée de la couleur du mur). Slugs : reflect, light-screen, aurora-veil, rune-protect, mist, smokescreen, telekinesis. Exemple : light-screen-3.webp pour un Mur Lumière de 3 cases. Prends un dossier à toi : celui du système est remplacé à chaque mise à jour."
+        },
         "InventoryCount": {
           "Name": "Espace d'Inventaire : comptage",
           "Hint": "Par exemplaire : 10 Potions prennent 10 emplacements. Par objet : 10 Potions prennent 1 emplacement. Les objets marqués Emplacement gratuit ne comptent jamais.",

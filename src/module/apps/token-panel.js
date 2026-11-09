@@ -5,7 +5,10 @@ export class TokenPanel extends Application {
     }
 
     get actor() {
-        return this.token?.actor ?? game.user?.character ?? null;
+        // A wall has no moves or items to show: keep the user's own character instead.
+        const actor = this.token?.actor;
+        if (actor && actor.type !== "wall") return actor;
+        return game.user?.character ?? null;
     }
 
     /**

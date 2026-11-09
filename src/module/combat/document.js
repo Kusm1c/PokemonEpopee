@@ -82,7 +82,8 @@ class PTUCombat extends Combat {
                 return false;
             }
 
-            // TODO: Add actor types that cannot be part of combat here
+            // A wall never takes a turn.
+            if (actor.type === "wall") return false;
 
             return true;
         })

@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character", "pokemon"],
+    "types": ["character", "pokemon", "wall"],
     "templates": {
       "modifiers": {
         "modifiers": {
@@ -636,6 +636,12 @@
           "ordered": false
         }
       }
+    },
+    "wall": {
+      "wallSlug": "",
+      "remaining": 0,
+      "length": 1,
+      "extended": false
     }
   },
   "Item": {

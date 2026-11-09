@@ -3,6 +3,7 @@ function registerSheets() {
     foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
     foundry.documents.collections.Actors.registerSheet("pe", CONFIG.PTU.Actor.sheetClasses.character, { types: ["character"], makeDefault: true });
     foundry.documents.collections.Actors.registerSheet("pe", CONFIG.PTU.Actor.sheetClasses.pokemon, { types: ["pokemon"], makeDefault: true });
+    foundry.documents.collections.Actors.registerSheet("pe", CONFIG.PTU.Actor.sheetClasses.wall, { types: ["wall"], makeDefault: true });
     foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
     foundry.documents.collections.Items.registerSheet("pe", CONFIG.PTU.Item.sheetClasses.item, { types: ["item", "ability", "capability", "pokeedge", "dexentry", "condition", "reference", "spiritaction"], makeDefault: true });
     foundry.documents.collections.Items.registerSheet("pe", CONFIG.PTU.Item.sheetClasses.move, { types: ["move"], makeDefault: true });

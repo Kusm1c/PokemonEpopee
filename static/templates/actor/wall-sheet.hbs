@@ -1,0 +1,23 @@
+<form class="{{cssClass}}" autocomplete="off" style="padding: 8px;">
+    <header style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+        <img src="{{actor.img}}" data-edit="img" alt="{{actor.name}}" title="{{actor.name}}"
+             style="flex: 0 0 64px; height: 64px; object-fit: contain; border: none;"/>
+        <input type="text" name="name" value="{{actor.name}}" style="flex: 1;" {{#unless editable}}disabled{{/unless}}/>
+    </header>
+
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Setup.Wall.Label"}}</label>
+        <select name="system.wallSlug" {{#unless editable}}disabled{{/unless}}>
+            {{#each walls}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>{{peLocalize "PTU.Epopee.Setup.Wall.Remaining"}}</label>
+        <input type="number" name="system.remaining" value="{{actor.system.remaining}}" min="0" step="1" data-dtype="Number" {{#unless editable}}disabled{{/unless}}/>
+    </div>
+
+    <p class="pe-muted">{{note}}</p>
+</form>

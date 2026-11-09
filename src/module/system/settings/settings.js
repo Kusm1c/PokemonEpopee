@@ -120,6 +120,17 @@ export function registerSettings() {
         }
     });
 
+    // Epopee: where the wall macro looks for its images (see environment/walls.js).
+    game.settings.register("pe", "walls.imageDirectory", {
+        name: "PTU.Epopee.Settings.WallImages.Name",
+        hint: "PTU.Epopee.Settings.WallImages.Hint",
+        scope: "world",
+        config: true,
+        type: String,
+        filePicker: "folder",
+        default: "systems/pe/static/images/walls"
+    });
+
     game.settings.register("pe", "skipRollDialog", {
         name: "PTU.Epopee.Settings.SkipRollDialog.Name",
         hint: "PTU.Epopee.Settings.SkipRollDialog.Hint",

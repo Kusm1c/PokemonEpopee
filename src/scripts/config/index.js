@@ -1,5 +1,5 @@
 import { automation } from './automation.js';
-import { PTUActor, PTUTrainerActor, PTUPokemonActor, PTUCharacterSheet, PTUPokemonSheet } from '../../module/actor/index.js';
+import { PTUActor, PTUTrainerActor, PTUPokemonActor, PTUCharacterSheet, PTUPokemonSheet, PTUWallActor, PTUWallSheet } from '../../module/actor/index.js';
 import { PTUItemProxy, PTUItem, PTUEffect, PTUEdge, PTUFeat, PTUMove, PTUSpecies, PTUSpeciesSheet, PTUItemItem, PTUCondition } from '../../module/item/index.js';
 import { PTUItemSheet, PTUEffectSheet, PTUEdgeSheet, PTUFeatSheet, PTUMoveSheet } from '../../module/item/index.js';
 import { PTUSkills } from '../../module/actor/index.js';
@@ -259,11 +259,13 @@ export const PTUCONFIG = {
     proxy: PTUActorProxy,
     documentClasses: {
       character: PTUTrainerActor,
-      pokemon: PTUPokemonActor
+      pokemon: PTUPokemonActor,
+      wall: PTUWallActor
     },
     sheetClasses: {
       character: PTUCharacterSheet,
-      pokemon: PTUPokemonSheet
+      pokemon: PTUPokemonSheet,
+      wall: PTUWallSheet
     }
   },
   Token: {
