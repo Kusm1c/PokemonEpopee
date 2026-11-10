@@ -66,7 +66,7 @@ const RENAMES = [
 /**
  * The heavy, once-per-version steps: rewriting compendiums and creating content.
  *
- * Gated behind SETUP_VERSION because it walks all 17 packs — far too expensive to repeat
+ * Gated behind SETUP_VERSION because it walks all 17 packs, far too expensive to repeat
  * on every load. Macro syncing is deliberately NOT in here; see syncMacros().
  *
  * @returns {Promise<string[]>} human-readable lines describing what changed
@@ -149,7 +149,7 @@ async function setupMacros(log) {
 async function setupConditions(log) {
     const pack = game.packs.get("pe.effects");
     if (!pack) {
-        log.push("⚠ Compendium pe.effects introuvable — conditions non installées.");
+        log.push("⚠ Compendium pe.effects introuvable : conditions non installées.");
         return;
     }
 

@@ -1,6 +1,6 @@
 import { localize } from "../../i18n.js";
 /**
- * Shared Inventory — "un système d'inventaire partagé accessible à tous, duquel les
+ * Shared Inventory: "un système d'inventaire partagé accessible à tous, duquel les
  * joueurs peuvent drag'n'drop vers leur fiche ET inversement. Inclut à la fois
  * Pokémons & Items."
  *
@@ -17,7 +17,7 @@ import { localize } from "../../i18n.js";
  *
  * Pokemon are Actors, and Foundry cannot embed an Actor inside an Actor. They are held
  * as a list of UUIDs in `flags.pe.sharedPokemon` and resolved at render time. Dragging
- * a Pokemon out therefore hands over a reference, not a copy — the Actor itself never
+ * a Pokemon out therefore hands over a reference, not a copy: the Actor itself never
  * moves, which is what you want for a shared party pool.
  */
 

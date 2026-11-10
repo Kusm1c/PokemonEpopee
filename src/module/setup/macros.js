@@ -7,7 +7,7 @@
  * of escaping and broke the file. With one-line commands there is no JS-inside-a-string
  * left to corrupt, and the dialogs are ordinary modules that tooling can read.
  *
- * `gmOnly` macros are still created for everyone — Foundry lists them, and the dialog
+ * `gmOnly` macros are still created for everyone: Foundry lists them, and the dialog
  * itself refuses to run for a player. That matches how PTR's own GM macros behave.
  */
 

@@ -2,7 +2,7 @@
  * The Epopee GM dialogs, as real modules.
  *
  * These used to live as JavaScript source inside template literals inside a macro
- * definition file — two levels of escaping, which a single find/replace pass across the
+ * definition file: two levels of escaping, which a single find/replace pass across the
  * repo silently corrupted. Written as functions the macros simply call, that failure
  * mode cannot happen: there is no JS-inside-a-string anywhere.
  *

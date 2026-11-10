@@ -203,7 +203,7 @@ async function postNavigationResult({ actorUuid, terrainId, dc, total, totals = 
         [localize(`${K}.DC`), dc],
         [localize(`${K}.Pace`), escape(paceName(paceById(paceId)))],
         [localize(`${K}.Equipment`), NAVIGATION_BONUSES.filter((b) => bonusIds.includes(b.id))
-            .map((b) => `${escape(localize(`${K}.Bonus.${b.id}`))} (+${b.value})`).join(", ") || "—"],
+            .map((b) => `${escape(localize(`${K}.Bonus.${b.id}`))} (+${b.value})`).join(", ") || "-"],
         [localize(`${K}.Total`), total]
     ];
     if (totals.length > 1) rows.push([localize(`${K}.Rolls`), localize(`${K}.RollsBest`, { rolls: totals.join(", ") })]);
