@@ -315,7 +315,9 @@ class PTUDiceCheck {
                 modifierName: this.statistic.slug,
                 modifiers: this.statistic.modifiers.map(m => m.toObject()),
                 origin: options.origin,
-                resolved: targets.length > 0 ? game.settings.get("pe", "autoRollDamage") : false,
+                // A move with no damage has nothing to roll automatically: left unresolved,
+                // its message keeps the "Use" button that applies its effects to the targets hit.
+                resolved: targets.length > 0 && this.item?.isDamaging !== false ? game.settings.get("pe", "autoRollDamage") : false,
             }
         }
         if (attack) flags.pe.attack = attack;

@@ -108,9 +108,10 @@ class StatementValidator {
     }    
 
     static isBinaryOp(statement) {
-        if(!(typeof statement === "object" )) return false;
+        if(!(typeof statement === "object" ) || statement === null) return false;
         const entries = Object.entries(statement);
-        if(entries.length > 1) return false;
+        // An empty object ({}) has no operator: not a binary op, rather than a crash.
+        if(entries.length !== 1) return false;
         const [operator, operands] = entries[0];
         return (
             this.binaryOperators.has(operator) &&

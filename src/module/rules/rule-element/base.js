@@ -21,8 +21,11 @@ class RuleElementPTU extends foundry.abstract.DataModel {
         source.label ??= item.name;
         // Setup predicate if necessary
         const predicate = source.predicate ?? undefined;
+        // An empty object ({}, what an emptied "Complex" predicate field can hold) means
+        // no condition, like []. Read as a statement it is invalid, and the rule was dropped.
+        const isEmptyObject = foundry.utils.getType(predicate) === "Object" && foundry.utils.isEmpty(predicate);
         if(!(predicate instanceof PTUPredicate)) {
-            if(predicate === undefined || predicate.length === 0) {
+            if(predicate === undefined || predicate === null || predicate.length === 0 || isEmptyObject) {
                 source.predicate = new PTUPredicate();
             } 
             else {
