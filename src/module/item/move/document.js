@@ -113,7 +113,7 @@ class PTUMove extends PTUItem {
      * @param {object} [options]
      * @param {{actor: object, outcome?: string}[]} [options.targets] From an attack message,
      *        each with its accuracy outcome. Without them, the user's current targets.
-     * @param {number|null} [options.rollResult] The accuracy d20, for "on 18+" effects
+     * @param {number|null} [options.rollResult] The accuracy d100, for "on 75+" effects
      * @override
      */
     async use(options = {}) {
@@ -144,14 +144,16 @@ class PTUMove extends PTUItem {
         // ApplyEffect rules. PTR only runs them when damage is applied, which a status move
         // never does, so Dragon Dance or Nasty Plot carried rules that could not fire. Run
         // them here, against the accuracy roll, the same way the damage path does.
-        const reference = this.referenceEffect ? await fromUuid(this.referenceEffect) : null;
-        results.push(...await this._applyRuleEffects(targets, options.rollResult ?? null, reference));
+        results.push(...await this._applyRuleEffects(targets, options.rollResult ?? null));
 
+        // The reference effect, unless an ApplyEffect rule of this move already grants it:
+        // the rule then decides, since it carries the conditions (Thunder Wave does not
+        // paralyse an Electric type) and the threshold the reference knows nothing of.
+        const grantedByRule = (this.system.rules ?? []).some(r => r?.key === "ApplyEffect" && r.uuid === this.referenceEffect);
+        const reference = this.referenceEffect && !grantedByRule ? await fromUuid(this.referenceEffect) : null;
         if (reference) {
-            const effect = reference;
             const recipients = this.range.includes("Self") ? [this.actor] : targets;
-            const result = await effect.apply(recipients, this.actor);
-            if (result) results.push(...result);
+            results.push(...await this._applyReference(reference, recipients));
         }
 
         if (results.length > 0) {
@@ -176,18 +178,36 @@ class PTUMove extends PTUItem {
     }
 
     /**
+     * Give the move's reference item to each recipient. It may be an effect (Howl) or a
+     * condition (Thunder Wave's Paralysis); only effects have an `apply` of their own.
+     *
+     * @param {object} reference the item behind `referenceEffect`
+     * @param {object[]} recipients actors, or targets carrying an `actor`
+     * @returns {Promise<object[]>} the created items
+     */
+    async _applyReference(reference, recipients) {
+        if (typeof reference.apply === "function") return (await reference.apply(recipients, this.actor)) ?? [];
+        if (!(reference instanceof CONFIG.PTU.Item.documentClass)) return [];
+
+        const created = [];
+        for (const recipient of recipients) {
+            const actor = recipient?.actor ?? recipient;
+            if (!(actor instanceof CONFIG.PTU.Actor.documentClass)) continue;
+            created.push(...await actor.createEmbeddedDocuments("Item", [reference.toObject()]));
+        }
+        return created;
+    }
+
+    /**
      * Run this move's ApplyEffect rules for a status move: target effects on each target
      * hit, origin effects on the user. Mirrors the damage path (message/damage.js), with
      * the same domains, so a rule written for one works for the other.
      *
      * @param {{actor: object}[]} targets already filtered to the ones hit
-     * @param {number|null} accuracy the accuracy d20, or null for a move with no roll
-     * @param {object|null} [reference] the move's referenceEffect, applied separately; a
-     *        rule granting the same effect is skipped so it does not land twice
+     * @param {number|null} accuracy the accuracy d100, or null for a move with no roll
      * @returns {Promise<object[]>} the created effect items
      */
-    async _applyRuleEffects(targets, accuracy, reference = null) {
-        const skip = new Set(reference ? [reference.system?.slug || reference.name] : []);
+    async _applyRuleEffects(targets, accuracy) {
         if (!this.actor) return [];
         // The rule checks `roll + Effect Range >= threshold`. A move that rolls nothing has
         // no threshold to meet - its effect simply happens - so it passes as Infinity
@@ -205,7 +225,7 @@ class PTUMove extends PTUItem {
         // the damage path.
         const keyOf = (e) => e.system?.slug || e.name;
         const unique = (effects) => Object.values(effects.reduce((acc, e) => {
-            if (!skip.has(keyOf(e))) acc[keyOf(e)] ??= e;
+            acc[keyOf(e)] ??= e;
             return acc;
         }, {}));
 

@@ -811,6 +811,22 @@
                 </div>
 
                 <div class="swsh-box mb-2 w-100">
+                    <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-between">
+                        <b>{{peLocalize "PTU.Epopee.Sheet.Quests"}}</b>
+                        <a class="quest-create" title="{{peLocalize "PTU.Epopee.Sheet.AddQuest"}}"><i class="fas fa-plus-circle"></i></a>
+                    </div>
+                    <div class="swsh-body" style="display: block;">
+                        {{#each actor.system.narrative.personalQuests as |quest index|}}
+                        <div class="d-flex flex-row w-100 mb-1 align-items-center" style="gap: 4px;">
+                            <input type="checkbox" class="quest-done" data-index="{{index}}" title="{{peLocalize "PTU.Epopee.Sheet.QuestDone"}}" {{#if quest.done}}checked{{/if}} />
+                            <textarea class="quest-text w-100" data-index="{{index}}" rows="2" {{#if quest.done}}style="opacity:.6; text-decoration: line-through;"{{/if}}>{{quest.text}}</textarea>
+                            <a class="quest-delete" data-index="{{index}}" title="{{peLocalize "PTU.Epopee.Sheet.DeleteQuest"}}"><i class="fas fa-trash"></i></a>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <div class="swsh-box mb-2 w-100">
                     <div class="swsh-header ball-themes {{ballStyle}} highlight pt-2 pb-2 center-text justify-content-center">
                         <b>{{peLocalize "PTU.Epopee.Sheet.Flavours"}}</b>
                     </div>

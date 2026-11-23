@@ -454,6 +454,28 @@ export class PTUPokemonSheet extends PTUActorSheet {
 			this.actor.update({ "system.narrative.momentsOfBrilliance": moments });
 		});
 
+		// Personal quests: a free list like the Moments, each with a "done" box. Unlike a
+		// Moment, a quest opens no Loyalty cell. Pokemon made before the field existed
+		// have no list yet, hence the fallback.
+		const quests = () => foundry.utils.deepClone(this.actor.system.narrative?.personalQuests ?? []);
+		html.find('.quest-create').click(() => {
+			this.actor.update({ "system.narrative.personalQuests": [...quests(), { text: "", done: false }] });
+		});
+		html.find('.quest-delete').click((ev) => {
+			const index = Number(ev.currentTarget.dataset.index);
+			this.actor.update({ "system.narrative.personalQuests": quests().filter((_, i) => i !== index) });
+		});
+		html.find('.quest-text').change((ev) => {
+			const list = quests();
+			list[Number(ev.currentTarget.dataset.index)].text = ev.currentTarget.value;
+			this.actor.update({ "system.narrative.personalQuests": list });
+		});
+		html.find('.quest-done').change((ev) => {
+			const list = quests();
+			list[Number(ev.currentTarget.dataset.index)].done = ev.currentTarget.checked;
+			this.actor.update({ "system.narrative.personalQuests": list });
+		});
+
 		$(html).find('nav .tooltip').tooltipster({
 			theme: `tooltipster-shadow ball-themes ${this.ballStyle}`,
 			position: 'right'
